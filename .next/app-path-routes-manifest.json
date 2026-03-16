@@ -1,0 +1,13 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/page": "/",
+  "/auth/page": "/auth",
+  "/pricing/page": "/pricing",
+  "/dashboard/clients/page": "/dashboard/clients",
+  "/dashboard/sequences/page": "/dashboard/sequences",
+  "/dashboard/reports/page": "/dashboard/reports",
+  "/dashboard/invoices/[id]/page": "/dashboard/invoices/[id]",
+  "/dashboard/invoices/page": "/dashboard/invoices",
+  "/dashboard/page": "/dashboard",
+  "/dashboard/settings/page": "/dashboard/settings"
+}

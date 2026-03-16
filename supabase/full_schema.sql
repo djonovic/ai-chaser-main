@@ -1,0 +1,276 @@
+-- =============================================================================
+-- ChaseAI – Full Supabase Schema (single query, brand-new project)
+-- Paste this into Supabase Dashboard → SQL Editor and run it once.
+-- =============================================================================
+
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 1. PROFILES
+-- ─────────────────────────────────────────────────────────────────────────────
+create table public.profiles (
+  id            uuid primary key references auth.users (id) on delete cascade,
+  plan          text not null default 'free' check (plan in ('free', 'starter', 'pro')),
+  ai_usage_count int not null default 0,
+  ai_usage_reset_at timestamptz,
+  gemini_api_key text,
+  plan_expires_at timestamptz,
+  stripe_customer_id text,
+  stripe_subscription_id text,
+  created_at    timestamptz not null default now(),
+  updated_at    timestamptz not null default now()
+);
+
+alter table public.profiles enable row level security;
+
+create policy "Users can view own profile"
+  on public.profiles for select using (auth.uid() = id);
+
+create policy "Users can update own profile"
+  on public.profiles for update
+  using (auth.uid() = id) with check (auth.uid() = id);
+
+create policy "Users can insert own profile"
+  on public.profiles for insert with check (auth.uid() = id);
+
+-- Auto-create a profile row on every new signup
+create or replace function public.handle_new_user()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  insert into public.profiles (id, plan)
+  values (new.id, 'free')
+  on conflict (id) do nothing;
+  return new;
+end;
+$$;
+
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute function public.handle_new_user();
+
+-- RPC: atomically increment AI usage counter
+create or replace function public.increment_ai_usage(_user_id uuid)
+returns int language plpgsql security definer set search_path = public as $$
+declare new_count int;
+begin
+  if _user_id is null or _user_id != auth.uid() then
+    raise exception 'Unauthorized';
+  end if;
+
+  update public.profiles
+  set ai_usage_count = coalesce(ai_usage_count, 0) + 1,
+      updated_at = now()
+  where id = _user_id
+  returning ai_usage_count into new_count;
+
+  if new_count is null then
+    insert into public.profiles (id, plan, ai_usage_count, updated_at)
+    values (_user_id, 'free', 1, now())
+    returning ai_usage_count into new_count;
+  end if;
+
+  return coalesce(new_count, 0);
+end;
+$$;
+
+-- RPC: reset AI usage for the current user (testing / manual reset)
+create or replace function public.reset_ai_usage_current_user()
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if auth.uid() is null then raise exception 'Unauthorized'; end if;
+
+  update public.profiles
+  set ai_usage_count = 0,
+      ai_usage_reset_at = (date_trunc('month', now()) + interval '1 month')::timestamptz,
+      updated_at = now()
+  where id = auth.uid();
+end;
+$$;
+
+grant execute on function public.reset_ai_usage_current_user() to authenticated;
+
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 2. SETTINGS
+-- ─────────────────────────────────────────────────────────────────────────────
+create table public.settings (
+  id            uuid primary key default gen_random_uuid(),
+  user_id       uuid not null references auth.users (id) on delete cascade unique,
+  resend_api_key text,
+  email_from    text,
+  email_from_name text,
+  sender_name   text,
+  company_name  text,
+  gemini_api_key text,
+  sms_enabled   boolean not null default false,
+  timezone      text not null default 'UTC',
+  created_at    timestamptz not null default now(),
+  updated_at    timestamptz not null default now()
+);
+
+alter table public.settings enable row level security;
+
+create policy "Users can view own settings"
+  on public.settings for select using (auth.uid() = user_id);
+
+create policy "Users can insert own settings"
+  on public.settings for insert with check (auth.uid() = user_id);
+
+create policy "Users can update own settings"
+  on public.settings for update
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 3. CLIENTS
+-- ─────────────────────────────────────────────────────────────────────────────
+create table public.clients (
+  id         uuid primary key default gen_random_uuid(),
+  user_id    uuid not null references auth.users (id) on delete cascade,
+  name       text not null,
+  email      text not null,
+  phone      text,
+  language   text not null default 'en',
+  notes      text,
+  created_at timestamptz not null default now()
+);
+
+alter table public.clients enable row level security;
+
+create policy "Users can manage own clients"
+  on public.clients for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 4. INVOICES
+-- ─────────────────────────────────────────────────────────────────────────────
+create table public.invoices (
+  id             uuid primary key default gen_random_uuid(),
+  user_id        uuid not null references auth.users (id) on delete cascade,
+  client_id      uuid not null references public.clients (id) on delete restrict,
+  invoice_number text not null,
+  amount         numeric not null,
+  currency       text not null default 'USD',
+  due_date       date not null,
+  status         text not null default 'draft'
+                   check (status in ('draft', 'sent', 'overdue', 'paid', 'cancelled')),
+  paid_via       text check (paid_via is null or paid_via in ('manual', 'stripe', 'quickbooks', 'xero')),
+  payment_link   text,
+  pdf_url        text,
+  notes          text,
+  created_at     timestamptz not null default now()
+);
+
+alter table public.invoices enable row level security;
+
+create policy "Users can manage own invoices"
+  on public.invoices for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+create index idx_invoices_invoice_number
+  on public.invoices (user_id, invoice_number);
+
+create index idx_invoices_due_date_status
+  on public.invoices (due_date, status)
+  where status not in ('paid', 'cancelled');
+
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 5. SEQUENCES
+-- ─────────────────────────────────────────────────────────────────────────────
+create table public.sequences (
+  id           uuid primary key default gen_random_uuid(),
+  invoice_id   uuid not null references public.invoices (id) on delete cascade,
+  user_id      uuid not null references auth.users (id) on delete cascade,
+  tone         text not null default 'friendly'
+                 check (tone in ('friendly', 'professional', 'firm', 'humorous')),
+  status       text not null default 'idle'
+                 check (status in ('idle', 'active', 'paused', 'completed')),
+  current_step int not null default 0,
+  paused_reason text,
+  created_at   timestamptz not null default now()
+);
+
+alter table public.sequences enable row level security;
+
+create policy "Users can manage own sequences"
+  on public.sequences for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 6. SEQUENCE STEPS
+-- ─────────────────────────────────────────────────────────────────────────────
+create table public.sequence_steps (
+  id          uuid primary key default gen_random_uuid(),
+  sequence_id uuid not null references public.sequences (id) on delete cascade,
+  step_number int not null,
+  send_at     timestamptz not null,
+  subject     text not null,
+  body        text not null,
+  channel     text not null default 'email'
+                check (channel in ('email', 'sms')),
+  status      text not null default 'pending'
+                check (status in ('pending', 'sent', 'opened', 'clicked', 'replied', 'cancelled')),
+  sent_at     timestamptz,
+  created_at  timestamptz not null default now()
+);
+
+alter table public.sequence_steps enable row level security;
+
+create policy "Users can view steps of own sequences"
+  on public.sequence_steps for select
+  using (exists (
+    select 1 from public.sequences s
+    where s.id = sequence_steps.sequence_id and s.user_id = auth.uid()
+  ));
+
+create policy "Users can insert steps for own sequences"
+  on public.sequence_steps for insert
+  with check (exists (
+    select 1 from public.sequences s
+    where s.id = sequence_steps.sequence_id and s.user_id = auth.uid()
+  ));
+
+create policy "Users can update steps of own sequences"
+  on public.sequence_steps for update
+  using (exists (
+    select 1 from public.sequences s
+    where s.id = sequence_steps.sequence_id and s.user_id = auth.uid()
+  ));
+
+create policy "Users can delete steps of own sequences"
+  on public.sequence_steps for delete
+  using (exists (
+    select 1 from public.sequences s
+    where s.id = sequence_steps.sequence_id and s.user_id = auth.uid()
+  ));
+
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 7. REALTIME
+-- ─────────────────────────────────────────────────────────────────────────────
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and tablename = 'invoices'
+  ) then
+    alter publication supabase_realtime add table public.invoices;
+  end if;
+
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and tablename = 'sequences'
+  ) then
+    alter publication supabase_realtime add table public.sequences;
+  end if;
+
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and tablename = 'sequence_steps'
+  ) then
+    alter publication supabase_realtime add table public.sequence_steps;
+  end if;
+end;
+$$;

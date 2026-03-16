@@ -1,0 +1,267 @@
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Switch } from '@/components/ui/switch';
+import { Check, Crown, Zap, FileText, Sparkles, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
+import { usePlan } from '@/hooks/usePlan';
+import { supabase } from '@/lib/supabaseClient';
+import { useNavigate } from 'react-router-dom';
+import { ConfirmDialog } from '@/components/ConfirmDialog';
+import type { PlanType } from '@/types';
+
+const plans = [
+  {
+    key: 'free' as PlanType,
+    name: 'Free',
+    monthlyPrice: 0,
+    annualPrice: 0,
+    description: 'For getting started',
+    features: [
+      '3 invoices per month',
+      'Automated email sending',
+      'AI sequences: 10/month (our key)',
+      'Basic dashboard',
+    ],
+    icon: FileText,
+    highlight: false,
+  },
+  {
+    key: 'starter' as PlanType,
+    name: 'Starter',
+    monthlyPrice: 29,
+    annualPrice: 24,
+    annualTotal: 288,
+    savePercent: 17,
+    description: 'For serious freelancers',
+    features: [
+      'Unlimited invoices',
+      'AI sequences: 50/month (our key)',
+      'Real-time tracking',
+      'Advanced reports',
+    ],
+    icon: Zap,
+    highlight: true,
+  },
+  {
+    key: 'pro' as PlanType,
+    name: 'Pro',
+    monthlyPrice: 49,
+    annualPrice: 39,
+    annualTotal: 468,
+    savePercent: 20,
+    description: 'For power users & teams',
+    features: [
+      'Everything in Starter',
+      'Unlimited AI sequences (our key)',
+      'PDF invoice export',
+      'Priority support',
+    ],
+    icon: Crown,
+    highlight: false,
+  },
+];
+
+const planOrder: Record<PlanType, number> = { free: 0, starter: 1, pro: 2 };
+
+export default function PricingPage() {
+  const { plan, upgradePlan } = usePlan();
+  const [annual, setAnnual] = useState(false);
+  const [cancelConfirmOpen, setCancelConfirmOpen] = useState(false);
+  const [pendingDowngradeToFree, setPendingDowngradeToFree] = useState(false);
+  const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handlePlanAction = async (targetPlan: PlanType) => {
+    if (targetPlan === plan) {
+      navigate('/settings');
+      return;
+    }
+    if (targetPlan === 'free' && plan !== 'free') {
+      setPendingDowngradeToFree(true);
+      setCancelConfirmOpen(true);
+      return;
+    }
+    if (targetPlan === 'starter' || targetPlan === 'pro') {
+      setCheckoutLoading(targetPlan);
+      try {
+        const { data, error } = await supabase.functions.invoke('create-checkout', {
+          body: { plan: targetPlan, annual },
+        });
+        if (error) throw error;
+        if (data?.error) throw new Error(data.error);
+        if (data?.url) {
+          window.location.href = data.url;
+          return;
+        }
+        throw new Error('No checkout URL returned');
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : 'Failed to start checkout');
+      } finally {
+        setCheckoutLoading(null);
+      }
+      return;
+    }
+    await executePlanChange(targetPlan);
+  };
+
+  const executePlanChange = async (targetPlan: PlanType) => {
+    const label = targetPlan.charAt(0).toUpperCase() + targetPlan.slice(1);
+    const isUpgrade = planOrder[targetPlan] > planOrder[plan];
+    await upgradePlan(targetPlan);
+    toast.success(isUpgrade ? `Plan upgraded to ${label}!` : `Downgraded to ${label}`);
+  };
+
+  const handleConfirmCancelSubscription = async () => {
+    await executePlanChange('free');
+    setCancelConfirmOpen(false);
+    setPendingDowngradeToFree(false);
+  };
+
+  const getButtonLabel = (p: typeof plans[0]) => {
+    const isCurrent = plan === p.key;
+    if (isCurrent) return 'Manage subscription';
+    if (p.key === 'free') return 'Get started free';
+    return planOrder[p.key] > planOrder[plan] ? 'Upgrade' : 'Downgrade';
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto fade-in">
+      <div className="text-center mb-10">
+        <h1 className="text-3xl font-bold tracking-tight">Simple, transparent pricing</h1>
+        <p className="text-muted-foreground mt-2">
+          Start free. Upgrade when you're ready to automate.
+        </p>
+
+        <div className="flex items-center justify-center gap-3 mt-6">
+          <span className={cn('text-sm font-medium', !annual ? 'text-foreground' : 'text-muted-foreground')}>
+            Monthly
+          </span>
+          <Switch checked={annual} onCheckedChange={setAnnual} />
+          <span className={cn('text-sm font-medium', annual ? 'text-foreground' : 'text-muted-foreground')}>
+            Annually
+          </span>
+          {annual && (
+            <Badge variant="secondary" className="text-xs gap-1">
+              Save 17–20%
+            </Badge>
+          )}
+        </div>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-3">
+        {plans.map(p => {
+          const price = annual ? (p.annualPrice ?? p.monthlyPrice) : p.monthlyPrice;
+          const isCurrent = plan === p.key;
+          const buttonLabel = getButtonLabel(p);
+
+          return (
+            <Card
+              key={p.key}
+              className={cn(
+                'relative flex flex-col',
+                p.highlight && 'border-primary shadow-lg shadow-primary/10 scale-[1.02]',
+                isCurrent && 'ring-2 ring-primary/50',
+              )}
+            >
+              {isCurrent ? (
+                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 gap-1 bg-primary">
+                  Current Plan
+                </Badge>
+              ) : p.highlight ? (
+                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 gap-1">
+                  <Zap className="h-3 w-3" /> Most Popular
+                </Badge>
+              ) : p.key === 'pro' ? (
+                <Badge variant="outline" className="absolute -top-3 left-1/2 -translate-x-1/2 gap-1 border-info text-info bg-background whitespace-nowrap">
+                  <Sparkles className="h-3 w-3" /> 14-day free trial
+                </Badge>
+              ) : null}
+
+              <CardHeader className="pb-4">
+                <div className="flex items-center gap-2 mb-1">
+                  <p.icon className="h-5 w-5 text-primary" />
+                  <CardTitle className="text-lg">{p.name}</CardTitle>
+                </div>
+                <p className="text-sm text-muted-foreground">{p.description}</p>
+                <div className="mt-3">
+                  <span className="text-4xl font-bold">${price}</span>
+                  <span className="text-muted-foreground">/mo</span>
+                </div>
+                {annual && p.annualTotal && (
+                  <p className="text-xs text-muted-foreground mt-1">
+                    ${p.annualTotal}/year · Save {p.savePercent}%
+                  </p>
+                )}
+                {!annual && p.monthlyPrice > 0 && (
+                  <p className="text-xs text-muted-foreground mt-1">Billed monthly</p>
+                )}
+                {p.monthlyPrice === 0 && (
+                  <p className="text-xs text-muted-foreground mt-1">Free forever</p>
+                )}
+                {p.key === 'pro' && !isCurrent && (
+                  <p className="text-xs text-info mt-1">No credit card required</p>
+                )}
+              </CardHeader>
+
+              <CardContent className="flex-1 flex flex-col justify-between space-y-4">
+                <ul className="space-y-2.5">
+                  {p.features.map(f => (
+                    <li key={f} className="flex items-start gap-2 text-sm">
+                      <Check className="h-4 w-4 text-success shrink-0 mt-0.5" />
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Button
+                  className="w-full mt-4"
+                  variant={isCurrent ? 'secondary' : p.highlight ? 'default' : 'outline'}
+                  onClick={() => handlePlanAction(p.key)}
+                  disabled={!!checkoutLoading}
+                >
+                  {checkoutLoading === p.key ? (
+                    <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Redirecting to checkout...</>
+                  ) : buttonLabel}
+                </Button>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+
+      <div className="text-center mt-10 space-y-2">
+        <p className="text-sm text-muted-foreground">
+          💡 Tip: Add your own{' '}
+          <a
+            href="https://aistudio.google.com/app/apikey"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline"
+          >
+            free Gemini API key
+          </a>{' '}
+          in Settings to bypass AI limits on any plan.
+        </p>
+        <p className="text-xs text-muted-foreground">
+          All plans include email support. Prices in USD. Cancel anytime.
+        </p>
+      </div>
+
+      <ConfirmDialog
+        open={cancelConfirmOpen}
+        onOpenChange={(open) => {
+          setCancelConfirmOpen(open);
+          if (!open) setPendingDowngradeToFree(false);
+        }}
+        title="Cancel subscription?"
+        description="You will be moved to the Free plan. You will have 3 invoices and 10 AI sequences per month. Are you sure?"
+        confirmLabel="Yes, switch to Free"
+        destructive
+        onConfirm={handleConfirmCancelSubscription}
+      />
+    </div>
+  );
+}

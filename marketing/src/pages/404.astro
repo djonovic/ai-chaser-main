@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page Not Found"
+  description="The page you're looking for doesn't exist."
+  noindex={true}
+>
+  <section class="section-padding">
+    <div class="container">
+      <div class="max-w-lg mx-auto text-center">
+        <div class="text-7xl font-extrabold text-primary/20 mb-4">404</div>
+        <h1 class="text-3xl font-bold tracking-tight mb-4">Page not found</h1>
+        <p class="text-muted-foreground mb-8">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+        <div class="flex items-center justify-center gap-4">
+          <a
+            href="/"
+            class="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary-600 transition-colors"
+          >
+            Go Home
+          </a>
+          <a
+            href="/contact"
+            class="inline-flex items-center justify-center rounded-lg border border-border px-6 py-2.5 text-sm font-semibold hover:bg-muted/50 transition-colors"
+          >
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

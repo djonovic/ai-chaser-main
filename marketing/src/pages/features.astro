@@ -1,0 +1,318 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const appUrl = 'https://app.chaseai.app';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Features - ChaseAI',
+  description: 'Explore all ChaseAI features: AI sequence generation, PDF extraction, tone escalation, analytics, and more.',
+  url: 'https://chaseai.app/features',
+};
+
+const coreFeatures = [
+  {
+    badge: 'AI-Powered',
+    title: 'Smart Chase Sequence Generator',
+    description: 'Generate a complete, multi-step email follow-up sequence with one click. Our AI analyzes your invoice — amount, days overdue, client name — and crafts perfectly escalating emails that get results.',
+    highlights: [
+      'Powered by Google Gemini AI',
+      'Unique, contextual emails — never templates',
+      'Tone options: friendly, professional, firm, humorous',
+      '3–7 step sequences with smart timing',
+      'Review & edit every email before sending',
+    ],
+    visual: 'sequence',
+  },
+  {
+    badge: 'Zero Data Entry',
+    title: 'AI PDF Invoice Extraction',
+    description: 'Upload any invoice PDF and our AI reads it instantly. Client name, email, invoice number, amount, currency, due date — all extracted and pre-filled. Just review and save.',
+    highlights: [
+      'Drag & drop PDF upload',
+      'Extracts 7+ fields automatically',
+      'Smart client matching to existing contacts',
+      'Creates new clients on the fly',
+      'Supports invoices in any format',
+    ],
+    visual: 'pdf',
+  },
+  {
+    badge: 'Automated',
+    title: 'Hands-Free Email Delivery',
+    description: 'Once you approve a sequence, emails fire automatically on your schedule. Each step waits the right number of days. When your client pays or replies, the sequence pauses or stops.',
+    highlights: [
+      'Emails send on the exact scheduled date',
+      'Auto-pause on client reply',
+      'One-click pause/resume/stop',
+      'Real-time step status tracking',
+      'Powered by Resend for reliable delivery',
+    ],
+    visual: 'automation',
+  },
+];
+
+const additionalFeatures = [
+  {
+    icon: '📊',
+    title: 'Recovery Analytics & Reports',
+    description: 'Real-time dashboard showing total recovered, success rates, average days to payment, and monthly trends. Know exactly how your collections are performing with charts and breakdowns.',
+  },
+  {
+    icon: '👥',
+    title: 'Client Management',
+    description: 'Organized client database with names, emails, phone numbers, language preferences, and notes. Every invoice and sequence is linked to the client automatically.',
+  },
+  {
+    icon: '🎨',
+    title: 'Tone Customization',
+    description: 'Four distinct AI tones to match your brand. Friendly for long-term clients, professional for corporates, firm for persistent late payers, humorous for creative industries.',
+  },
+  {
+    icon: '✏️',
+    title: 'Full Edit Control',
+    description: 'Preview every AI-generated email before it sends. Edit subject lines, body text, and send dates. The AI generates the first draft — you have the final say.',
+  },
+  {
+    icon: '🔑',
+    title: 'Bring Your Own API Key',
+    description: 'Add your free Google Gemini API key to bypass all AI usage limits on any plan — even Free. Full control over your AI costs with zero markup.',
+  },
+  {
+    icon: '💰',
+    title: 'Multi-Currency Support',
+    description: 'Track invoices in USD, EUR, GBP, CAD, AUD, RSD, and more. Amounts display in the correct currency throughout the app and in generated emails.',
+  },
+  {
+    icon: '📋',
+    title: 'Invoice Lifecycle Tracking',
+    description: 'Track every invoice from draft to paid. Statuses include draft, sent, overdue, paid, and cancelled. Sort, filter, and find any invoice instantly.',
+  },
+  {
+    icon: '⚡',
+    title: 'Instant Dashboard',
+    description: 'See everything at a glance: total overdue, recovered this month, active sequences, and success rate. Recent invoices with AI status, days overdue, and quick actions.',
+  },
+];
+---
+
+<BaseLayout
+  title="Features"
+  description="Explore ChaseAI features: AI-powered chase sequences, PDF invoice extraction, automated email delivery, recovery analytics, client management, and more."
+  structuredData={structuredData}
+>
+  <!-- Hero -->
+  <section class="hero-gradient">
+    <div class="container py-20 md:py-28">
+      <div class="max-w-3xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary mb-6">
+          All Features
+        </div>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-balance leading-[1.1]">
+          Everything you need to
+          <span class="gradient-text"> get paid faster</span>
+        </h1>
+        <p class="mt-6 text-lg text-muted-foreground max-w-2xl mx-auto">
+          AI-powered invoice chasing built for freelancers, consultants, and small businesses. From PDF extraction to automated follow-ups — all in one place.
+        </p>
+        <div class="mt-8">
+          <a
+            href={`${appUrl}/auth`}
+            class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-600 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
+          >
+            Try ChaseAI Free
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Features (alternating layout) -->
+  {coreFeatures.map((feature, i) => (
+    <section class:list={['section-padding', i % 2 === 0 ? '' : 'bg-muted/30 border-y border-border']}>
+      <div class="container">
+        <div class:list={['max-w-5xl mx-auto grid lg:grid-cols-2 gap-12 items-center', i % 2 !== 0 && 'lg:[&>*:first-child]:order-2']}>
+          <div>
+            <div class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary mb-4">
+              {feature.badge}
+            </div>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
+              {feature.title}
+            </h2>
+            <p class="mt-4 text-muted-foreground leading-relaxed">
+              {feature.description}
+            </p>
+            <ul class="mt-8 space-y-3">
+              {feature.highlights.map(h => (
+                <li class="flex items-start gap-3">
+                  <div class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-success/10 text-success mt-0.5">
+                    <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                  </div>
+                  <span class="text-sm">{h}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Visual -->
+          {feature.visual === 'sequence' && (
+            <div class="relative">
+              <div class="rounded-2xl border border-border bg-card shadow-xl overflow-hidden">
+                <div class="bg-muted/50 px-4 py-3 border-b border-border">
+                  <span class="text-xs font-medium text-muted-foreground">AI Sequence Generator</span>
+                </div>
+                <div class="p-5 space-y-3">
+                  {[
+                    { step: 1, title: 'Friendly Reminder', day: 'Day 1', tone: 'Gentle' },
+                    { step: 2, title: 'Professional Follow-Up', day: 'Day 4', tone: 'Direct' },
+                    { step: 3, title: 'Firm Notice', day: 'Day 8', tone: 'Assertive' },
+                    { step: 4, title: 'Urgent Request', day: 'Day 12', tone: 'Urgent' },
+                    { step: 5, title: 'Final Demand', day: 'Day 18', tone: 'Final' },
+                  ].map(s => (
+                    <div class="flex items-center gap-3 p-3 rounded-lg bg-muted/30">
+                      <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-xs font-bold">{s.step}</div>
+                      <div class="flex-1 min-w-0">
+                        <div class="text-sm font-medium truncate">{s.title}</div>
+                        <div class="text-xs text-muted-foreground">{s.day}</div>
+                      </div>
+                      <span class="text-[10px] text-muted-foreground bg-muted px-2 py-0.5 rounded-full">{s.tone}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {feature.visual === 'pdf' && (
+            <div class="relative">
+              <div class="rounded-2xl border border-border bg-card shadow-xl overflow-hidden">
+                <div class="bg-muted/50 px-4 py-3 border-b border-border">
+                  <span class="text-xs font-medium text-muted-foreground">PDF Invoice Extraction</span>
+                </div>
+                <div class="p-5 space-y-4">
+                  <div class="flex items-center gap-3 p-4 rounded-xl border-2 border-dashed border-primary/30 bg-primary/5">
+                    <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium">invoice-march-2026.pdf</div>
+                      <div class="text-xs text-muted-foreground">Extracted successfully</div>
+                    </div>
+                    <div class="ml-auto text-success">
+                      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-3">
+                    {[
+                      { label: 'Client', value: 'Acme Corp' },
+                      { label: 'Invoice #', value: 'INV-2024-087' },
+                      { label: 'Amount', value: '$4,500.00' },
+                      { label: 'Due Date', value: 'Mar 1, 2026' },
+                    ].map(field => (
+                      <div class="p-2.5 rounded-lg bg-muted/50">
+                        <div class="text-[10px] text-muted-foreground uppercase tracking-wider">{field.label}</div>
+                        <div class="text-sm font-medium mt-0.5">{field.value}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {feature.visual === 'automation' && (
+            <div class="relative">
+              <div class="rounded-2xl border border-border bg-card shadow-xl overflow-hidden">
+                <div class="bg-muted/50 px-4 py-3 border-b border-border flex items-center justify-between">
+                  <span class="text-xs font-medium text-muted-foreground">Smart Chasing — Active</span>
+                  <span class="inline-flex items-center rounded-full bg-success/10 text-success px-2 py-0.5 text-[10px] font-medium">Running</span>
+                </div>
+                <div class="p-5 space-y-3">
+                  <div class="flex items-center gap-3 p-3 rounded-lg bg-success/5 border border-success/20">
+                    <div class="h-2 w-2 rounded-full bg-success"></div>
+                    <div class="flex-1">
+                      <div class="text-sm font-medium">Step 1 — Sent</div>
+                      <div class="text-xs text-muted-foreground">Delivered Mar 2 at 9:00 AM</div>
+                    </div>
+                    <span class="text-[10px] text-success font-medium">Opened</span>
+                  </div>
+                  <div class="flex items-center gap-3 p-3 rounded-lg bg-primary/5 border border-primary/20">
+                    <div class="h-2 w-2 rounded-full bg-primary animate-pulse"></div>
+                    <div class="flex-1">
+                      <div class="text-sm font-medium">Step 2 — Sending today</div>
+                      <div class="text-xs text-muted-foreground">Scheduled for Mar 6 at 9:00 AM</div>
+                    </div>
+                    <span class="text-[10px] text-primary font-medium">Next</span>
+                  </div>
+                  <div class="flex items-center gap-3 p-3 rounded-lg bg-muted/30">
+                    <div class="h-2 w-2 rounded-full bg-muted-foreground/30"></div>
+                    <div class="flex-1">
+                      <div class="text-sm font-medium text-muted-foreground">Step 3 — Queued</div>
+                      <div class="text-xs text-muted-foreground">Mar 10 at 9:00 AM</div>
+                    </div>
+                    <span class="text-[10px] text-muted-foreground">Pending</span>
+                  </div>
+                  <div class="flex items-center gap-3 p-3 rounded-lg bg-muted/30">
+                    <div class="h-2 w-2 rounded-full bg-muted-foreground/30"></div>
+                    <div class="flex-1">
+                      <div class="text-sm font-medium text-muted-foreground">Step 4 — Queued</div>
+                      <div class="text-xs text-muted-foreground">Mar 16 at 9:00 AM</div>
+                    </div>
+                    <span class="text-[10px] text-muted-foreground">Pending</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- Additional Features Grid -->
+  <section class="section-padding bg-muted/30 border-t border-border">
+    <div class="container">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
+          And much more
+        </h2>
+        <p class="mt-4 text-lg text-muted-foreground">
+          Every tool you need for complete invoice management and payment recovery.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+        {additionalFeatures.map(f => (
+          <div class="p-5 rounded-2xl border border-border bg-card card-hover">
+            <div class="text-2xl mb-3">{f.icon}</div>
+            <h3 class="text-sm font-semibold mb-1.5">{f.title}</h3>
+            <p class="text-xs text-muted-foreground leading-relaxed">{f.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
+          Ready to automate your invoice chasing?
+        </h2>
+        <p class="mt-4 text-lg text-muted-foreground">
+          Start for free. No credit card required. See results from day one.
+        </p>
+        <div class="mt-8">
+          <a
+            href={`${appUrl}/auth`}
+            class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-600 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
+          >
+            Start Free — No Credit Card
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,30 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  lastUpdated: string;
+}
+
+const { title, description, lastUpdated } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="hero-gradient">
+    <div class="container py-16 md:py-20">
+      <div class="max-w-3xl mx-auto">
+        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">{title}</h1>
+        <p class="mt-3 text-muted-foreground">Last updated: {lastUpdated}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-20">
+    <div class="container">
+      <div class="max-w-3xl mx-auto prose prose-sm prose-gray prose-headings:font-semibold prose-headings:tracking-tight prose-h2:text-xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-base prose-h3:mt-6 prose-h3:mb-2 prose-p:text-muted-foreground prose-p:leading-relaxed prose-li:text-muted-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground">
+        <slot />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
