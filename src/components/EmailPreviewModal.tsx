@@ -17,15 +17,34 @@ const statusVariant: Record<StepStatus, string> = {
   cancelled: 'bg-muted/50 text-muted-foreground',
 };
 
+/** Replaces {paymentLink} in step body with the actual URL for display. */
+export function bodyWithPaymentLink(body: string, paymentLink: string | null | undefined): string {
+  if (!body) return body;
+  return body.replace(/\{paymentLink\}/g, paymentLink && paymentLink.trim() ? paymentLink : '(No payment link set)');
+}
+
+/** Format ISO timestamp for datetime-local input (YYYY-MM-DDTHH:mm in local time). */
+function toDateTimeLocal(iso: string): string {
+  const d = new Date(iso);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  const h = String(d.getHours()).padStart(2, '0');
+  const min = String(d.getMinutes()).padStart(2, '0');
+  return `${y}-${m}-${day}T${h}:${min}`;
+}
+
 interface Props {
   step: SequenceStep | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSave?: (stepId: string, subject: string, body: string, sendAt: string) => Promise<void>;
   initialEditing?: boolean;
+  /** When provided, {paymentLink} in body is shown as this URL in preview (non-edit) mode. */
+  paymentLink?: string | null;
 }
 
-export function EmailPreviewModal({ step, open, onOpenChange, onSave, initialEditing = false }: Props) {
+export function EmailPreviewModal({ step, open, onOpenChange, onSave, initialEditing = false, paymentLink }: Props) {
   const [editing, setEditing] = useState(false);
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');
@@ -38,7 +57,7 @@ export function EmailPreviewModal({ step, open, onOpenChange, onSave, initialEdi
       if (initialEditing && step.status === 'pending' && onSave) {
         setSubject(step.subject);
         setBody(step.body);
-        setSendAt(step.send_at ? new Date(step.send_at).toISOString().split('T')[0] : '');
+        setSendAt(step.send_at ? toDateTimeLocal(step.send_at) : '');
         setEditing(true);
       } else {
         setEditing(false);
@@ -54,7 +73,7 @@ export function EmailPreviewModal({ step, open, onOpenChange, onSave, initialEdi
   const handleStartEdit = () => {
     setSubject(step.subject);
     setBody(step.body);
-    setSendAt(step.send_at ? new Date(step.send_at).toISOString().split('T')[0] : '');
+    setSendAt(step.send_at ? toDateTimeLocal(step.send_at) : '');
     setEditing(true);
   };
 
@@ -62,14 +81,7 @@ export function EmailPreviewModal({ step, open, onOpenChange, onSave, initialEdi
     if (!onSave) return;
     setSaving(true);
     try {
-      const newSendAt = sendAt
-        ? (() => {
-            const d = new Date(sendAt);
-            const orig = new Date(step.send_at);
-            d.setHours(orig.getHours(), orig.getMinutes(), orig.getSeconds());
-            return d.toISOString();
-          })()
-        : step.send_at;
+      const newSendAt = sendAt ? new Date(sendAt).toISOString() : step.send_at;
       await onSave(step.id, subject, body, newSendAt);
       setEditing(false);
     } finally {
@@ -112,12 +124,12 @@ export function EmailPreviewModal({ step, open, onOpenChange, onSave, initialEdi
         <div className="space-y-4">
           {editing && (
             <div>
-              <p className="text-xs font-medium text-muted-foreground mb-1">Send Date</p>
+              <p className="text-xs font-medium text-muted-foreground mb-1">Send Date & Time</p>
               <Input
-                type="date"
+                type="datetime-local"
                 value={sendAt}
                 onChange={e => setSendAt(e.target.value)}
-                className="text-sm w-[180px]"
+                className="text-sm w-[220px]"
               />
             </div>
           )}
@@ -137,7 +149,7 @@ export function EmailPreviewModal({ step, open, onOpenChange, onSave, initialEdi
               <Textarea value={body} onChange={e => setBody(e.target.value)} className="text-sm min-h-[200px]" />
             ) : (
               <div className="rounded-lg border bg-muted/30 p-4">
-                <p className="text-sm whitespace-pre-wrap leading-relaxed">{step.body}</p>
+                <p className="text-sm whitespace-pre-wrap leading-relaxed">{bodyWithPaymentLink(step.body, paymentLink)}</p>
               </div>
             )}
           </div>

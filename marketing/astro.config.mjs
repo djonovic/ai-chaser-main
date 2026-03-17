@@ -6,6 +6,10 @@ import react from '@astrojs/react';
 export default defineConfig({
   site: 'https://chaseai.app',
   output: 'static',
+  server: {
+    port: 4321,
+    host: true,
+  },
   adapter: vercel({
     webAnalytics: { enabled: true },
   }),

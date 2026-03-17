@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
-import { Check, Crown, Zap, FileText, Sparkles, Loader2 } from 'lucide-react';
+import { Check, Crown, Zap, FileText, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { usePlan } from '@/hooks/usePlan';
@@ -18,12 +18,13 @@ const plans = [
     name: 'Free',
     monthlyPrice: 0,
     annualPrice: 0,
-    description: 'For getting started',
+    description: 'For getting started with AI invoice chasing.',
     features: [
       '3 invoices per month',
       'Automated email sending',
-      'AI sequences: 10/month (our key)',
+      '10 AI sequence generations/month',
       'Basic dashboard',
+      'Email support',
     ],
     icon: FileText,
     highlight: false,
@@ -35,12 +36,15 @@ const plans = [
     annualPrice: 24,
     annualTotal: 288,
     savePercent: 17,
-    description: 'For serious freelancers',
+    description: 'For freelancers and consultants who are serious about getting paid.',
     features: [
       'Unlimited invoices',
-      'AI sequences: 50/month (our key)',
+      '50 AI sequence generations/month',
       'Real-time tracking',
-      'Advanced reports',
+      'Advanced recovery reports',
+      'Multi-currency support',
+      'PDF invoice extraction',
+      'Priority email support',
     ],
     icon: Zap,
     highlight: true,
@@ -52,12 +56,14 @@ const plans = [
     annualPrice: 39,
     annualTotal: 468,
     savePercent: 20,
-    description: 'For power users & teams',
+    description: 'For power users and growing teams who want no limits.',
     features: [
       'Everything in Starter',
-      'Unlimited AI sequences (our key)',
+      'Unlimited AI sequence generations',
       'PDF invoice export',
-      'Priority support',
+      'Recovery analytics dashboard',
+      'Priority email support',
+      'Bring your own Gemini key',
     ],
     icon: Crown,
     highlight: false,
@@ -132,7 +138,7 @@ export default function PricingPage() {
       <div className="text-center mb-10">
         <h1 className="text-3xl font-bold tracking-tight">Simple, transparent pricing</h1>
         <p className="text-muted-foreground mt-2">
-          Start free. Upgrade when you're ready to automate.
+          Start free. Upgrade when you're ready to automate. Every plan pays for itself by recovering overdue invoices faster.
         </p>
 
         <div className="flex items-center justify-center gap-3 mt-6">
@@ -174,10 +180,6 @@ export default function PricingPage() {
                 <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 gap-1">
                   <Zap className="h-3 w-3" /> Most Popular
                 </Badge>
-              ) : p.key === 'pro' ? (
-                <Badge variant="outline" className="absolute -top-3 left-1/2 -translate-x-1/2 gap-1 border-info text-info bg-background whitespace-nowrap">
-                  <Sparkles className="h-3 w-3" /> 14-day free trial
-                </Badge>
               ) : null}
 
               <CardHeader className="pb-4">
@@ -200,9 +202,6 @@ export default function PricingPage() {
                 )}
                 {p.monthlyPrice === 0 && (
                   <p className="text-xs text-muted-foreground mt-1">Free forever</p>
-                )}
-                {p.key === 'pro' && !isCurrent && (
-                  <p className="text-xs text-info mt-1">No credit card required</p>
                 )}
               </CardHeader>
 
@@ -246,7 +245,7 @@ export default function PricingPage() {
           in Settings to bypass AI limits on any plan.
         </p>
         <p className="text-xs text-muted-foreground">
-          All plans include email support. Prices in USD. Cancel anytime.
+          All plans include email support. Prices in USD. Cancel anytime. No credit card required for Free plan.
         </p>
       </div>
 

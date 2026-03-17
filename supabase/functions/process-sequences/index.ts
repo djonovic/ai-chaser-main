@@ -22,13 +22,23 @@ interface PendingStepRow {
   sequences: SequenceRow;
 }
 
+/** Escape HTML for use in email body (open tracking works when HTML is present). */
+function textToHtml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/\n/g, "<br>\n");
+}
+
 async function sendEmailViaResend(
   apiKey: string,
   from: string,
   to: string,
   subject: string,
   body: string
-): Promise<{ ok: boolean; error?: string }> {
+): Promise<{ ok: boolean; error?: string; id?: string }> {
   const res = await fetch(RESEND_API_URL, {
     method: "POST",
     headers: {
@@ -41,6 +51,7 @@ async function sendEmailViaResend(
       to: [to],
       subject,
       text: body,
+      html: `<div style="white-space: pre-wrap;">${textToHtml(body)}</div>`,
     }),
   });
 
@@ -48,7 +59,12 @@ async function sendEmailViaResend(
     const err = await res.text();
     return { ok: false, error: `${res.status}: ${err}` };
   }
-  return { ok: true };
+  try {
+    const data = (await res.json()) as { id?: string };
+    return { ok: true, id: data.id };
+  } catch {
+    return { ok: true };
+  }
 }
 
 Deno.serve(async (req) => {
@@ -173,16 +189,28 @@ Deno.serve(async (req) => {
           console.error(`Resend failed for step ${step.id}:`, sendResult.error);
           continue;
         }
-      }
-
-      const { error: updateStepErr } = await supabase
-        .from("sequence_steps")
-        .update({ status: "sent", sent_at: new Date().toISOString() })
-        .eq("id", step.id);
-
-      if (updateStepErr) {
-        console.error(`Error updating step ${step.id}:`, updateStepErr);
-        continue;
+        const updatePayload: { status: string; sent_at: string; resend_email_id?: string } = {
+          status: "sent",
+          sent_at: new Date().toISOString(),
+        };
+        if (sendResult.id) updatePayload.resend_email_id = sendResult.id;
+        const { error: updateStepErr } = await supabase
+          .from("sequence_steps")
+          .update(updatePayload)
+          .eq("id", step.id);
+        if (updateStepErr) {
+          console.error(`Error updating step ${step.id}:`, updateStepErr);
+          continue;
+        }
+      } else {
+        const { error: updateStepErr } = await supabase
+          .from("sequence_steps")
+          .update({ status: "sent", sent_at: new Date().toISOString() })
+          .eq("id", step.id);
+        if (updateStepErr) {
+          console.error(`Error updating step ${step.id}:`, updateStepErr);
+          continue;
+        }
       }
 
       const { error: updateSeqErr } = await supabase

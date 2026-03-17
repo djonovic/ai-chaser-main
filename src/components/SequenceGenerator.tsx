@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
-import { EmailPreviewModal } from '@/components/EmailPreviewModal';
+import { EmailPreviewModal, bodyWithPaymentLink } from '@/components/EmailPreviewModal';
 import {
   Zap, Loader2, Pencil, Key, Play, Pause, RotateCcw,
   Trash2, Eye, MessageSquare,
@@ -177,7 +177,9 @@ export function SequenceGenerator({ invoice }: Props) {
 
   const handleDeleteStep = async () => {
     if (!deleteStepTarget || !sequence) return;
-    await deleteStep(deleteStepTarget.id, sequence.id);
+    const idToRemove = deleteStepTarget.id;
+    await deleteStep(idToRemove, sequence.id);
+    setLocalSteps(prev => prev.filter(s => s.id !== idToRemove));
     setDeleteStepTarget(null);
   };
 
@@ -349,7 +351,7 @@ export function SequenceGenerator({ invoice }: Props) {
               <TableHeader>
                 <TableRow className="bg-muted/30">
                   <TableHead className="w-[40px]">#</TableHead>
-                  <TableHead className="w-[100px]">Send Date</TableHead>
+                  <TableHead className="w-[140px]">Send Date & Time</TableHead>
                   <TableHead>Subject</TableHead>
                   <TableHead className="hidden lg:table-cell">Preview</TableHead>
                   <TableHead className="w-[80px]">Status</TableHead>
@@ -368,14 +370,19 @@ export function SequenceGenerator({ invoice }: Props) {
                     >
                       <TableCell className="font-medium text-muted-foreground">{step.step_number}</TableCell>
                       <TableCell className="text-xs">
-                        {step.sent_at ? new Date(step.sent_at).toLocaleDateString() : new Date(step.send_at).toLocaleDateString()}
+                        {step.sent_at
+                          ? new Date(step.sent_at).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })
+                          : new Date(step.send_at).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })}
                       </TableCell>
                       <TableCell>
                         <p className="text-sm font-medium truncate max-w-[200px]">{step.subject}</p>
                       </TableCell>
                       <TableCell className="hidden lg:table-cell">
                         <p className="text-xs text-muted-foreground truncate max-w-[250px]">
-                          {step.body.length > 100 ? step.body.slice(0, 100) + '...' : step.body}
+                          {(() => {
+                            const displayBody = bodyWithPaymentLink(step.body, invoice.payment_link ?? null);
+                            return displayBody.length > 100 ? `${displayBody.slice(0, 100)}...` : displayBody;
+                          })()}
                         </p>
                       </TableCell>
                       <TableCell>
@@ -456,6 +463,7 @@ export function SequenceGenerator({ invoice }: Props) {
         onOpenChange={v => { if (!v) { setPreviewStep(null); setPreviewEditing(false); } }}
         onSave={handleSaveStep}
         initialEditing={previewEditing}
+        paymentLink={invoice.payment_link}
       />
 
       <AILimitModal open={showLimitModal} onOpenChange={setShowLimitModal} onSaveKey={saveUserGeminiKey} />

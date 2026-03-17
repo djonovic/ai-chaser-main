@@ -57,6 +57,7 @@ No extra RLS policies are required for the Edge Functions; they use the **servic
 | `gmail-callback` | Exchanges code, stores tokens in `gmail_connections`, redirects to app |
 | `sync-accounting` | Cron: refresh tokens, fetch paid invoices from QB/Xero, match by `invoice_number`, mark paid (Starter/Pro only) |
 | `check-gmail-replies` | Cron: refresh tokens, recent Gmail messages, keyword + client email match → pause sequence, set `paused_reason: 'replied'` (Starter/Pro only) |
+| `resend-webhook` | Resend webhook: on `email.opened`, finds `sequence_steps` by `resend_email_id` and sets status to `opened` so users can see when emails are opened. |
 
 ---
 
@@ -84,6 +85,7 @@ npx supabase functions deploy gmail-auth
 npx supabase functions deploy gmail-callback
 npx supabase functions deploy sync-accounting
 npx supabase functions deploy check-gmail-replies
+npx supabase functions deploy resend-webhook
 
 # Or deploy everything
 npx supabase functions deploy
@@ -148,7 +150,31 @@ When creating Stripe Checkout/Invoices/Payment Intents (on behalf of a connected
 
 For **Connect** payments, the webhook resolves the user from `event.account` → `stripe_connections.stripe_account_id` → `user_id`, so metadata can omit `user_id` if the event is for a connected account.
 
-### 4.3 Cron jobs (sync-accounting and check-gmail-replies)
+### 4.3 Resend open tracking (optional)
+
+Users can see when chase emails are **opened** in the app. This uses Resend’s open-tracking and webhooks.
+
+1. **Enable open tracking in Resend**  
+   In [Resend Dashboard → Domains](https://resend.com/domains), select your sending domain and enable **Open tracking** in the domain configuration.
+
+2. **Run the migration** that adds `resend_email_id` to `sequence_steps`:
+   - **File:** `supabase/migrations/20260317000000_sequence_steps_resend_email_id.sql`
+
+3. **Deploy the webhook function** and register it in Resend:
+   ```bash
+   npx supabase functions deploy resend-webhook
+   ```
+   In [Resend → Webhooks](https://resend.com/webhooks), add a webhook:
+   - **URL:** `https://<YOUR_PROJECT_REF>.supabase.co/functions/v1/resend-webhook`  
+     If you set `RESEND_WEBHOOK_SECRET` in Supabase, append `?secret=<same_value>` to the URL, or send it as header `X-Webhook-Secret`.
+   - **Events:** select **email.opened**.
+
+4. **Secrets (optional):**  
+   Set `RESEND_WEBHOOK_SECRET` in Supabase Edge Function secrets if you want to verify webhook requests (then use the same value in the Resend webhook URL as `?secret=...` or in a custom header).
+
+The app already sends HTML and stores Resend’s email `id` on each step when sending. When a recipient opens the email, Resend calls your webhook; the function finds the step by `resend_email_id` and sets its status to `opened`, so the UI shows “Opened” for that step.
+
+### 4.4 Cron jobs (sync-accounting and check-gmail-replies)
 
 In **Supabase Dashboard → Database → Extensions** ensure `pg_cron` is enabled. Then in **SQL Editor** run:
 
@@ -182,7 +208,7 @@ select cron.schedule(
 
 Replace `<YOUR_PROJECT_REF>` and `<YOUR_SERVICE_ROLE_KEY>` with your project reference and service role key. If `pg_cron` / `net.http_post` are not available, use an external cron (e.g. GitHub Actions or a cron server) to POST to these function URLs with the same `Authorization: Bearer <SERVICE_ROLE_KEY>` header.
 
-### 4.4 OAuth redirect URIs
+### 4.5 OAuth redirect URIs
 
 **QuickBooks (Intuit):**
 

@@ -213,6 +213,7 @@ create table public.sequence_steps (
   status      text not null default 'pending'
                 check (status in ('pending', 'sent', 'opened', 'clicked', 'replied', 'cancelled')),
   sent_at     timestamptz,
+  resend_email_id text,
   created_at  timestamptz not null default now()
 );
 

@@ -189,7 +189,7 @@ export default function InvoicesPage() {
                       value={formPaymentLink}
                       onChange={e => setFormPaymentLink(e.target.value)}
                       placeholder="https://pay.stripe.com/..."
-                      type="url"
+                      type="text"
                     />
                     <p className="text-[11px] text-muted-foreground">
                       Optional Stripe or custom payment link that will be inserted into your chase emails.
