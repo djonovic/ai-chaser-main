@@ -60,9 +60,7 @@ Deno.serve(async (req) => {
       case "checkout.session.completed": {
         const session = event.data.object;
         const userId = session.metadata?.supabase_user_id;
-        const plan = session.subscription
-          ? session.metadata?.plan
-          : null;
+        const plan = session.metadata?.plan ?? null;
 
         if (userId && plan) {
           const expiresAt = new Date();

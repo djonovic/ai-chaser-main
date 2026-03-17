@@ -116,6 +116,8 @@ Deno.serve(async (req) => {
       "line_items[0][quantity]": "1",
       success_url: `${appUrl}/settings?tab=billing&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${appUrl}/pricing`,
+      "metadata[supabase_user_id]": user.id,
+      "metadata[plan]": plan,
       "subscription_data[metadata][supabase_user_id]": user.id,
       "subscription_data[metadata][plan]": plan,
       allow_promotion_codes: "true",
