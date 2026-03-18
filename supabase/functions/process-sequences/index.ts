@@ -37,13 +37,15 @@ async function sendEmailViaResend(
   from: string,
   to: string,
   subject: string,
-  body: string
+  body: string,
+  idempotencyKey: string
 ): Promise<{ ok: boolean; error?: string; id?: string }> {
   const res = await fetch(RESEND_API_URL, {
     method: "POST",
     headers: {
       "Authorization": `Bearer ${apiKey}`,
       "Content-Type": "application/json",
+      "Idempotency-Key": idempotencyKey,
       "User-Agent": "ChaseAI-Process-Sequences/1.0",
     },
     body: JSON.stringify({
@@ -74,13 +76,15 @@ Deno.serve(async (req) => {
 
   try {
     const authHeader = req.headers.get("Authorization");
-    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    if (!serviceKey) {
+      return corsJson(req, { error: "Server misconfigured: SUPABASE_SERVICE_ROLE_KEY is missing" }, 500);
+    }
     const token = authHeader?.replace("Bearer ", "").trim();
-    if (token !== serviceKey) {
+    if (!token || token !== serviceKey) {
       return corsJson(req, { error: "Unauthorized" }, 401);
     }
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const fallbackResendKey = Deno.env.get("RESEND_API_KEY");
     const fallbackFrom = Deno.env.get("RESEND_FROM") ?? "ChaseAI <onboarding@resend.dev>";
 
@@ -152,10 +156,33 @@ Deno.serve(async (req) => {
     const sequencesToCheck = new Set<string>();
 
     for (const step of steps) {
+      // Claim the step first to avoid duplicates on overlapping runs.
+      const nowIso = new Date().toISOString();
+      const { data: claimed, error: claimErr } = await supabase
+        .from("sequence_steps")
+        .update({ status: "processing" })
+        .eq("id", step.id)
+        .eq("status", "pending")
+        .select("id");
+
+      if (claimErr) {
+        console.error(`Error claiming step ${step.id}:`, claimErr);
+        continue;
+      }
+      if (!claimed || claimed.length === 0) {
+        // Another run already claimed/sent it.
+        continue;
+      }
+
       const seq = step.sequences;
       const toEmail = invoiceIdToClientEmail.get(seq.invoice_id);
       if (!toEmail) {
         console.error(`No client email for invoice ${seq.invoice_id}, skipping step ${step.id}`);
+        await supabase
+          .from("sequence_steps")
+          .update({ status: "pending" })
+          .eq("id", step.id)
+          .eq("status", "processing");
         continue;
       }
 
@@ -163,6 +190,11 @@ Deno.serve(async (req) => {
       const apiKey = fallbackResendKey;
       if (!apiKey) {
         console.error(`No RESEND_API_KEY env configured, skipping step ${step.id}`);
+        await supabase
+          .from("sequence_steps")
+          .update({ status: "pending" })
+          .eq("id", step.id)
+          .eq("status", "processing");
         continue;
       }
 
@@ -184,14 +216,20 @@ Deno.serve(async (req) => {
           ? step.body.replace(/\{paymentLink\}/g, paymentLink)
           : step.body;
 
-        const sendResult = await sendEmailViaResend(apiKey, from, toEmail, finalSubject, finalBody);
+        const idempotencyKey = `sequence-step/${step.id}`;
+        const sendResult = await sendEmailViaResend(apiKey, from, toEmail, finalSubject, finalBody, idempotencyKey);
         if (!sendResult.ok) {
           console.error(`Resend failed for step ${step.id}:`, sendResult.error);
+          await supabase
+            .from("sequence_steps")
+            .update({ status: "pending" })
+            .eq("id", step.id)
+            .eq("status", "processing");
           continue;
         }
         const updatePayload: { status: string; sent_at: string; resend_email_id?: string } = {
           status: "sent",
-          sent_at: new Date().toISOString(),
+          sent_at: nowIso,
         };
         if (sendResult.id) updatePayload.resend_email_id = sendResult.id;
         const { error: updateStepErr } = await supabase
@@ -205,7 +243,7 @@ Deno.serve(async (req) => {
       } else {
         const { error: updateStepErr } = await supabase
           .from("sequence_steps")
-          .update({ status: "sent", sent_at: new Date().toISOString() })
+          .update({ status: "sent", sent_at: nowIso })
           .eq("id", step.id);
         if (updateStepErr) {
           console.error(`Error updating step ${step.id}:`, updateStepErr);
@@ -231,7 +269,7 @@ Deno.serve(async (req) => {
         .from("sequence_steps")
         .select("id")
         .eq("sequence_id", seqId)
-        .eq("status", "pending");
+        .in("status", ["pending", "processing"]);
 
       if (!remainingSteps || remainingSteps.length === 0) {
         await supabase
