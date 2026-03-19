@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { sendMetaPurchase } from "../_shared/metaCapi.ts";
 
 async function verifyStripeSignature(
   payload: string,
@@ -77,6 +78,22 @@ Deno.serve(async (req) => {
             .eq("id", userId);
 
           console.log(`Plan updated: user=${userId} plan=${plan}`);
+
+          const metaEventId = session.metadata?.meta_event_id ??
+            `stripe_cs_${session.id}`;
+          const amountTotal = session.amount_total as number | null | undefined;
+          const value = typeof amountTotal === "number" ? amountTotal / 100 : 0;
+          const currency = String(session.currency ?? "usd").toUpperCase();
+          const email = session.customer_details?.email ??
+            session.customer_email ?? null;
+          const appUrl = Deno.env.get("APP_URL") ?? "https://app.chaseai.app";
+          await sendMetaPurchase({
+            eventId: metaEventId,
+            value,
+            currency,
+            email,
+            eventSourceUrl: `${appUrl}/settings`,
+          });
         }
         break;
       }

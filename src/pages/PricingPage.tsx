@@ -11,6 +11,7 @@ import { supabase } from '@/lib/supabaseClient';
 import { useNavigate } from 'react-router-dom';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import type { PlanType } from '@/types';
+import { trackMetaInitiateCheckout } from '@/lib/metaPixel';
 
 const plans = [
   {
@@ -99,6 +100,22 @@ export default function PricingPage() {
         if (error) throw error;
         if (data?.error) throw new Error(data.error);
         if (data?.url) {
+          const p = plans.find((x) => x.key === targetPlan);
+          if (p) {
+            const value =
+              annual && p.annualTotal != null ? p.annualTotal : p.monthlyPrice;
+            const metaEventId = (data as { metaEventId?: string }).metaEventId;
+            if (metaEventId) {
+              sessionStorage.setItem('meta_purchase_event_id', metaEventId);
+              sessionStorage.setItem('meta_purchase_value', String(value));
+              sessionStorage.setItem('meta_purchase_currency', 'USD');
+            }
+            trackMetaInitiateCheckout({
+              value,
+              currency: 'USD',
+              plan: targetPlan,
+            });
+          }
           window.location.href = data.url;
           return;
         }

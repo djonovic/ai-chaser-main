@@ -3,6 +3,32 @@ import { optionsResponse, jsonResponse } from "../_shared/cors.ts";
 
 const RESEND_API_URL = "https://api.resend.com/emails";
 
+function normalizeEmailText(text: string): string {
+  return text
+    .replace(/\r\n/g, "\n")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trimEnd();
+}
+
+function userDisplayName(user: { email?: string | null; user_metadata?: Record<string, unknown> } | null): string {
+  const meta = (user?.user_metadata ?? {}) as Record<string, unknown>;
+  const candidates = [
+    meta.full_name,
+    meta.name,
+    meta.display_name,
+    meta.first_name && meta.last_name ? `${meta.first_name} ${meta.last_name}` : undefined,
+  ]
+    .filter((v): v is string => typeof v === "string")
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  if (candidates.length > 0) return candidates[0];
+  const email = user?.email?.trim();
+  if (email) return email.split("@")[0] || "ChaseAI";
+  return "ChaseAI";
+}
+
 async function sendEmailViaResend(
   apiKey: string,
   from: string,
@@ -20,7 +46,7 @@ async function sendEmailViaResend(
       from,
       to: [to],
       subject,
-      text,
+      text: normalizeEmailText(text),
     }),
   });
 
@@ -57,12 +83,6 @@ Deno.serve(async (req) => {
       return jsonResponse(req, { error: "Unauthorized" }, 401);
     }
 
-    const { data: settings } = await supabase
-      .from("settings")
-      .select("sender_name, company_name")
-      .eq("user_id", user.id)
-      .single();
-
     const apiKey = Deno.env.get("RESEND_API_KEY");
     if (!apiKey) {
       return jsonResponse(req,
@@ -71,11 +91,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    const senderName = settings?.sender_name?.trim();
-    const companyName = settings?.company_name?.trim();
-    const fromName = senderName && companyName
-      ? `${senderName}, ${companyName}`
-      : senderName || companyName || "ChaseAI";
+    const fromName = userDisplayName(user);
     const fromEmail = Deno.env.get("RESEND_FROM_EMAIL") || "onboarding@resend.dev";
     const from = `${fromName} <${fromEmail}>`;
 

@@ -18,6 +18,7 @@ import ReportsPage from '@/pages/ReportsPage';
 import SettingsPage from '@/pages/SettingsPage';
 import PricingPage from '@/pages/PricingPage';
 import NotFound from '@/pages/NotFound';
+import { MetaPixelPageViews } from '@/components/MetaPixelPageViews';
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ export default function App() {
             <Toaster />
             <Sonner />
             <BrowserRouter>
+              <MetaPixelPageViews />
               <Routes>
                 <Route path="/" element={<Navigate to="/dashboard" replace />} />
                 <Route path="/auth" element={<AuthPage />} />
