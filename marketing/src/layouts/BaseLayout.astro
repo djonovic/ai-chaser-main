@@ -16,7 +16,14 @@ interface Props {
 }
 
 const props = Astro.props;
-const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID?.trim() ?? '';
+// Astro env vars are available via `Astro.env`; use it first so Vercel builds inject correctly.
+const metaPixelId = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (Astro.env as any).PUBLIC_META_PIXEL_ID ??
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (import.meta.env as any).PUBLIC_META_PIXEL_ID ??
+  ''
+).toString().trim();
 const metaPixelEnabled = metaPixelId.length > 0;
 ---
 
