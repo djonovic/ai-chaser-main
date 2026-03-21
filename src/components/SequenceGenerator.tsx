@@ -2,6 +2,14 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
@@ -18,7 +26,14 @@ import { getDaysOverdue } from '@/lib/utils';
 import { useSettings } from '@/hooks/useSettings';
 import { AILimitModal } from '@/components/AILimitModal';
 import { cn } from '@/lib/utils';
-import type { Invoice, SequenceStep, StepStatus } from '@/types';
+import type { Invoice, SequenceStep, SequenceTone, StepStatus } from '@/types';
+
+const TONE_OPTIONS: { value: SequenceTone; label: string; description: string }[] = [
+  { value: 'friendly', label: 'Friendly', description: 'Warm and conversational—great for long-term clients.' },
+  { value: 'professional', label: 'Professional', description: 'Clear, standard business language (default).' },
+  { value: 'firm', label: 'Firm', description: 'Direct and assertive for persistent late payers.' },
+  { value: 'humorous', label: 'Humorous', description: 'Light, tasteful wit while staying respectful.' },
+];
 
 const statusConfig: Record<StepStatus, { label: string; className: string }> = {
   pending: { label: 'Pending', className: 'bg-muted text-muted-foreground' },
@@ -44,6 +59,7 @@ export function SequenceGenerator({ invoice }: Props) {
   const [previewStep, setPreviewStep] = useState<SequenceStep | null>(null);
   const [previewEditing, setPreviewEditing] = useState(false);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [sequenceTone, setSequenceTone] = useState<SequenceTone>('professional');
   const lastSyncedSeqIdRef = useRef<string | null>(null);
 
   const {
@@ -93,6 +109,16 @@ export function SequenceGenerator({ invoice }: Props) {
 
   const daysOverdue = getDaysOverdue(invoice.due_date);
 
+  useEffect(() => {
+    setSequenceTone('professional');
+  }, [invoice.id]);
+
+  useEffect(() => {
+    if (sequence?.tone) setSequenceTone(sequence.tone);
+  }, [sequence?.id]);
+
+  const toneDescription = TONE_OPTIONS.find((t) => t.value === sequenceTone)?.description;
+
   const handleGenerate = useCallback(async () => {
     if (!hasUserKey && aiLimitReached) {
       setShowLimitModal(true);
@@ -101,7 +127,7 @@ export function SequenceGenerator({ invoice }: Props) {
     setGenerating(true);
     try {
       const result = await generateChaseSequence({
-        tone: 'professional',
+        tone: sequenceTone,
         clientName: invoice.client?.name || 'Client',
         amount: invoice.amount,
         currency: invoice.currency,
@@ -118,7 +144,7 @@ export function SequenceGenerator({ invoice }: Props) {
         toast.error('No steps generated. Please try again.');
         return;
       }
-      const seq = await createSequenceWithSteps(invoice.id, 'professional', result.steps);
+      const seq = await createSequenceWithSteps(invoice.id, sequenceTone, result.steps);
       if (seq) {
         setCreatedSequenceId(seq.id);
         await refetch();
@@ -130,7 +156,7 @@ export function SequenceGenerator({ invoice }: Props) {
     } finally {
       setGenerating(false);
     }
-  }, [hasUserKey, aiLimitReached, userGeminiKey, invoice, daysOverdue, settings.sender_name, settings.company_name, createSequenceWithSteps, refetch, incrementAIUsage]);
+  }, [hasUserKey, aiLimitReached, userGeminiKey, sequenceTone, invoice, daysOverdue, settings.sender_name, settings.company_name, createSequenceWithSteps, refetch, incrementAIUsage]);
 
   const handleStart = async () => {
     if (!sequence || localSteps.length === 0) return;
@@ -245,6 +271,29 @@ export function SequenceGenerator({ invoice }: Props) {
                 {plan.charAt(0).toUpperCase() + plan.slice(1)}
               </Badge>
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="sequence-tone" className="text-sm">
+                Email tone
+              </Label>
+              <Select
+                value={sequenceTone}
+                onValueChange={(v) => setSequenceTone(v as SequenceTone)}
+              >
+                <SelectTrigger id="sequence-tone" className="w-full">
+                  <SelectValue placeholder="Select tone" />
+                </SelectTrigger>
+                <SelectContent>
+                  {TONE_OPTIONS.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {toneDescription && (
+                <p className="text-xs text-muted-foreground leading-snug">{toneDescription}</p>
+              )}
+            </div>
             <Button
               className="w-full gap-2 h-11 text-base bg-blue-600 hover:bg-blue-700 text-white"
               size="lg"
@@ -289,10 +338,37 @@ export function SequenceGenerator({ invoice }: Props) {
               {isPaused && sequence?.paused_reason === 'replied' && (
                 <span className="text-xs text-muted-foreground">Client replied</span>
               )}
+              {!isIdle && sequence && (
+                <Badge variant="secondary" className="text-[10px] capitalize">
+                  {sequence.tone}
+                </Badge>
+              )}
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 flex-wrap justify-end">
               {isIdle && (
-                <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleGenerate()} title="Regenerate">
+                <div className="flex items-center gap-2 mr-1 w-full sm:w-auto justify-end sm:justify-start">
+                  <Label htmlFor="sequence-tone-regen" className="text-xs text-muted-foreground whitespace-nowrap shrink-0">
+                    Tone
+                  </Label>
+                  <Select
+                    value={sequenceTone}
+                    onValueChange={(v) => setSequenceTone(v as SequenceTone)}
+                  >
+                    <SelectTrigger id="sequence-tone-regen" className="h-8 w-[140px] text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {TONE_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+              {isIdle && (
+                <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleGenerate()} title="Regenerate with selected tone">
                   <RotateCcw className="h-3.5 w-3.5" />
                 </Button>
               )}

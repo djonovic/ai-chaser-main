@@ -23,6 +23,26 @@ function computeSchedule(daysOverdue: number, stepCount: number): number[] {
   return offsets;
 }
 
+function normalizeTone(tone: unknown): string {
+  const t = String(tone ?? "professional").toLowerCase().trim();
+  const allowed = ["friendly", "professional", "firm", "humorous"] as const;
+  return (allowed as readonly string[]).includes(t) ? t : "professional";
+}
+
+function toneVoiceInstructions(tone: string): string {
+  switch (tone) {
+    case "friendly":
+      return "Use warm, conversational language throughout. Even in later steps, stay respectful and assume good intent—no cold or hostile phrasing.";
+    case "firm":
+      return "Be direct and assertive. Later steps should feel unmistakably serious. Do not apologize for following up; stay factual. Never threaten, harass, or use abusive language.";
+    case "humorous":
+      return "You may use light, tasteful wit where it fits—especially in early steps. Every email must still be respectful and professional; never mock the client or make light of legal or financial obligations.";
+    case "professional":
+    default:
+      return "Use clear, standard business language—confident, courteous, and concise at every step.";
+  }
+}
+
 function sanitizeJsonResponse(raw: string): unknown[] {
   let text = raw
     .replace(/```(?:json)?\s*/gi, "")
@@ -63,7 +83,7 @@ function buildPrompt(params: {
   hasPaymentLink: boolean;
 }): string {
   const {
-    tone,
+    tone: toneRaw,
     clientName,
     amount,
     currency,
@@ -76,6 +96,9 @@ function buildPrompt(params: {
     schedule,
     hasPaymentLink,
   } = params;
+
+  const tone = normalizeTone(toneRaw);
+  const voiceBlock = toneVoiceInstructions(tone);
 
   const stepCount = schedule.length;
 
@@ -109,15 +132,18 @@ CONTEXT:
 - Overall tone preference: ${tone}
 - Additional context: ${notes || "None"}
 
+VOICE (apply across all steps; combine with the escalation rules below):
+${voiceBlock}
+
 EXACT SCHEDULE – each step shows how many days overdue the invoice will be AT THE TIME that email is sent:
 ${scheduleLines}
 
 CRITICAL: Each email MUST reference the correct number of days overdue for THAT specific step (shown above), NOT the current value. The emails are scheduled for the future, so each one must reflect how overdue the invoice will be when the recipient reads it.
 
-TONE PROGRESSION (mandatory):
-- Steps 1–2: Friendly, warm reminder. Assume the client simply forgot or missed it. Light and helpful tone.
-- Steps 3–4: Firm but professional. Clearly state the invoice is overdue and request prompt payment. No threats, just business-like urgency.
-- Steps 5–${stepCount}: Final notice. Polite but unmistakably urgent. Mention this is a final reminder and that further action may be necessary if unresolved.
+ESCALATION PROGRESSION (mandatory — adapt wording to match the VOICE above):
+- Steps 1–2: Lighter reminder. Assume the client may have overlooked the invoice; helpful and clear.
+- Steps 3–4: Stronger follow-up. Clearly state the invoice is overdue and request prompt payment. No threats; business-like urgency.
+- Steps 5–${stepCount}: Final notice stage. Unmistakably urgent; state this is a final reminder. You may note that unresolved balances may need to be escalated internally—never threaten the recipient personally.
 
 EMAIL RULES (follow every single rule exactly):
 1. Each email body MUST be between 80 and 150 words. No more, no less. Keep it concise, scannable, and human-sounding.
@@ -130,7 +156,7 @@ EMAIL RULES (follow every single rule exactly):
 ${paymentRule}
 5. Every email MUST end with exactly this signature on its own lines:
    "Best regards,\\n${signatureBlock}"
-6. Subject lines: maximum 8 words, professional, MUST include "${invoiceNumber}".
+6. Subject lines: maximum 8 words, MUST include "${invoiceNumber}", and MUST reflect the ${tone} voice.
 7. Write like a real person — no archaic phrases like "I trust this finds you well" or "Please be advised". Be direct and natural.
 8. Each email must feel distinct. Do NOT repeat the same opening line, structure, or phrasing across steps.
 9. Do NOT use bullet points or numbered lists in the email body. Use short paragraphs.
@@ -159,8 +185,9 @@ Deno.serve(async (req) => {
       return jsonResponse(req, { error: authResult.error }, authResult.status);
     }
 
+    const body = await req.json();
     const {
-      tone,
+      tone: toneIn,
       clientName,
       amount,
       currency,
@@ -172,14 +199,16 @@ Deno.serve(async (req) => {
       companyName,
       hasPaymentLink,
       userApiKey,
-    } = await req.json();
+    } = body;
 
-    if (!tone || !clientName || amount == null || !currency) {
+    if (!clientName || amount == null || !currency) {
       return jsonResponse(req,
-        { error: "Missing required fields: tone, clientName, amount, currency" },
+        { error: "Missing required fields: clientName, amount, currency" },
         400,
       );
     }
+
+    const tone = normalizeTone(toneIn);
 
     const apiKey = userApiKey || Deno.env.get("GEMINI_API_KEY");
     const usingUserKey = !!userApiKey;
@@ -193,7 +222,7 @@ Deno.serve(async (req) => {
     const schedule = computeSchedule(overdue, stepCount);
 
     const prompt = buildPrompt({
-      tone,
+      tone: tone,
       clientName,
       amount,
       currency,

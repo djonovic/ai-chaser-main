@@ -1,7 +1,8 @@
 import { supabase } from '@/lib/supabaseClient';
+import type { SequenceTone } from '@/types';
 
 interface GenerateSequenceParams {
-  tone: string;
+  tone: SequenceTone;
   clientName: string;
   amount: number;
   currency: string;
