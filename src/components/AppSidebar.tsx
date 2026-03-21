@@ -10,7 +10,7 @@ import {
   SidebarFooter,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { LayoutDashboard, FileText, Zap, Users, BarChart3, Settings, Crown } from 'lucide-react';
+import { LayoutDashboard, FileText, Zap, BarChart3, Settings, Crown } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -20,9 +20,8 @@ import { usePlan } from '@/hooks/usePlan';
 
 const navItems = [
   { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
-  { title: 'Invoices', url: '/invoices', icon: FileText },
+  { title: 'Invoices & Clients', url: '/invoices', icon: FileText },
   { title: 'Sequences', url: '/sequences', icon: Zap },
-  { title: 'Clients', url: '/clients', icon: Users },
   { title: 'Reports', url: '/reports', icon: BarChart3 },
   { title: 'Settings', url: '/settings', icon: Settings },
 ];

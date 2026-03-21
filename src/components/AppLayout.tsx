@@ -22,9 +22,8 @@ import { toast } from 'sonner';
 
 const pageTitles: Record<string, string> = {
   '/dashboard': 'Dashboard',
-  '/invoices': 'Invoices',
+  '/invoices': 'Invoices & Clients',
   '/sequences': 'Sequences',
-  '/clients': 'Clients',
   '/reports': 'Reports',
   '/settings': 'Settings',
   '/pricing': 'Pricing',
