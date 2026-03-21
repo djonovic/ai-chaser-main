@@ -41,9 +41,13 @@ export function AppLayout() {
 
   useEffect(() => {
     if (!loading && !user) {
-      navigate('/auth', { replace: true });
+      const returnTo =
+        location.pathname !== '/auth'
+          ? `?next=${encodeURIComponent(location.pathname + location.search)}`
+          : '';
+      navigate(`/auth${returnTo}`, { replace: true });
     }
-  }, [loading, user, navigate]);
+  }, [loading, user, navigate, location.pathname, location.search]);
 
   useEffect(() => {
     if (settingsLoading || !user) return;

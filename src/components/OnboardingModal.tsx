@@ -115,7 +115,7 @@ export function OnboardingModal({ open, onOpenChange, onSave }: OnboardingModalP
             disabled={saving}
           >
             {saving ? 'Saving...' : (
-              <>Get Started <ArrowRight className="h-4 w-4" /></>
+              <>Continue <ArrowRight className="h-4 w-4" /></>
             )}
           </Button>
 

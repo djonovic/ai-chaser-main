@@ -2,34 +2,18 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const appUrl = 'https://app.chaseai.app';
+const appPricingUrl = `${appUrl}/auth?next=${encodeURIComponent('/pricing')}`;
+const contactPath = '/contact';
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   name: 'Pricing - ChaseAI',
-  description: 'Simple, transparent pricing for AI-powered invoice chasing. Start free, upgrade when ready.',
+  description: 'ChaseAI pricing: Starter, Pro, and Enterprise plans for AI-powered invoice chasing.',
   url: 'https://chaseai.app/pricing',
 };
 
 const plans = [
-  {
-    name: 'Free',
-    price: '$0',
-    period: '/mo',
-    subtitle: 'Free forever',
-    description: 'For getting started with AI invoice chasing.',
-    features: [
-      '3 invoices per month',
-      'Automated email sending',
-      '10 AI sequence generations/month',
-      'Basic dashboard',
-      'Email support',
-    ],
-    cta: 'Get Started Free',
-    ctaStyle: 'outline',
-    highlight: false,
-    badge: null,
-  },
   {
     name: 'Starter',
     price: '$29',
@@ -45,10 +29,11 @@ const plans = [
       'PDF invoice extraction',
       'Priority email support',
     ],
-    cta: 'Get Starter',
+    cta: 'Subscribe',
     ctaStyle: 'primary',
     highlight: true,
     badge: 'Most Popular',
+    href: appPricingUrl,
   },
   {
     name: 'Pro',
@@ -64,25 +49,41 @@ const plans = [
       'Priority email support',
       'Bring your own Gemini key',
     ],
-    cta: 'Get Pro',
+    cta: 'Subscribe',
     ctaStyle: 'outline',
     highlight: false,
     badge: null,
+    href: appPricingUrl,
+  },
+  {
+    name: 'Enterprise',
+    price: 'Custom',
+    period: '',
+    subtitle: 'For teams that need accounting sync & reply automation',
+    description: 'Everything in Pro, plus integrations and workflows tailored to how you collect.',
+    features: [
+      'Everything in Pro',
+      'QuickBooks integration',
+      'Xero integration',
+      'Mail reply detection & workflows',
+      'Dedicated onboarding & support',
+    ],
+    cta: 'Contact us',
+    ctaStyle: 'outline',
+    highlight: false,
+    badge: null,
+    href: contactPath,
   },
 ];
 
 const faqs = [
   {
-    q: 'Can I start for free?',
-    a: 'Yes. The Free plan is free forever — no credit card required. You get 3 invoices per month and 10 AI sequence generations. Upgrade anytime when you need more.',
-  },
-  {
     q: 'What counts as an "AI sequence generation"?',
-    a: 'Each time you click Generate Smart Sequence on an invoice, that counts as one generation. You can regenerate or create new sequences within your monthly limit. Pro users get unlimited generations.',
+    a: 'Each time you click Generate Smart Sequence on an invoice, that counts as one generation. You can regenerate or create new sequences within your monthly limit. Pro includes unlimited generations (or unlimited on any plan when you add your own Gemini API key in Settings).',
   },
   {
-    q: 'Can I use my own API key to bypass limits?',
-    a: 'Yes. Add your free Google Gemini API key in Settings and you get unlimited AI sequence generations on any plan, including Free. ChaseAI adds zero markup to API costs.',
+    q: 'Can I use my own API key to bypass AI limits?',
+    a: 'Yes. Add your Google Gemini API key in Settings and you get unlimited AI sequence generations on Starter, Pro, and Enterprise. ChaseAI adds zero markup to API costs.',
   },
   {
     q: 'What payment methods do you accept?',
@@ -90,15 +91,19 @@ const faqs = [
   },
   {
     q: 'Can I switch plans at any time?',
-    a: 'Yes. Upgrade or downgrade anytime from your Settings page. When upgrading, you get immediate access to the new plan features. When downgrading, the change applies at the end of your current billing period.',
+    a: 'Yes. Upgrade or downgrade between Starter and Pro anytime from your Settings page. When upgrading, you get immediate access to the new plan features. When downgrading, the change applies at the end of your current billing period. Enterprise is arranged separately — contact us.',
   },
   {
     q: 'Is there a contract or commitment?',
-    a: 'No. All plans are month-to-month (or annual if you choose). Cancel anytime with one click — no questions asked, no cancellation fees.',
+    a: 'Starter and Pro are month-to-month or annual, with no long-term contract. Cancel anytime with one click — no cancellation fees. Enterprise terms are agreed when you sign up with our team.',
   },
   {
     q: 'Do you offer refunds?',
-    a: 'Yes. If you\'re not satisfied within the first 14 days of a paid plan, contact us for a full refund. No questions asked.',
+    a: 'Yes. If you\'re not satisfied within the first 14 days of a paid Starter or Pro subscription, contact us for a full refund. No questions asked.',
+  },
+  {
+    q: 'What\'s included in Enterprise?',
+    a: 'Enterprise builds on Pro with QuickBooks and Xero integration, mail reply detection and workflows, and dedicated onboarding. Pricing is custom — reach out via our Contact page and we\'ll scope what you need.',
   },
   {
     q: 'What\'s included in Priority Support?',
@@ -107,22 +112,24 @@ const faqs = [
 ];
 
 const comparisonRows = [
-  { feature: 'Invoices per month', free: '3', starter: 'Unlimited', pro: 'Unlimited' },
-  { feature: 'AI sequence generations', free: '10/mo', starter: '50/mo', pro: 'Unlimited' },
-  { feature: 'Automated email sending', free: 'Yes', starter: 'Yes', pro: 'Yes' },
-  { feature: 'PDF invoice extraction', free: 'Yes', starter: 'Yes', pro: 'Yes' },
-  { feature: 'Client management', free: 'Yes', starter: 'Yes', pro: 'Yes' },
-  { feature: 'Recovery analytics', free: 'Basic', starter: 'Advanced', pro: 'Advanced' },
-  { feature: 'Multi-currency', free: 'Yes', starter: 'Yes', pro: 'Yes' },
-  { feature: 'PDF invoice export', free: '—', starter: '—', pro: 'Yes' },
-  { feature: 'BYOK (own API key)', free: 'Yes', starter: 'Yes', pro: 'Yes' },
-  { feature: 'Support', free: 'Email', starter: 'Priority email', pro: 'Priority email' },
+  { feature: 'Invoices per month', starter: 'Unlimited', pro: 'Unlimited', enterprise: 'Unlimited' },
+  { feature: 'AI sequence generations', starter: '50/mo', pro: 'Unlimited', enterprise: 'Unlimited' },
+  { feature: 'Automated email sending', starter: 'Yes', pro: 'Yes', enterprise: 'Yes' },
+  { feature: 'PDF invoice extraction', starter: 'Yes', pro: 'Yes', enterprise: 'Yes' },
+  { feature: 'Client management', starter: 'Yes', pro: 'Yes', enterprise: 'Yes' },
+  { feature: 'Recovery analytics', starter: 'Advanced', pro: 'Advanced', enterprise: 'Advanced' },
+  { feature: 'Multi-currency', starter: 'Yes', pro: 'Yes', enterprise: 'Yes' },
+  { feature: 'PDF invoice export', starter: '—', pro: 'Yes', enterprise: 'Yes' },
+  { feature: 'BYOK (own API key)', starter: 'Yes', pro: 'Yes', enterprise: 'Yes' },
+  { feature: 'QuickBooks & Xero sync', starter: '—', pro: '—', enterprise: 'Yes' },
+  { feature: 'Mail reply workflows', starter: '—', pro: '—', enterprise: 'Yes' },
+  { feature: 'Support', starter: 'Priority email', pro: 'Priority email', enterprise: 'Dedicated' },
 ];
 ---
 
 <BaseLayout
   title="Pricing"
-  description="Simple, transparent pricing for ChaseAI. Start free with 3 invoices/month. Upgrade to Starter ($29/mo) or Pro ($49/mo) for unlimited invoices and AI sequences."
+  description="ChaseAI pricing: Starter ($29/mo), Pro ($49/mo), and Enterprise (custom) with QuickBooks, Xero, and mail reply workflows. Subscribe in the app or contact us for Enterprise."
   structuredData={structuredData}
 >
   <!-- Hero -->
@@ -133,7 +140,7 @@ const comparisonRows = [
           Simple, transparent pricing
         </h1>
         <p class="mt-6 text-lg text-muted-foreground max-w-xl mx-auto">
-          Start free. Upgrade when you're ready to automate. Every plan pays for itself by recovering overdue invoices faster.
+          Starter and Pro are self-serve in the app. Enterprise adds QuickBooks, Xero, mail reply workflows, and a team that sets it up with you.
         </p>
       </div>
     </div>
@@ -142,7 +149,7 @@ const comparisonRows = [
   <!-- Pricing Cards -->
   <section class="pb-20 -mt-4">
     <div class="container">
-      <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+      <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
         {plans.map(plan => (
           <div class:list={[
             'flex flex-col p-6 rounded-2xl border bg-card relative',
@@ -163,7 +170,7 @@ const comparisonRows = [
               <div class="text-sm font-medium text-muted-foreground mb-1">{plan.name}</div>
               <div class="flex items-baseline gap-1 mb-1">
                 <span class="text-4xl font-extrabold">{plan.price}</span>
-                <span class="text-muted-foreground">{plan.period}</span>
+                {plan.period && <span class="text-muted-foreground">{plan.period}</span>}
               </div>
               <p class="text-xs text-muted-foreground mb-1">{plan.subtitle}</p>
               <p class="text-sm text-muted-foreground">{plan.description}</p>
@@ -180,7 +187,7 @@ const comparisonRows = [
 
             <div class="mt-6">
               <a
-                href={`${appUrl}/auth`}
+                href={plan.href}
                 class:list={[
                   'inline-flex items-center justify-center w-full rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors',
                   plan.ctaStyle === 'primary'
@@ -197,10 +204,10 @@ const comparisonRows = [
 
       <div class="text-center mt-8 space-y-2">
         <p class="text-sm text-muted-foreground">
-          Add your own <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">free Gemini API key</a> in Settings to bypass AI limits on any plan.
+          Add your own <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Google Gemini API key</a> in Settings to bypass AI limits on Starter, Pro, and Enterprise.
         </p>
         <p class="text-xs text-muted-foreground">
-          All plans include email support. Prices in USD. Cancel anytime. No credit card required for Free plan.
+          All plans include email support. Prices in USD. Cancel anytime on Starter and Pro.
         </p>
       </div>
     </div>
@@ -215,20 +222,20 @@ const comparisonRows = [
         </h2>
       </div>
 
-      <div class="max-w-3xl mx-auto">
-        <div class="rounded-2xl border border-border bg-card overflow-hidden">
+      <div class="max-w-4xl mx-auto overflow-x-auto">
+        <div class="rounded-2xl border border-border bg-card overflow-hidden min-w-[640px]">
           <div class="grid grid-cols-4 bg-muted/50 border-b border-border">
             <div class="px-4 py-3 text-sm font-semibold">Feature</div>
-            <div class="px-4 py-3 text-sm font-semibold text-center">Free</div>
             <div class="px-4 py-3 text-sm font-semibold text-center text-primary">Starter</div>
             <div class="px-4 py-3 text-sm font-semibold text-center">Pro</div>
+            <div class="px-4 py-3 text-sm font-semibold text-center">Enterprise</div>
           </div>
           {comparisonRows.map((row, i) => (
             <div class:list={['grid grid-cols-4', i % 2 === 0 ? 'bg-card' : 'bg-muted/20']}>
               <div class="px-4 py-3 text-sm font-medium">{row.feature}</div>
-              <div class="px-4 py-3 text-sm text-center text-muted-foreground">{row.free}</div>
               <div class="px-4 py-3 text-sm text-center font-medium">{row.starter}</div>
               <div class="px-4 py-3 text-sm text-center font-medium">{row.pro}</div>
+              <div class="px-4 py-3 text-sm text-center font-medium">{row.enterprise}</div>
             </div>
           ))}
         </div>
@@ -306,14 +313,20 @@ const comparisonRows = [
           Start getting paid faster today
         </h2>
         <p class="mt-4 text-lg text-muted-foreground">
-          No credit card required. Free plan available forever.
+          Sign in, then complete secure checkout for Starter or Pro. Enterprise is available through sales.
         </p>
-        <div class="mt-8">
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
-            href={`${appUrl}/auth`}
-            class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-600 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
+            href={appPricingUrl}
+            class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-600 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 w-full sm:w-auto"
           >
-            Start Free — No Credit Card
+            Subscribe
+          </a>
+          <a
+            href={contactPath}
+            class="inline-flex items-center justify-center rounded-lg border border-border px-8 py-3.5 text-base font-semibold text-foreground hover:bg-muted/50 transition-all w-full sm:w-auto"
+          >
+            Contact sales
           </a>
         </div>
       </div>

@@ -42,21 +42,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signUp = async (email: string, password: string, fullName: string) => {
+    const authContinue =
+      typeof window !== 'undefined'
+        ? `${window.location.origin}/auth${window.location.search}`
+        : undefined;
     const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: { full_name: fullName },
-        emailRedirectTo: window.location.origin,
+        emailRedirectTo: authContinue,
       },
     });
     return { error: error as Error | null };
   };
 
   const signInWithMagicLink = async (email: string) => {
+    const authContinue =
+      typeof window !== 'undefined'
+        ? `${window.location.origin}/auth${window.location.search}`
+        : undefined;
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: window.location.origin },
+      options: { emailRedirectTo: authContinue },
     });
     return { error: error as Error | null };
   };

@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const appUrl = 'https://app.chaseai.app';
+const appPricingUrl = `${appUrl}/auth?next=${encodeURIComponent('/pricing')}`;
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -44,7 +45,7 @@ const coreFeatures = [
     description: 'Once you approve a sequence, emails fire automatically on your schedule. Each step waits the right number of days. When your client pays or replies, the sequence pauses or stops.',
     highlights: [
       'Emails send on the exact scheduled date',
-      'Auto-pause on client reply',
+      'Pause when a client replies — mark as replied in one click',
       'One-click pause/resume/stop',
       'Real-time step status tracking',
       'Powered by Resend for reliable delivery',
@@ -77,7 +78,7 @@ const additionalFeatures = [
   {
     icon: '🔑',
     title: 'Bring Your Own API Key',
-    description: 'Add your free Google Gemini API key to bypass all AI usage limits on any plan — even Free. Full control over your AI costs with zero markup.',
+    description: 'Add your Google Gemini API key to bypass AI usage limits on Starter, Pro, and Enterprise. Full control over your AI costs with zero markup.',
   },
   {
     icon: '💰',
@@ -118,10 +119,10 @@ const additionalFeatures = [
         </p>
         <div class="mt-8">
           <a
-            href={`${appUrl}/auth`}
+            href={appPricingUrl}
             class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-600 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
           >
-            Try ChaseAI Free
+            Subscribe
           </a>
         </div>
       </div>
@@ -302,14 +303,14 @@ const additionalFeatures = [
           Ready to automate your invoice chasing?
         </h2>
         <p class="mt-4 text-lg text-muted-foreground">
-          Start for free. No credit card required. See results from day one.
+          Subscribe from $29/mo or contact us for Enterprise with QuickBooks, Xero, and mail reply workflows.
         </p>
         <div class="mt-8">
           <a
-            href={`${appUrl}/auth`}
+            href={appPricingUrl}
             class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-600 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
           >
-            Start Free — No Credit Card
+            Subscribe
           </a>
         </div>
       </div>

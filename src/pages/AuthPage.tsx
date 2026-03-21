@@ -1,24 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Zap, Mail, Lock, ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 
+function getSafeNext(searchParams: URLSearchParams): string {
+  const n = searchParams.get('next');
+  if (!n) return '/dashboard';
+  if (!n.startsWith('/') || n.startsWith('//') || n.includes('://')) return '/dashboard';
+  return n;
+}
+
 export default function AuthPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { signIn, signUp, signInWithMagicLink, resetPassword, user } = useAuth();
   const [loading, setLoading] = useState(false);
+  const next = useMemo(() => getSafeNext(searchParams), [searchParams]);
 
-  // Redirect if already logged in
-  if (user) {
-    navigate('/dashboard', { replace: true });
-    return null;
-  }
+  useEffect(() => {
+    if (user) {
+      navigate(next, { replace: true });
+    }
+  }, [user, next, navigate]);
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,7 +54,6 @@ export default function AuthPage() {
       toast.error(error.message || 'Sign in failed');
     } else {
       toast.success('Welcome to ChaseAI!');
-      navigate('/dashboard');
     }
   };
 
@@ -80,7 +88,6 @@ export default function AuthPage() {
       toast.error(error.message || 'Sign up failed');
     } else {
       toast.success('Account created! Check your email to confirm.');
-      navigate('/dashboard');
     }
   };
 
@@ -105,6 +112,10 @@ export default function AuthPage() {
       toast.success('Magic link sent! Check your inbox.');
     }
   };
+
+  if (user) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">

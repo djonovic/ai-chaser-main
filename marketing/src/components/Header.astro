@@ -8,6 +8,7 @@ const navLinks = [
 
 const currentPath = Astro.url.pathname;
 const appUrl = 'https://app.chaseai.app';
+const appPricingUrl = `${appUrl}/auth?next=${encodeURIComponent('/pricing')}`;
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-lg">
@@ -43,10 +44,10 @@ const appUrl = 'https://app.chaseai.app';
         Log in
       </a>
       <a
-        href={`${appUrl}/auth`}
+        href={appPricingUrl}
         class="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary-600 transition-all hover:shadow-md"
       >
-        Start Free
+        Subscribe
       </a>
 
       <button

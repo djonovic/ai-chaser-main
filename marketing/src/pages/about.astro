@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const appUrl = 'https://app.chaseai.app';
+const appPricingUrl = `${appUrl}/auth?next=${encodeURIComponent('/pricing')}`;
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -26,7 +27,7 @@ const values = [
   {
     icon: '🔓',
     title: 'Transparent & fair',
-    description: 'No hidden fees, no surprise charges, no vendor lock-in. Bring your own API key if you want. Our Free plan is genuinely free — forever. We earn your business by being useful.',
+    description: 'No hidden fees on self-serve plans, no surprise charges, no vendor lock-in. Bring your own API key if you want. We earn your business by being useful — and Enterprise customers get a team that ships integrations with them.',
   },
   {
     icon: '⚡',
@@ -44,12 +45,12 @@ const milestones = [
   {
     year: '2026',
     title: 'Public launch',
-    description: 'ChaseAI launches with AI sequence generation, PDF extraction, automated sending, and a free tier. Designed for freelancers who are tired of chasing payments.',
+    description: 'ChaseAI launches with AI sequence generation, PDF extraction, automated sending, and paid plans built for freelancers. Enterprise adds QuickBooks, Xero, mail reply workflows, and onboarding.',
   },
   {
     year: 'Next',
     title: 'What\'s ahead',
-    description: 'SMS reminders, accounting software integrations (Xero, QuickBooks, Stripe), AI voice calls, team collaboration, and more — all driven by what our users need most.',
+    description: 'Deeper automation, team collaboration, and more — driven by what Starter, Pro, and Enterprise customers need most.',
   },
 ];
 ---
@@ -221,10 +222,10 @@ const milestones = [
         </p>
         <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
-            href={`${appUrl}/auth`}
+            href={appPricingUrl}
             class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-600 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 w-full sm:w-auto"
           >
-            Start Free
+            Subscribe
           </a>
           <a
             href="/contact"

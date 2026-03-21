@@ -306,7 +306,7 @@ export default function SettingsPage() {
               </p>
               <div className="flex gap-2">
                 <Button asChild>
-                  <Link to="/pricing">{plan === 'free' ? 'Upgrade Plan' : 'Change Plan'}</Link>
+                  <Link to="/pricing">{plan === 'free' ? 'Subscribe' : 'Change Plan'}</Link>
                 </Button>
                 {plan !== 'free' && (
                   <>
