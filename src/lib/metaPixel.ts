@@ -99,3 +99,21 @@ export function trackMetaPurchase(params: {
     { eventID: params.eventId },
   );
 }
+
+/** After successful sign-up (account created). Fire once per signup flow. */
+export function trackMetaCompleteRegistration(): void {
+  if (!ensureMetaPixelInit()) return;
+  window.fbq?.("track", "CompleteRegistration");
+}
+
+/** Pricing / product pages — helps Meta optimize for people who show purchase intent. */
+export function trackMetaViewContent(params: {
+  contentName: string;
+  contentCategory?: string;
+}): void {
+  if (!ensureMetaPixelInit()) return;
+  window.fbq?.("track", "ViewContent", {
+    content_name: params.contentName,
+    content_category: params.contentCategory ?? "subscription",
+  });
+}

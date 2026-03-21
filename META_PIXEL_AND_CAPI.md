@@ -4,9 +4,9 @@ This project tracks:
 
 | Location | What runs |
 |----------|-----------|
-| **Web app** (`VITE_META_PIXEL_ID`) | `PageView` on SPA navigations, `InitiateCheckout` when starting Stripe checkout, browser `Purchase` after successful checkout (return URL). |
-| **Marketing site** (`PUBLIC_META_PIXEL_ID`) | Base pixel + `PageView` on each full page load. |
-| **Supabase `stripe-webhook`** (`META_PIXEL_ID` + `META_CAPI_ACCESS_TOKEN`) | Server `Purchase` when Stripe sends `checkout.session.completed`. |
+| **Web app** (`VITE_META_PIXEL_ID`) | `PageView` on SPA navigations, `ViewContent` on in-app pricing, `CompleteRegistration` after sign-up, `InitiateCheckout` when starting Stripe checkout, browser `Purchase` after successful checkout (return URL). |
+| **Marketing site** (`PUBLIC_META_PIXEL_ID`) | After the visitor accepts **analytics & marketing** cookies, the Pixel loads and sends `PageView`. Contact form success fires `Lead` (only if Pixel is loaded). |
+| **Supabase `stripe-webhook`** (`META_PIXEL_ID` + `META_CAPI_ACCESS_TOKEN`) | Server `Purchase` when Stripe sends `checkout.session.completed` (includes `custom_data.content_ids` with plan key when available). |
 
 Browser and server `Purchase` share the same `event_id` (stored on the Stripe Checkout Session metadata) so Meta can deduplicate them.
 
@@ -32,7 +32,7 @@ Browser and server `Purchase` share the same `event_id` (stored on the Stripe Ch
 
 6. **Custom conversions / standard events**
    - You can create a **Custom conversion** based on event `Purchase` or use the standard **Purchase** optimization in campaigns once events are firing.
-   - In **Test events** (see below), confirm `PageView`, `InitiateCheckout`, and `Purchase`.
+   - In **Test events** (see below), confirm `PageView`, `ViewContent`, `CompleteRegistration`, `Lead` (if testing contact), `InitiateCheckout`, and `Purchase`.
 
 7. **Test Events**
    - Events Manager → **Test events** → copy the **test code**.
@@ -59,7 +59,7 @@ Local: add to `.env` (see root `.env.example`).
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `PUBLIC_META_PIXEL_ID` | For pixel on marketing pages | Same Pixel ID; `PUBLIC_` exposes it at build time. |
+| `PUBLIC_META_PIXEL_ID` | For optional pixel on marketing pages | Same Pixel ID; `PUBLIC_` exposes it at build time. If unset, no Pixel and no cookie banner. If set, the banner runs and loads Pixel only after opt-in. |
 
 ### Supabase Edge Functions (Dashboard → **Project Settings → Edge Functions → Secrets**)
 
@@ -89,4 +89,6 @@ npx supabase functions deploy create-checkout
 
 ## Privacy / consent
 
-If you serve users in the EU/UK/CH or under strict privacy policies, you may need a **consent** gate before loading `fbevents.js` and before sending CAPI events. This implementation loads the pixel when the ID is set and sends CAPI from the server on successful checkout; adjust to match your legal/consent setup.
+- **Marketing (`chaseai.app`)**: `fbevents.js` loads only after the user chooses **Accept analytics & marketing** (see `marketing/src/components/CookieConsent.astro`). **Essential only** avoids the Pixel.
+- **App (`app.chaseai.app`)**: Pixel events run when `VITE_META_PIXEL_ID` is set (no cookie banner in-app today—document your basis for processing if you need strict EU consent on the app too).
+- **CAPI**: Server-side `Purchase` does not rely on marketing cookie consent; align this with your counsel (legitimate interest vs consent in your jurisdictions).

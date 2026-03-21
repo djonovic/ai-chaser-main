@@ -93,6 +93,7 @@ Deno.serve(async (req) => {
             currency,
             email,
             eventSourceUrl: `${appUrl}/settings`,
+            plan: plan as string,
           });
         }
         break;

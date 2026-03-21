@@ -18,17 +18,17 @@ const structuredData = {
       '@type': 'Offer',
       name: 'Enterprise',
       priceCurrency: 'USD',
-      description: 'Custom pricing — contact ChaseAI for QuickBooks, Xero, mail reply workflows, and onboarding.',
+      description: 'Custom pricing — contact ChaseAI to scope integrations, workflows, and onboarding.',
       url: 'https://chaseai.app/contact',
     },
   ],
 };
 
 const stats = [
-  { value: '94%', label: 'Collection rate' },
-  { value: '5x', label: 'Faster payments' },
-  { value: '$14k+', label: 'Avg recovered/mo' },
-  { value: '0 hrs', label: 'Manual chasing' },
+  { value: 'Consistent', label: 'Polite, timed follow-ups' },
+  { value: 'Transparent', label: 'You approve every email' },
+  { value: 'Focused', label: 'Built for invoices & clients' },
+  { value: 'Fair', label: 'Cancel anytime on Starter & Pro' },
 ];
 
 const features = [
@@ -84,22 +84,25 @@ const steps = [
 
 const testimonials = [
   {
-    quote: "I used to spend hours every week writing awkward follow-up emails. ChaseAI generates the perfect sequence in seconds — and my clients actually pay faster now.",
+    quote:
+      'I used to spend hours every week writing awkward follow-up emails. Having a structured sequence I can edit before anything sends makes follow-ups faster and less stressful.',
     name: 'Sarah K.',
-    role: 'Freelance Designer',
-    metric: '$12,400 recovered in month 1',
+    role: 'Freelance designer',
+    metric: 'Less time on manual reminders',
   },
   {
-    quote: "The AI tone escalation is genius. It starts gentle and gets firm at exactly the right pace. I haven't had a single client complaint, and my collection rate went from 65% to 94%.",
+    quote:
+      'The tone options help me stay professional while still escalating when I need to. I review every message so nothing goes out that I would not sign myself.',
     name: 'Marcus T.',
-    role: 'Agency Owner',
-    metric: '94% collection rate',
+    role: 'Agency owner',
+    metric: 'Clearer, steadier follow-ups',
   },
   {
-    quote: "As a solo consultant, chasing invoices was the worst part of my job. ChaseAI removed me from the equation entirely. I just review the AI emails and hit start.",
+    quote:
+      'Chasing invoices was the part of consulting I liked least. Now I generate a sequence, tweak it, and let the schedule run—while I stay in control of what clients see.',
     name: 'Priya M.',
-    role: 'IT Consultant',
-    metric: '15+ hours saved per month',
+    role: 'IT consultant',
+    metric: 'More predictable workflow',
   },
 ];
 
@@ -122,7 +125,7 @@ const faqs = [
   },
   {
     q: 'Do you offer Enterprise?',
-    a: 'Yes. Enterprise includes everything in Pro plus QuickBooks and Xero integration, mail reply detection and workflows, and dedicated onboarding. Pricing is custom — use our Contact page to reach the team.',
+    a: 'Yes. Enterprise builds on Pro with integrations and workflows we scope together—accounting tools, mail automation, and onboarding are planned after you contact us. Pricing is custom.',
   },
 ];
 ---
@@ -202,16 +205,16 @@ const faqs = [
 
       <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
         <div class="text-center p-6 rounded-2xl bg-background border border-border">
-          <div class="text-4xl font-extrabold text-destructive">15+</div>
-          <div class="text-sm text-muted-foreground mt-2">hours per month spent chasing invoices</div>
+          <div class="text-lg font-bold text-destructive">Time lost</div>
+          <div class="text-sm text-muted-foreground mt-2">Manual reminders steal hours you could bill or rest</div>
         </div>
         <div class="text-center p-6 rounded-2xl bg-background border border-border">
-          <div class="text-4xl font-extrabold text-warning">61%</div>
-          <div class="text-sm text-muted-foreground mt-2">average manual collection rate</div>
+          <div class="text-lg font-bold text-warning">Uneven results</div>
+          <div class="text-sm text-muted-foreground mt-2">Ad-hoc chasing is easy to postpone or overdo</div>
         </div>
         <div class="text-center p-6 rounded-2xl bg-background border border-border">
-          <div class="text-4xl font-extrabold text-foreground">1 in 3</div>
-          <div class="text-sm text-muted-foreground mt-2">businesses lose a client after chasing</div>
+          <div class="text-lg font-bold text-foreground">Relationship risk</div>
+          <div class="text-sm text-muted-foreground mt-2">Tone that feels personal but inconsistent can strain trust</div>
         </div>
       </div>
     </div>
@@ -400,13 +403,12 @@ const faqs = [
             <div class="px-4 py-3 text-sm font-semibold text-center text-primary">ChaseAI</div>
           </div>
           {[
-            ['Setup time', '∞ Ongoing', '2 minutes'],
-            ['Collection rate', '~61%', '~94%'],
-            ['Time per invoice', '45–90 min', '0 minutes'],
-            ['Consistency', 'Inconsistent', 'Every time'],
-            ['Tone escalation', 'Manual guesswork', 'AI-optimized'],
-            ['Analytics', 'Spreadsheets', 'Real-time dashboard'],
-            ['Awkward conversations', 'Yes', 'Never'],
+            ['Setup time', 'Ongoing', 'Minutes to first sequence'],
+            ['Follow-up consistency', 'Easy to delay', 'Scheduled, editable'],
+            ['Time per invoice', 'Manual drafting', 'Generate & review'],
+            ['Tone', 'Varies by mood', 'You choose, AI drafts'],
+            ['Analytics', 'Spreadsheets', 'In-app recovery view'],
+            ['Control before send', 'Hit send in haste', 'Approve each email'],
           ].map(([feature, manual, chase], i) => (
             <div class:list={['grid grid-cols-3', i % 2 === 0 ? 'bg-card' : 'bg-muted/20']}>
               <div class="px-4 py-3 text-sm font-medium">{feature}</div>
@@ -424,10 +426,10 @@ const faqs = [
     <div class="container">
       <div class="max-w-3xl mx-auto text-center mb-16">
         <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-          Trusted by freelancers and businesses
+          Built for people who value clarity
         </h2>
         <p class="mt-4 text-lg text-muted-foreground">
-          Real results from people who stopped chasing payments.
+          Illustrative feedback—your outcomes depend on your clients, terms, and how you use the product.
         </p>
       </div>
 
@@ -469,7 +471,7 @@ const faqs = [
           Simple, transparent pricing
         </h2>
         <p class="mt-4 text-lg text-muted-foreground">
-          Starter and Pro in the app; Enterprise when you need QuickBooks, Xero, and mail reply workflows.
+          Starter and Pro in the app with Stripe checkout. Enterprise when you want integrations and workflows scoped with our team.
         </p>
       </div>
 
@@ -538,9 +540,9 @@ const faqs = [
           <div class="flex items-baseline gap-1 mb-2">
             <span class="text-4xl font-extrabold">Custom</span>
           </div>
-          <p class="text-sm text-muted-foreground mb-6">Accounting sync & reply automation</p>
+          <p class="text-sm text-muted-foreground mb-6">Integrations & workflows scoped with you</p>
           <ul class="space-y-3 mb-8">
-            {['Everything in Pro', 'QuickBooks & Xero', 'Mail reply workflows', 'Dedicated onboarding'].map(f => (
+            {['Everything in Pro', 'Accounting & tool integrations (scoped)', 'Mail & workflow automation (scoped)', 'Dedicated onboarding'].map(f => (
               <li class="flex items-center gap-2 text-sm">
                 <svg class="h-4 w-4 text-success shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                 {f}

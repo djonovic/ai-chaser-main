@@ -33,7 +33,13 @@ export function AppLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, loading, signOut } = useAuth();
-  const { plan, hasUserKey, aiUsageCount, maxAISequences } = usePlan();
+  const {
+    plan,
+    loading: planLoading,
+    hasUserKey,
+    aiUsageCount,
+    maxAISequences,
+  } = usePlan();
   const { settings, updateSettings, loading: settingsLoading } = useSettings();
   const [showOnboarding, setShowOnboarding] = useState(false);
   const title = pageTitles[location.pathname] || 'ChaseAI';
@@ -49,14 +55,27 @@ export function AppLayout() {
   }, [loading, user, navigate, location.pathname, location.search]);
 
   useEffect(() => {
-    if (settingsLoading || !user) return;
+    if (settingsLoading || !user || plan === 'free') return;
     const needsSetup = !settings.company_name && !settings.sender_name;
     if (needsSetup && !wasOnboardingDismissed()) {
       setShowOnboarding(true);
     }
-  }, [settingsLoading, user, settings.company_name, settings.sender_name]);
+  }, [settingsLoading, user, plan, settings.company_name, settings.sender_name]);
 
-  if (loading) {
+  useEffect(() => {
+    if (!user || planLoading) return;
+    if (plan !== 'free') return;
+    const path = location.pathname;
+    const allowed =
+      path === '/pricing' ||
+      path === '/settings' ||
+      path.startsWith('/settings/');
+    if (!allowed) {
+      navigate('/pricing?subscribe=1', { replace: true });
+    }
+  }, [user, plan, planLoading, location.pathname, navigate]);
+
+  if (loading || (user && planLoading)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-pulse text-muted-foreground">Loading...</div>
@@ -105,7 +124,7 @@ export function AppLayout() {
                   </div>
                 </Link>
               )}
-              {location.pathname !== '/invoices' && (
+              {plan !== 'free' && location.pathname !== '/invoices' && (
                 <Button asChild size="sm" className="gap-2">
                   <Link to="/invoices">
                     <Plus className="h-4 w-4" />

@@ -9,7 +9,8 @@ const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   name: 'Pricing - ChaseAI',
-  description: 'ChaseAI pricing: Starter, Pro, and Enterprise plans for AI-powered invoice chasing.',
+  description:
+    'ChaseAI pricing: Starter and Pro in the app; Enterprise scoped with our team for integrations and workflows.',
   url: 'https://chaseai.app/pricing',
 };
 
@@ -59,13 +60,12 @@ const plans = [
     name: 'Enterprise',
     price: 'Custom',
     period: '',
-    subtitle: 'For teams that need accounting sync & reply automation',
-    description: 'Everything in Pro, plus integrations and workflows tailored to how you collect.',
+    subtitle: 'Scoped with our team',
+    description: 'Everything in Pro, plus integrations and workflows we define together after you reach out.',
     features: [
       'Everything in Pro',
-      'QuickBooks integration',
-      'Xero integration',
-      'Mail reply detection & workflows',
+      'Accounting & tool integrations (scoped with you)',
+      'Mail and workflow automation (scoped with you)',
       'Dedicated onboarding & support',
     ],
     cta: 'Contact us',
@@ -103,7 +103,7 @@ const faqs = [
   },
   {
     q: 'What\'s included in Enterprise?',
-    a: 'Enterprise builds on Pro with QuickBooks and Xero integration, mail reply detection and workflows, and dedicated onboarding. Pricing is custom — reach out via our Contact page and we\'ll scope what you need.',
+    a: 'Enterprise builds on Pro with integrations and workflows we define together after you reach out—accounting tools, mail automation, onboarding, and support. Pricing is custom; we scope it on a short call or over email.',
   },
   {
     q: 'What\'s included in Priority Support?',
@@ -121,15 +121,15 @@ const comparisonRows = [
   { feature: 'Multi-currency', starter: 'Yes', pro: 'Yes', enterprise: 'Yes' },
   { feature: 'PDF invoice export', starter: '—', pro: 'Yes', enterprise: 'Yes' },
   { feature: 'BYOK (own API key)', starter: 'Yes', pro: 'Yes', enterprise: 'Yes' },
-  { feature: 'QuickBooks & Xero sync', starter: '—', pro: '—', enterprise: 'Yes' },
-  { feature: 'Mail reply workflows', starter: '—', pro: '—', enterprise: 'Yes' },
+  { feature: 'Accounting & tool integrations', starter: '—', pro: '—', enterprise: 'Scoped' },
+  { feature: 'Mail & workflow automation', starter: '—', pro: '—', enterprise: 'Scoped' },
   { feature: 'Support', starter: 'Priority email', pro: 'Priority email', enterprise: 'Dedicated' },
 ];
 ---
 
 <BaseLayout
   title="Pricing"
-  description="ChaseAI pricing: Starter ($29/mo), Pro ($49/mo), and Enterprise (custom) with QuickBooks, Xero, and mail reply workflows. Subscribe in the app or contact us for Enterprise."
+  description="ChaseAI pricing: Starter ($29/mo) and Pro ($49/mo) in the app; Enterprise is custom and scoped when you contact us."
   structuredData={structuredData}
 >
   <!-- Hero -->
@@ -140,7 +140,7 @@ const comparisonRows = [
           Simple, transparent pricing
         </h1>
         <p class="mt-6 text-lg text-muted-foreground max-w-xl mx-auto">
-          Starter and Pro are self-serve in the app. Enterprise adds QuickBooks, Xero, mail reply workflows, and a team that sets it up with you.
+          After you sign in, you will complete checkout in the app with Stripe—clear pricing, emailed receipts, cancel from Settings. Enterprise is for teams that want integrations and workflows scoped together; we start from your requirements.
         </p>
       </div>
     </div>

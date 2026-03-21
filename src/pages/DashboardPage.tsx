@@ -71,7 +71,12 @@ export default function DashboardPage() {
         </div>
 
         {invoices.length === 0 ? (
-          <EmptyState title="No invoices yet" description="Add your first invoice to start chasing payments." actionLabel="Add Invoice" onAction={() => {}} />
+          <EmptyState
+            title="No invoices yet"
+            description="Add an invoice to generate your first chase sequence and see recovery stats here."
+            actionLabel="Go to Invoices"
+            onAction={() => navigate('/invoices')}
+          />
         ) : (
           <div className="relative overflow-auto">
             <Table>

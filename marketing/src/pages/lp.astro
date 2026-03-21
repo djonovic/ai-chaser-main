@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const appUrl = 'https://app.chaseai.app';
+const subscribeUrl = `${appUrl}/auth?next=${encodeURIComponent('/pricing')}`;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'ChaseAI — Invoice chasing',
+  description:
+    'AI-assisted payment reminders you review before they send. Subscribe in the app; clear pricing and cancellation.',
+  url: 'https://chaseai.app/lp',
+};
+---
+
+<BaseLayout
+  title="Get paid without the awkward follow-ups"
+  description="ChaseAI drafts polite, escalating chase sequences for your invoices. You approve every email. Subscribe in the app via Stripe."
+  structuredData={structuredData}
+  noindex={true}
+>
+  <section class="hero-gradient">
+    <div class="container py-20 md:py-28 max-w-3xl mx-auto text-center">
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-balance">
+        Invoice reminders that sound like you—without living in your inbox
+      </h1>
+      <p class="mt-6 text-lg text-muted-foreground leading-relaxed">
+        ChaseAI generates multi-step sequences from your invoice details. Nothing sends until you approve.
+        Pricing is in the app with Stripe; you get receipts and can cancel from Settings.
+      </p>
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href={subscribeUrl}
+          class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-95 transition-opacity w-full sm:w-auto"
+        >
+          Subscribe in the app
+        </a>
+        <a
+          href="/pricing"
+          class="inline-flex items-center justify-center rounded-lg border border-border px-8 py-3.5 text-base font-semibold hover:bg-muted/50 transition-colors w-full sm:w-auto"
+        >
+          See plans on the marketing site
+        </a>
+      </div>
+      <p class="mt-6 text-xs text-muted-foreground max-w-md mx-auto">
+        No hidden &ldquo;free tier&rdquo; product access—we ask you to choose a plan so we can support the
+        product and your data seriously.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto space-y-8">
+      <h2 class="text-2xl font-bold text-center">Why teams trust this approach</h2>
+      <ul class="space-y-4 text-sm text-muted-foreground">
+        <li class="flex gap-3">
+          <span class="text-primary font-bold">1.</span>
+          <span><strong class="text-foreground">You stay accountable.</strong> Editable drafts mean clients only see language you would stand behind.</span>
+        </li>
+        <li class="flex gap-3">
+          <span class="text-primary font-bold">2.</span>
+          <span><strong class="text-foreground">Straightforward billing.</strong> Checkout runs in the app; questions go to a real support inbox.</span>
+        </li>
+        <li class="flex gap-3">
+          <span class="text-primary font-bold">3.</span>
+          <span><strong class="text-foreground">Enterprise is a conversation.</strong> Deeper integrations are scoped when you contact us—not promised off the shelf.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

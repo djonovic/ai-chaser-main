@@ -17,6 +17,8 @@ export type MetaPurchasePayload = {
   currency: string;
   email?: string | null;
   eventSourceUrl?: string;
+  /** Stripe plan key for content_ids (e.g. starter, pro) */
+  plan?: string | null;
 };
 
 /**
@@ -52,6 +54,10 @@ export async function sendMetaPurchase(
         custom_data: {
           currency: payload.currency,
           value: payload.value,
+          content_type: "product",
+          ...(payload.plan
+            ? { content_ids: [payload.plan] }
+            : {}),
         },
       },
     ],

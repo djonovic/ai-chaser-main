@@ -1,6 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const formspreeFormId =
+  (import.meta.env.PUBLIC_FORMSPREE_FORM_ID as string | undefined)?.trim() || 'your-form-id';
+const formspreeAction = `https://formspree.io/f/${formspreeFormId}`;
+
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'ContactPage',
@@ -66,7 +70,8 @@ const contactOptions = [
             <h2 class="text-xl font-bold mb-6">Send us a message</h2>
 
             <form
-              action="https://formspree.io/f/your-form-id"
+              id="contact-form"
+              action={formspreeAction}
               method="POST"
               class="space-y-5"
             >
@@ -199,7 +204,7 @@ const contactOptions = [
           },
           {
             q: 'Do you offer enterprise plans?',
-            a: 'Yes. Enterprise includes everything in Pro plus QuickBooks and Xero integration, mail reply workflows, and dedicated onboarding. Use the form above and select "Enterprise Inquiry" — we\'ll follow up with scope and pricing.',
+            a: 'Yes. Enterprise builds on Pro with integrations and workflows we scope after we understand your stack—accounting tools, mail automation, and onboarding are discussed on the call. Use the form above and select "Enterprise Inquiry."',
           },
         ].map(faq => (
           <details class="group rounded-2xl border border-border bg-card overflow-hidden">
@@ -215,4 +220,43 @@ const contactOptions = [
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    (function () {
+      var form = document.getElementById('contact-form');
+      if (!form) return;
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var fd = new FormData(form);
+        var action = form.getAttribute('action');
+        if (!action) return;
+        var btn = form.querySelector('button[type="submit"]');
+        if (btn) btn.setAttribute('disabled', 'disabled');
+        fetch(action, {
+          method: 'POST',
+          body: fd,
+          headers: { Accept: 'application/json' },
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error('Send failed');
+            try {
+              if (
+                localStorage.getItem('chaseai_cookie_consent') === 'marketing' &&
+                typeof window.fbq === 'function'
+              ) {
+                window.fbq('track', 'Lead', { content_name: 'Contact form' });
+              }
+            } catch (err) {}
+            form.reset();
+            alert('Thanks — your message was sent. We typically reply within one business day.');
+          })
+          .catch(function () {
+            alert('Something went wrong. Please email support@chaseai.app directly.');
+          })
+          .finally(function () {
+            if (btn) btn.removeAttribute('disabled');
+          });
+      });
+    })();
+  </script>
 </BaseLayout>

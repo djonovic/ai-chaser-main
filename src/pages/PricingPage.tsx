@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -8,9 +8,9 @@ import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { usePlan } from '@/hooks/usePlan';
 import { supabase } from '@/lib/supabaseClient';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import type { PlanType } from '@/types';
-import { trackMetaInitiateCheckout } from '@/lib/metaPixel';
+import { trackMetaInitiateCheckout, trackMetaViewContent } from '@/lib/metaPixel';
 
 const MARKETING_SITE_URL = 'https://chaseai.app';
 
@@ -58,12 +58,12 @@ const checkoutPlans = [
 
 const enterprisePlan = {
   name: 'Enterprise',
-  description: 'For teams that need accounting sync, reply automation, and dedicated onboarding.',
+  description:
+    'For teams that want deeper workflows. We scope integrations, onboarding, and support together—tell us what you need.',
   features: [
     'Everything in Pro',
-    'QuickBooks integration',
-    'Xero integration',
-    'Mail reply detection & workflows',
+    'Accounting and tool integrations (scoped with you)',
+    'Mail and workflow automation (scoped with you)',
     'Dedicated onboarding & support',
   ],
   icon: Building2,
@@ -76,6 +76,23 @@ export default function PricingPage() {
   const [annual, setAnnual] = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const viewContentTracked = useRef(false);
+  const subscribeToastShown = useRef(false);
+
+  useEffect(() => {
+    if (viewContentTracked.current) return;
+    viewContentTracked.current = true;
+    trackMetaViewContent({ contentName: 'App pricing', contentCategory: 'subscription' });
+  }, []);
+
+  useEffect(() => {
+    if (searchParams.get('subscribe') !== '1' || subscribeToastShown.current) return;
+    subscribeToastShown.current = true;
+    toast.info(
+      'Choose a plan to use ChaseAI. Every subscription includes a clear receipt and you can cancel from Settings.',
+    );
+  }, [searchParams]);
 
   const handlePlanAction = useCallback(
     async (targetPlan: PlanType) => {
@@ -133,17 +150,18 @@ export default function PricingPage() {
     <div className="max-w-5xl mx-auto fade-in">
       <div className="text-center mb-10">
         <h1 className="text-3xl font-bold tracking-tight">Simple, transparent pricing</h1>
-        <p className="text-muted-foreground mt-2">
-          Subscribe to Starter or Pro here. Need QuickBooks, Xero, or mail reply workflows?{' '}
+        <p className="text-muted-foreground mt-2 max-w-xl mx-auto">
+          You landed in the right place: checkout runs securely through Stripe. For custom integrations or
+          volume,{' '}
           <a
             href={`${MARKETING_SITE_URL}/contact`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline font-medium"
           >
-            Contact us
+            contact us
           </a>{' '}
-          for Enterprise.
+          and we will scope Enterprise with you.
         </p>
 
         <div className="flex items-center justify-center gap-3 mt-6">

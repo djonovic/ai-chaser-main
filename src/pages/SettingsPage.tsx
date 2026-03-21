@@ -77,6 +77,13 @@ export default function SettingsPage() {
     const currency = sessionStorage.getItem('meta_purchase_currency') ?? 'USD';
     trackMetaPurchase({ eventId, value, currency });
     sessionStorage.setItem(sentKey, '1');
+    if (!sessionStorage.getItem('chaseai_welcome_post_checkout')) {
+      sessionStorage.setItem('chaseai_welcome_post_checkout', '1');
+      toast.success(
+        "You're subscribed — thank you. Next: set your sender and company name under Integrations, then add your first invoice.",
+        { duration: 10000 },
+      );
+    }
     sessionStorage.removeItem('meta_purchase_event_id');
     sessionStorage.removeItem('meta_purchase_value');
     sessionStorage.removeItem('meta_purchase_currency');
@@ -255,6 +262,23 @@ export default function SettingsPage() {
                       : senderName || companyName || 'ChaseAI'}
                   </span>
                 </p>
+                <div className="rounded-lg border border-border bg-background/50 p-3 space-y-2">
+                  <p className="text-sm font-medium">Deliverability tips</p>
+                  <ul className="text-xs text-muted-foreground space-y-1.5 list-disc ml-4">
+                    <li>
+                      Use a real company or professional name clients recognize — it appears in chase
+                      emails and builds trust.
+                    </li>
+                    <li>
+                      Ask clients to add your sending domain to their contacts or safe senders if messages
+                      land in spam (rare, but it helps).
+                    </li>
+                    <li>
+                      Keep wording factual and polite; aggressive or misleading subject lines hurt both
+                      relationships and inbox placement.
+                    </li>
+                  </ul>
+                </div>
                 <div className="flex flex-wrap gap-2">
                   <Button
                     onClick={() => updateSettings({ sender_name: senderName, company_name: companyName })}
@@ -292,12 +316,14 @@ export default function SettingsPage() {
             <CardContent className="space-y-4">
               <div className="flex items-center gap-3">
                 <Badge className="bg-primary text-primary-foreground">
-                  {plan.charAt(0).toUpperCase() + plan.slice(1)}
+                  {plan === 'free' ? 'No active subscription' : plan.charAt(0).toUpperCase() + plan.slice(1)}
                 </Badge>
                 <span className="text-sm text-muted-foreground">
-                  {plan === 'pro' ? 'Unlimited invoices & AI sequences' :
-                    plan === 'starter' ? 'Unlimited invoices, 50 AI sequences/mo' :
-                      '3 invoices, 10 AI sequences/mo'}
+                  {plan === 'pro'
+                    ? 'Unlimited invoices & AI sequences'
+                    : plan === 'starter'
+                      ? 'Unlimited invoices, 50 AI sequences/mo'
+                      : 'Subscribe to use invoices, AI sequences, and automated chasing.'}
                 </span>
               </div>
               <p className="text-sm text-muted-foreground flex items-center gap-2">
@@ -320,13 +346,15 @@ export default function SettingsPage() {
                       open={cancelSubscriptionOpen}
                       onOpenChange={setCancelSubscriptionOpen}
                       title="Cancel subscription?"
-                      description="You will be moved to the Free plan at the end of your billing period. You will keep your current plan benefits until then. Are you sure?"
+                      description="Paid access in the app will end when you confirm. You will need an active subscription again to use ChaseAI. Stripe-billed subscriptions should also be cancelled in your Stripe receipt or by contacting support so you are not charged again."
                       confirmLabel="Yes, cancel subscription"
                       destructive
                       onConfirm={async () => {
                         await upgradePlan('free');
                         setCancelSubscriptionOpen(false);
-                        toast.success('Subscription cancelled. You are now on the Free plan.');
+                        toast.success(
+                          'Subscription access removed in the app. Resubscribe anytime from Pricing when you are ready.',
+                        );
                       }}
                     />
                   </>

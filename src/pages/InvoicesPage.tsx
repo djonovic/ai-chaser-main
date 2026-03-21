@@ -203,7 +203,7 @@ export default function InvoicesPage() {
   return (
     <div className="space-y-4 fade-in">
       <Tabs value={mainTab} onValueChange={(v) => setMainTab(v as MainTab)} className="gap-4">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
           <TabsList className="w-full sm:w-auto grid grid-cols-2 sm:inline-flex">
             <TabsTrigger value="invoices" className="gap-2">
               <FileText className="h-4 w-4" />
