@@ -5,7 +5,7 @@ This project tracks:
 | Location | What runs |
 |----------|-----------|
 | **Web app** (`VITE_META_PIXEL_ID`) | `PageView` on SPA navigations, `ViewContent` on in-app pricing, `CompleteRegistration` after sign-up, `InitiateCheckout` when starting Stripe checkout, browser `Purchase` after successful checkout (return URL). |
-| **Marketing site** (`PUBLIC_META_PIXEL_ID`) | After the visitor accepts **analytics & marketing** cookies, the Pixel loads and sends `PageView`. Contact form success fires `Lead` (only if Pixel is loaded). |
+| **Marketing site** (hardcoded in `BaseLayout.astro`) | Base Pixel + `PageView` on each full page load (ID `738326265882504`). Contact form success fires `Lead` when `fbq` is available. |
 | **Supabase `stripe-webhook`** (`META_PIXEL_ID` + `META_CAPI_ACCESS_TOKEN`) | Server `Purchase` when Stripe sends `checkout.session.completed` (includes `custom_data.content_ids` with plan key when available). |
 
 Browser and server `Purchase` share the same `event_id` (stored on the Stripe Checkout Session metadata) so Meta can deduplicate them.
@@ -59,7 +59,7 @@ Local: add to `.env` (see root `.env.example`).
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `PUBLIC_META_PIXEL_ID` | For optional pixel on marketing pages | Same Pixel ID; `PUBLIC_` exposes it at build time. If unset, no Pixel and no cookie banner. If set, the banner runs and loads Pixel only after opt-in. |
+| `PUBLIC_META_PIXEL_ID` | Not used by layout | Marketing Pixel is hardcoded in `marketing/src/layouts/BaseLayout.astro`. You can still set this for other tooling or future use. |
 
 ### Supabase Edge Functions (Dashboard → **Project Settings → Edge Functions → Secrets**)
 
@@ -81,7 +81,7 @@ npx supabase functions deploy create-checkout
 ## Deploy checklist
 
 - [ ] `VITE_META_PIXEL_ID` set on the app host.
-- [ ] `PUBLIC_META_PIXEL_ID` set for marketing builds (if you use the marketing site).
+- [ ] Marketing site: Pixel ID in `BaseLayout.astro` matches your Events Manager dataset (currently hardcoded).
 - [ ] `META_PIXEL_ID` + `META_CAPI_ACCESS_TOKEN` set in Supabase; `stripe-webhook` and `create-checkout` deployed.
 - [ ] Stripe live/sandbox checkout still works; after a test purchase, see **Purchase** in Events Manager (may take a few minutes).
 
@@ -89,6 +89,6 @@ npx supabase functions deploy create-checkout
 
 ## Privacy / consent
 
-- **Marketing (`chaseai.app`)**: `fbevents.js` loads only after the user chooses **Accept analytics & marketing** (see `marketing/src/components/CookieConsent.astro`). **Essential only** avoids the Pixel.
-- **App (`app.chaseai.app`)**: Pixel events run when `VITE_META_PIXEL_ID` is set (no cookie banner in-app today—document your basis for processing if you need strict EU consent on the app too).
-- **CAPI**: Server-side `Purchase` does not rely on marketing cookie consent; align this with your counsel (legitimate interest vs consent in your jurisdictions).
+- **Marketing (`chaseai.app`)**: The Meta Pixel is loaded in the document head (see `marketing/src/layouts/BaseLayout.astro`). Align this with your legal counsel for EEA/UK if you need a consent banner or CMP.
+- **App (`app.chaseai.app`)**: Pixel events run when `VITE_META_PIXEL_ID` is set.
+- **CAPI**: Server-side `Purchase` is independent of the marketing Pixel; align with your counsel.

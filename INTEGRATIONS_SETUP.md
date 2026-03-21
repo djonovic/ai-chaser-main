@@ -244,7 +244,7 @@ curl -L -X POST 'https://pxuxwpmzhtuyrfrwfeae.supabase.co/functions/v1/process-s
 
 ## 6. Meta Pixel + Conversions API
 
-See **[META_PIXEL_AND_CAPI.md](./META_PIXEL_AND_CAPI.md)** for Events Manager setup, env vars (`VITE_META_PIXEL_ID`, `PUBLIC_META_PIXEL_ID` for marketing, Supabase secrets `META_PIXEL_ID` + `META_CAPI_ACCESS_TOKEN`), and deploy notes.
+See **[META_PIXEL_AND_CAPI.md](./META_PIXEL_AND_CAPI.md)** for Events Manager setup, env vars (`VITE_META_PIXEL_ID` for the app; marketing Pixel is hardcoded in `marketing/src/layouts/BaseLayout.astro`), Supabase secrets `META_PIXEL_ID` + `META_CAPI_ACCESS_TOKEN`, and deploy notes.
 
 ---
 

@@ -240,10 +240,7 @@ const contactOptions = [
           .then(function (res) {
             if (!res.ok) throw new Error('Send failed');
             try {
-              if (
-                localStorage.getItem('chaseai_cookie_consent') === 'marketing' &&
-                typeof window.fbq === 'function'
-              ) {
+              if (typeof window.fbq === 'function') {
                 window.fbq('track', 'Lead', { content_name: 'Contact form' });
               }
             } catch (err) {}
