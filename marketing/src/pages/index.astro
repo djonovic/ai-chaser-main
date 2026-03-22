@@ -1,5 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import thumbSequence from '../assets/lp/sequence-scheduled.png';
+import thumbGenerate from '../assets/lp/generate-sequence.png';
+import thumbInvoices from '../assets/lp/invoices-list.png';
+import thumbDashboard from '../assets/lp/dashboard.png';
 
 const appUrl = 'https://app.chaseai.app';
 const appPricingUrl = `${appUrl}/auth?next=${encodeURIComponent('/pricing')}`;
@@ -24,11 +28,32 @@ const structuredData = {
   ],
 };
 
+/** Order: dashboard → invoice list → invoice detail → generated sequence (product story left to right) */
 const stats = [
-  { value: 'Consistent', label: 'Polite, timed follow-ups' },
-  { value: 'Transparent', label: 'You approve every email' },
-  { value: 'Focused', label: 'Built for invoices & clients' },
-  { value: 'Fair', label: 'Cancel anytime on Starter & Pro' },
+  {
+    title: 'Fair',
+    label: 'Cancel anytime on Starter & Pro',
+    thumb: thumbDashboard,
+    lightboxAlt: 'ChaseAI dashboard with overdue total and recent invoices',
+  },
+  {
+    title: 'Focused',
+    label: 'Built for invoices & clients',
+    thumb: thumbInvoices,
+    lightboxAlt: 'ChaseAI invoices list with search and status filters',
+  },
+  {
+    title: 'Transparent',
+    label: 'You approve every email',
+    thumb: thumbGenerate,
+    lightboxAlt: 'ChaseAI invoice detail with Smart Chasing, tone selector, and Generate Smart Sequence',
+  },
+  {
+    title: 'Consistent',
+    label: 'Polite, timed follow-ups',
+    thumb: thumbSequence,
+    lightboxAlt: 'ChaseAI generated chase emails with dates, subjects, and status for each step',
+  },
 ];
 
 const features = [
@@ -177,13 +202,53 @@ const faqs = [
         </p>
       </div>
 
-      <!-- Stats Bar -->
-      <div class="mt-16 md:mt-24 max-w-3xl mx-auto">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-          {stats.map(stat => (
-            <div class="text-center">
-              <div class="text-3xl md:text-4xl font-extrabold text-foreground">{stat.value}</div>
-              <div class="text-sm text-muted-foreground mt-1">{stat.label}</div>
+      <!-- Trust row: thumbnails + lightbox (keeps hero fast for ad traffic) -->
+      <div class="mt-16 md:mt-24 max-w-5xl mx-auto px-4">
+        <p class="text-center text-xs font-medium text-muted-foreground uppercase tracking-wider mb-8">
+          Why teams use ChaseAI
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10 lg:gap-x-8 lg:gap-y-8">
+          {stats.map((stat) => (
+            <div class="flex flex-col items-center text-center min-w-0 max-w-sm mx-auto w-full">
+              <button
+                type="button"
+                class="group relative w-full max-w-[240px] rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                data-home-lightbox-open
+                data-home-lightbox-src={stat.thumb.src}
+                data-home-lightbox-alt={stat.lightboxAlt}
+              >
+                <span class="sr-only">Open larger screenshot: {stat.title}</span>
+                <div class="relative overflow-hidden rounded-xl border border-border bg-muted/40 shadow-sm transition-shadow group-hover:shadow-md group-hover:border-primary/25">
+                  <img
+                    src={stat.thumb.src}
+                    width={stat.thumb.width}
+                    height={stat.thumb.height}
+                    alt=""
+                    class="h-[5.5rem] sm:h-24 w-full object-cover object-left-top pointer-events-none"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <span
+                  class="mt-2 inline-flex items-center gap-1 text-[11px] font-medium text-primary/90 group-hover:text-primary"
+                  aria-hidden="true"
+                >
+                  <svg class="w-3.5 h-3.5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+                    />
+                  </svg>
+                  Enlarge
+                </span>
+              </button>
+              <h3 class="mt-3 text-lg sm:text-xl font-bold text-foreground tracking-tight leading-snug px-1 break-words w-full">
+                {stat.title}
+              </h3>
+              <p class="text-sm text-muted-foreground mt-1.5 leading-snug px-1 max-w-[13rem] mx-auto">
+                {stat.label}
+              </p>
             </div>
           ))}
         </div>
@@ -620,4 +685,75 @@ const faqs = [
       </div>
     </div>
   </section>
+
+  <!-- Lightbox for homepage trust screenshots (Meta / cold traffic: small previews, full size on demand) -->
+  <div
+    id="home-lightbox"
+    class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 sm:p-6"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Screenshot preview"
+  >
+    <button
+      type="button"
+      id="home-lightbox-backdrop"
+      class="absolute inset-0 bg-black/80 backdrop-blur-sm"
+      aria-label="Close preview"
+    ></button>
+    <div class="relative z-10 w-full max-w-5xl max-h-[90vh] flex flex-col items-stretch gap-3">
+      <div class="flex justify-end">
+        <button
+          type="button"
+          id="home-lightbox-close"
+          class="rounded-lg bg-background/95 border border-border px-3 py-1.5 text-sm font-medium text-foreground shadow-md hover:bg-muted transition-colors"
+        >
+          Close
+        </button>
+      </div>
+      <div class="rounded-xl border border-border bg-background shadow-2xl overflow-hidden overflow-y-auto max-h-[calc(90vh-3.5rem)]">
+        <img id="home-lightbox-img" src="" alt="" class="w-full h-auto block" />
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var root = document.getElementById('home-lightbox');
+      var img = document.getElementById('home-lightbox-img');
+      var backdrop = document.getElementById('home-lightbox-backdrop');
+      var closeBtn = document.getElementById('home-lightbox-close');
+      if (!root || !img || !backdrop || !closeBtn) return;
+
+      function openLightbox(src, alt) {
+        img.src = src;
+        img.alt = alt || 'Product screenshot';
+        root.classList.remove('hidden');
+        root.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeLightbox() {
+        root.classList.add('hidden');
+        root.classList.remove('flex');
+        document.body.style.overflow = '';
+        img.removeAttribute('src');
+        img.alt = '';
+      }
+
+      document.querySelectorAll('[data-home-lightbox-open]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var src = btn.getAttribute('data-home-lightbox-src');
+          var alt = btn.getAttribute('data-home-lightbox-alt') || '';
+          if (src) openLightbox(src, alt);
+        });
+      });
+
+      backdrop.addEventListener('click', closeLightbox);
+      closeBtn.addEventListener('click', closeLightbox);
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !root.classList.contains('hidden')) closeLightbox();
+      });
+    })();
+  </script>
 </BaseLayout>
