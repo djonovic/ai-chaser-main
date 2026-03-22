@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const formspreeFormId =
-  (import.meta.env.PUBLIC_FORMSPREE_FORM_ID as string | undefined)?.trim() || 'your-form-id';
-const formspreeAction = `https://formspree.io/f/${formspreeFormId}`;
+/** Inbound address for contact form (FormSubmit delivers here; no API key required). */
+const contactFormEmail = 'pasko.djonovic@hotmail.com';
+const formSubmitAjaxUrl = `https://formsubmit.co/ajax/${encodeURIComponent(contactFormEmail)}`;
+const formSubmitFallbackAction = `https://formsubmit.co/${encodeURIComponent(contactFormEmail)}`;
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -71,9 +72,10 @@ const contactOptions = [
 
             <form
               id="contact-form"
-              action={formspreeAction}
+              action={formSubmitFallbackAction}
               method="POST"
               class="space-y-5"
+              data-submit-url={formSubmitAjaxUrl}
             >
               <div class="grid sm:grid-cols-2 gap-4">
                 <div>
@@ -130,6 +132,8 @@ const contactOptions = [
                   placeholder="How can we help?"
                 ></textarea>
               </div>
+
+              <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
 
               <button
                 type="submit"
@@ -225,33 +229,83 @@ const contactOptions = [
     (function () {
       var form = document.getElementById('contact-form');
       if (!form) return;
+
+      var subjectLabels = {
+        general: 'General Question',
+        support: 'Account Support',
+        feature: 'Feature Request',
+        bug: 'Bug Report',
+        partnership: 'Partnership',
+        enterprise: 'Enterprise Inquiry',
+        other: 'Other',
+      };
+
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        var fd = new FormData(form);
-        var action = form.getAttribute('action');
-        if (!action) return;
+        var submitUrl = form.getAttribute('data-submit-url');
+        if (!submitUrl) return;
+
+        var nameEl = form.querySelector('#name');
+        var emailEl = form.querySelector('#email');
+        var subjectEl = form.querySelector('#subject');
+        var messageEl = form.querySelector('#message');
+        var gotchaEl = form.querySelector('[name="_gotcha"]');
+
+        var name = nameEl && nameEl.value ? nameEl.value.trim() : '';
+        var email = emailEl && emailEl.value ? emailEl.value.trim() : '';
+        var subjectKey = subjectEl && subjectEl.value ? subjectEl.value : 'other';
+        var message = messageEl && messageEl.value ? messageEl.value.trim() : '';
+        var gotcha = gotchaEl && gotchaEl.value ? gotchaEl.value : '';
+
+        if (gotcha) return;
+
+        var topic = subjectLabels[subjectKey] || subjectKey;
+        var payload = {
+          name: name,
+          email: email,
+          subject: topic,
+          message: message,
+          _subject: '[ChaseAI Contact] ' + topic,
+          _replyto: email,
+        };
+
         var btn = form.querySelector('button[type="submit"]');
-        if (btn) btn.setAttribute('disabled', 'disabled');
-        fetch(action, {
+        if (btn) {
+          btn.setAttribute('disabled', 'disabled');
+          btn.setAttribute('aria-busy', 'true');
+        }
+
+        fetch(submitUrl, {
           method: 'POST',
-          body: fd,
-          headers: { Accept: 'application/json' },
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
         })
           .then(function (res) {
             if (!res.ok) throw new Error('Send failed');
+            return res.json().catch(function () {
+              return {};
+            });
+          })
+          .then(function () {
             try {
               if (typeof window.fbq === 'function') {
                 window.fbq('track', 'Lead', { content_name: 'Contact form' });
               }
             } catch (err) {}
             form.reset();
-            alert('Thanks — your message was sent. We typically reply within one business day.');
+            alert('Thanks! Your message was sent. We typically reply within one business day.');
           })
           .catch(function () {
-            alert('Something went wrong. Please email support@chaseai.app directly.');
+            alert('Something went wrong. Please email pasko.djonovic@hotmail.com directly.');
           })
           .finally(function () {
-            if (btn) btn.removeAttribute('disabled');
+            if (btn) {
+              btn.removeAttribute('disabled');
+              btn.removeAttribute('aria-busy');
+            }
           });
       });
     })();

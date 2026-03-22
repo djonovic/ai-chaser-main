@@ -4,7 +4,7 @@
       fbq('track','PageView');
     </script><noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=738326265882504&ev=PageView&noscript=1" alt=""></noscript><!-- End Meta Pixel Code --><link rel="stylesheet" href="/_astro/BaseLayout.CcEck5if.css"></head> <body class="min-h-screen flex flex-col"> <header class="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-lg"> <div class="container flex h-16 items-center justify-between"> <a href="/" class="flex items-center gap-2.5 group"> <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary"> <svg class="h-4 w-4 text-primary-foreground" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> </div> <span class="text-lg font-bold tracking-tight text-foreground">ChaseAI</span> </a> <nav class="hidden md:flex items-center gap-1"> <a href="/features" class="px-4 py-2 text-sm font-medium rounded-lg transition-colors text-muted-foreground hover:text-foreground hover:bg-muted/50"> Features </a><a href="/pricing" class="px-4 py-2 text-sm font-medium rounded-lg transition-colors text-muted-foreground hover:text-foreground hover:bg-muted/50"> Pricing </a><a href="/about" class="px-4 py-2 text-sm font-medium rounded-lg transition-colors text-muted-foreground hover:text-foreground hover:bg-muted/50"> About </a><a href="/contact" class="px-4 py-2 text-sm font-medium rounded-lg transition-colors text-primary bg-primary/5"> Contact </a> </nav> <div class="flex items-center gap-3"> <a href="https://app.chaseai.app/auth" class="hidden sm:inline-flex text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-4 py-2">
 Log in
-</a> <a href="https://app.chaseai.app/auth?next=%2Fpricing" class="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary-600 transition-all hover:shadow-md">
+</a> <a href="https://app.chaseai.app/pricing" class="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary-600 transition-all hover:shadow-md">
 Subscribe
 </a> <button id="mobile-menu-btn" class="md:hidden inline-flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:bg-muted/50 hover:text-foreground" aria-label="Toggle menu"> <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg> </button> </div> </div> <div id="mobile-menu" class="hidden md:hidden border-t border-border/50 bg-background/95 backdrop-blur-lg"> <div class="container py-4 space-y-1"> <a href="/features" class="block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors text-muted-foreground hover:text-foreground hover:bg-muted/50"> Features </a><a href="/pricing" class="block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors text-muted-foreground hover:text-foreground hover:bg-muted/50"> Pricing </a><a href="/about" class="block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors text-muted-foreground hover:text-foreground hover:bg-muted/50"> About </a><a href="/contact" class="block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors text-primary bg-primary/5"> Contact </a> <div class="pt-2 border-t border-border/50 mt-2"> <a href="https://app.chaseai.app/auth" class="block px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground">
 Log in
@@ -12,7 +12,7 @@ Log in
 Get in touch
 </h1> <p class="mt-6 text-lg text-muted-foreground max-w-xl mx-auto">
 Have a question, feedback, or just want to say hi? We'd love to hear from you. Our team typically responds within 24 hours.
-</p> </div> </div> </section>  <section class="pb-20 -mt-4"> <div class="container"> <div class="max-w-5xl mx-auto grid lg:grid-cols-5 gap-12"> <!-- Form --> <div class="lg:col-span-3"> <div class="rounded-2xl border border-border bg-card p-6 md:p-8"> <h2 class="text-xl font-bold mb-6">Send us a message</h2> <form id="contact-form" action="https://formspree.io/f/your-form-id" method="POST" class="space-y-5"> <div class="grid sm:grid-cols-2 gap-4"> <div> <label for="name" class="block text-sm font-medium mb-1.5">Name</label> <input type="text" id="name" name="name" required class="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" placeholder="Your name"> </div> <div> <label for="email" class="block text-sm font-medium mb-1.5">Email</label> <input type="email" id="email" name="email" required class="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" placeholder="you@company.com"> </div> </div> <div> <label for="subject" class="block text-sm font-medium mb-1.5">Subject</label> <select id="subject" name="subject" required class="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"> <option value="" disabled selected>Select a topic</option> <option value="general">General Question</option> <option value="support">Account Support</option> <option value="feature">Feature Request</option> <option value="bug">Bug Report</option> <option value="partnership">Partnership</option> <option value="enterprise">Enterprise Inquiry</option> <option value="other">Other</option> </select> </div> <div> <label for="message" class="block text-sm font-medium mb-1.5">Message</label> <textarea id="message" name="message" required rows="5" class="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors resize-none" placeholder="How can we help?"></textarea> </div> <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary-600 transition-colors w-full sm:w-auto">
+</p> </div> </div> </section>  <section class="pb-20 -mt-4"> <div class="container"> <div class="max-w-5xl mx-auto grid lg:grid-cols-5 gap-12"> <!-- Form --> <div class="lg:col-span-3"> <div class="rounded-2xl border border-border bg-card p-6 md:p-8"> <h2 class="text-xl font-bold mb-6">Send us a message</h2> <form id="contact-form" action="https://formsubmit.co/pasko.djonovic%40hotmail.com" method="POST" class="space-y-5" data-submit-url="https://formsubmit.co/ajax/pasko.djonovic%40hotmail.com"> <div class="grid sm:grid-cols-2 gap-4"> <div> <label for="name" class="block text-sm font-medium mb-1.5">Name</label> <input type="text" id="name" name="name" required class="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" placeholder="Your name"> </div> <div> <label for="email" class="block text-sm font-medium mb-1.5">Email</label> <input type="email" id="email" name="email" required class="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" placeholder="you@company.com"> </div> </div> <div> <label for="subject" class="block text-sm font-medium mb-1.5">Subject</label> <select id="subject" name="subject" required class="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"> <option value="" disabled selected>Select a topic</option> <option value="general">General Question</option> <option value="support">Account Support</option> <option value="feature">Feature Request</option> <option value="bug">Bug Report</option> <option value="partnership">Partnership</option> <option value="enterprise">Enterprise Inquiry</option> <option value="other">Other</option> </select> </div> <div> <label for="message" class="block text-sm font-medium mb-1.5">Message</label> <textarea id="message" name="message" required rows="5" class="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors resize-none" placeholder="How can we help?"></textarea> </div> <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true"> <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary-600 transition-colors w-full sm:w-auto">
 Send Message
 </button> </form> </div> </div> <!-- Contact Options --> <div class="lg:col-span-2 space-y-4"> <div class="p-5 rounded-2xl border border-border bg-card"> <div class="text-2xl mb-3">✉️</div> <h3 class="text-sm font-semibold mb-1">Email Support</h3> <p class="text-xs text-muted-foreground mb-3">For general questions, feature requests, and support.</p> <a href="mailto:support@chaseai.app" class="text-sm text-primary hover:underline font-medium"> support@chaseai.app </a> </div><div class="p-5 rounded-2xl border border-border bg-card"> <div class="text-2xl mb-3">💼</div> <h3 class="text-sm font-semibold mb-1">Partnerships</h3> <p class="text-xs text-muted-foreground mb-3">Interested in integrations or business partnerships?</p> <a href="mailto:partnerships@chaseai.app" class="text-sm text-primary hover:underline font-medium"> partnerships@chaseai.app </a> </div><div class="p-5 rounded-2xl border border-border bg-card"> <div class="text-2xl mb-3">🐛</div> <h3 class="text-sm font-semibold mb-1">Bug Reports</h3> <p class="text-xs text-muted-foreground mb-3">Found something broken? We want to fix it fast.</p> <a href="mailto:bugs@chaseai.app" class="text-sm text-primary hover:underline font-medium"> bugs@chaseai.app </a> </div> <div class="p-5 rounded-2xl border border-primary/20 bg-primary/5"> <div class="text-2xl mb-3">⚡</div> <h3 class="text-sm font-semibold mb-1">Priority Support</h3> <p class="text-xs text-muted-foreground mb-3">
 Starter and Pro users get faster response times (under 4 hours) and direct access to our team.
@@ -26,33 +26,83 @@ Quick answers to common questions.
     (function () {
       var form = document.getElementById('contact-form');
       if (!form) return;
+
+      var subjectLabels = {
+        general: 'General Question',
+        support: 'Account Support',
+        feature: 'Feature Request',
+        bug: 'Bug Report',
+        partnership: 'Partnership',
+        enterprise: 'Enterprise Inquiry',
+        other: 'Other',
+      };
+
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        var fd = new FormData(form);
-        var action = form.getAttribute('action');
-        if (!action) return;
+        var submitUrl = form.getAttribute('data-submit-url');
+        if (!submitUrl) return;
+
+        var nameEl = form.querySelector('#name');
+        var emailEl = form.querySelector('#email');
+        var subjectEl = form.querySelector('#subject');
+        var messageEl = form.querySelector('#message');
+        var gotchaEl = form.querySelector('[name="_gotcha"]');
+
+        var name = nameEl && nameEl.value ? nameEl.value.trim() : '';
+        var email = emailEl && emailEl.value ? emailEl.value.trim() : '';
+        var subjectKey = subjectEl && subjectEl.value ? subjectEl.value : 'other';
+        var message = messageEl && messageEl.value ? messageEl.value.trim() : '';
+        var gotcha = gotchaEl && gotchaEl.value ? gotchaEl.value : '';
+
+        if (gotcha) return;
+
+        var topic = subjectLabels[subjectKey] || subjectKey;
+        var payload = {
+          name: name,
+          email: email,
+          subject: topic,
+          message: message,
+          _subject: '[ChaseAI Contact] ' + topic,
+          _replyto: email,
+        };
+
         var btn = form.querySelector('button[type="submit"]');
-        if (btn) btn.setAttribute('disabled', 'disabled');
-        fetch(action, {
+        if (btn) {
+          btn.setAttribute('disabled', 'disabled');
+          btn.setAttribute('aria-busy', 'true');
+        }
+
+        fetch(submitUrl, {
           method: 'POST',
-          body: fd,
-          headers: { Accept: 'application/json' },
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
         })
           .then(function (res) {
             if (!res.ok) throw new Error('Send failed');
+            return res.json().catch(function () {
+              return {};
+            });
+          })
+          .then(function () {
             try {
               if (typeof window.fbq === 'function') {
                 window.fbq('track', 'Lead', { content_name: 'Contact form' });
               }
             } catch (err) {}
             form.reset();
-            alert('Thanks — your message was sent. We typically reply within one business day.');
+            alert('Thanks! Your message was sent. We typically reply within one business day.');
           })
           .catch(function () {
-            alert('Something went wrong. Please email support@chaseai.app directly.');
+            alert('Something went wrong. Please email pasko.djonovic@hotmail.com directly.');
           })
           .finally(function () {
-            if (btn) btn.removeAttribute('disabled');
+            if (btn) {
+              btn.removeAttribute('disabled');
+              btn.removeAttribute('aria-busy');
+            }
           });
       });
     })();
