@@ -19,6 +19,7 @@ import SettingsPage from '@/pages/SettingsPage';
 import PricingPage from '@/pages/PricingPage';
 import NotFound from '@/pages/NotFound';
 import { MetaPixelPageViews } from '@/components/MetaPixelPageViews';
+import { Analytics } from '@vercel/analytics/react';
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ export default function App() {
             <Toaster />
             <Sonner />
             <BrowserRouter>
+              <Analytics />
               <MetaPixelPageViews />
               <Routes>
                 <Route path="/" element={<Navigate to="/dashboard" replace />} />
