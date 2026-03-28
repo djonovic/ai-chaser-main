@@ -316,14 +316,14 @@ export default function SettingsPage() {
             <CardContent className="space-y-4">
               <div className="flex items-center gap-3">
                 <Badge className="bg-primary text-primary-foreground">
-                  {plan === 'free' ? 'No active subscription' : plan.charAt(0).toUpperCase() + plan.slice(1)}
+                  {plan.charAt(0).toUpperCase() + plan.slice(1)}
                 </Badge>
                 <span className="text-sm text-muted-foreground">
                   {plan === 'pro'
                     ? 'Unlimited invoices & AI sequences'
                     : plan === 'starter'
                       ? 'Unlimited invoices, 50 AI sequences/mo'
-                      : 'Subscribe to use invoices, AI sequences, and automated chasing.'}
+                      : '3 invoices/mo, 10 AI sequences/mo'}
                 </span>
               </div>
               <p className="text-sm text-muted-foreground flex items-center gap-2">
@@ -332,7 +332,7 @@ export default function SettingsPage() {
               </p>
               <div className="flex gap-2">
                 <Button asChild>
-                  <Link to="/pricing">{plan === 'free' ? 'Subscribe' : 'Change Plan'}</Link>
+                  <Link to="/pricing">{plan === 'free' ? 'Upgrade' : 'Change Plan'}</Link>
                 </Button>
                 {plan !== 'free' && (
                   <>

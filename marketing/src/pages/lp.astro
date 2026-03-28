@@ -2,28 +2,27 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const appUrl = 'https://app.chaseai.app';
-const subscribeUrl = `${appUrl}/pricing`;
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  name: 'ChaseAI — Invoice chasing',
-  description:
-    'AI-assisted payment reminders you review before they send. Subscribe in the app; clear pricing and cancellation.',
+  name: 'ChaseAI - Invoice chasing',
+    description:
+    'AI-assisted payment reminders you review before they send. Start free, upgrade when you need more.',
   url: 'https://chaseai.app/lp',
 };
 ---
 
 <BaseLayout
   title="Get paid without the awkward follow-ups"
-  description="ChaseAI drafts polite, escalating chase sequences for your invoices. You approve every email. Subscribe in the app via Stripe."
+  description="ChaseAI drafts polite, escalating chase sequences for your invoices. You approve every email. Start free, upgrade when ready."
   structuredData={structuredData}
   noindex={true}
 >
   <section class="hero-gradient">
-    <div class="container py-20 md:py-28 max-w-3xl mx-auto text-center">
+    <div class="container py-16 md:py-24 max-w-3xl mx-auto text-center">
       <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-balance">
-        Invoice reminders that sound like you—without living in your inbox
+        Invoice reminders that sound like you, without living in your inbox
       </h1>
       <p class="mt-6 text-lg text-muted-foreground leading-relaxed">
         ChaseAI generates multi-step sequences from your invoice details. Nothing sends until you approve.
@@ -31,21 +30,20 @@ const structuredData = {
       </p>
       <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
         <a
-          href={subscribeUrl}
+          href={appUrl}
           class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-95 transition-opacity w-full sm:w-auto"
         >
-          Subscribe in the app
+          Start Free
         </a>
         <a
           href="/pricing"
           class="inline-flex items-center justify-center rounded-lg border border-border px-8 py-3.5 text-base font-semibold hover:bg-muted/50 transition-colors w-full sm:w-auto"
         >
-          See plans on the marketing site
+          See plans
         </a>
       </div>
       <p class="mt-6 text-xs text-muted-foreground max-w-md mx-auto">
-        No hidden &ldquo;free tier&rdquo; product access—we ask you to choose a plan so we can support the
-        product and your data seriously.
+        Free plan includes 3 invoices/month and 10 AI sequences. Upgrade anytime for unlimited access.
       </p>
     </div>
   </section>
@@ -64,7 +62,7 @@ const structuredData = {
         </li>
         <li class="flex gap-3">
           <span class="text-primary font-bold">3.</span>
-          <span><strong class="text-foreground">Enterprise is a conversation.</strong> Deeper integrations are scoped when you contact us—not promised off the shelf.</span>
+          <span><strong class="text-foreground">Start free, upgrade when ready.</strong> No credit card required. Paid plans unlock unlimited invoices and more AI sequences.</span>
         </li>
       </ul>
     </div>

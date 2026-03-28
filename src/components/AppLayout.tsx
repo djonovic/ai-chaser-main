@@ -34,7 +34,6 @@ export function AppLayout() {
   const navigate = useNavigate();
   const { user, loading, signOut } = useAuth();
   const {
-    plan,
     loading: planLoading,
     hasUserKey,
     aiUsageCount,
@@ -55,25 +54,12 @@ export function AppLayout() {
   }, [loading, user, navigate, location.pathname, location.search]);
 
   useEffect(() => {
-    if (settingsLoading || !user || plan === 'free') return;
+    if (settingsLoading || !user) return;
     const needsSetup = !settings.company_name && !settings.sender_name;
     if (needsSetup && !wasOnboardingDismissed()) {
       setShowOnboarding(true);
     }
-  }, [settingsLoading, user, plan, settings.company_name, settings.sender_name]);
-
-  useEffect(() => {
-    if (!user || planLoading) return;
-    if (plan !== 'free') return;
-    const path = location.pathname;
-    const allowed =
-      path === '/pricing' ||
-      path === '/settings' ||
-      path.startsWith('/settings/');
-    if (!allowed) {
-      navigate('/pricing?subscribe=1', { replace: true });
-    }
-  }, [user, plan, planLoading, location.pathname, navigate]);
+  }, [settingsLoading, user, settings.company_name, settings.sender_name]);
 
   if (loading || (user && planLoading)) {
     return (
@@ -124,7 +110,7 @@ export function AppLayout() {
                   </div>
                 </Link>
               )}
-              {plan !== 'free' && location.pathname !== '/invoices' && (
+              {location.pathname !== '/invoices' && (
                 <Button asChild size="sm" className="gap-2">
                   <Link to="/invoices">
                     <Plus className="h-4 w-4" />

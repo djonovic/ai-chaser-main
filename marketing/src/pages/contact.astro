@@ -6,13 +6,44 @@ const contactFormEmail = 'pasko.djonovic@hotmail.com';
 const formSubmitAjaxUrl = `https://formsubmit.co/ajax/${encodeURIComponent(contactFormEmail)}`;
 const formSubmitFallbackAction = `https://formsubmit.co/${encodeURIComponent(contactFormEmail)}`;
 
-const structuredData = {
+const contactFaqs = [
+  {
+    q: 'How fast do you respond?',
+    a: 'We aim to respond within 24 hours for all users. Starter and Pro users get priority support with response times under 4 hours during business hours.',
+  },
+  {
+    q: 'I forgot my password. How do I reset it?',
+    a: 'Go to the login page and click "Forgot password" or use our Magic Link option. You will receive a password reset email within minutes.',
+  },
+  {
+    q: 'Can I request a feature?',
+    a: 'Yes. Use the contact form above and select "Feature Request". Every request is reviewed by our team.',
+  },
+  {
+    q: 'Do you offer custom plans for teams?',
+    a: 'We currently offer Free, Starter, and Pro plans. If you have specific needs for your team, use the form above and we will see how we can help.',
+  },
+];
+
+const contactPageSchema = {
   '@context': 'https://schema.org',
   '@type': 'ContactPage',
   name: 'Contact ChaseAI',
   description: 'Get in touch with the ChaseAI team for questions, support, or partnership inquiries.',
   url: 'https://chaseai.app/contact',
 };
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: contactFaqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const structuredData = [contactPageSchema, faqSchema];
 
 const contactOptions = [
   {
@@ -23,39 +54,23 @@ const contactOptions = [
     actionLabel: 'support@chaseai.app',
     actionType: 'email',
   },
-  {
-    icon: '💼',
-    title: 'Partnerships',
-    description: 'Interested in integrations or business partnerships?',
-    action: 'partnerships@chaseai.app',
-    actionLabel: 'partnerships@chaseai.app',
-    actionType: 'email',
-  },
-  {
-    icon: '🐛',
-    title: 'Bug Reports',
-    description: 'Found something broken? We want to fix it fast.',
-    action: 'bugs@chaseai.app',
-    actionLabel: 'bugs@chaseai.app',
-    actionType: 'email',
-  },
 ];
 ---
 
 <BaseLayout
-  title="Contact"
-  description="Get in touch with the ChaseAI team. We're here to help with questions about AI invoice chasing, account support, partnerships, and more."
+  title="Contact Us - Support & Partnerships"
+  description="Contact ChaseAI for support, feature requests, partnerships, or questions about AI invoice chasing. We respond within 24 hours."
   structuredData={structuredData}
 >
   <!-- Hero -->
   <section class="hero-gradient">
-    <div class="container py-20 md:py-28">
+    <div class="container py-16 md:py-24">
       <div class="max-w-3xl mx-auto text-center">
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">
           Get in touch
         </h1>
-        <p class="mt-6 text-lg text-muted-foreground max-w-xl mx-auto">
-          Have a question, feedback, or just want to say hi? We'd love to hear from you. Our team typically responds within 24 hours.
+        <p class="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">
+          Questions, feedback, or partnership ideas? We typically respond within 24 hours.
         </p>
       </div>
     </div>
@@ -116,7 +131,7 @@ const contactOptions = [
                   <option value="feature">Feature Request</option>
                   <option value="bug">Bug Report</option>
                   <option value="partnership">Partnership</option>
-                  <option value="enterprise">Enterprise Inquiry</option>
+                  <option value="teams">Team / Custom Inquiry</option>
                   <option value="other">Other</option>
                 </select>
               </div>
@@ -193,24 +208,7 @@ const contactOptions = [
       </div>
 
       <div class="max-w-2xl mx-auto space-y-4">
-        {[
-          {
-            q: 'How fast do you respond?',
-            a: 'We aim to respond within 24 hours for all users. Starter and Pro users get priority support with response times under 4 hours during business hours.',
-          },
-          {
-            q: 'I forgot my password — how do I reset it?',
-            a: 'Go to the login page and click "Forgot password" or use our Magic Link option. You\'ll receive a password reset email within minutes.',
-          },
-          {
-            q: 'Can I request a feature?',
-            a: 'Absolutely! We love hearing from users. Use the contact form above and select "Feature Request" — every request is reviewed by our team.',
-          },
-          {
-            q: 'Do you offer enterprise plans?',
-            a: 'Yes. Enterprise builds on Pro with integrations and workflows we scope after we understand your stack—accounting tools, mail automation, and onboarding are discussed on the call. Use the form above and select "Enterprise Inquiry."',
-          },
-        ].map(faq => (
+        {contactFaqs.map(faq => (
           <details class="group rounded-2xl border border-border bg-card overflow-hidden">
             <summary class="flex items-center justify-between cursor-pointer px-6 py-4 text-sm font-medium hover:bg-muted/30 transition-colors list-none [&::-webkit-details-marker]:hidden">
               {faq.q}
@@ -236,7 +234,7 @@ const contactOptions = [
         feature: 'Feature Request',
         bug: 'Bug Report',
         partnership: 'Partnership',
-        enterprise: 'Enterprise Inquiry',
+        teams: 'Team / Custom Inquiry',
         other: 'Other',
       };
 

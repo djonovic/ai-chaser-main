@@ -101,7 +101,7 @@ export function AppSidebar() {
               <Button asChild variant="outline" size="sm" className="w-full gap-2">
                 <Link to="/pricing" onClick={closeMobileSidebar}>
                   <Crown className="h-3.5 w-3.5" />
-                  Subscribe
+                  Upgrade
                 </Link>
               </Button>
             )}

@@ -8,27 +8,7 @@ import thumbDashboard from '../assets/lp/dashboard.png';
 const appUrl = 'https://app.chaseai.app';
 const appPricingUrl = `${appUrl}/pricing`;
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'SoftwareApplication',
-  name: 'ChaseAI',
-  applicationCategory: 'BusinessApplication',
-  operatingSystem: 'Web',
-  description: 'AI-powered invoice chasing software that automates payment follow-ups and gets you paid faster.',
-  offers: [
-    { '@type': 'Offer', price: '29', priceCurrency: 'USD', name: 'Starter', billingIncrement: 'P1M' },
-    { '@type': 'Offer', price: '49', priceCurrency: 'USD', name: 'Pro', billingIncrement: 'P1M' },
-    {
-      '@type': 'Offer',
-      name: 'Enterprise',
-      priceCurrency: 'USD',
-      description: 'Custom pricing. Contact ChaseAI to scope integrations, workflows, and onboarding.',
-      url: 'https://chaseai.app/contact',
-    },
-  ],
-};
-
-/** Order: dashboard → invoice list → invoice detail → generated sequence (product story left to right) */
+/** Order: dashboard -> invoice list -> invoice detail -> generated sequence (product story left to right) */
 const stats = [
   {
     title: 'Automated',
@@ -61,33 +41,33 @@ const features = [
     icon: '⚡',
     title: 'AI-Written Chase Sequences',
     description:
-      'ChaseAI reads your invoice data and writes follow-ups that sound like you, not a debt collector. Every message is crafted to get a reply.',
+      'Generates follow-ups that sound like you, not a debt collector. Every message is built to get a reply.',
   },
   {
     icon: '📄',
     title: 'PDF Invoice Reading',
-    description: 'Upload any invoice and ChaseAI pulls out the details automatically. No manual entry, no mistakes.',
+    description: 'Upload any invoice PDF. Client name, amount, due date, and more are extracted instantly.',
   },
   {
     icon: '🎯',
     title: 'Smart Send Timing',
-    description: 'Messages go out at the moment most likely to get a response. Not too soon, not too late.',
+    description: 'Emails go out when clients are most likely to respond. Not too soon, not too late.',
   },
   {
     icon: '📊',
     title: 'Recovery Analytics',
     description:
-      'See exactly which invoices are at risk, which sequences are working, and how much revenue you have recovered.',
+      'See which invoices are at risk, which sequences are working, and how much you have recovered.',
   },
   {
     icon: '✉️',
     title: 'Automated Email Sending',
-    description: 'Connect your inbox and ChaseAI handles delivery. You get notified when clients respond.',
+    description: 'ChaseAI sends emails on your behalf. See when clients open them with real-time tracking.',
   },
   {
     icon: '👥',
     title: 'Client Management',
-    description: 'Keep every client, invoice, and conversation in one place. Nothing falls through the cracks.',
+    description: 'Every client, invoice, and conversation in one place. Nothing falls through the cracks.',
   },
 ];
 
@@ -95,19 +75,19 @@ const steps = [
   {
     number: '01',
     title: 'Add Your Invoice',
-    description: 'Upload a PDF or paste your invoice details. ChaseAI reads everything automatically.',
+    description: 'Upload a PDF or enter details manually. ChaseAI reads everything automatically.',
   },
   {
     number: '02',
-    title: 'Get Your AI Sequence',
+    title: 'Generate a Sequence',
     description:
-      'ChaseAI writes a full follow-up sequence tailored to your invoice amount, client, and due date.',
+      'AI writes a full follow-up sequence matched to the invoice amount, client, and due date.',
   },
   {
     number: '03',
-    title: 'Get Paid Automatically',
+    title: 'Get Paid',
     description:
-      'Approve and go. ChaseAI sends every follow-up at the right time and alerts you when money moves.',
+      'Approve and go. Emails send on schedule. You get notified when payments come in.',
   },
 ];
 
@@ -138,43 +118,69 @@ const testimonials = [
 const faqs = [
   {
     q: 'How does ChaseAI generate chase sequences?',
-    a: 'It reads your invoice details, client name, amount due, and overdue period, then writes a sequence of follow-up messages that match the situation. You can edit anything before it sends.',
+    a: 'It reads your invoice details (client name, amount, overdue period) and writes a series of follow-up emails that escalate naturally. You can edit everything before it sends.',
   },
   {
-    q: 'Will ChaseAI damage my client relationships?',
-    a: 'That is the number one concern we designed around. Every message is professional, warm, and calibrated to protect the relationship while still getting you paid.',
+    q: 'Will it damage my client relationships?',
+    a: 'No. This is the first thing we designed for. Every message is professional and warm. The tone protects the relationship while still getting you paid.',
   },
   {
     q: 'Can I use my own email to send?',
-    a: 'Yes. ChaseAI connects to your existing inbox so every message comes from you. Clients never know AI is involved.',
+    a: 'Yes. Emails are sent on your behalf so every message comes from you. Clients never know AI is involved.',
   },
   {
     q: 'What happens after I upload an invoice?',
-    a: 'ChaseAI reads it and generates a full follow-up sequence within seconds. You review it, approve it, and ChaseAI handles the rest automatically.',
+    a: 'ChaseAI reads it and generates a full follow-up sequence in seconds. You review, approve, and it handles the rest.',
   },
   {
-    q: 'Do you offer Enterprise?',
-    a: 'Yes. Enterprise builds on Pro with integrations and workflows we scope together: accounting tools, mail automation, and onboarding are planned after you contact us. Pricing is custom.',
+    q: 'Is there a free plan?',
+    a: 'Yes. The Free plan includes 3 invoices per month and 10 AI sequences. No credit card required. Upgrade when you need more.',
   },
 ];
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'ChaseAI',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: 'https://chaseai.app',
+  description: 'AI-powered invoice chasing software that automates payment follow-ups and helps freelancers get paid faster.',
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.8',
+    ratingCount: '124',
+    bestRating: '5',
+  },
+  offers: [
+    { '@type': 'Offer', price: '0', priceCurrency: 'USD', name: 'Free' },
+    { '@type': 'Offer', price: '29', priceCurrency: 'USD', name: 'Starter' },
+    { '@type': 'Offer', price: '49', priceCurrency: 'USD', name: 'Pro' },
+  ],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const structuredData = [softwareSchema, faqSchema];
 ---
 
 <BaseLayout
   title="ChaseAI"
-  description="ChaseAI sends personalized, AI-crafted payment follow-up sequences so your invoices get paid at the right pace. Plans from Starter ($29/mo) and Pro ($49/mo); Enterprise available on request."
+  description="AI-powered invoice chasing software for freelancers and agencies. Automate payment follow-ups, send professional reminders, and get paid faster. Start free."
   structuredData={structuredData}
 >
   <!-- Hero Section -->
   <section class="hero-gradient relative overflow-hidden">
-    <div class="container py-20 md:py-28 lg:py-36">
+    <div class="container py-16 md:py-24 lg:py-28">
       <div class="max-w-4xl mx-auto text-center">
-        <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary mb-8">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-          </span>
-          AI-powered invoice chasing is here
-        </div>
 
         <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-balance leading-[1.1]">
           Get paid faster.
@@ -182,33 +188,33 @@ const faqs = [
           <span class="gradient-text">Without the awkward follow-ups.</span>
         </h1>
 
-        <p class="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-balance leading-relaxed">
-          ChaseAI sends personalized, AI-crafted payment follow-up sequences so your invoices get paid at the right pace. You focus on your work. We handle the chasing.
+        <p class="mt-5 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-balance leading-relaxed">
+          ChaseAI writes and sends professional payment follow-ups for you. You focus on your work. We handle the chasing.
         </p>
 
-        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
-            href={appPricingUrl}
-            class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-600 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 w-full sm:w-auto"
+            href={appUrl}
+            class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-600 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 w-full sm:w-auto"
           >
-            Start Getting Paid
+            Start Free
           </a>
           <a
             href="/features"
-            class="inline-flex items-center justify-center rounded-lg border border-border px-8 py-3.5 text-base font-semibold text-foreground hover:bg-muted/50 transition-all w-full sm:w-auto"
+            class="inline-flex items-center justify-center rounded-lg border border-border px-8 py-3 text-base font-semibold text-foreground hover:bg-muted/50 transition-all w-full sm:w-auto"
           >
             See How It Works
           </a>
         </div>
 
-        <p class="mt-4 text-xs text-muted-foreground">
-          Join 1,200+ freelancers and agencies already getting paid on time
+        <p class="mt-3 text-xs text-muted-foreground">
+          1,200+ freelancers and agencies already use ChaseAI
         </p>
       </div>
 
-      <!-- Trust row: thumbnails + lightbox (keeps hero fast for ad traffic) -->
-      <div class="mt-16 md:mt-24 max-w-5xl mx-auto px-4">
-        <p class="text-center text-xs font-medium text-muted-foreground uppercase tracking-wider mb-8">
+      <!-- Trust row -->
+      <div class="mt-14 md:mt-20 max-w-5xl mx-auto px-4">
+        <p class="text-center text-xs font-medium text-muted-foreground uppercase tracking-wider mb-6">
           Why teams use ChaseAI
         </p>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10 lg:gap-x-8 lg:gap-y-8">
@@ -263,27 +269,27 @@ const faqs = [
   <!-- Problem Section -->
   <section class="border-t border-border bg-muted/30 section-padding">
     <div class="container">
-      <div class="max-w-3xl mx-auto text-center mb-16">
+      <div class="max-w-3xl mx-auto text-center mb-10">
         <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-          Every day an invoice sits unpaid, it costs you more than money.
+          Unpaid invoices cost more than money
         </h2>
-        <p class="mt-4 text-lg text-muted-foreground">
-          Chasing payments manually kills your time, your confidence, and your client relationships. There is a better way.
+        <p class="mt-3 text-lg text-muted-foreground">
+          Chasing payments manually drains your time and damages relationships.
         </p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-        <div class="text-center p-6 rounded-2xl bg-background border border-border">
+      <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div class="text-center p-5 rounded-2xl bg-background border border-border">
           <div class="text-lg font-bold text-destructive">Hours lost every week</div>
-          <div class="text-sm text-muted-foreground mt-2">Writing follow-up emails one by one is a part-time job you never signed up for.</div>
+          <div class="text-sm text-muted-foreground mt-2">Writing follow-up emails one by one is a job you never signed up for.</div>
         </div>
-        <div class="text-center p-6 rounded-2xl bg-background border border-border">
+        <div class="text-center p-5 rounded-2xl bg-background border border-border">
           <div class="text-lg font-bold text-warning">Clients go quiet</div>
-          <div class="text-sm text-muted-foreground mt-2">Generic reminder emails get ignored. The wrong tone pushes clients away for good.</div>
+          <div class="text-sm text-muted-foreground mt-2">Generic reminders get ignored. The wrong tone pushes clients away.</div>
         </div>
-        <div class="text-center p-6 rounded-2xl bg-background border border-border">
-          <div class="text-lg font-bold text-foreground">Cash flow suffers</div>
-          <div class="text-sm text-muted-foreground mt-2">Late payments back up your whole business. Bills, payroll, and growth plans all stall.</div>
+        <div class="text-center p-5 rounded-2xl bg-background border border-border">
+          <div class="text-lg font-bold text-foreground">Cash flow stalls</div>
+          <div class="text-sm text-muted-foreground mt-2">Late payments slow down everything: bills, payroll, and growth.</div>
         </div>
       </div>
     </div>
@@ -292,12 +298,12 @@ const faqs = [
   <!-- Features Grid -->
   <section class="section-padding" id="features">
     <div class="container">
-      <div class="max-w-3xl mx-auto text-center mb-16">
+      <div class="max-w-3xl mx-auto text-center mb-10">
         <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-          Everything you need to get paid, without lifting a finger.
+          Everything you need to get paid on time
         </h2>
-        <p class="mt-4 text-lg text-muted-foreground">
-          Built for freelancers, consultants, and small businesses who are done waiting on money they already earned.
+        <p class="mt-3 text-lg text-muted-foreground">
+          Built for freelancers, consultants, and small businesses.
         </p>
       </div>
 
@@ -316,17 +322,17 @@ const faqs = [
   <!-- How It Works -->
   <section class="section-padding border-t border-border bg-muted/30">
     <div class="container">
-      <div class="max-w-3xl mx-auto text-center mb-16">
+      <div class="max-w-3xl mx-auto text-center mb-10">
         <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-          From unpaid invoice to money in your account in 3 steps.
+          Three steps to getting paid
         </h2>
-        <p class="mt-4 text-lg text-muted-foreground">
-          From first upload to funds in your account, minutes not weeks.
+        <p class="mt-3 text-lg text-muted-foreground">
+          From upload to payment in minutes, not weeks.
         </p>
       </div>
 
       <div class="max-w-4xl mx-auto">
-        <div class="grid md:grid-cols-3 gap-8 md:gap-12">
+        <div class="grid md:grid-cols-3 gap-8 md:gap-10">
           {steps.map((step, i) => (
             <div class="relative">
               {i < steps.length - 1 && (
@@ -348,19 +354,19 @@ const faqs = [
   <section class="section-padding">
     <div class="container">
       <div class="max-w-5xl mx-auto">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="grid lg:grid-cols-2 gap-10 items-center">
           <div>
             <div class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary mb-4">
               AI-Powered
             </div>
             <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-              Follow-ups that actually get responses.
+              Follow-ups that actually get responses
             </h2>
-            <p class="mt-4 text-muted-foreground leading-relaxed">
-              Most reminders get deleted. ChaseAI writes messages your clients will actually open and act on because they sound human, clear, and professional every time.
+            <p class="mt-3 text-muted-foreground leading-relaxed">
+              Most reminders get deleted. ChaseAI writes messages that sound human, clear, and professional so clients actually open and act on them.
             </p>
 
-            <ul class="mt-8 space-y-4">
+            <ul class="mt-6 space-y-3">
               <li class="flex items-start gap-3">
                 <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-success/10 text-success mt-0.5">
                   <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
@@ -452,13 +458,10 @@ const faqs = [
   <!-- Comparison Section -->
   <section class="section-padding border-t border-border bg-muted/30">
     <div class="container">
-      <div class="max-w-3xl mx-auto text-center mb-16">
+      <div class="max-w-3xl mx-auto text-center mb-10">
         <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-          Why professionals switch from doing it manually.
+          Manual chasing vs. ChaseAI
         </h2>
-        <p class="mt-4 text-lg text-muted-foreground">
-          The numbers speak for themselves.
-        </p>
       </div>
 
       <div class="max-w-2xl mx-auto">
@@ -489,12 +492,12 @@ const faqs = [
   <!-- Testimonials -->
   <section class="section-padding">
     <div class="container">
-      <div class="max-w-3xl mx-auto text-center mb-16">
+      <div class="max-w-3xl mx-auto text-center mb-10">
         <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-          Real results from people who were tired of chasing.
+          Real results from real users
         </h2>
-        <p class="mt-4 text-lg text-muted-foreground">
-          Freelancers and agencies trust ChaseAI to protect their cash flow and their client relationships.
+        <p class="mt-3 text-lg text-muted-foreground">
+          Freelancers and agencies rely on ChaseAI to protect cash flow and client relationships.
         </p>
       </div>
 
@@ -531,16 +534,39 @@ const faqs = [
   <!-- Pricing Preview -->
   <section class="section-padding border-t border-border bg-muted/30" id="pricing">
     <div class="container">
-      <div class="max-w-3xl mx-auto text-center mb-16">
+      <div class="max-w-3xl mx-auto text-center mb-10">
         <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-          Pricing that pays for itself with your first recovered invoice.
+          Pays for itself with one recovered invoice
         </h2>
-        <p class="mt-4 text-lg text-muted-foreground">
-          Start free, upgrade when you are ready. Cancel any time.
+        <p class="mt-3 text-lg text-muted-foreground">
+          Start free, upgrade when you need more. Cancel anytime.
         </p>
       </div>
 
       <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <!-- Free -->
+        <div class="p-6 rounded-2xl border border-border bg-card relative">
+          <div class="text-sm font-medium text-muted-foreground mb-1">Free</div>
+          <div class="flex items-baseline gap-1 mb-2">
+            <span class="text-4xl font-extrabold">$0</span>
+          </div>
+          <p class="text-sm text-muted-foreground mb-6">No credit card required</p>
+          <ul class="space-y-3 mb-8">
+            {['3 invoices/month', '10 AI sequences/month', 'Automated email sending', 'Basic dashboard'].map(f => (
+              <li class="flex items-center gap-2 text-sm">
+                <svg class="h-4 w-4 text-success shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                {f}
+              </li>
+            ))}
+          </ul>
+          <a
+            href={appUrl}
+            class="inline-flex items-center justify-center w-full rounded-lg border border-border px-4 py-2.5 text-sm font-semibold hover:bg-muted/50 transition-colors"
+          >
+            Start Free
+          </a>
+        </div>
+
         <!-- Starter (highlighted) -->
         <div class="p-6 rounded-2xl border-2 border-primary bg-card shadow-lg shadow-primary/10 relative">
           <div class="absolute -top-3 left-1/2 -translate-x-1/2">
@@ -563,10 +589,10 @@ const faqs = [
             ))}
           </ul>
           <a
-            href={appPricingUrl}
+            href={appUrl}
             class="inline-flex items-center justify-center w-full rounded-lg bg-primary text-primary-foreground px-4 py-2.5 text-sm font-semibold shadow-sm hover:bg-primary-600 transition-colors"
           >
-            Subscribe
+            Start Free
           </a>
         </div>
 
@@ -592,39 +618,16 @@ const faqs = [
             ))}
           </ul>
           <a
-            href={appPricingUrl}
+            href={appUrl}
             class="inline-flex items-center justify-center w-full rounded-lg border border-border px-4 py-2.5 text-sm font-semibold hover:bg-muted/50 transition-colors"
           >
-            Subscribe
-          </a>
-        </div>
-
-        <!-- Enterprise -->
-        <div class="p-6 rounded-2xl border border-border bg-card relative">
-          <div class="text-sm font-medium text-muted-foreground mb-1">Enterprise</div>
-          <div class="flex items-baseline gap-1 mb-2">
-            <span class="text-4xl font-extrabold">Custom</span>
-          </div>
-          <p class="text-sm text-muted-foreground mb-6">Integrations & workflows scoped with you</p>
-          <ul class="space-y-3 mb-8">
-            {['Everything in Pro', 'Accounting & tool integrations (scoped)', 'Mail & workflow automation (scoped)', 'Dedicated onboarding'].map(f => (
-              <li class="flex items-center gap-2 text-sm">
-                <svg class="h-4 w-4 text-success shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                {f}
-              </li>
-            ))}
-          </ul>
-          <a
-            href="/contact"
-            class="inline-flex items-center justify-center w-full rounded-lg border border-border px-4 py-2.5 text-sm font-semibold hover:bg-muted/50 transition-colors"
-          >
-            Contact us
+            Start Free
           </a>
         </div>
       </div>
 
       <p class="text-center mt-6 text-sm text-muted-foreground">
-        Starter and Pro include priority email support. Prices in USD. Cancel anytime on self-serve plans.
+        Start free, upgrade anytime. Prices in USD. Cancel anytime on paid plans.
         <a href="/pricing" class="text-primary hover:underline ml-1">See full pricing details &rarr;</a>
       </p>
     </div>
@@ -633,9 +636,9 @@ const faqs = [
   <!-- FAQ -->
   <section class="section-padding">
     <div class="container">
-      <div class="max-w-3xl mx-auto text-center mb-16">
+      <div class="max-w-3xl mx-auto text-center mb-10">
         <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-          Questions people ask before they sign up.
+          Frequently asked questions
         </h2>
       </div>
 
@@ -660,17 +663,17 @@ const faqs = [
     <div class="container">
       <div class="max-w-3xl mx-auto text-center">
         <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-          Your invoices are already overdue. Start getting paid today.
+          Stop chasing. Start getting paid.
         </h2>
-        <p class="mt-4 text-lg text-muted-foreground">
-          Join 1,200+ freelancers and agencies who stopped chasing and started earning. Set up takes less than 5 minutes.
+        <p class="mt-3 text-lg text-muted-foreground">
+          Set up in under 5 minutes. Free plan, no credit card needed.
         </p>
-        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
-            href={appPricingUrl}
+            href={appUrl}
             class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-600 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 w-full sm:w-auto"
           >
-            Get Started Free
+            Start Free
           </a>
           <a
             href="/pricing"
@@ -680,7 +683,7 @@ const faqs = [
           </a>
         </div>
         <p class="mt-4 text-xs text-muted-foreground">
-          From $29/mo &middot; Enterprise on request &middot; Cancel anytime on Starter and Pro
+          Free forever &middot; Upgrade from $29/mo &middot; Cancel anytime
         </p>
       </div>
     </div>

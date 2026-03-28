@@ -2,6 +2,7 @@
 
 interface ImportMetaEnv {
   readonly VITE_META_PIXEL_ID?: string;
+  readonly VITE_MOBILE_DEEP_LINK_BASE?: string;
 }
 
 interface ImportMeta {

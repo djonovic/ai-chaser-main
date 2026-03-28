@@ -3,18 +3,32 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
-import { Check, Crown, Zap, Building2, Loader2 } from 'lucide-react';
+import { Check, Crown, Zap, FileText, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { usePlan } from '@/hooks/usePlan';
 import { supabase } from '@/lib/supabaseClient';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import type { PlanType } from '@/types';
 import { trackMetaInitiateCheckout, trackMetaViewContent } from '@/lib/metaPixel';
+import { openCheckoutUrl } from '@/lib/capacitor';
 
-const MARKETING_SITE_URL = 'https://chaseai.app';
-
-const checkoutPlans = [
+const plans = [
+  {
+    key: 'free' as PlanType,
+    name: 'Free',
+    monthlyPrice: 0,
+    annualPrice: 0,
+    description: 'Get started with AI invoice chasing — no credit card required.',
+    features: [
+      '3 invoices per month',
+      '10 AI sequence generations/month',
+      'Automated email sending',
+      'Basic dashboard',
+    ],
+    icon: FileText,
+    highlight: false,
+  },
   {
     key: 'starter' as PlanType,
     name: 'Starter',
@@ -56,19 +70,6 @@ const checkoutPlans = [
   },
 ];
 
-const enterprisePlan = {
-  name: 'Enterprise',
-  description:
-    'For teams that want deeper workflows. We scope integrations, onboarding, and support together—tell us what you need.',
-  features: [
-    'Everything in Pro',
-    'Accounting and tool integrations (scoped with you)',
-    'Mail and workflow automation (scoped with you)',
-    'Dedicated onboarding & support',
-  ],
-  icon: Building2,
-};
-
 const planOrder: Record<PlanType, number> = { free: 0, starter: 1, pro: 2 };
 
 export default function PricingPage() {
@@ -76,9 +77,7 @@ export default function PricingPage() {
   const [annual, setAnnual] = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const viewContentTracked = useRef(false);
-  const subscribeToastShown = useRef(false);
 
   useEffect(() => {
     if (viewContentTracked.current) return;
@@ -86,18 +85,14 @@ export default function PricingPage() {
     trackMetaViewContent({ contentName: 'App pricing', contentCategory: 'subscription' });
   }, []);
 
-  useEffect(() => {
-    if (searchParams.get('subscribe') !== '1' || subscribeToastShown.current) return;
-    subscribeToastShown.current = true;
-    toast.info(
-      'Choose a plan to use ChaseAI. Every subscription includes a clear receipt and you can cancel from Settings.',
-    );
-  }, [searchParams]);
-
   const handlePlanAction = useCallback(
     async (targetPlan: PlanType) => {
       if (targetPlan === plan) {
         navigate('/settings');
+        return;
+      }
+      if (targetPlan === 'free') {
+        navigate('/dashboard');
         return;
       }
       if (targetPlan === 'starter' || targetPlan === 'pro') {
@@ -109,10 +104,12 @@ export default function PricingPage() {
           if (error) throw error;
           if (data?.error) throw new Error(data.error);
           if (data?.url) {
-            const p = checkoutPlans.find((x) => x.key === targetPlan);
+            const p = plans.find((x) => x.key === targetPlan);
             if (p) {
               const value =
-                annual && p.annualTotal != null ? p.annualTotal : p.monthlyPrice;
+                annual && 'annualTotal' in p && p.annualTotal != null
+                  ? p.annualTotal
+                  : p.monthlyPrice;
               const metaEventId = (data as { metaEventId?: string }).metaEventId;
               if (metaEventId) {
                 sessionStorage.setItem('meta_purchase_event_id', metaEventId);
@@ -125,7 +122,7 @@ export default function PricingPage() {
                 plan: targetPlan,
               });
             }
-            window.location.href = data.url;
+            await openCheckoutUrl(data.url);
             return;
           }
           throw new Error('No checkout URL returned');
@@ -139,10 +136,11 @@ export default function PricingPage() {
     [plan, annual, navigate],
   );
 
-  const getButtonLabel = (p: (typeof checkoutPlans)[0]) => {
+  const getButtonLabel = (p: (typeof plans)[0]) => {
     const isCurrent = plan === p.key;
-    if (isCurrent) return 'Manage subscription';
-    if (plan === 'free') return 'Subscribe';
+    if (isCurrent) return p.key === 'free' ? 'Current plan' : 'Manage subscription';
+    if (p.key === 'free') return 'Start Free';
+    if (plan === 'free') return 'Upgrade';
     return planOrder[p.key] > planOrder[plan] ? 'Upgrade' : 'Downgrade';
   };
 
@@ -151,17 +149,7 @@ export default function PricingPage() {
       <div className="text-center mb-10">
         <h1 className="text-3xl font-bold tracking-tight">Simple, transparent pricing</h1>
         <p className="text-muted-foreground mt-2 max-w-xl mx-auto">
-          You landed in the right place: checkout runs securely through Stripe. For custom integrations or
-          volume,{' '}
-          <a
-            href={`${MARKETING_SITE_URL}/contact`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:underline font-medium"
-          >
-            contact us
-          </a>{' '}
-          and we will scope Enterprise with you.
+          Start free with 3 invoices and 10 AI sequences per month. Upgrade when you need more.
         </p>
 
         <div className="flex items-center justify-center gap-3 mt-6">
@@ -181,7 +169,7 @@ export default function PricingPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
-        {checkoutPlans.map((p) => {
+        {plans.map((p) => {
           const price = annual ? (p.annualPrice ?? p.monthlyPrice) : p.monthlyPrice;
           const isCurrent = plan === p.key;
           const buttonLabel = getButtonLabel(p);
@@ -212,16 +200,25 @@ export default function PricingPage() {
                 </div>
                 <p className="text-sm text-muted-foreground">{p.description}</p>
                 <div className="mt-3">
-                  <span className="text-4xl font-bold">${price}</span>
-                  <span className="text-muted-foreground">/mo</span>
+                  {price === 0 ? (
+                    <span className="text-4xl font-bold">Free</span>
+                  ) : (
+                    <>
+                      <span className="text-4xl font-bold">${price}</span>
+                      <span className="text-muted-foreground">/mo</span>
+                    </>
+                  )}
                 </div>
-                {annual && p.annualTotal && (
+                {'annualTotal' in p && annual && p.annualTotal && (
                   <p className="text-xs text-muted-foreground mt-1">
                     ${p.annualTotal}/year · Save {p.savePercent}%
                   </p>
                 )}
-                {!annual && (
+                {price > 0 && !annual && (
                   <p className="text-xs text-muted-foreground mt-1">Billed monthly</p>
+                )}
+                {price === 0 && (
+                  <p className="text-xs text-muted-foreground mt-1">No credit card required</p>
                 )}
               </CardHeader>
 
@@ -253,42 +250,11 @@ export default function PricingPage() {
             </Card>
           );
         })}
-
-        <Card className="relative flex flex-col border-border">
-          <CardHeader className="pb-4">
-            <div className="flex items-center gap-2 mb-1">
-              <enterprisePlan.icon className="h-5 w-5 text-primary" />
-              <CardTitle className="text-lg">{enterprisePlan.name}</CardTitle>
-            </div>
-            <p className="text-sm text-muted-foreground">{enterprisePlan.description}</p>
-            <div className="mt-3">
-              <span className="text-4xl font-bold">Custom</span>
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">Scoped with our team</p>
-          </CardHeader>
-
-          <CardContent className="flex-1 flex flex-col justify-between space-y-4">
-            <ul className="space-y-2.5">
-              {enterprisePlan.features.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-sm">
-                  <Check className="h-4 w-4 text-success shrink-0 mt-0.5" />
-                  <span>{f}</span>
-                </li>
-              ))}
-            </ul>
-
-            <Button className="w-full mt-4" variant="outline" asChild>
-              <a href={`${MARKETING_SITE_URL}/contact`} target="_blank" rel="noopener noreferrer">
-                Contact us
-              </a>
-            </Button>
-          </CardContent>
-        </Card>
       </div>
 
       <div className="text-center mt-10 space-y-2">
         <p className="text-sm text-muted-foreground">
-          💡 Tip: Add your own{' '}
+          Add your own{' '}
           <a
             href="https://aistudio.google.com/app/apikey"
             target="_blank"
@@ -297,10 +263,10 @@ export default function PricingPage() {
           >
             Google Gemini API key
           </a>{' '}
-          in Settings to bypass AI limits on Starter and Pro.
+          in Settings to bypass AI limits on any plan.
         </p>
         <p className="text-xs text-muted-foreground">
-          All paid plans include priority email support. Prices in USD. Cancel anytime on Starter and Pro.
+          All paid plans include priority email support. Prices in USD. Cancel anytime.
         </p>
       </div>
     </div>

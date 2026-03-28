@@ -5,42 +5,60 @@ const appUrl = 'https://app.chaseai.app';
 const appPricingUrl = `${appUrl}/pricing`;
 const contactPath = '/contact';
 
-const structuredData = {
+const pageSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  name: 'Pricing - ChaseAI',
+  name: 'ChaseAI Pricing',
   description:
-    'ChaseAI pricing: Starter and Pro in the app; Enterprise scoped with our team for integrations and workflows.',
+    'ChaseAI pricing plans: Free (3 invoices/month), Starter ($29/mo), and Pro ($49/mo). Start free, no credit card required.',
   url: 'https://chaseai.app/pricing',
 };
 
 const plans = [
   {
+    name: 'Free',
+    price: '$0',
+    period: '',
+    subtitle: 'No credit card required',
+    description: 'Try AI invoice chasing with no commitment.',
+    features: [
+      '3 invoices per month',
+      '10 AI sequence generations/month',
+      'Automated email sending',
+      'Basic dashboard',
+    ],
+    cta: 'Start Free',
+    ctaStyle: 'outline',
+    highlight: false,
+    badge: null,
+    href: appUrl,
+  },
+  {
     name: 'Starter',
     price: '$29',
     period: '/mo',
-    subtitle: '$24/mo billed annually — save 17%',
+    subtitle: '$24/mo billed annually - save 17%',
     description: 'For freelancers and consultants who are serious about getting paid.',
     features: [
       'Unlimited invoices',
       '50 AI sequence generations/month',
-      'Real-time tracking',
+      'Email open tracking',
       'Advanced recovery reports',
       'Multi-currency support',
       'PDF invoice extraction',
       'Priority email support',
     ],
-    cta: 'Subscribe',
+    cta: 'Start Free',
     ctaStyle: 'primary',
     highlight: true,
     badge: 'Most Popular',
-    href: appPricingUrl,
+    href: appUrl,
   },
   {
     name: 'Pro',
     price: '$49',
     period: '/mo',
-    subtitle: '$39/mo billed annually — save 20%',
+    subtitle: '$39/mo billed annually - save 20%',
     description: 'For power users and growing teams who want no limits.',
     features: [
       'Everything in Starter',
@@ -50,40 +68,26 @@ const plans = [
       'Priority email support',
       'Bring your own Gemini key',
     ],
-    cta: 'Subscribe',
+    cta: 'Start Free',
     ctaStyle: 'outline',
     highlight: false,
     badge: null,
-    href: appPricingUrl,
-  },
-  {
-    name: 'Enterprise',
-    price: 'Custom',
-    period: '',
-    subtitle: 'Scoped with our team',
-    description: 'Everything in Pro, plus integrations and workflows we define together after you reach out.',
-    features: [
-      'Everything in Pro',
-      'Accounting & tool integrations (scoped with you)',
-      'Mail and workflow automation (scoped with you)',
-      'Dedicated onboarding & support',
-    ],
-    cta: 'Contact us',
-    ctaStyle: 'outline',
-    highlight: false,
-    badge: null,
-    href: contactPath,
+    href: appUrl,
   },
 ];
 
 const faqs = [
+  {
+    q: 'What can I do on the Free plan?',
+    a: 'You get 3 invoices per month and 10 AI sequence generations. Includes automated email sending and a basic dashboard. Everything you need to try ChaseAI before upgrading.',
+  },
   {
     q: 'What counts as an "AI sequence generation"?',
     a: 'Each time you click Generate Smart Sequence on an invoice, that counts as one generation. You can regenerate or create new sequences within your monthly limit. Pro includes unlimited generations (or unlimited on any plan when you add your own Gemini API key in Settings).',
   },
   {
     q: 'Can I use my own API key to bypass AI limits?',
-    a: 'Yes. Add your Google Gemini API key in Settings and you get unlimited AI sequence generations on Starter, Pro, and Enterprise. ChaseAI adds zero markup to API costs.',
+    a: 'Yes. Add your Google Gemini API key in Settings and you get unlimited AI sequence generations on any plan. ChaseAI adds zero markup to API costs.',
   },
   {
     q: 'What payment methods do you accept?',
@@ -91,19 +95,15 @@ const faqs = [
   },
   {
     q: 'Can I switch plans at any time?',
-    a: 'Yes. Upgrade or downgrade between Starter and Pro anytime from your Settings page. When upgrading, you get immediate access to the new plan features. When downgrading, the change applies at the end of your current billing period. Enterprise is arranged separately — contact us.',
+    a: 'Yes. Upgrade or downgrade anytime from your Settings page. When upgrading, you get immediate access to the new plan features. When downgrading, the change applies at the end of your current billing period.',
   },
   {
     q: 'Is there a contract or commitment?',
-    a: 'Starter and Pro are month-to-month or annual, with no long-term contract. Cancel anytime with one click — no cancellation fees. Enterprise terms are agreed when you sign up with our team.',
+    a: 'No. The Free plan has no commitment. Starter and Pro are month-to-month or annual with no long-term contract. Cancel anytime with one click, no cancellation fees.',
   },
   {
     q: 'Do you offer refunds?',
-    a: 'Yes. If you\'re not satisfied within the first 14 days of a paid Starter or Pro subscription, contact us for a full refund. No questions asked.',
-  },
-  {
-    q: 'What\'s included in Enterprise?',
-    a: 'Enterprise builds on Pro with integrations and workflows we define together after you reach out—accounting tools, mail automation, onboarding, and support. Pricing is custom; we scope it on a short call or over email.',
+    a: 'Yes. If you\'re not satisfied within the first 14 days of a paid subscription, contact us for a full refund. No questions asked.',
   },
   {
     q: 'What\'s included in Priority Support?',
@@ -112,35 +112,45 @@ const faqs = [
 ];
 
 const comparisonRows = [
-  { feature: 'Invoices per month', starter: 'Unlimited', pro: 'Unlimited', enterprise: 'Unlimited' },
-  { feature: 'AI sequence generations', starter: '50/mo', pro: 'Unlimited', enterprise: 'Unlimited' },
-  { feature: 'Automated email sending', starter: 'Yes', pro: 'Yes', enterprise: 'Yes' },
-  { feature: 'PDF invoice extraction', starter: 'Yes', pro: 'Yes', enterprise: 'Yes' },
-  { feature: 'Client management', starter: 'Yes', pro: 'Yes', enterprise: 'Yes' },
-  { feature: 'Recovery analytics', starter: 'Advanced', pro: 'Advanced', enterprise: 'Advanced' },
-  { feature: 'Multi-currency', starter: 'Yes', pro: 'Yes', enterprise: 'Yes' },
-  { feature: 'PDF invoice export', starter: '—', pro: 'Yes', enterprise: 'Yes' },
-  { feature: 'BYOK (own API key)', starter: 'Yes', pro: 'Yes', enterprise: 'Yes' },
-  { feature: 'Accounting & tool integrations', starter: '—', pro: '—', enterprise: 'Scoped' },
-  { feature: 'Mail & workflow automation', starter: '—', pro: '—', enterprise: 'Scoped' },
-  { feature: 'Support', starter: 'Priority email', pro: 'Priority email', enterprise: 'Dedicated' },
+  { feature: 'Invoices per month', free: '3', starter: 'Unlimited', pro: 'Unlimited' },
+  { feature: 'AI sequence generations', free: '10/mo', starter: '50/mo', pro: 'Unlimited' },
+  { feature: 'Automated email sending', free: 'Yes', starter: 'Yes', pro: 'Yes' },
+  { feature: 'PDF invoice extraction', free: '-', starter: 'Yes', pro: 'Yes' },
+  { feature: 'Client management', free: 'Yes', starter: 'Yes', pro: 'Yes' },
+  { feature: 'Recovery analytics', free: 'Basic', starter: 'Advanced', pro: 'Advanced' },
+  { feature: 'Multi-currency', free: '-', starter: 'Yes', pro: 'Yes' },
+  { feature: 'PDF invoice export', free: '-', starter: '-', pro: 'Yes' },
+  { feature: 'BYOK (own API key)', free: 'Yes', starter: 'Yes', pro: 'Yes' },
+  { feature: 'Support', free: 'Email', starter: 'Priority email', pro: 'Priority email' },
 ];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const structuredData = [pageSchema, faqSchema];
 ---
 
 <BaseLayout
-  title="Pricing"
-  description="ChaseAI pricing: Starter ($29/mo) and Pro ($49/mo) in the app; Enterprise is custom and scoped when you contact us."
+  title="Pricing - Invoice Chasing Software Plans"
+  description="ChaseAI pricing: Free plan (3 invoices/month), Starter at $29/mo, Pro at $49/mo. Automate invoice follow-ups. No credit card to start."
   structuredData={structuredData}
 >
   <!-- Hero -->
   <section class="hero-gradient">
-    <div class="container py-20 md:py-28">
+    <div class="container py-16 md:py-24">
       <div class="max-w-3xl mx-auto text-center">
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">
           Simple, transparent pricing
         </h1>
-        <p class="mt-6 text-lg text-muted-foreground max-w-xl mx-auto">
-          After you sign in, you will complete checkout in the app with Stripe—clear pricing, emailed receipts, cancel from Settings. Enterprise is for teams that want integrations and workflows scoped together; we start from your requirements.
+        <p class="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">
+          Start free with 3 invoices and 10 AI sequences per month. Upgrade when you need more.
         </p>
       </div>
     </div>
@@ -204,10 +214,10 @@ const comparisonRows = [
 
       <div class="text-center mt-8 space-y-2">
         <p class="text-sm text-muted-foreground">
-          Add your own <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Google Gemini API key</a> in Settings to bypass AI limits on Starter, Pro, and Enterprise.
+          Add your own <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Google Gemini API key</a> in Settings to bypass AI limits on any plan.
         </p>
         <p class="text-xs text-muted-foreground">
-          All plans include email support. Prices in USD. Cancel anytime on Starter and Pro.
+          All plans include email support. Prices in USD. Cancel anytime.
         </p>
       </div>
     </div>
@@ -226,16 +236,16 @@ const comparisonRows = [
         <div class="rounded-2xl border border-border bg-card overflow-hidden min-w-[640px]">
           <div class="grid grid-cols-4 bg-muted/50 border-b border-border">
             <div class="px-4 py-3 text-sm font-semibold">Feature</div>
+            <div class="px-4 py-3 text-sm font-semibold text-center">Free</div>
             <div class="px-4 py-3 text-sm font-semibold text-center text-primary">Starter</div>
             <div class="px-4 py-3 text-sm font-semibold text-center">Pro</div>
-            <div class="px-4 py-3 text-sm font-semibold text-center">Enterprise</div>
           </div>
           {comparisonRows.map((row, i) => (
             <div class:list={['grid grid-cols-4', i % 2 === 0 ? 'bg-card' : 'bg-muted/20']}>
               <div class="px-4 py-3 text-sm font-medium">{row.feature}</div>
+              <div class="px-4 py-3 text-sm text-center font-medium">{row.free}</div>
               <div class="px-4 py-3 text-sm text-center font-medium">{row.starter}</div>
               <div class="px-4 py-3 text-sm text-center font-medium">{row.pro}</div>
-              <div class="px-4 py-3 text-sm text-center font-medium">{row.enterprise}</div>
             </div>
           ))}
         </div>
@@ -272,8 +282,8 @@ const comparisonRows = [
             </div>
           </div>
 
-          <p class="text-center text-sm text-muted-foreground mt-6">
-            Most users recover their first overdue invoice within the first week. That's a 144x return on a $29/month investment.
+          <p class="text-center text-sm text-muted-foreground mt-5">
+            Most users recover their first overdue invoice within a week. That is a 144x return on a $29/month plan.
           </p>
         </div>
       </div>
@@ -313,20 +323,20 @@ const comparisonRows = [
           Start getting paid faster today
         </h2>
         <p class="mt-4 text-lg text-muted-foreground">
-          Sign in, then complete secure checkout for Starter or Pro. Enterprise is available through sales.
+          Create your free account and start chasing invoices in minutes. Upgrade anytime.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
-            href={appPricingUrl}
+            href={appUrl}
             class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-600 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 w-full sm:w-auto"
           >
-            Subscribe
+            Start Free
           </a>
           <a
-            href={contactPath}
+            href={appPricingUrl}
             class="inline-flex items-center justify-center rounded-lg border border-border px-8 py-3.5 text-base font-semibold text-foreground hover:bg-muted/50 transition-all w-full sm:w-auto"
           >
-            Contact sales
+            View Plans
           </a>
         </div>
       </div>

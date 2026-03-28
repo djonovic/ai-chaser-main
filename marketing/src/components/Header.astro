@@ -20,7 +20,7 @@ const appPricingUrl = `${appUrl}/pricing`;
       <span class="text-lg font-bold tracking-tight text-foreground">ChaseAI</span>
     </a>
 
-    <nav class="hidden md:flex items-center gap-1">
+    <nav class="hidden md:flex items-center gap-1" aria-label="Main navigation">
       {navLinks.map(link => (
         <a
           href={link.href}
@@ -44,10 +44,10 @@ const appPricingUrl = `${appUrl}/pricing`;
         Log in
       </a>
       <a
-        href={appPricingUrl}
+        href={appUrl}
         class="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary-600 transition-all hover:shadow-md"
       >
-        Subscribe
+        Start Free
       </a>
 
       <button

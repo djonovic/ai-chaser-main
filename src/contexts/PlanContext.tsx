@@ -113,18 +113,16 @@ export function PlanProvider({ children }: { children: ReactNode }) {
 
   const canCreateInvoice = useCallback(
     (currentCount: number) => {
-      if (plan === 'free') return false;
       return limits.maxInvoices === null || currentCount < limits.maxInvoices;
     },
-    [limits.maxInvoices, plan],
+    [limits.maxInvoices],
   );
 
   const canUseAI = useCallback(() => {
-    if (plan === 'free') return false;
     if (hasUserKey) return true;
     if (limits.maxAISequences === null) return true;
     return aiUsageCount < limits.maxAISequences;
-  }, [plan, hasUserKey, limits.maxAISequences, aiUsageCount]);
+  }, [hasUserKey, limits.maxAISequences, aiUsageCount]);
 
   const aiLimitReached =
     !hasUserKey &&

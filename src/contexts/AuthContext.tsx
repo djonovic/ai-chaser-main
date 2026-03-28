@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabaseClient';
+import { getAuthRedirectUrl } from '@/lib/capacitor';
 
 interface AuthContextType {
   user: User | null;
@@ -42,10 +43,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signUp = async (email: string, password: string, fullName: string) => {
-    const authContinue =
-      typeof window !== 'undefined'
-        ? `${window.location.origin}/auth${window.location.search}`
-        : undefined;
+    const authContinue = getAuthRedirectUrl('auth');
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -58,10 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signInWithMagicLink = async (email: string) => {
-    const authContinue =
-      typeof window !== 'undefined'
-        ? `${window.location.origin}/auth${window.location.search}`
-        : undefined;
+    const authContinue = getAuthRedirectUrl('auth');
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: { emailRedirectTo: authContinue },
@@ -70,8 +65,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const resetPassword = async (email: string) => {
+    const redirectTo = getAuthRedirectUrl('reset-password');
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth/reset-password`,
+      redirectTo,
     });
     return { error: error as Error | null };
   };
