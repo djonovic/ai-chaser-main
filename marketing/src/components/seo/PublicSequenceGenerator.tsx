@@ -42,12 +42,16 @@ export default function PublicSequenceGenerator() {
   const [error, setError] = useState('');
   const [result, setResult] = useState<ResultData | null>(null);
 
-  const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL as string | undefined;
-  const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY as string | undefined;
+  const supabaseUrl =
+    (import.meta.env.PUBLIC_SUPABASE_URL as string | undefined) ||
+    (import.meta.env.VITE_SUPABASE_URL as string | undefined);
+  const supabaseAnonKey =
+    (import.meta.env.PUBLIC_SUPABASE_ANON_KEY as string | undefined) ||
+    (import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY as string | undefined);
 
   const configError = useMemo(() => {
     if (!supabaseUrl || !supabaseAnonKey) {
-      return 'Missing PUBLIC_SUPABASE_URL or PUBLIC_SUPABASE_ANON_KEY in marketing environment.';
+      return 'Missing Supabase env vars. Set PUBLIC_SUPABASE_URL + PUBLIC_SUPABASE_ANON_KEY (or VITE_SUPABASE_URL + VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY), then restart the dev server.';
     }
     return '';
   }, [supabaseAnonKey, supabaseUrl]);
