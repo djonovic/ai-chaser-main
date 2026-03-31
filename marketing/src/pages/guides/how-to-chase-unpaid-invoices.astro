@@ -1,0 +1,308 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoCtaBand from '../../components/seo/SeoCtaBand';
+import SeoFaq from '../../components/seo/SeoFaq';
+import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+
+const appUrl = 'https://app.chaseai.app';
+const pageSlug = '/guides/how-to-chase-unpaid-invoices';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+// META (locked by request)
+const metaTitle = 'How to Chase Unpaid Invoices (Step-by-Step)';
+const metaDescription =
+  'A practical, non-awkward system to chase unpaid invoices: timing, scripts, escalation, and what to do when clients ghost you.';
+
+const tocItems = [
+  { id: 'step-1', label: 'Step 1 - Confirm basics' },
+  { id: 'step-2', label: 'Step 2 - Follow-up timeline' },
+  { id: 'step-3', label: 'Step 3 - Scripts (friendly to firm)' },
+  { id: 'step-4', label: 'Step 4 - Talk to finance playbook' },
+  { id: 'step-5', label: 'Step 5 - Pause work and last resorts' },
+  { id: 'automate', label: 'Turn it into an automated sequence' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const faqs = [
+  {
+    q: 'How do I ask for payment politely without sounding weak?',
+    a: 'Be courteous but specific: reference invoice number, amount, and due date, then ask for a payment date. Polite language works best when paired with a concrete next step.',
+  },
+  {
+    q: 'How many follow-ups should I send before escalating?',
+    a: 'Most freelancers and agencies escalate after 4-5 touches (Day 1, 7, 14, 30, and 45). The key is consistent cadence, not aggressive tone.',
+  },
+  {
+    q: 'What if the client says accounting is delayed?',
+    a: 'Ask for AP contact details, resend one concise summary email, and request a firm payment date. Keep your primary contact CCd so responsibility remains visible.',
+  },
+  {
+    q: 'When should I pause work for non-payment?',
+    a: 'Usually by Day 30 if there is no confirmed payment date or plan. Set this boundary in your contract and reference it in your final notice.',
+  },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: metaTitle,
+  description: metaDescription,
+  datePublished: '2026-03-31',
+  dateModified: '2026-03-31',
+  author: {
+    '@type': 'Person',
+    name: 'Alex Morgan',
+    url: 'https://chaseai.app/about',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'ChaseAI',
+    url: 'https://chaseai.app',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://chaseai.app/favicon.svg',
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
+};
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogType="article"
+  structuredData={[articleSchema]}
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://app.chaseai.app" />
+  </Fragment>
+
+  <section class="hero-gradient relative overflow-hidden">
+    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+        How to Chase Unpaid Invoices Without Sounding Awkward
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+        If you are searching for <strong>how to chase unpaid invoices</strong>, you do not need more theory.
+        You need a simple sequence that is polite at first, firm when needed, and clear enough to get paid
+        without burning a good client relationship.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-y border-border bg-muted/30">
+    <div class="container py-6 text-center">
+      <p class="text-sm text-muted-foreground">
+        <strong class="text-foreground">89%</strong> of small businesses report being paid late by customers.
+      </p>
+      <p class="mt-2">
+        <a
+          href="https://quickbooks.intuit.com/r/small-business-data/small-business-late-payments-report-2025/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-xs text-muted-foreground/70 hover:text-primary transition-colors"
+        >
+          Source: QuickBooks Late Payments Report
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container">
+      <div class="grid lg:grid-cols-[200px_1fr_200px] gap-10 max-w-6xl mx-auto">
+        <aside>
+          <SeoToc items={tocItems} client:idle />
+        </aside>
+
+        <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
+          <SeoAuthor date="2026-03-31" />
+          <p>
+            The playbook below answers all the urgent questions at once: <strong>how to follow up on unpaid invoice</strong>,
+            <strong> how to ask for payment politely</strong>, and <strong>how to get clients to pay invoices</strong>
+            before they drag into month two.
+          </p>
+
+          <h2 id="step-1">Step 1 - Confirm basics (invoice, terms, payment method)</h2>
+          <p>
+            Before sending another reminder, verify the simple stuff. A lot of payment delays are admin errors,
+            not refusal to pay. If you miss this step, you can look aggressive when the issue is actually fixable
+            in one message.
+          </p>
+          <ul>
+            <li>Invoice number and amount are correct.</li>
+            <li>Due date and payment terms match the contract.</li>
+            <li>Payment link, bank details, or ACH instructions still work.</li>
+            <li>The right contact is on the thread (owner, PM, or AP).</li>
+            <li>Any required PO, W-9, or vendor form was submitted.</li>
+          </ul>
+          <p>
+            If any item is unclear, send a short note asking for correction first. Keep your opening neutral:
+            “Quick check so I can close this correctly on my side.” That framing reduces defensiveness and keeps
+            momentum.
+          </p>
+
+          <h2 id="step-2">Step 2 - Follow-up timeline (Day 1/7/14/30/45)</h2>
+          <p>
+            Consistency beats intensity. Most people fail because they send one emotional nudge, then disappear
+            for three weeks. Use this timeline every time so clients know payment will not be forgotten.
+          </p>
+          <ul>
+            <li><strong>Day 1:</strong> Friendly reminder + payment link.</li>
+            <li><strong>Day 7:</strong> Follow-up with direct ask: “Can you confirm payment date?”</li>
+            <li><strong>Day 14:</strong> Firm note with a new deadline.</li>
+            <li><strong>Day 30:</strong> Final notice with consequences per your terms.</li>
+            <li><strong>Day 45:</strong> Escalation path (pause work, collections, legal consult).</li>
+          </ul>
+          <p>
+            Want a deeper timing breakdown? Use the full
+            <a href="/guides/unpaid-invoice-follow-up-schedule"> unpaid invoice follow-up schedule</a>.
+          </p>
+          <p>
+            A practical rule: if a client responds with a clear payment date, pause escalation language and move
+            into confirmation mode. If they miss that date, restart at the next firmness level instead of dropping
+            back to friendly. This keeps you fair and predictable while still protecting cash flow.
+          </p>
+
+          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm text-muted-foreground">
+            <p><strong class="text-foreground">Timeline diagram placeholder</strong></p>
+            <p class="mt-2">
+              Visual: Day 1, 7, 14, 30, 45 reminder cadence with tone progression (friendly to firm).
+            </p>
+          </div>
+
+          <h2 id="step-3">Step 3 - Scripts (friendly to firm)</h2>
+          <p>
+            Use short scripts and avoid essays. The goal is action, not explanation. Each email should include
+            one clear ask and one clear way to pay.
+          </p>
+          <p>
+            Structure each reminder in four lines: context, status, ask, and link. That format works across
+            freelancers, agencies, and SaaS retainers because it removes ambiguity. Clients can instantly see
+            what is due and what happens next.
+          </p>
+          <h3>Friendly (Day 1)</h3>
+          <p>
+            “Hi [Name], quick reminder that invoice #[number] for [amount] was due on [date]. If payment was sent,
+            please ignore this. If not, here is the payment link: [link]. Thanks.”
+          </p>
+          <h3>Direct (Day 7)</h3>
+          <p>
+            “Hi [Name], following up on invoice #[number], now 7 days overdue. Can you confirm the payment date
+            today? Payment link: [link].”
+          </p>
+          <h3>Firm (Day 14+)</h3>
+          <p>
+            “Hi [Name], invoice #[number] for [amount] remains unpaid after prior reminders. Please remit by
+            [date]. If there is a processing issue, reply today so we can resolve it.”
+          </p>
+          <p>
+            If you need stronger wording, copy from this
+            <a href="/templates/firm-payment-reminder-email"> firm payment reminder email template</a>.
+          </p>
+
+          <h2 id="step-4">Step 4 - "Talk to finance" playbook</h2>
+          <p>
+            “Talk to finance” is often a handoff, not a dead end. Treat it as a workflow. Your job is to make AP
+            processing easy and trackable.
+          </p>
+          <ol>
+            <li>Ask for the exact AP contact name and email.</li>
+            <li>Forward one clean summary with invoice, amount, due date, and payment details.</li>
+            <li>Include PO number or job code in subject line if available.</li>
+            <li>CC your original contact so ownership stays visible.</li>
+            <li>Request a specific payment date, not “an update.”</li>
+          </ol>
+          <p>
+            Example subject line: “AP action needed: Invoice #2194, $3,200, due Feb 28.”
+            Specificity shortens back-and-forth and lowers the chance your invoice sits in a queue.
+          </p>
+          <p>
+            If AP requests extra documents, send everything in one bundle and restate your payment deadline in the
+            same email. Fragmented replies create more delay. One complete packet tends to move faster through
+            approvals.
+          </p>
+
+          <h2 id="step-5">Step 5 - When to pause work + last resort options</h2>
+          <p>
+            At some point, continued delivery without payment becomes a business risk. Decide your threshold in
+            advance so you are not making emotional calls under stress.
+          </p>
+          <ul>
+            <li>Pause new work after Day 30 if no payment plan is confirmed.</li>
+            <li>Keep support limited to contractual obligations only.</li>
+            <li>Send a final notice with firm deadline and next steps.</li>
+            <li>Document every reminder and response in one thread.</li>
+            <li>If unresolved at Day 45+, consider collections or legal advice.</li>
+          </ul>
+          <p>
+            Keep consequences factual, not dramatic. You are not threatening the client; you are communicating your
+            standard process. That distinction helps preserve professionalism and makes your escalation more credible.
+          </p>
+
+          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm text-muted-foreground">
+            <p><strong class="text-foreground">Decision tree diagram placeholder</strong></p>
+            <p class="mt-2">Flow: no response -> follow-up -> AP contact -> final notice -> escalate.</p>
+          </div>
+
+          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm text-muted-foreground">
+            <p><strong class="text-foreground">Do / Don’t checklist placeholder</strong></p>
+            <ul class="mt-2 space-y-1">
+              <li>Do: keep reminders short, specific, and scheduled.</li>
+              <li>Do: include payment link and exact due amount every time.</li>
+              <li>Don’t: apologize for asking to be paid.</li>
+              <li>Don’t: send emotional messages or idle threats.</li>
+            </ul>
+          </div>
+
+          <h2 id="automate">Turn it into an automated sequence</h2>
+          <p>
+            Manual chasing fails when you get busy. Automation fixes consistency, timing, and tone drift.
+            Upload one invoice and generate a complete follow-up series in minutes with the
+            <a href="/tools/overdue-invoice-sequence-generator"> overdue invoice sequence generator</a>.
+          </p>
+          <ol>
+            <li>Upload invoice PDF or enter details manually.</li>
+            <li>Generate a multi-step reminder sequence.</li>
+            <li>Edit tone from friendly to firm.</li>
+            <li>Set timing once and activate.</li>
+          </ol>
+          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm text-muted-foreground">
+            <p><strong class="text-foreground">GIF placeholder</strong></p>
+            <p class="mt-2">Animation: generate sequence -> schedule created.</p>
+          </div>
+
+          <div class="not-prose">
+            <SeoCtaBand
+              heading="Need reminders written and scheduled fast?"
+              description="Upload an invoice and get an editable sequence with clear escalation timing."
+              primaryHref={appUrl}
+              primaryLabel="Generate my sequence"
+              primaryAriaLabel="Generate overdue invoice follow-up sequence"
+              secondaryHref="/pricing"
+              secondaryLabel="View pricing"
+              secondaryAriaLabel="View pricing plans"
+            />
+          </div>
+
+        </article>
+
+        <div class="hidden lg:block" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">
+        Frequently asked questions
+      </h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+</BaseLayout>

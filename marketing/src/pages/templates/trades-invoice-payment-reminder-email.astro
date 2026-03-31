@@ -1,0 +1,237 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoCtaBand from '../../components/seo/SeoCtaBand';
+import SeoFaq from '../../components/seo/SeoFaq';
+import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+
+const appUrl = 'https://app.chaseai.app';
+const pageSlug = '/templates/trades-invoice-payment-reminder-email';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+// META (DO NOT CHANGE)
+const metaTitle = 'Trades Invoice Payment Reminder Email';
+const metaDescription =
+  'Payment reminder emails for plumbers, electricians, and trades. Clear, polite templates that get invoices paid without endless calls.';
+
+const tocItems = [
+  { id: 'fast-template', label: 'Fast template (SMS-ish email)' },
+  { id: 'detailed-template', label: 'Detailed template (itemized + link)' },
+  { id: 'proof-checklist', label: 'Job done proof checklist' },
+  { id: 'firm-shift', label: 'When to shift to firm language' },
+  { id: 'automate', label: 'Automate reminders' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const faqs = [
+  {
+    q: 'What is the best reminder style for trades clients?',
+    a: 'Short, direct reminders with invoice number, job reference, amount due, and a one-click payment link.',
+  },
+  {
+    q: 'Should I send reminders by email if clients usually text?',
+    a: 'Yes. Email gives a clear payment trail, and you can still send a short text saying an invoice reminder was sent.',
+  },
+  {
+    q: 'When should a contractor payment reminder email become firm?',
+    a: 'Usually after one or two ignored reminders or if a promised payment date is missed.',
+  },
+  {
+    q: 'Can I include job proof in reminder emails?',
+    a: 'Yes, and you should. Attach completion photos, signed job sheet, or acceptance confirmation to reduce disputes.',
+  },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: metaTitle,
+  description: metaDescription,
+  datePublished: '2026-03-31',
+  dateModified: '2026-03-31',
+  author: {
+    '@type': 'Person',
+    name: 'Alex Morgan',
+    url: 'https://chaseai.app/about',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'ChaseAI',
+    url: 'https://chaseai.app',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://chaseai.app/favicon.svg',
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
+};
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogType="article"
+  structuredData={[articleSchema]}
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://app.chaseai.app" />
+  </Fragment>
+
+  <section class="hero-gradient relative overflow-hidden">
+    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+        Trades Invoice Payment Reminder Email (Copy/Paste)
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+        Built for plumbers, electricians, and contractors who need polite reminders that get payment moving
+        without endless back-and-forth calls.
+      </p>
+    </div>
+  </section>
+
+  <section class="">
+    <div class="container">
+      <div class="grid lg:grid-cols-[200px_1fr_200px] gap-10 max-w-6xl mx-auto">
+        <aside>
+          <SeoToc items={tocItems} client:idle />
+        </aside>
+
+        <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
+          <SeoAuthor date="2026-03-31" />
+          <p>
+            A strong <strong>trades invoice payment reminder email</strong> should reference the job clearly, show
+            what is owed, and make payment easy in one click. Use the templates below for both domestic and
+            commercial customers.
+          </p>
+
+          <h2 id="fast-template">Fast template (SMS-ish email)</h2>
+          <p>
+            Subject: "Invoice #[number] due - quick reminder"
+          </p>
+          <p>
+            "Hi [Name], quick reminder that invoice #[number] for [amount] (job: [job reference]) is now due.
+            Payment link: [link]. If already paid, thank you and ignore this."
+          </p>
+          <p>
+            This format works well for a <strong>plumber invoice payment reminder email</strong> when clients prefer
+            short, no-friction communication.
+          </p>
+
+          <h2 id="detailed-template">Detailed template (itemized + link)</h2>
+          <p>
+            Subject: "Payment follow-up: invoice #[number] for [site/job]"
+          </p>
+          <p>
+            "Hi [Name], following up on invoice #[number], due [date]. I have reattached the invoice and included
+            a quick summary below:
+          </p>
+          <ul>
+            <li>Job: [address/site]</li>
+            <li>Work completed: [scope summary]</li>
+            <li>Amount due: [amount]</li>
+            <li>Due date: [date]</li>
+            <li>Payment link/details: [link/details]</li>
+          </ul>
+          <p>
+            Please confirm payment date today, or let me know if anything is missing on your side."
+          </p>
+          <p>
+            Use this style as an <strong>electrician invoice reminder email</strong> when itemized proof helps close
+            payment faster.
+          </p>
+
+          <h2 id="proof-checklist">"Job done" proof checklist</h2>
+          <ul>
+            <li>Signed job sheet or completion sign-off.</li>
+            <li>Before/after photos where relevant.</li>
+            <li>Materials and labor line items.</li>
+            <li>PO/work order reference for commercial jobs.</li>
+            <li>Date completed and on-site contact name.</li>
+          </ul>
+          <p>
+            Adding proof upfront reduces "not received" or "need more detail" delays.
+          </p>
+
+          <h2 id="firm-shift">When to shift to firm language</h2>
+          <p>
+            Stay polite first, then tighten tone by invoice age:
+          </p>
+          <ul>
+            <li>Day 1 to Day 4 overdue: short friendly reminder.</li>
+            <li>Day 7 to Day 14 overdue: direct payment-date ask.</li>
+            <li>After missed commitment: firm deadline + next step.</li>
+          </ul>
+          <p>
+            For stronger wording, use
+            <a href="/templates/firm-payment-reminder-email"> firm payment reminder email</a>.
+            For formal escalation, use
+            <a href="/templates/past-due-invoice-notice-template"> past due invoice notice template</a>.
+          </p>
+
+          <div class="not-prose my-6 rounded-xl border border-primary/10 bg-primary/5 p-4 text-sm text-muted-foreground">
+            <p><strong class="text-foreground">Quick tips</strong></p>
+            <ul class="mt-2 space-y-1">
+              <li>Use job reference in subject line for fast recognition.</li>
+              <li>Attach proof pack on second reminder, not only final notice.</li>
+              <li>Keep reminders under 100 words unless dispute exists.</li>
+              <li>Ask for payment date, not "an update".</li>
+            </ul>
+          </div>
+
+          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
+            <p class="font-semibold mb-2">Timeline: trades reminder progression</p>
+            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
+    title Trades Invoice Reminder Timeline
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d %b
+    section Sequence
+    Friendly reminder         :d1, 2026-04-01, 3d
+    Second reminder           :d4, 2026-04-04, 3d
+    Direct reminder           :d7, 2026-04-07, 7d
+    Firm reminder             :d14, 2026-04-14, 16d
+    Past due notice           :d30, 2026-04-30, 15d
+    Escalation step           :d45, 2026-05-15, 1d</code></pre>
+          </div>
+
+          <h2 id="automate">Automate reminders</h2>
+          <p>
+            Turn your contractor follow-up process into a repeatable system with the
+            <a href="/tools/overdue-invoice-sequence-generator"> overdue invoice sequence generator</a>.
+          </p>
+          <ol>
+            <li>Upload invoice PDF or enter job details manually.</li>
+            <li>Generate staged reminders from friendly to firm.</li>
+            <li>Set send timing once.</li>
+            <li>Track opens, replies, and payment completion.</li>
+          </ol>
+
+          <div class="not-prose">
+            <SeoCtaBand
+              heading="Automate trades invoice reminders in minutes"
+              description="Generate clear reminders with job references, proof-ready wording, and escalation timing."
+              primaryHref={appUrl}
+              primaryLabel="Generate my sequence"
+              primaryAriaLabel="Generate trades invoice reminder sequence"
+              secondaryHref="/pricing"
+              secondaryLabel="View pricing"
+              secondaryAriaLabel="View pricing plans"
+            />
+          </div>
+        </article>
+
+        <div class="hidden lg:block" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">Frequently asked questions</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+</BaseLayout>

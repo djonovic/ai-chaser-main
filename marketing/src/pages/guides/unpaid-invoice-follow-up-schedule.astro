@@ -1,0 +1,278 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoCtaBand from '../../components/seo/SeoCtaBand';
+import SeoFaq from '../../components/seo/SeoFaq';
+import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+
+const appUrl = 'https://app.chaseai.app';
+const pageSlug = '/guides/unpaid-invoice-follow-up-schedule';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+// META (DO NOT CHANGE)
+const metaTitle = 'Unpaid Invoice Follow-Up Schedule (Day 1–45)';
+const metaDescription =
+  'Exactly what to send and when: a day-by-day follow-up schedule that keeps you polite, firm, and paid—without burning bridges.';
+
+const tocItems = [
+  { id: 'before-due', label: 'Before due date reminders (optional)' },
+  { id: 'day-scripts', label: 'Day 1 / 4 / 8 / 12 / 18 / 30 / 45 scripts' },
+  { id: 'timing-rules', label: 'Timing rules' },
+  { id: 'avoid-spammy', label: 'How to avoid spammy chasing' },
+  { id: 'smart-chasing', label: 'Turn schedule into Smart Chasing' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const faqs = [
+  {
+    q: 'What is the best invoice reminder schedule for most clients?',
+    a: 'A practical baseline is Day 1, 4, 8, 12, 18, 30, and 45 after due date, with tone progressing from friendly to firm.',
+  },
+  {
+    q: 'Should I send reminders on weekends?',
+    a: 'Usually no. Send on business days in the client timezone unless you know their accounts payable team works weekends.',
+  },
+  {
+    q: 'When do I send a final notice?',
+    a: 'Most teams send a final notice around Day 30, then escalate at Day 45 if there is no payment date or plan.',
+  },
+  {
+    q: 'How do I avoid sounding aggressive in follow-ups?',
+    a: 'Keep each email short, factual, and specific: invoice number, amount due, payment link, and one clear next action.',
+  },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: metaTitle,
+  description: metaDescription,
+  datePublished: '2026-03-31',
+  dateModified: '2026-03-31',
+  author: {
+    '@type': 'Person',
+    name: 'Alex Morgan',
+    url: 'https://chaseai.app/about',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'ChaseAI',
+    url: 'https://chaseai.app',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://chaseai.app/favicon.svg',
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
+};
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogType="article"
+  structuredData={[articleSchema]}
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://app.chaseai.app" />
+  </Fragment>
+
+  <section class="hero-gradient relative overflow-hidden">
+    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+        Unpaid Invoice Follow-Up Schedule (Exactly What to Send)
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+        This guide gives you a practical <strong>unpaid invoice follow up schedule</strong> with copy-ready
+        scripts for every key day, so you know exactly when to nudge, when to tighten tone, and when to escalate.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-y border-border bg-muted/30">
+    <div class="container py-6 text-center">
+      <p class="text-sm text-muted-foreground">
+        Atradius reports average B2B payment terms at about <strong class="text-foreground">52 days</strong>,
+        which is why a proactive reminder cadence matters.
+      </p>
+      <p class="mt-2">
+        <a
+          href="https://group.atradius.com/knowledge-and-research/reports/b2b-payment-practices-trends%2C-western-europe-2024"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-xs text-muted-foreground/70 hover:text-primary transition-colors"
+        >
+          Source: Atradius payment practices research
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container">
+      <div class="grid lg:grid-cols-[200px_1fr_200px] gap-10 max-w-6xl mx-auto">
+        <aside>
+          <SeoToc items={tocItems} client:idle />
+        </aside>
+
+        <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
+          <SeoAuthor date="2026-03-31" />
+          <p>
+            If you have been wondering <strong>when to send invoice reminders</strong>, use this sequence as
+            your default operating procedure. It works because each step is short, specific, and tied to a clear
+            action. You avoid random follow-ups, and clients understand that payment will be tracked until resolved.
+          </p>
+
+          <h2 id="before-due">Before due date reminders (optional)</h2>
+          <p>
+            Pre-due nudges reduce late payments without increasing friction. For new clients or large invoices,
+            send one courtesy reminder 2 to 3 business days before due date.
+          </p>
+          <p>
+            Script example: "Hi [Name], quick heads-up that invoice #[number] for [amount] is due on [date].
+            Sharing the payment link here for convenience: [link]."
+          </p>
+          <p>
+            Keep this one purely friendly. Do not mention consequences before the due date unless your contract
+            requires advance notice.
+          </p>
+
+          <h2 id="day-scripts">Day 1 / Day 4 / Day 8 / Day 12 / Day 18 / Day 30 / Day 45 scripts</h2>
+          <p>
+            This is your core <strong>invoice reminder schedule</strong>. Send on business days and use one thread
+            so every message builds context.
+          </p>
+
+          <h3>Day 1: friendly reminder</h3>
+          <p>
+            "Hi [Name], invoice #[number] for [amount] was due yesterday. If payment has already been sent, please
+            ignore this note. If not, here is the payment link: [link]. Thank you."
+          </p>
+
+          <h3>Day 4: light follow-up</h3>
+          <p>
+            "Hi [Name], following up on invoice #[number], currently 4 days overdue. Could you confirm expected
+            payment date? Link: [link]."
+          </p>
+
+          <h3>Day 8: direct ask</h3>
+          <p>
+            "Hi [Name], quick check on invoice #[number] for [amount], now 8 days overdue. Please share the
+            scheduled payment date today so I can update records on my side."
+          </p>
+
+          <h3>Day 12: firm but professional</h3>
+          <p>
+            "Hi [Name], invoice #[number] remains unpaid after previous reminders. Please process by [date] or
+            reply with any issue blocking payment."
+          </p>
+
+          <h3>Day 18: escalation warning</h3>
+          <p>
+            "Hi [Name], this is an escalation follow-up for invoice #[number], now 18 days overdue. If payment is
+            not made by [date], I will move to final notice per our terms."
+          </p>
+          <p>
+            Need a stronger mid-cycle template? Use this
+            <a href="/templates/second-invoice-reminder-email"> second invoice reminder email</a>.
+          </p>
+
+          <h3>Day 30: final notice</h3>
+          <p>
+            "Hi [Name], invoice #[number] for [amount] is 30 days overdue. This is final notice. Please pay by
+            [date] to avoid further action under our agreement."
+          </p>
+          <p>
+            For copy that is ready to send, use this
+            <a href="/templates/final-notice-unpaid-invoice-email"> final notice unpaid invoice email</a>.
+          </p>
+
+          <h3>Day 45: last escalation step</h3>
+          <p>
+            "Hi [Name], despite repeated reminders, invoice #[number] remains unpaid at 45 days overdue.
+            If payment is not received by [date], I will move to collections or legal review."
+          </p>
+          <p>
+            This gives you a complete <strong>overdue invoice follow up timeline</strong> from first nudge through
+            formal escalation while still preserving a professional tone.
+          </p>
+
+          <h2 id="timing-rules">Timing rules (weekends, holidays, AP cycles)</h2>
+          <p>
+            Execution details matter as much as script quality. Apply these timing rules so reminders land when
+            someone can actually act on them.
+          </p>
+          <ul>
+            <li>Send Tuesday to Thursday when possible for higher response rates.</li>
+            <li>Avoid weekends unless the client explicitly works weekend operations.</li>
+            <li>Skip local holidays for the client team and send next business morning.</li>
+            <li>For corporate clients, send before AP cutoff windows (often mid-week).</li>
+            <li>Use the client timezone, not yours, for every reminder.</li>
+          </ul>
+          <p>
+            If a client confirms a payment date, pause escalation language. If that date is missed, resume at the
+            next step in sequence rather than restarting from Day 1 tone.
+          </p>
+
+          <h2 id="avoid-spammy">How to avoid "spammy chasing"</h2>
+          <p>
+            Chasing feels spammy when messages are repetitive, vague, or emotional. A good follow-up feels like
+            operational communication.
+          </p>
+          <ul>
+            <li>Keep each email under 100 words.</li>
+            <li>Include invoice number, amount, due date, and payment link every time.</li>
+            <li>Ask one question only: "Can you confirm payment date?"</li>
+            <li>Do not send multiple reminders in the same week unless a deadline is missed.</li>
+            <li>Keep everything in one email thread for clarity and audit trail.</li>
+          </ul>
+          <p>
+            When tone starts slipping, switch to templates and process. Systems reduce stress and help you stay
+            calm, consistent, and credible.
+          </p>
+
+          <h2 id="smart-chasing">Turn schedule into Smart Chasing</h2>
+          <p>
+            Manual reminders break when you get busy. To automate this entire cadence, use the
+            <a href="/tools/overdue-invoice-sequence-generator"> overdue invoice sequence generator</a> and build
+            the sequence from one invoice in minutes.
+          </p>
+          <ol>
+            <li>Upload invoice PDF or enter fields manually.</li>
+            <li>Generate all follow-ups at once.</li>
+            <li>Edit tone and deadlines to match your contract.</li>
+            <li>Schedule sends and pause automatically when paid.</li>
+          </ol>
+
+          <div class="not-prose">
+            <SeoCtaBand
+              heading="Want this schedule to run automatically?"
+              description="Generate your follow-up sequence and activate Smart Chasing in a few clicks."
+              primaryHref={appUrl}
+              primaryLabel="Start Smart Chasing"
+              primaryAriaLabel="Start Smart Chasing for overdue invoices"
+              secondaryHref="/pricing"
+              secondaryLabel="View pricing"
+              secondaryAriaLabel="View pricing plans"
+            />
+          </div>
+        </article>
+
+        <div class="hidden lg:block" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">
+        Frequently asked questions
+      </h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+</BaseLayout>

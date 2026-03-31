@@ -1,0 +1,245 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoCtaBand from '../../components/seo/SeoCtaBand';
+import SeoFaq from '../../components/seo/SeoFaq';
+import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+
+const appUrl = 'https://app.chaseai.app';
+const pageSlug = '/guides/net-30-overdue-what-to-send';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+// META (DO NOT CHANGE)
+const metaTitle = 'Net 30 Overdue? What to Send (Scripts)';
+const metaDescription =
+  'Net 30 passed and still unpaid? Use these scripts and a schedule to follow up with confidence—plus an escalation sequence you can automate.';
+
+const tocItems = [
+  { id: 'day-by-day', label: 'Day 1 / 7 / 14 / 30 scripts' },
+  { id: 'talk-finance', label: 'Talk to finance script' },
+  { id: 'pause-work', label: 'Pause work script' },
+  { id: 'polite-effective', label: 'Keep it polite but effective' },
+  { id: 'automate', label: 'Automate your Net 30 follow-ups' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const faqs = [
+  {
+    q: 'What should I send first when Net 30 is overdue?',
+    a: 'Start with a short Day 1 reminder including invoice number, amount, due date, and payment link.',
+  },
+  {
+    q: 'How often should I follow up after Net 30 passes?',
+    a: 'A practical cadence is Day 1, Day 7, Day 14, and Day 30, with tone moving from friendly to firm.',
+  },
+  {
+    q: 'When should I involve finance or AP?',
+    a: 'If your direct contact does not resolve payment by Day 7 to Day 14, route the reminder to finance/AP with full invoice context.',
+  },
+  {
+    q: 'When is it okay to pause work for non-payment?',
+    a: 'Usually after clear reminders and missed commitments, especially around Day 30, if your agreement supports that step.',
+  },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: metaTitle,
+  description: metaDescription,
+  datePublished: '2026-03-31',
+  dateModified: '2026-03-31',
+  author: {
+    '@type': 'Person',
+    name: 'Alex Morgan',
+    url: 'https://chaseai.app/about',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'ChaseAI',
+    url: 'https://chaseai.app',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://chaseai.app/favicon.svg',
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
+};
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogType="article"
+  structuredData={[articleSchema]}
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://app.chaseai.app" />
+  </Fragment>
+
+  <section class="hero-gradient relative overflow-hidden">
+    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+        Net 30 Overdue? Here’s What to Send (Day-by-Day)
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+        If Net 30 has passed, use this script library to follow up without guessing what to say next.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-y border-border bg-muted/30">
+    <div class="container py-6 text-center">
+      <p class="text-sm text-muted-foreground">
+        Atradius reports average B2B payment terms around <strong class="text-foreground">52 days</strong>, so
+        consistent reminders after Net 30 are essential.
+      </p>
+      <p class="mt-2">
+        <a
+          href="https://group.atradius.com/knowledge-and-research/reports/b2b-payment-practices-trends%2C-western-europe-2024"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-xs text-muted-foreground/70 hover:text-primary transition-colors"
+        >
+          Source: Atradius payment practices research
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container">
+      <div class="grid lg:grid-cols-[200px_1fr_200px] gap-10 max-w-6xl mx-auto">
+        <aside>
+          <SeoToc items={tocItems} client:idle />
+        </aside>
+
+        <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
+          <SeoAuthor date="2026-03-31" />
+          <p>
+            These scripts are built for the exact scenario: <strong>net 30 overdue what to send</strong>.
+            Keep each message short, include payment details, and ask for one clear next action.
+          </p>
+
+          <h2 id="day-by-day">Day 1 / 7 / 14 / 30 scripts</h2>
+          <h3>Day 1 (friendly)</h3>
+          <p>
+            "Hi [Name], quick reminder that invoice #[number] for [amount] is now past Net 30.
+            Payment link: [link]. If already paid, thank you and please ignore this."
+          </p>
+
+          <h3>Day 7 (direct)</h3>
+          <p>
+            "Hi [Name], following up on invoice #[number], now 7 days overdue.
+            Can you confirm the payment date today? Payment link: [link]."
+          </p>
+
+          <h3>Day 14 (firm)</h3>
+          <p>
+            "Hi [Name], invoice #[number] remains unpaid after prior reminders.
+            Please process payment by [date]. If there is a blocker, reply today with details."
+          </p>
+
+          <h3>Day 30 (final-stage)</h3>
+          <p>
+            "Hi [Name], this is a final-stage reminder for invoice #[number], now 30 days overdue past Net 30.
+            Please pay by [date/timezone] to avoid next-step escalation."
+          </p>
+          <p>
+            For expanded schedule guidance use
+            <a href="/guides/unpaid-invoice-follow-up-schedule"> unpaid invoice follow-up schedule</a>.
+          </p>
+
+          <h2 id="talk-finance">The “talk to finance” script</h2>
+          <p>
+            "Thanks for the update. Please share the best AP/finance contact and I will send full details directly.
+            I’ll include invoice #[number], amount, due date, and payment link so this can be processed quickly."
+          </p>
+          <p>
+            For AP-ready wording use
+            <a href="/templates/email-to-accounts-payable-overdue-invoice"> email to accounts payable overdue invoice</a>.
+          </p>
+
+          <h2 id="pause-work">The “pause work” script</h2>
+          <p>
+            "To keep billing aligned, I will pause new work from [date] until invoice #[number] is settled.
+            Once payment is received, I can resume immediately and confirm updated delivery timing."
+          </p>
+          <p>
+            This keeps boundaries professional without emotional language.
+          </p>
+
+          <h2 id="polite-effective">How to keep it polite but effective</h2>
+          <ul>
+            <li>Use neutral tone and specific details.</li>
+            <li>Include invoice number and amount in every email.</li>
+            <li>Always provide a payment link or clear payment instructions.</li>
+            <li>Ask for payment date, not a vague update.</li>
+            <li>Escalate timing, not emotion.</li>
+          </ul>
+
+          <div class="not-prose my-6 rounded-xl border border-primary/10 bg-primary/5 p-4 text-sm text-muted-foreground">
+            <p><strong class="text-foreground">Quick tips</strong></p>
+            <ul class="mt-2 space-y-1">
+              <li>Keep all reminders in one thread for context.</li>
+              <li>Use Day 1, 7, 14, 30 cadence consistently.</li>
+              <li>Introduce deadlines only when needed.</li>
+              <li>Move to AP/finance handoff early when internal approvals stall.</li>
+            </ul>
+          </div>
+
+          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
+            <p class="font-semibold mb-2">Timeline: Net 30 follow-up timeline</p>
+            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
+    title Net 30 Overdue Follow-Up Sequence
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d %b
+    section Scripts
+    Day 1 friendly script      :d1, 2026-04-01, 6d
+    Day 7 direct script        :d7, 2026-04-07, 7d
+    Day 14 firm script         :d14, 2026-04-14, 16d
+    Day 30 final-stage script  :d30, 2026-04-30, 15d</code></pre>
+          </div>
+
+          <h2 id="automate">Automate your Net 30 follow-ups</h2>
+          <p>
+            Skip manual chasing and generate this full net-30 follow-up sequence from one invoice using the
+            <a href="/tools/overdue-invoice-sequence-generator"> overdue invoice sequence generator</a>.
+          </p>
+          <ol>
+            <li>Upload invoice details once.</li>
+            <li>Generate stage-based reminders automatically.</li>
+            <li>Set cadence and escalation rules.</li>
+            <li>Track replies, opens, and payment outcomes.</li>
+          </ol>
+
+          <div class="not-prose">
+            <SeoCtaBand
+              heading="Automate Net 30 reminders in minutes"
+              description="Create a full day-by-day reminder flow with clear escalation and payment tracking."
+              primaryHref={appUrl}
+              primaryLabel="Generate my sequence"
+              primaryAriaLabel="Generate Net 30 overdue reminder sequence"
+              secondaryHref="/pricing"
+              secondaryLabel="View pricing"
+              secondaryAriaLabel="View pricing plans"
+            />
+          </div>
+        </article>
+
+        <div class="hidden lg:block" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">Frequently asked questions</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+</BaseLayout>

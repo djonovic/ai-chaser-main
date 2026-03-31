@@ -6,21 +6,54 @@ const navLinks = [
   { label: 'Contact', href: '/contact' },
 ];
 
-const templateLinks = [
-  { label: 'Invoice Reminder Email Template', href: '/templates/invoice-reminder-email-template' },
-  { label: 'Overdue Invoice Email Template', href: '/templates/overdue-invoice-email-template' },
-  { label: 'Overdue Invoice Email Sequence', href: '/templates/overdue-invoice-email-sequence' },
+const templateGroups = [
+  {
+    title: 'By tone',
+    links: [
+      { label: 'Friendly Reminder', href: '/templates/friendly-payment-reminder-email' },
+      { label: 'Second Reminder', href: '/templates/second-invoice-reminder-email' },
+      { label: 'Firm Reminder', href: '/templates/firm-payment-reminder-email' },
+      { label: 'Final Notice', href: '/templates/final-notice-unpaid-invoice-email' },
+    ],
+  },
+  {
+    title: 'By industry',
+    links: [
+      { label: 'Freelancer', href: '/templates/freelancer-invoice-reminder-email-template' },
+      { label: 'Agency', href: '/templates/agency-invoice-reminder-email-template' },
+      { label: 'Trades', href: '/templates/trades-invoice-payment-reminder-email' },
+      { label: 'Subcontractor', href: '/templates/subcontractor-payment-reminder-email' },
+    ],
+  },
+  {
+    title: 'By scenario',
+    links: [
+      { label: 'Invoice Reminder (7 templates)', href: '/templates/invoice-reminder-email-template' },
+      { label: 'Overdue Invoice Email', href: '/templates/overdue-invoice-email-template' },
+      { label: 'Overdue Invoice Sequence', href: '/templates/overdue-invoice-email-sequence' },
+      { label: 'Email to Accounts Payable', href: '/templates/email-to-accounts-payable-overdue-invoice' },
+      { label: 'Past Due Notice (Formal)', href: '/templates/past-due-invoice-notice-template' },
+      { label: 'Late Payment Fee', href: '/templates/late-payment-fee-email-template' },
+      { label: 'Subject Lines (30+)', href: '/templates/payment-reminder-email-subject-lines' },
+    ],
+  },
 ];
 
 const toolLinks = [
   { label: 'Overdue Invoice Sequence Generator', href: '/tools/overdue-invoice-sequence-generator' },
 ];
 
+const guideLinks = [
+  { label: 'How to Chase Unpaid Invoices', href: '/guides/how-to-chase-unpaid-invoices' },
+  { label: 'Unpaid Invoice Follow-Up Schedule', href: '/guides/unpaid-invoice-follow-up-schedule' },
+  { label: 'Net 30 Overdue: What to Send', href: '/guides/net-30-overdue-what-to-send' },
+];
+
 const currentPath = Astro.url.pathname;
 const templatesActive = currentPath.startsWith('/templates/');
 const toolsActive = currentPath.startsWith('/tools/');
+const guidesActive = currentPath.startsWith('/guides/');
 const appUrl = 'https://app.chaseai.app';
-const appPricingUrl = `${appUrl}/pricing`;
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-lg">
@@ -33,6 +66,7 @@ const appPricingUrl = `${appUrl}/pricing`;
     </a>
 
     <nav class="hidden md:flex items-center gap-1" aria-label="Main navigation">
+      <!-- Templates mega-menu -->
       <div class="relative group">
         <button
           class:list={[
@@ -44,26 +78,41 @@ const appPricingUrl = `${appUrl}/pricing`;
           aria-label="Templates submenu"
         >
           Templates
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="h-3.5 w-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
         </button>
-        <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all absolute left-0 mt-2 w-72 rounded-lg border border-border bg-background shadow-lg p-2 z-50">
-          {templateLinks.map(link => (
-            <a
-              href={link.href}
-              class:list={[
-                'block px-3 py-2 text-sm rounded-md transition-colors',
-                currentPath === link.href || currentPath === link.href + '/'
-                  ? 'text-primary bg-primary/5'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
-              ]}
-            >
-              {link.label}
-            </a>
-          ))}
+        <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all absolute left-1/2 -translate-x-1/2 mt-2 rounded-xl border border-border bg-background shadow-xl p-4 z-50" style="width: 42rem;">
+          <div class="grid grid-cols-3 gap-6">
+            {templateGroups.map(group => (
+              <div>
+                <p class="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-2 px-2">
+                  {group.title}
+                </p>
+                <ul class="space-y-0.5">
+                  {group.links.map(link => (
+                    <li>
+                      <a
+                        href={link.href}
+                        class:list={[
+                          'block px-2 py-1.5 text-sm rounded-md transition-colors',
+                          currentPath === link.href || currentPath === link.href + '/'
+                            ? 'text-primary bg-primary/5 font-medium'
+                            : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+                        ]}
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
+
+      <!-- Tools dropdown -->
       <div class="relative group">
         <button
           class:list={[
@@ -75,18 +124,18 @@ const appPricingUrl = `${appUrl}/pricing`;
           aria-label="Tools submenu"
         >
           Tools
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="h-3.5 w-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
         </button>
-        <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all absolute left-0 mt-2 w-80 rounded-lg border border-border bg-background shadow-lg p-2 z-50">
+        <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all absolute left-0 mt-2 w-80 rounded-xl border border-border bg-background shadow-xl p-2 z-50">
           {toolLinks.map(link => (
             <a
               href={link.href}
               class:list={[
                 'block px-3 py-2 text-sm rounded-md transition-colors',
                 currentPath === link.href || currentPath === link.href + '/'
-                  ? 'text-primary bg-primary/5'
+                  ? 'text-primary bg-primary/5 font-medium'
                   : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
               ]}
             >
@@ -95,6 +144,40 @@ const appPricingUrl = `${appUrl}/pricing`;
           ))}
         </div>
       </div>
+
+      <!-- Guides dropdown -->
+      <div class="relative group">
+        <button
+          class:list={[
+            'px-4 py-2 text-sm font-medium rounded-lg transition-colors inline-flex items-center gap-1',
+            guidesActive
+              ? 'text-primary bg-primary/5'
+              : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+          ]}
+          aria-label="Guides submenu"
+        >
+          Guides
+          <svg class="h-3.5 w-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all absolute left-0 mt-2 w-72 rounded-xl border border-border bg-background shadow-xl p-2 z-50">
+          {guideLinks.map(link => (
+            <a
+              href={link.href}
+              class:list={[
+                'block px-3 py-2 text-sm rounded-md transition-colors',
+                currentPath === link.href || currentPath === link.href + '/'
+                  ? 'text-primary bg-primary/5 font-medium'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+              ]}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+
       {navLinks.map(link => (
         <a
           href={link.href}
@@ -119,7 +202,7 @@ const appPricingUrl = `${appUrl}/pricing`;
       </a>
       <a
         href={appUrl}
-        class="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary-600 transition-all hover:shadow-md"
+        class="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:opacity-90 transition-all"
       >
         Start Free
       </a>
@@ -128,15 +211,20 @@ const appPricingUrl = `${appUrl}/pricing`;
         id="mobile-menu-btn"
         class="md:hidden inline-flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:bg-muted/50 hover:text-foreground"
         aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
       >
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg id="menu-icon-open" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="menu-icon-close" class="h-5 w-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
   </div>
 
-  <div id="mobile-menu" class="hidden md:hidden border-t border-border/50 bg-background/95 backdrop-blur-lg">
+  <div id="mobile-menu" class="hidden md:hidden border-t border-border/50 bg-background/95 backdrop-blur-lg max-h-[calc(100vh-4rem)] overflow-y-auto">
     <div class="container py-4 space-y-1">
       <details class="px-2" open={templatesActive}>
         <summary class:list={[
@@ -148,19 +236,28 @@ const appPricingUrl = `${appUrl}/pricing`;
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
         </summary>
-        <div class="ml-2 mt-1 space-y-1 border-l border-border pl-2">
-          {templateLinks.map(link => (
-            <a
-              href={link.href}
-              class:list={[
-                'block px-4 py-2 text-sm rounded-lg transition-colors',
-                currentPath === link.href || currentPath === link.href + '/'
-                  ? 'text-primary bg-primary/5'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
-              ]}
-            >
-              {link.label}
-            </a>
+        <div class="mt-2 space-y-3 pl-2">
+          {templateGroups.map(group => (
+            <div>
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70 px-4 mb-1">
+                {group.title}
+              </p>
+              <div class="border-l border-border ml-2 pl-2 space-y-0.5">
+                {group.links.map(link => (
+                  <a
+                    href={link.href}
+                    class:list={[
+                      'block px-4 py-1.5 text-sm rounded-lg transition-colors',
+                      currentPath === link.href || currentPath === link.href + '/'
+                        ? 'text-primary bg-primary/5 font-medium'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+                    ]}
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </details>
@@ -174,14 +271,40 @@ const appPricingUrl = `${appUrl}/pricing`;
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
         </summary>
-        <div class="ml-2 mt-1 space-y-1 border-l border-border pl-2">
+        <div class="ml-2 mt-1 space-y-0.5 border-l border-border pl-2">
           {toolLinks.map(link => (
             <a
               href={link.href}
               class:list={[
-                'block px-4 py-2 text-sm rounded-lg transition-colors',
+                'block px-4 py-1.5 text-sm rounded-lg transition-colors',
                 currentPath === link.href || currentPath === link.href + '/'
-                  ? 'text-primary bg-primary/5'
+                  ? 'text-primary bg-primary/5 font-medium'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+              ]}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </details>
+      <details class="px-2" open={guidesActive}>
+        <summary class:list={[
+          'list-none cursor-pointer px-2 py-2.5 text-sm font-medium rounded-lg transition-colors flex items-center justify-between',
+          guidesActive ? 'text-primary bg-primary/5' : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+        ]}>
+          Guides
+          <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <div class="ml-2 mt-1 space-y-0.5 border-l border-border pl-2">
+          {guideLinks.map(link => (
+            <a
+              href={link.href}
+              class:list={[
+                'block px-4 py-1.5 text-sm rounded-lg transition-colors',
+                currentPath === link.href || currentPath === link.href + '/'
+                  ? 'text-primary bg-primary/5 font-medium'
                   : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
               ]}
             >
@@ -218,7 +341,13 @@ const appPricingUrl = `${appUrl}/pricing`;
 <script>
   const btn = document.getElementById('mobile-menu-btn');
   const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('menu-icon-open');
+  const iconClose = document.getElementById('menu-icon-close');
+
   btn?.addEventListener('click', () => {
-    menu?.classList.toggle('hidden');
+    const isHidden = menu?.classList.toggle('hidden');
+    btn.setAttribute('aria-expanded', isHidden ? 'false' : 'true');
+    iconOpen?.classList.toggle('hidden');
+    iconClose?.classList.toggle('hidden');
   });
 </script>

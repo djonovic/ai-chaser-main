@@ -43,5 +43,24 @@ const props = Astro.props;
     </main>
     <Footer />
     <Analytics />
+    <script is:inline>
+      (function () {
+        if (!document.querySelector('.language-mermaid')) return;
+        var s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js';
+        s.onload = function () {
+          window.mermaid.initialize({ startOnLoad: false, theme: 'neutral', gantt: { useWidth: 800 } });
+          document.querySelectorAll('.language-mermaid').forEach(function (el) {
+            var pre = el.closest('pre');
+            var container = document.createElement('div');
+            container.className = 'mermaid';
+            container.textContent = el.textContent;
+            if (pre) { pre.replaceWith(container); } else { el.replaceWith(container); }
+          });
+          window.mermaid.run();
+        };
+        document.body.appendChild(s);
+      })();
+    </script>
   </body>
 </html>

@@ -1,0 +1,246 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoCtaBand from '../../components/seo/SeoCtaBand';
+import SeoFaq from '../../components/seo/SeoFaq';
+import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+
+const appUrl = 'https://app.chaseai.app';
+const pageSlug = '/templates/agency-invoice-reminder-email-template';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+// META (DO NOT CHANGE)
+const metaTitle = 'Agency Invoice Reminder Email Template';
+const metaDescription =
+  'Invoice reminder emails for agencies: protect relationships, stay professional, and get paid faster. Includes escalation sequence + timing.';
+
+const tocItems = [
+  { id: 'retainers-vs-projects', label: 'Templates for retainers vs projects' },
+  { id: 'ap-friendly', label: 'AP/finance-friendly version' },
+  { id: 'escalation', label: 'Escalation sequence + timing' },
+  { id: 'internal-process', label: 'Internal process' },
+  { id: 'automate', label: 'Automate follow-ups' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const faqs = [
+  {
+    q: 'How should agencies phrase invoice reminders to protect client relationships?',
+    a: 'Keep reminders concise, factual, and operational: invoice number, amount, due date, and one clear next action.',
+  },
+  {
+    q: 'Should agencies use different reminders for retainers and project invoices?',
+    a: 'Yes. Retainers usually need cadence-based reminders, while project invoices often need milestone and delivery references.',
+  },
+  {
+    q: 'When should an agency escalate invoice reminders?',
+    a: 'Escalate after missed commitments or no response through the first two reminders, usually by Day 8 to Day 14.',
+  },
+  {
+    q: 'Who should own follow-up inside an agency?',
+    a: 'Assign one owner per invoice thread, usually account lead or finance ops, to avoid duplicate or conflicting messages.',
+  },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: metaTitle,
+  description: metaDescription,
+  datePublished: '2026-03-31',
+  dateModified: '2026-03-31',
+  author: {
+    '@type': 'Person',
+    name: 'Alex Morgan',
+    url: 'https://chaseai.app/about',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'ChaseAI',
+    url: 'https://chaseai.app',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://chaseai.app/favicon.svg',
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
+};
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogType="article"
+  structuredData={[articleSchema]}
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://app.chaseai.app" />
+  </Fragment>
+
+  <section class="hero-gradient relative overflow-hidden">
+    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+        Agency Invoice Reminder Email Template (Copy/Paste)
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+        Use these reminders to keep client communication professional while improving agency cash flow across
+        retainers and project-based billing.
+      </p>
+    </div>
+  </section>
+
+  <section class="">
+    <div class="container">
+      <div class="grid lg:grid-cols-[200px_1fr_200px] gap-10 max-w-6xl mx-auto">
+        <aside>
+          <SeoToc items={tocItems} client:idle />
+        </aside>
+
+        <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
+          <SeoAuthor date="2026-03-31" />
+          <p>
+            An <strong>agency invoice reminder email template</strong> should balance two goals: get paid on time
+            and preserve long-term client relationships. The best approach is structured escalation with consistent tone.
+          </p>
+
+          <h2 id="retainers-vs-projects">Templates for retainers vs projects</h2>
+          <h3>Retainer reminder template</h3>
+          <p>
+            Subject: "Retainer invoice #[number] due [date]"
+          </p>
+          <p>
+            "Hi [Name], quick reminder that this month’s retainer invoice #[number] for [amount] is now due.
+            Please confirm payment date today. Payment link: [link]."
+          </p>
+
+          <h3>Project invoice reminder template</h3>
+          <p>
+            Subject: "Project invoice #[number] follow-up"
+          </p>
+          <p>
+            "Hi [Name], following up on project invoice #[number] for [amount], due [date].
+            Milestone delivery was completed on [date], and the invoice remains open.
+            Could you confirm payment timing? Payment link: [link]."
+          </p>
+          <p>
+            This works well as an <strong>invoice reminder email for agencies</strong> because it ties payment to
+            known delivery context.
+          </p>
+
+          <h2 id="ap-friendly">AP/finance-friendly version</h2>
+          <p>
+            When agencies are paid through AP, remove friction with one clean packet:
+          </p>
+          <ul>
+            <li>Invoice number, amount, due date.</li>
+            <li>PO number or no-PO confirmation.</li>
+            <li>Vendor legal entity and remittance details.</li>
+            <li>Milestone proof or acceptance confirmation.</li>
+          </ul>
+          <p>
+            Template line: "Please confirm if anything else is required for payment release this cycle."
+          </p>
+          <p>
+            For AP-specific scripts, use
+            <a href="/templates/email-to-accounts-payable-overdue-invoice"> email to accounts payable overdue invoice</a>.
+          </p>
+
+          <h2 id="escalation">Escalation sequence + timing</h2>
+          <p>
+            Reliable timing prevents awkward chasing and random follow-ups:
+          </p>
+          <ol>
+            <li>Day 1: friendly reminder.</li>
+            <li>Day 4: direct follow-up.</li>
+            <li>Day 8: escalation-ready reminder with payment date ask.</li>
+            <li>Day 14: firm reminder with deadline.</li>
+            <li>Day 30: final notice path.</li>
+          </ol>
+          <p>
+            For a full sequence library, use
+            <a href="/templates/overdue-invoice-email-sequence"> overdue invoice email sequence</a>.
+          </p>
+
+          <h2 id="internal-process">Internal process (assign owner, track opens)</h2>
+          <p>
+            Agencies often lose days because reminders are unowned. Set an internal rule:
+          </p>
+          <ul>
+            <li>Assign one owner per overdue invoice thread.</li>
+            <li>Record send dates and promised payment dates.</li>
+            <li>Track opens/replies so escalation is evidence-based.</li>
+            <li>Escalate internally before sending stronger client language.</li>
+          </ul>
+          <p>
+            This makes your <strong>studio invoice follow up email</strong> system repeatable across account teams.
+          </p>
+
+          <div class="not-prose my-6 rounded-xl border border-primary/10 bg-primary/5 p-4 text-sm text-muted-foreground">
+            <p><strong class="text-foreground">Quick tips</strong></p>
+            <ul class="mt-2 space-y-1">
+              <li>Keep reminders in one thread per invoice.</li>
+              <li>Use account lead plus finance owner handoff rule.</li>
+              <li>Escalate tone by age of invoice, not frustration.</li>
+              <li>Include payment link in every reminder.</li>
+            </ul>
+          </div>
+
+          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
+            <p class="font-semibold mb-2">Timeline: agency follow-up workflow</p>
+            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
+    title Agency Invoice Follow-Up Timeline
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d %b
+    section Client reminders
+    Friendly reminder         :d1, 2026-04-01, 3d
+    Direct follow-up          :d4, 2026-04-04, 4d
+    Escalation reminder       :d8, 2026-04-08, 6d
+    Firm reminder             :d14, 2026-04-14, 16d
+    Final notice              :d30, 2026-04-30, 15d
+    section Internal ops
+    Owner assignment          :done, o1, 2026-04-01, 1d
+    Open/reply tracking       :o2, 2026-04-01, 45d</code></pre>
+          </div>
+
+          <h2 id="automate">Automate follow-ups</h2>
+          <p>
+            Turn this process into a repeatable workflow with the
+            <a href="/tools/overdue-invoice-sequence-generator"> overdue invoice sequence generator</a>.
+          </p>
+          <ol>
+            <li>Upload invoice PDF.</li>
+            <li>Generate reminder drafts by stage.</li>
+            <li>Set timing and escalation rules.</li>
+            <li>Track opens, replies, and payment outcomes.</li>
+          </ol>
+
+          <div class="not-prose">
+            <SeoCtaBand
+              heading="Automate agency invoice chasing in minutes"
+              description="Generate reminder sequences for retainers and projects from one invoice workflow."
+              primaryHref={appUrl}
+              primaryLabel="Generate my sequence"
+              primaryAriaLabel="Generate agency invoice reminder sequence"
+              secondaryHref="/pricing"
+              secondaryLabel="View pricing"
+              secondaryAriaLabel="View pricing plans"
+            />
+          </div>
+        </article>
+
+        <div class="hidden lg:block" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">Frequently asked questions</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+</BaseLayout>

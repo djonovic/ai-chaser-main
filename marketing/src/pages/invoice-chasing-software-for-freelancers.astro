@@ -1,0 +1,206 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SeoToc from '../components/seo/SeoToc';
+import SeoCtaBand from '../components/seo/SeoCtaBand';
+import SeoFaq from '../components/seo/SeoFaq';
+
+const appUrl = 'https://app.chaseai.app';
+const pageSlug = '/invoice-chasing-software-for-freelancers';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+// META (DO NOT CHANGE)
+const metaTitle = 'Invoice Chasing Software for Freelancers';
+const metaDescription =
+  'Automate invoice follow-ups with smart tone progression, open tracking, and PDF extraction. Start free, then upgrade when you recover cash.';
+
+const tocItems = [
+  { id: 'cost', label: 'The real cost of late payments' },
+  { id: 'how-it-works', label: 'How ChaseAI works' },
+  { id: 'features', label: 'Features that matter' },
+  { id: 'pricing', label: 'Pricing (free vs paid)' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const faqs = [
+  {
+    q: 'How fast can freelancers start using ChaseAI?',
+    a: 'Most users upload an invoice and generate their first sequence in under a minute.',
+  },
+  {
+    q: 'Does ChaseAI send reminders automatically?',
+    a: 'You control activation. Drafts are editable first, then you can schedule and automate follow-ups.',
+  },
+  {
+    q: 'Can I stop reminders after a client pays?',
+    a: 'Yes. You can pause or stop a sequence immediately when payment is confirmed.',
+  },
+  {
+    q: 'Is there a free plan?',
+    a: 'Yes. Start free, then upgrade to paid plans as your invoice volume grows.',
+  },
+];
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'ChaseAI',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: canonicalUrl,
+  description: metaDescription,
+  dateModified: '2026-03-31',
+  screenshot: 'https://chaseai.app/og-default.png',
+  offers: [
+    { '@type': 'Offer', price: '0', priceCurrency: 'USD', name: 'Free' },
+    { '@type': 'Offer', price: '29', priceCurrency: 'USD', name: 'Starter' },
+    { '@type': 'Offer', price: '49', priceCurrency: 'USD', name: 'Pro' },
+  ],
+};
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  structuredData={[softwareSchema]}
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://app.chaseai.app" />
+  </Fragment>
+
+  <section class="hero-gradient relative overflow-hidden">
+    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+        Invoice Chasing Software for Freelancers (Get Paid Faster)
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+        ChaseAI is an <strong>invoice chaser app</strong> built for freelancers who want reliable follow-ups,
+        better client response rates, and fewer awkward payment conversations.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a
+          href={appUrl}
+          class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-95 transition-opacity"
+        >
+          Start free
+        </a>
+        <a
+          href="/tools/overdue-invoice-sequence-generator"
+          class="inline-flex items-center justify-center rounded-lg border border-border px-8 py-3.5 text-base font-semibold hover:bg-muted/50 transition-colors"
+        >
+          Try the generator
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="">
+    <div class="container">
+      <div class="grid lg:grid-cols-[200px_1fr_200px] gap-10 max-w-6xl mx-auto">
+        <aside>
+          <SeoToc items={tocItems} client:idle />
+        </aside>
+
+        <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
+          <h2 id="cost">The real cost of late payments (time + cashflow)</h2>
+          <p>
+            Freelancers do not just lose money when invoices are late. They lose momentum. Manual follow-up means
+            rewriting the same reminders, tracking who replied, and guessing whether to be friendly or firm.
+          </p>
+          <p>
+            That admin overhead quietly eats billable hours and delays cashflow planning. Good
+            <strong> invoice follow up automation</strong> removes that burden by giving you a repeatable system.
+          </p>
+
+          <h2 id="how-it-works">How ChaseAI works (PDF -> sequence -> automate)</h2>
+          <ol>
+            <li>Upload invoice PDF (or add details manually).</li>
+            <li>AI extracts client name, amount, and due date.</li>
+            <li>Generate a full reminder sequence with tone progression.</li>
+            <li>Edit drafts and set your preferred schedule.</li>
+            <li>Activate automation and monitor responses.</li>
+          </ol>
+          <p>
+            You can test this flow immediately in the
+            <a href="/tools/overdue-invoice-sequence-generator"> overdue invoice sequence generator</a>.
+          </p>
+
+          <h2 id="features">Features that matter (tone, open tracking, pause/stop)</h2>
+          <ul>
+            <li><strong>Tone progression:</strong> friendly -> direct -> firm without sounding rude.</li>
+            <li><strong>Open tracking:</strong> see which reminders are opened so you escalate with context.</li>
+            <li><strong>Pause/stop controls:</strong> stop reminders instantly when payment lands.</li>
+            <li><strong>PDF extraction:</strong> avoid manual copy/paste from invoice fields.</li>
+            <li><strong>Editable drafts:</strong> every message is customizable before sending.</li>
+          </ul>
+          <p>
+            See the full product breakdown on <a href="/features">features</a>.
+          </p>
+
+          <h2 id="pricing">Pricing (free vs paid)</h2>
+          <p>
+            Start with the free plan to validate results, then upgrade when recovered cashflow and invoice volume
+            justify it.
+          </p>
+          <ul>
+            <li><strong>Free:</strong> test core reminders and basic sequence generation.</li>
+            <li><strong>$29:</strong> higher usage and stronger automation for active freelancers.</li>
+            <li><strong>$49:</strong> advanced usage for power users with larger invoice throughput.</li>
+          </ul>
+          <p>
+            Review plan details on the <a href="/pricing">pricing page</a>.
+          </p>
+
+          <div class="not-prose my-6 rounded-xl border border-primary/10 bg-primary/5 p-4 text-sm text-muted-foreground">
+            <p><strong class="text-foreground">Quick tips</strong></p>
+            <ul class="mt-2 space-y-1">
+              <li>Start with the free plan to see results before committing.</li>
+              <li>Use open tracking to decide when it is time to escalate.</li>
+              <li>Always pause reminders the moment payment is confirmed.</li>
+              <li>Upgrade only when your invoice volume justifies it.</li>
+            </ul>
+          </div>
+
+          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
+            <p class="font-semibold mb-2">Timeline: freelancer automation flow</p>
+            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
+    title Invoice Chasing Automation Timeline
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d %b
+    section Setup
+    Upload invoice PDF         :a1, 2026-04-01, 1d
+    Generate sequence          :a2, after a1, 1d
+    Review/edit drafts         :a3, after a2, 1d
+    section Execution
+    Friendly reminder          :b1, 2026-04-03, 4d
+    Direct reminder            :b2, 2026-04-07, 7d
+    Firm reminder              :b3, 2026-04-14, 16d
+    Final stage                :b4, 2026-04-30, 15d</code></pre>
+          </div>
+
+          <div class="not-prose">
+            <SeoCtaBand
+              heading="Automate invoice chasing and get paid faster"
+              description="Generate reminder sequences from your invoices with smart tone progression and tracking."
+              primaryHref={appUrl}
+              primaryLabel="Start free"
+              primaryAriaLabel="Start free with ChaseAI"
+              secondaryHref="/pricing"
+              secondaryLabel="View pricing"
+              secondaryAriaLabel="View pricing plans"
+            />
+          </div>
+        </article>
+
+        <div class="hidden lg:block" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">Frequently asked questions</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+</BaseLayout>

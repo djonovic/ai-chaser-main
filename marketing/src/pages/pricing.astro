@@ -10,7 +10,7 @@ const pageSchema = {
   '@type': 'WebPage',
   name: 'ChaseAI Pricing',
   description:
-    'ChaseAI pricing plans: Free (3 invoices/month), Starter ($29/mo), and Pro ($49/mo). Start free, no credit card required.',
+    'ChaseAI pricing plans: Free (up to 3 invoices), Starter ($29/mo), and Pro ($49/mo). Start free, no credit card required.',
   url: 'https://chaseai.app/pricing',
 };
 
@@ -22,8 +22,8 @@ const plans = [
     subtitle: 'No credit card required',
     description: 'Try AI invoice chasing with no commitment.',
     features: [
-      '3 invoices per month',
-      '10 AI sequence generations/month',
+      'Up to 3 invoices',
+      '10 AI sequence generations',
       'Automated email sending',
       'Basic dashboard',
     ],
@@ -41,7 +41,7 @@ const plans = [
     description: 'For freelancers and consultants who are serious about getting paid.',
     features: [
       'Unlimited invoices',
-      '50 AI sequence generations/month',
+      '50 AI sequence generations',
       'Email open tracking',
       'Advanced recovery reports',
       'Multi-currency support',
@@ -79,7 +79,7 @@ const plans = [
 const faqs = [
   {
     q: 'What can I do on the Free plan?',
-    a: 'You get 3 invoices per month and 10 AI sequence generations. Includes automated email sending and a basic dashboard. Everything you need to try ChaseAI before upgrading.',
+    a: 'You can manage up to 3 invoices and 10 AI sequence generations. Includes automated email sending and a basic dashboard. Everything you need to try ChaseAI before upgrading.',
   },
   {
     q: 'What counts as an "AI sequence generation"?',
@@ -91,7 +91,7 @@ const faqs = [
   },
   {
     q: 'What payment methods do you accept?',
-    a: 'We accept all major credit cards, debit cards, and PayPal. All payments are processed securely through Stripe.',
+    a: 'We accept all major credit and debit cards. All payments are processed securely through Stripe.',
   },
   {
     q: 'Can I switch plans at any time?',
@@ -107,15 +107,15 @@ const faqs = [
   },
   {
     q: 'What\'s included in Priority Support?',
-    a: 'Priority support means faster response times (under 4 hours vs 24 hours), direct access to our team, and priority handling of feature requests and bug reports.',
+    a: 'Priority support means faster response times, direct access to our team, and priority handling of feature requests and bug reports.',
   },
 ];
 
 const comparisonRows = [
-  { feature: 'Invoices per month', free: '3', starter: 'Unlimited', pro: 'Unlimited' },
-  { feature: 'AI sequence generations', free: '10/mo', starter: '50/mo', pro: 'Unlimited' },
+  { feature: 'Invoices', free: 'Up to 3', starter: 'Unlimited', pro: 'Unlimited' },
+  { feature: 'AI sequence generations', free: '10', starter: '50', pro: 'Unlimited' },
   { feature: 'Automated email sending', free: 'Yes', starter: 'Yes', pro: 'Yes' },
-  { feature: 'PDF invoice extraction', free: '-', starter: 'Yes', pro: 'Yes' },
+  { feature: 'PDF invoice extraction', free: 'Yes', starter: 'Yes', pro: 'Yes' },
   { feature: 'Client management', free: 'Yes', starter: 'Yes', pro: 'Yes' },
   { feature: 'Recovery analytics', free: 'Basic', starter: 'Advanced', pro: 'Advanced' },
   { feature: 'Multi-currency', free: '-', starter: 'Yes', pro: 'Yes' },
@@ -139,7 +139,7 @@ const structuredData = [pageSchema, faqSchema];
 
 <BaseLayout
   title="Pricing - Invoice Chasing Software Plans"
-  description="ChaseAI pricing: Free plan (3 invoices/month), Starter at $29/mo, Pro at $49/mo. Automate invoice follow-ups. No credit card to start."
+  description="ChaseAI pricing: Free plan (up to 3 invoices), Starter at $29/mo, Pro at $49/mo. Automate invoice follow-ups. No credit card to start."
   structuredData={structuredData}
 >
   <!-- Hero -->
@@ -150,7 +150,7 @@ const structuredData = [pageSchema, faqSchema];
           Simple, transparent pricing
         </h1>
         <p class="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">
-          Start free with 3 invoices and 10 AI sequences per month. Upgrade when you need more.
+          Start free with up to 3 invoices and 10 AI sequences. Upgrade when you need more.
         </p>
       </div>
     </div>

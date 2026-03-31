@@ -1,0 +1,261 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoCtaBand from '../../components/seo/SeoCtaBand';
+import SeoFaq from '../../components/seo/SeoFaq';
+import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+
+const appUrl = 'https://app.chaseai.app';
+const pageSlug = '/templates/payment-reminder-email-subject-lines';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+// META (DO NOT CHANGE)
+const metaTitle = 'Payment Reminder Email Subject Lines (30+ Examples)';
+const metaDescription =
+  '30+ subject lines for invoice reminders (friendly to firm). Plus a quick subject-line generator and timing tips for higher opens.';
+
+const tocItems = [
+  { id: 'by-tone', label: 'Subject lines by tone (friendly to firm)' },
+  { id: 'by-scenario', label: 'Subject lines by scenario' },
+  { id: 'timing', label: 'Timing: when subject lines matter most' },
+  { id: 'generator', label: 'Mini generator CTA' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const faqs = [
+  {
+    q: 'What is the best payment reminder email subject line format?',
+    a: 'Use invoice number + status + clear action, for example: "Invoice #2481 overdue - please confirm payment date."',
+  },
+  {
+    q: 'Should I mention overdue days in the subject line?',
+    a: 'Yes, especially after your second reminder. It adds urgency without sounding aggressive.',
+  },
+  {
+    q: 'How many subject lines should I rotate?',
+    a: 'Use 3 to 5 variants across a sequence so reminders feel consistent but not repetitive.',
+  },
+  {
+    q: 'When should I switch from friendly to firm subject lines?',
+    a: 'Usually after 7 to 14 days overdue, or earlier if prior promises were missed.',
+  },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: metaTitle,
+  description: metaDescription,
+  datePublished: '2026-03-31',
+  dateModified: '2026-03-31',
+  author: {
+    '@type': 'Person',
+    name: 'Alex Morgan',
+    url: 'https://chaseai.app/about',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'ChaseAI',
+    url: 'https://chaseai.app',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://chaseai.app/favicon.svg',
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
+};
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogType="article"
+  structuredData={[articleSchema]}
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://app.chaseai.app" />
+  </Fragment>
+
+  <section class="hero-gradient relative overflow-hidden">
+    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+        Payment Reminder Email Subject Lines (30+ You Can Copy)
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+        These <strong>payment reminder email subject lines</strong> are designed for higher opens across the full
+        follow-up cycle, from first nudge to final notice.
+      </p>
+    </div>
+  </section>
+
+  <section class="">
+    <div class="container">
+      <div class="grid lg:grid-cols-[200px_1fr_200px] gap-10 max-w-6xl mx-auto">
+        <aside>
+          <SeoToc items={tocItems} client:idle />
+        </aside>
+
+        <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
+          <SeoAuthor date="2026-03-31" />
+          <p>
+            A good body email cannot help if the message is never opened. Use this library of
+            <strong> invoice reminder subject lines</strong> to keep reminders clear, specific, and professional.
+          </p>
+
+          <h2 id="by-tone">Subject lines by tone (friendly -> firm)</h2>
+          <p>
+            Start lighter, then tighten tone as invoices age. This progression improves response quality while
+            protecting relationships.
+          </p>
+
+          <h3>Friendly (early reminders)</h3>
+          <ul>
+            <li>Quick reminder: Invoice #[number] due [date]</li>
+            <li>Friendly follow-up on invoice #[number]</li>
+            <li>Invoice #[number] - can you confirm payment timing?</li>
+            <li>Gentle nudge: invoice #[number] balance</li>
+            <li>Reminder: [Company] invoice #[number]</li>
+            <li>Checking in on invoice #[number] for [amount]</li>
+            <li>Invoice #[number] due this week</li>
+            <li>Just following up: invoice #[number]</li>
+            <li>Payment check: invoice #[number]</li>
+            <li>Invoice #[number] status update request</li>
+          </ul>
+
+          <h3>Neutral/direct (mid-sequence)</h3>
+          <ul>
+            <li>Payment follow-up: invoice #[number] now overdue</li>
+            <li>Invoice #[number] overdue - payment date requested</li>
+            <li>Action needed: outstanding invoice #[number]</li>
+            <li>Second reminder: invoice #[number]</li>
+            <li>Invoice #[number] [X] days overdue</li>
+            <li>Please confirm payment date for invoice #[number]</li>
+            <li>Follow-up needed: invoice #[number] balance</li>
+            <li>Invoice #[number] still open in AP</li>
+            <li>Reminder: amount due on invoice #[number]</li>
+            <li>Requesting update: invoice #[number] payment</li>
+          </ul>
+
+          <h3>Firm (late-stage)</h3>
+          <ul>
+            <li>Final reminder: invoice #[number] remains unpaid</li>
+            <li>Urgent: invoice #[number] requires payment today</li>
+            <li>Invoice #[number] 30+ days overdue - action required</li>
+            <li>Final notice before escalation: invoice #[number]</li>
+            <li>Overdue invoice #[number] - immediate response needed</li>
+            <li>Payment deadline: invoice #[number]</li>
+            <li>Final AP follow-up: invoice #[number]</li>
+            <li>Invoice #[number] unresolved after prior reminders</li>
+            <li>Notice: escalation step for invoice #[number]</li>
+            <li>Resolve today: invoice #[number] outstanding</li>
+          </ul>
+
+          <p>
+            Need full body copy to pair with these <strong>overdue invoice subject lines</strong>? Start with the
+            <a href="/templates/invoice-reminder-email-template"> invoice reminder email template</a>.
+          </p>
+
+          <h2 id="by-scenario">Subject lines by scenario (AP, partial payment, "not received")</h2>
+          <p>
+            Scenario-specific lines usually outperform generic reminders because they mirror what the recipient is
+            handling operationally.
+          </p>
+          <h3>AP / finance routing</h3>
+          <ul>
+            <li>AP follow-up: invoice #[number] for processing</li>
+            <li>Finance check: invoice #[number] payment timeline</li>
+            <li>Invoice #[number] with attachments for AP review</li>
+          </ul>
+          <h3>Partial payment situation</h3>
+          <ul>
+            <li>Balance remaining: invoice #[number]</li>
+            <li>Partial payment received - outstanding amount on #[number]</li>
+            <li>Next payment date needed: invoice #[number]</li>
+          </ul>
+          <h3>"Not received" objection</h3>
+          <ul>
+            <li>Resent: invoice #[number] + supporting documents</li>
+            <li>Invoice #[number] reattached for confirmation</li>
+            <li>Re: invoice #[number] not received - resent now</li>
+          </ul>
+          <p>
+            For softer first-touch language, use this
+            <a href="/templates/friendly-payment-reminder-email"> friendly payment reminder email</a>.
+          </p>
+
+          <h2 id="timing">Timing: when subject lines matter most</h2>
+          <p>
+            Subject-line quality matters at every step, but it has biggest impact when reminders transition from
+            polite to urgent. Use this simple timing framework:
+          </p>
+          <ul>
+            <li>Day 1 to Day 4: friendly or neutral framing, no threat language.</li>
+            <li>Day 7 to Day 14: direct status language, include overdue days.</li>
+            <li>Day 18 to Day 30: firm action language with clear deadlines.</li>
+            <li>Day 45+: final wording tied to escalation policy.</li>
+          </ul>
+          <p>
+            These patterns improve <strong>payment follow up subject lines</strong> performance because recipients
+            see context and urgency instantly in crowded inboxes.
+          </p>
+
+          <div class="not-prose my-6 rounded-xl border border-primary/10 bg-primary/5 p-4 text-sm text-muted-foreground">
+            <p><strong class="text-foreground">Quick tips</strong></p>
+            <ul class="mt-2 space-y-1">
+              <li>Use invoice number in every subject line for faster AP routing.</li>
+              <li>Keep subject length under ~60 characters when possible.</li>
+              <li>Pair every subject with one clear ask in the email body.</li>
+              <li>Rotate variants to avoid repetitive follow-up fatigue.</li>
+            </ul>
+          </div>
+
+          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
+            <p class="font-semibold mb-2">Timeline: subject-line escalation by day</p>
+            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
+    title Subject Line Progression (Friendly to Firm)
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d %b
+    section Tone shifts
+    Friendly line set      :d1, 2026-04-01, 4d
+    Neutral line set       :d7, 2026-04-07, 8d
+    Firm line set          :d18, 2026-04-18, 12d
+    Final notice wording   :d30, 2026-04-30, 15d</code></pre>
+          </div>
+
+          <h2 id="generator">Mini generator CTA</h2>
+          <p>
+            Want personalized subject lines based on your invoice amount, due date, and overdue days? Generate
+            a full sequence instantly with the
+            <a href="/tools/overdue-invoice-sequence-generator"> overdue invoice sequence generator</a>.
+          </p>
+
+          <div class="not-prose">
+            <SeoCtaBand
+              heading="Generate subject lines from your invoice"
+              description="Create a complete reminder sequence with matched subject lines and body copy in minutes."
+              primaryHref={appUrl}
+              primaryLabel="Generate my reminder sequence"
+              primaryAriaLabel="Generate reminder sequence with subject lines"
+              secondaryHref="/pricing"
+              secondaryLabel="View pricing"
+              secondaryAriaLabel="View pricing plans"
+            />
+          </div>
+        </article>
+
+        <div class="hidden lg:block" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">Frequently asked questions</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+</BaseLayout>

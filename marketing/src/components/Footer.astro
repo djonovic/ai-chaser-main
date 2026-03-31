@@ -5,7 +5,15 @@ const appUrl = 'https://app.chaseai.app';
 const productLinks = [
   { label: 'Features', href: '/features' },
   { label: 'Pricing', href: '/pricing' },
-  { label: 'Updates', href: '/about' },
+  { label: 'Invoice Chasing for Freelancers', href: '/invoice-chasing-software-for-freelancers' },
+  { label: 'Sequence Generator', href: '/tools/overdue-invoice-sequence-generator' },
+];
+
+const resourceLinks = [
+  { label: 'How to Chase Unpaid Invoices', href: '/guides/how-to-chase-unpaid-invoices' },
+  { label: 'Follow-Up Schedule', href: '/guides/unpaid-invoice-follow-up-schedule' },
+  { label: 'Net 30 Overdue Scripts', href: '/guides/net-30-overdue-what-to-send' },
+  { label: 'Email Templates', href: '/templates/invoice-reminder-email-template' },
 ];
 
 const companyLinks = [
@@ -15,16 +23,15 @@ const companyLinks = [
   { label: 'Terms of Service', href: '/terms' },
 ];
 
-const resourceLinks = [
+const legalLinks = [
   { label: 'Cookie Policy', href: '/cookies' },
   { label: 'Acceptable Use', href: '/acceptable-use' },
-  { label: 'Help & support', href: '/contact' },
 ];
 ---
 
 <footer class="border-t border-border bg-muted/30" role="contentinfo">
   <div class="container py-12 md:py-16">
-    <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
+    <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-6">
       <div class="lg:col-span-2">
         <a href="/" class="flex items-center gap-2.5 mb-4">
           <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
@@ -59,6 +66,19 @@ const resourceLinks = [
       </div>
 
       <div>
+        <h4 class="text-sm font-semibold mb-4">Resources</h4>
+        <ul class="space-y-3">
+          {resourceLinks.map(link => (
+            <li>
+              <a href={link.href} class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
         <h4 class="text-sm font-semibold mb-4">Company</h4>
         <ul class="space-y-3">
           {companyLinks.map(link => (
@@ -74,7 +94,7 @@ const resourceLinks = [
       <div>
         <h4 class="text-sm font-semibold mb-4">Legal</h4>
         <ul class="space-y-3">
-          {resourceLinks.map(link => (
+          {legalLinks.map(link => (
             <li>
               <a href={link.href} class="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 {link.label}

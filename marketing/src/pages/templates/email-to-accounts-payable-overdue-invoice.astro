@@ -1,0 +1,291 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoCtaBand from '../../components/seo/SeoCtaBand';
+import SeoFaq from '../../components/seo/SeoFaq';
+import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+
+const appUrl = 'https://app.chaseai.app';
+const pageSlug = '/templates/email-to-accounts-payable-overdue-invoice';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+// META (DO NOT CHANGE)
+const metaTitle = 'Email to Accounts Payable for Overdue Invoice';
+const metaDescription =
+  'Email templates to follow up with AP/finance when your invoice is overdue. Includes subject lines, proof attachments, and next steps.';
+
+const tocItems = [
+  { id: 'proof-pack', label: 'What AP needs to pay you' },
+  { id: 'templates', label: '5 email templates' },
+  { id: 'subject-lines', label: '10 subject lines that get a reply' },
+  { id: 'ap-objections', label: 'If AP says not received or missing PO' },
+  { id: 'automate', label: 'Automate follow-ups from your invoice' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const faqs = [
+  {
+    q: 'What should I include in an AP payment reminder email?',
+    a: 'Include invoice number, amount, due date, payment method, and proof attachments in one message so AP can process without back-and-forth.',
+  },
+  {
+    q: 'How often should I follow up with accounts payable?',
+    a: 'A practical cadence is every 4 to 7 business days, with tone moving from friendly to firm as invoices age.',
+  },
+  {
+    q: 'What if AP says they never received the invoice?',
+    a: 'Resend the invoice PDF and include delivery proof, PO details, and a direct request for payment date confirmation.',
+  },
+  {
+    q: 'When should I escalate beyond AP?',
+    a: 'Escalate when there is no committed pay date after repeated follow-ups or when promised dates are missed more than once.',
+  },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: metaTitle,
+  description: metaDescription,
+  datePublished: '2026-03-31',
+  dateModified: '2026-03-31',
+  author: {
+    '@type': 'Person',
+    name: 'Alex Morgan',
+    url: 'https://chaseai.app/about',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'ChaseAI',
+    url: 'https://chaseai.app',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://chaseai.app/favicon.svg',
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
+};
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogType="article"
+  structuredData={[articleSchema]}
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://app.chaseai.app" />
+  </Fragment>
+
+  <section class="hero-gradient relative overflow-hidden">
+    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+        Email to Accounts Payable for Overdue Invoice (Templates)
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+        Use these ready-to-send templates when invoices are overdue and your contact says, "please speak with finance."
+        This page gives you exact AP language, proof attachments, subject lines, and escalation steps.
+      </p>
+    </div>
+  </section>
+
+  <section class="">
+    <div class="container">
+      <div class="grid lg:grid-cols-[200px_1fr_200px] gap-10 max-w-6xl mx-auto">
+        <aside>
+          <SeoToc items={tocItems} client:idle />
+        </aside>
+
+        <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
+          <SeoAuthor date="2026-03-31" />
+          <p>
+            Sending an <strong>email to accounts payable for overdue invoice</strong> works best when you remove
+            friction for AP. They are not just checking your message; they are validating vendor records, PO data,
+            invoice details, and approval status in their workflow.
+          </p>
+
+          <h2 id="proof-pack">What AP needs to pay you (the "proof pack")</h2>
+          <p>
+            Treat each reminder as a mini-packet that can be processed without extra emails. Include all essentials
+            in one thread:
+          </p>
+          <ul>
+            <li>Invoice PDF with invoice number, amount, and due date.</li>
+            <li>PO number or written confirmation if no PO is required.</li>
+            <li>Vendor legal name, tax ID or W-9, and remittance details.</li>
+            <li>Proof of delivery or accepted milestone (for service invoices).</li>
+            <li>Previous reminder trail so AP can see timeline and urgency.</li>
+          </ul>
+          <p>
+            If you only send "just checking in," AP has to chase internal approvals before they can answer you.
+            A complete packet shortens cycle time and increases reply odds.
+          </p>
+
+          <h2 id="templates">5 email templates (first ping -> escalation)</h2>
+          <p>
+            Use these templates as your <strong>accounts payable follow up email</strong> sequence. Keep one thread
+            so AP can view history quickly.
+          </p>
+
+          <h3>Template 1: first ping to AP</h3>
+          <p>
+            Subject: "Invoice #[number] due [date] - payment status check"
+          </p>
+          <p>
+            "Hi AP team, sharing a quick status check for invoice #[number], amount [amount], due [date].
+            I have attached the invoice and support docs for convenience. Could you confirm expected payment date?"
+          </p>
+
+          <h3>Template 2: second follow-up with direct ask</h3>
+          <p>
+            Subject: "Follow-up: invoice #[number], [X] days overdue"
+          </p>
+          <p>
+            "Hi AP team, following up on invoice #[number], now [X] days overdue. Please confirm if anything is
+            missing on your side. If complete, please share payment date and batch run."
+          </p>
+
+          <h3>Template 3: finance escalation with stakeholder CC</h3>
+          <p>
+            Subject: "Finance follow-up: invoice #[number] requires action"
+          </p>
+          <p>
+            "Hi AP/Finance, I am looping in [Project Lead] for visibility. Invoice #[number] remains outstanding.
+            Docs are attached again. Please confirm payment date today so we can close this item."
+          </p>
+
+          <h3>Template 4: firm payment reminder</h3>
+          <p>
+            Subject: "Payment reminder: invoice #[number] outstanding"
+          </p>
+          <p>
+            "Hi AP team, invoice #[number] for [amount] remains unpaid after previous follow-ups.
+            Please process payment by [date] or reply with the exact blocker and owner."
+          </p>
+
+          <h3>Template 5: final AP notice before next step</h3>
+          <p>
+            Subject: "Final AP notice: invoice #[number] - action required"
+          </p>
+          <p>
+            "Hi AP/Finance, this is final notice for invoice #[number], currently [X] days overdue.
+            If payment is not received by [date], we will move to next steps under contract terms."
+          </p>
+
+          <p>
+            For broader reminder variants, use the
+            <a href="/templates/overdue-invoice-email-template"> overdue invoice email template</a>.
+            If you need stronger end-stage language, use the
+            <a href="/templates/past-due-invoice-notice-template"> past due invoice notice template</a>.
+          </p>
+
+          <h2 id="subject-lines">10 subject lines that get a reply</h2>
+          <ol>
+            <li>Invoice #[number] due [date] - payment status</li>
+            <li>AP follow-up: invoice #[number], [X] days overdue</li>
+            <li>Finance action needed: invoice #[number]</li>
+            <li>Requesting payment date: invoice #[number]</li>
+            <li>Reminder: [Company] invoice #[number] outstanding</li>
+            <li>Resent with attachments: invoice #[number]</li>
+            <li>Missing docs check: invoice #[number]</li>
+            <li>Final reminder before escalation: invoice #[number]</li>
+            <li>Please confirm AP queue status: invoice #[number]</li>
+            <li>Urgent AP review requested: invoice #[number]</li>
+          </ol>
+          <p>
+            Strong subject lines include invoice number and status. This helps AP route your request without reading
+            the full body first.
+          </p>
+
+          <h2 id="ap-objections">If AP says "not received / missing PO / wrong vendor"</h2>
+          <p>
+            Common AP blockers are process issues, not payment refusal. Respond with a one-message correction playbook:
+          </p>
+          <ul>
+            <li><strong>Not received:</strong> resend invoice PDF and include original send date.</li>
+            <li><strong>Missing PO:</strong> ask buyer to provide PO and reissue invoice if needed.</li>
+            <li><strong>Wrong vendor record:</strong> provide legal entity, tax form, and remittance details.</li>
+            <li><strong>Approval pending:</strong> ask for approver name and committed release date.</li>
+          </ul>
+          <p>
+            This structure makes your <strong>email to finance department invoice</strong> follow-up operational
+            rather than emotional, which is exactly what AP teams respond to.
+          </p>
+
+          <div class="not-prose my-6 rounded-xl border border-primary/10 bg-primary/5 p-4 text-sm text-muted-foreground">
+            <p><strong class="text-foreground">Quick tips</strong></p>
+            <ul class="mt-2 space-y-1">
+              <li>Lead with "reply with pay date today" for faster commitments.</li>
+              <li>Always attach proof pack; do not assume prior attachments are visible.</li>
+              <li>CC commercial contact after second AP follow-up for accountability.</li>
+              <li>Keep tone neutral; AP is process-heavy, not persuasion-heavy.</li>
+            </ul>
+          </div>
+
+          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
+            <p class="font-semibold mb-2">Timeline: AP follow-up timeline</p>
+            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
+    title AP Overdue Invoice Follow-up Plan
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d %b
+    section Reminders
+    First ping to AP            :done, d1, 2026-04-01, 1d
+    Follow-up with direct ask   :d4, 2026-04-04, 1d
+    Finance escalation          :d8, 2026-04-08, 1d
+    Firm reminder               :d12, 2026-04-12, 1d
+    Final AP notice             :d18, 2026-04-18, 1d
+    section Escalation
+    Final notice                :d30, 2026-04-30, 1d
+    Last step (collections/legal):d45, 2026-05-15, 1d</code></pre>
+          </div>
+
+          <h2 id="automate">Automate follow-ups from your invoice</h2>
+          <p>
+            If you do not want to rewrite every <strong>AP payment reminder email</strong>, generate a full
+            sequence from one invoice using the
+            <a href="/tools/overdue-invoice-sequence-generator"> overdue invoice sequence generator</a>.
+          </p>
+          <ol>
+            <li>Upload invoice PDF.</li>
+            <li>Generate multi-step AP and client reminder drafts.</li>
+            <li>Edit tone and escalation points.</li>
+            <li>Schedule and track replies in one timeline.</li>
+          </ol>
+
+          <div class="not-prose">
+            <SeoCtaBand
+              heading="Need AP-ready reminders in minutes?"
+              description="Generate an editable follow-up sequence with proof-pack structure and escalation timing."
+              primaryHref={appUrl}
+              primaryLabel="Generate AP follow-up sequence"
+              primaryAriaLabel="Generate AP follow-up sequence from invoice"
+              secondaryHref="/pricing"
+              secondaryLabel="View pricing"
+              secondaryAriaLabel="View pricing plans"
+            />
+          </div>
+
+          <h3>Sources</h3>
+          <ul class="text-sm">
+            <li><a href="https://quickbooks.intuit.com/learn-support/en-global/help-article/invoicing/send-invoice-reminders-automatically-manually/L84cQjpxo_ROW_en" target="_blank" rel="noopener noreferrer">QuickBooks: send invoice reminders</a></li>
+            <li><a href="https://stripe.com/resources/more/what-is-a-payment-reminder-how-to-write-and-send-one-successfully" target="_blank" rel="noopener noreferrer">Stripe: payment reminder guide</a></li>
+            <li><a href="https://central.xero.com/s/article/Set-up-invoice-reminders" target="_blank" rel="noopener noreferrer">Xero: invoice reminder setup</a></li>
+          </ul>
+        </article>
+
+        <div class="hidden lg:block" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">Frequently asked questions</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+</BaseLayout>

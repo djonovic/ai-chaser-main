@@ -21,7 +21,7 @@ const plans = [
     annualPrice: 0,
     description: 'Get started with AI invoice chasing — no credit card required.',
     features: [
-      '3 invoices per month',
+      'Up to 3 invoices',
       '10 AI sequence generations/month',
       'Automated email sending',
       'Basic dashboard',

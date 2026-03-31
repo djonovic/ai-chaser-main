@@ -3,13 +3,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import SeoToc from '../../components/seo/SeoToc';
 import SeoCtaBand from '../../components/seo/SeoCtaBand';
 import SeoFaq from '../../components/seo/SeoFaq';
+import SeoAuthor from '../../components/seo/SeoAuthor.astro';
 
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/templates/invoice-reminder-email-template';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 const metaTitle = 'Invoice Reminder Email Template: 7 Proven Emails';
 const metaDescription =
-  'Copy/paste invoice reminders (friendly→firm) + generate a custom sequence from your invoice in 60 seconds. Free, no card.';
+  'Copy/paste invoice reminders (friendly→firm) + generate a custom sequence from your invoice in under a minute. Free, no card.';
 
 const tocItems = [
   { id: 'when-to-send', label: 'When to send a reminder' },
@@ -162,9 +163,9 @@ const articleSchema = {
   datePublished: '2026-03-31',
   dateModified: '2026-03-31',
   author: {
-    '@type': 'Organization',
-    name: 'ChaseAI',
-    url: 'https://chaseai.app',
+    '@type': 'Person',
+    name: 'Alex Morgan',
+    url: 'https://chaseai.app/about',
   },
   publisher: {
     '@type': 'Organization',
@@ -226,7 +227,7 @@ const structuredData = [articleSchema, faqSchema];
           data-cta-id="hero_primary"
         >
           Generate my reminder sequence
-          <span class="ml-2 text-primary-foreground/70 text-xs group-hover:text-primary-foreground/90 transition-colors">Free — 60 seconds</span>
+          <span class="ml-2 text-primary-foreground/70 text-xs group-hover:text-primary-foreground/90 transition-colors">Free plan available</span>
         </a>
         <a
           href="#templates"
@@ -280,6 +281,7 @@ const structuredData = [articleSchema, faqSchema];
 
         <!-- Prose column — centered between equal-width sidebars -->
         <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
+          <SeoAuthor date="2026-03-31" />
 
           <!-- ── When to send ── -->
           <h2 id="when-to-send">When to send an invoice reminder (timing that works)</h2>
@@ -453,7 +455,7 @@ const structuredData = [articleSchema, faqSchema];
         Stop writing reminders from scratch
       </h2>
       <p class="mt-4 text-muted-foreground leading-relaxed">
-        Upload an invoice and let ChaseAI generate a complete follow-up sequence in under 60 seconds.
+        Upload an invoice and let ChaseAI generate a complete follow-up sequence in under a minute.
         Free to start—no credit card required.
       </p>
       <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -477,7 +479,7 @@ const structuredData = [articleSchema, faqSchema];
         </a>
       </div>
       <p class="mt-4 text-xs text-muted-foreground">
-        Free plan includes 3 invoices/month and 10 AI sequences.
+        Free plan includes up to 3 invoices and 10 AI sequences.
       </p>
     </div>
   </section>

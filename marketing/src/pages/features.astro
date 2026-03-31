@@ -47,7 +47,7 @@ const coreFeatures = [
       'Emails send on the exact scheduled date',
       'See when clients open your emails',
       'One-click pause/resume/stop',
-      'Real-time step status tracking',
+      'Step status tracking (sent, opened, pending)',
       'Powered by Resend for reliable delivery',
     ],
     visual: 'automation',
@@ -58,7 +58,7 @@ const additionalFeatures = [
   {
     icon: '📊',
     title: 'Recovery Analytics & Reports',
-    description: 'Real-time dashboard showing total recovered, success rates, average days to payment, and monthly trends. Know exactly how your collections are performing with charts and breakdowns.',
+    description: 'Dashboard showing total overdue, paid invoices, active sequences, and success rates. Charts and breakdowns help you understand your collections performance.',
   },
   {
     icon: '👥',
@@ -93,7 +93,7 @@ const additionalFeatures = [
   {
     icon: '⚡',
     title: 'Instant Dashboard',
-    description: 'See everything at a glance: total overdue, recovered this month, active sequences, and success rate. Recent invoices with AI status, days overdue, and quick actions.',
+    description: 'See everything at a glance: total overdue, paid invoices, active sequences, and success rate. Recent invoices with status, days overdue, and quick actions.',
   },
 ];
 ---
@@ -128,7 +128,7 @@ const additionalFeatures = [
 
   <!-- Core Features (alternating layout) -->
   {coreFeatures.map((feature, i) => (
-    <section class:list={['section-padding', i % 2 === 0 ? '' : 'bg-muted/30 border-y border-border']}>
+    <section class:list={['', i % 2 === 0 ? '' : 'bg-muted/30 border-y border-border']}>
       <div class="container">
         <div class:list={['max-w-5xl mx-auto grid lg:grid-cols-2 gap-12 items-center', i % 2 !== 0 && 'lg:[&>*:first-child]:order-2']}>
           <div>
@@ -300,7 +300,7 @@ const additionalFeatures = [
           Ready to automate your invoice chasing?
         </h2>
         <p class="mt-4 text-lg text-muted-foreground">
-          Start free with 3 invoices and 10 AI sequences per month. Upgrade when you need more.
+          Start free with up to 3 invoices and 10 AI sequences. Upgrade when you need more.
         </p>
         <div class="mt-8">
           <a

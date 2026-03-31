@@ -1,0 +1,232 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoCtaBand from '../../components/seo/SeoCtaBand';
+import SeoFaq from '../../components/seo/SeoFaq';
+import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+
+const appUrl = 'https://app.chaseai.app';
+const pageSlug = '/templates/freelancer-invoice-reminder-email-template';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+// META (DO NOT CHANGE)
+const metaTitle = 'Freelancer Invoice Reminder Email Template';
+const metaDescription =
+  'Copy/paste freelancer invoice reminder emails (friendly→firm). Includes a 7-step escalation sequence and how to avoid awkward chasing.';
+
+const tocItems = [
+  { id: 'scripts', label: 'Freelancer-friendly scripts (short + long)' },
+  { id: 'sequence', label: 'The 7-step escalation sequence' },
+  { id: 'boundaries', label: 'Boundary wording (pause work professionally)' },
+  { id: 'automate', label: 'Automate in minutes (upload invoice PDF)' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const faqs = [
+  {
+    q: 'How do freelancers chase clients for payment without sounding rude?',
+    a: 'Use short, factual reminders with clear due date and payment link, then increase firmness only if deadlines are missed.',
+  },
+  {
+    q: 'When should I switch from friendly to firm reminder tone?',
+    a: 'Usually after one or two reminders or after 7 to 14 days overdue, especially if the client stops responding.',
+  },
+  {
+    q: 'Should freelancers pause work for unpaid invoices?',
+    a: 'If your contract allows it, yes. Communicate the pause professionally and explain how work resumes once payment is received.',
+  },
+  {
+    q: 'Can I automate reminder emails as a freelancer?',
+    a: 'Yes. You can generate and schedule a full reminder sequence from one invoice so follow-ups stay consistent.',
+  },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: metaTitle,
+  description: metaDescription,
+  datePublished: '2026-03-31',
+  dateModified: '2026-03-31',
+  author: {
+    '@type': 'Person',
+    name: 'Alex Morgan',
+    url: 'https://chaseai.app/about',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'ChaseAI',
+    url: 'https://chaseai.app',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://chaseai.app/favicon.svg',
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
+};
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogType="article"
+  structuredData={[articleSchema]}
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://app.chaseai.app" />
+  </Fragment>
+
+  <section class="hero-gradient relative overflow-hidden">
+    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+        Freelancer Invoice Reminder Email Template (Friendly -> Firm)
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+        Use these copy/paste reminders to move from friendly nudges to firm follow-ups while keeping client
+        relationships healthy and payment conversations clear.
+      </p>
+    </div>
+  </section>
+
+  <section class="">
+    <div class="container">
+      <div class="grid lg:grid-cols-[200px_1fr_200px] gap-10 max-w-6xl mx-auto">
+        <aside>
+          <SeoToc items={tocItems} client:idle />
+        </aside>
+
+        <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
+          <SeoAuthor date="2026-03-31" />
+          <p>
+            If you are a freelancer, overdue invoices are not just annoying. They disrupt cash flow, project planning,
+            and your ability to deliver confidently. This <strong>freelancer invoice reminder email template</strong>
+            gives you exact wording for each stage so you do not have to improvise under stress.
+          </p>
+
+          <h2 id="scripts">The freelancer-friendly scripts (short + long)</h2>
+          <h3>Short script (quick nudge)</h3>
+          <p>
+            Subject: "Quick reminder: Invoice #[number]"
+          </p>
+          <p>
+            "Hi [Name], quick reminder that invoice #[number] for [amount] was due on [date].
+            If payment is already in progress, thank you and please ignore this note.
+            If not, here is the payment link: [link]."
+          </p>
+
+          <h3>Long script (relationship-friendly follow-up)</h3>
+          <p>
+            Subject: "Following up on invoice #[number]"
+          </p>
+          <p>
+            "Hi [Name], hope your week is going well. I wanted to follow up on invoice #[number] for [amount],
+            due on [date]. I am re-sharing the payment link for convenience: [link]. If there is a processing issue
+            or any documentation you need from me, I can send it right away. Could you confirm expected payment date?"
+          </p>
+          <p>
+            This pattern works for a <strong>freelance invoice follow up email</strong> because it stays professional
+            while still asking for a clear next step.
+          </p>
+
+          <h2 id="sequence">The 7-step escalation sequence</h2>
+          <p>
+            Use this progression for a reliable <strong>freelancer overdue invoice email</strong> process:
+          </p>
+          <ol>
+            <li>Day -3: courtesy reminder before due date.</li>
+            <li>Day 1: friendly due-date follow-up.</li>
+            <li>Day 4: second reminder with payment-date ask.</li>
+            <li>Day 8: direct reminder with clear urgency.</li>
+            <li>Day 14: firm reminder with deadline.</li>
+            <li>Day 30: final notice.</li>
+            <li>Day 45: post-final escalation step.</li>
+          </ol>
+          <p>
+            Need schedule detail? Use
+            <a href="/guides/unpaid-invoice-follow-up-schedule"> unpaid invoice follow-up schedule</a>.
+          </p>
+
+          <h2 id="boundaries">Boundary wording (pause work professionally)</h2>
+          <p>
+            One reason freelancers avoid reminders is fear of conflict. Boundary language fixes that by making the
+            process clear, not personal:
+          </p>
+          <p>
+            "To keep billing aligned, I will pause new work from [date] until invoice #[number] is paid.
+            Once payment is received, I can resume immediately and confirm the next delivery window."
+          </p>
+          <p>
+            This is the cleanest answer to "how to chase clients for payment" without damaging trust.
+          </p>
+
+          <div class="not-prose my-6 rounded-xl border border-primary/10 bg-primary/5 p-4 text-sm text-muted-foreground">
+            <p><strong class="text-foreground">Quick tips</strong></p>
+            <ul class="mt-2 space-y-1">
+              <li>Use one reminder thread per invoice for clean context.</li>
+              <li>Always include payment link and amount due.</li>
+              <li>Ask for payment date, not generic status.</li>
+              <li>Set clear boundaries when commitments are missed.</li>
+            </ul>
+          </div>
+
+          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
+            <p class="font-semibold mb-2">Timeline: freelancer reminder progression</p>
+            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
+    title Freelancer Invoice Follow-Up Timeline
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d %b
+    section Sequence
+    Courtesy reminder         :d-3, 2026-03-29, 3d
+    Friendly reminder         :d1, 2026-04-01, 3d
+    Second reminder           :d4, 2026-04-04, 4d
+    Direct reminder           :d8, 2026-04-08, 6d
+    Firm reminder             :d14, 2026-04-14, 16d
+    Final notice              :d30, 2026-04-30, 15d
+    Escalation step           :d45, 2026-05-15, 1d</code></pre>
+          </div>
+
+          <h2 id="automate">Automate in minutes (upload invoice PDF)</h2>
+          <p>
+            Instead of rewriting every reminder manually, generate the full sequence in one flow using the
+            <a href="/tools/overdue-invoice-sequence-generator"> overdue invoice sequence generator</a>.
+          </p>
+          <ol>
+            <li>Upload invoice PDF or enter details manually.</li>
+            <li>Generate 5 to 7 reminders automatically.</li>
+            <li>Edit tone and timing before launch.</li>
+            <li>Track responses and payment status from one dashboard.</li>
+          </ol>
+          <p>
+            You can compare plan limits and automation volume on the <a href="/pricing">pricing page</a>.
+          </p>
+
+          <div class="not-prose">
+            <SeoCtaBand
+              heading="Generate freelancer reminder emails in minutes"
+              description="Upload one invoice and get a full friendly-to-firm follow-up sequence ready to send."
+              primaryHref={appUrl}
+              primaryLabel="Generate my reminder sequence"
+              primaryAriaLabel="Generate freelancer invoice reminder sequence"
+              secondaryHref="/pricing"
+              secondaryLabel="View pricing"
+              secondaryAriaLabel="View pricing plans"
+            />
+          </div>
+        </article>
+
+        <div class="hidden lg:block" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">Frequently asked questions</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+</BaseLayout>

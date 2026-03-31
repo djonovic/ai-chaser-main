@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import SeoToc from '../../components/seo/SeoToc';
 import SeoCtaBand from '../../components/seo/SeoCtaBand';
 import SeoFaq from '../../components/seo/SeoFaq';
+import SeoAuthor from '../../components/seo/SeoAuthor.astro';
 
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/templates/overdue-invoice-email-sequence';
@@ -160,9 +161,9 @@ const articleSchema = {
   datePublished: '2026-03-31',
   dateModified: '2026-03-31',
   author: {
-    '@type': 'Organization',
-    name: 'ChaseAI',
-    url: 'https://chaseai.app',
+    '@type': 'Person',
+    name: 'Alex Morgan',
+    url: 'https://chaseai.app/about',
   },
   publisher: {
     '@type': 'Organization',
@@ -249,7 +250,7 @@ const structuredData = [articleSchema, faqSchema];
     </div>
   </section>
 
-  <section class="section-padding">
+  <section class="">
     <div class="container">
       <div class="grid lg:grid-cols-[200px_1fr_200px] gap-10 max-w-6xl mx-auto">
         <aside>
@@ -257,6 +258,7 @@ const structuredData = [articleSchema, faqSchema];
         </aside>
 
         <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
+          <SeoAuthor date="2026-03-31" />
           <h2 id="why-sequences">Why sequences beat “random chasing”</h2>
           <p>
             Most teams do not have a cash-flow problem. They have a follow-up consistency problem.

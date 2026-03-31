@@ -1,0 +1,252 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoCtaBand from '../../components/seo/SeoCtaBand';
+import SeoFaq from '../../components/seo/SeoFaq';
+import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+
+const appUrl = 'https://app.chaseai.app';
+const pageSlug = '/templates/late-payment-fee-email-template';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+// META (DO NOT CHANGE)
+const metaTitle = 'Late Payment Fee Email Template (Clear + Fair)';
+const metaDescription =
+  'How to notify clients about late fees without drama. Copy/paste templates, timing guidance, and wording that protects relationships.';
+
+const tocItems = [
+  { id: 'when-fees-make-sense', label: 'When late fees make sense' },
+  { id: 'templates', label: 'Templates (gentle notice to applied fee)' },
+  { id: 'contract-terms', label: 'Reference contract terms cleanly' },
+  { id: 'escalation-path', label: 'Escalation path' },
+  { id: 'automate', label: 'Automate reminders + notices' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const faqs = [
+  {
+    q: 'When should I send a late fee notice email?',
+    a: 'Only when your agreement allows it and the client has already passed due date with prior reminders.',
+  },
+  {
+    q: 'How do I keep a late payment penalty email professional?',
+    a: 'Keep it factual: reference the invoice, due date, contract clause, fee amount, and payment deadline.',
+  },
+  {
+    q: 'Should I waive the first late fee?',
+    a: 'Many teams do for strong clients or first incidents, then enforce fees consistently afterward.',
+  },
+  {
+    q: 'What if the client disputes the late fee?',
+    a: 'Pause escalation briefly, reference terms in writing, and offer a clear path to resolve the balance quickly.',
+  },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: metaTitle,
+  description: metaDescription,
+  datePublished: '2026-03-31',
+  dateModified: '2026-03-31',
+  author: {
+    '@type': 'Person',
+    name: 'Alex Morgan',
+    url: 'https://chaseai.app/about',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'ChaseAI',
+    url: 'https://chaseai.app',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://chaseai.app/favicon.svg',
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
+};
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogType="article"
+  structuredData={[articleSchema]}
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://app.chaseai.app" />
+  </Fragment>
+
+  <section class="hero-gradient relative overflow-hidden">
+    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+        Late Payment Fee Email Template (Copy/Paste)
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+        Use this <strong>late payment fee email template</strong> to notify clients clearly and fairly when invoices
+        are overdue and fee terms apply.
+      </p>
+    </div>
+  </section>
+
+  <section class="">
+    <div class="container">
+      <div class="grid lg:grid-cols-[200px_1fr_200px] gap-10 max-w-6xl mx-auto">
+        <aside>
+          <SeoToc items={tocItems} client:idle />
+        </aside>
+
+        <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
+          <SeoAuthor date="2026-03-31" />
+          <p>
+            A good <strong>late fee notice email</strong> protects both cash flow and relationships. The tone should
+            be neutral, specific, and tied to agreed terms rather than emotion.
+          </p>
+
+          <h2 id="when-fees-make-sense">When late fees make sense (and when they backfire)</h2>
+          <p>Late fees usually make sense when:</p>
+          <ul>
+            <li>Your contract explicitly defines fee percentage or fixed charge.</li>
+            <li>The client has already received one or more reminders.</li>
+            <li>The invoice is materially overdue and still unpaid.</li>
+          </ul>
+          <p>Late fees often backfire when:</p>
+          <ul>
+            <li>Terms were never documented before invoicing.</li>
+            <li>The delay is caused by your missing paperwork.</li>
+            <li>You apply penalties inconsistently across similar clients.</li>
+          </ul>
+          <p>
+            If in doubt, send a courtesy heads-up first, then enforce terms consistently afterward.
+          </p>
+
+          <h2 id="templates">Templates (gentle notice -> applied fee)</h2>
+          <h3>Template 1: gentle late-fee notice</h3>
+          <p>
+            Subject: "Reminder: invoice #[number] overdue, late fee terms apply"
+          </p>
+          <p>
+            "Hi [Name], invoice #[number] for [amount] is now overdue. Per our terms, late fees may apply after
+            [X] days. Please process payment by [date] to avoid additional charges. Payment link: [link]."
+          </p>
+
+          <h3>Template 2: fee applied notice</h3>
+          <p>
+            Subject: "Late fee applied: invoice #[number]"
+          </p>
+          <p>
+            "Hi [Name], this is a notice that a late fee of [fee amount / fee %] has been applied to invoice
+            #[number] under our agreement terms. Updated total due is [new total]. Please complete payment by
+            [date]. Payment link: [link]."
+          </p>
+
+          <h3>Template 3: final fee + escalation</h3>
+          <p>
+            Subject: "Final notice: overdue invoice #[number] with late fee"
+          </p>
+          <p>
+            "Hi [Name], despite prior reminders, invoice #[number] remains unpaid and late fee terms are now active.
+            Total outstanding is [total]. Please pay by [date/timezone]. If unresolved by this deadline, we will
+            proceed with the next escalation step under contract."
+          </p>
+
+          <h2 id="contract-terms">How to reference your contract terms cleanly</h2>
+          <p>
+            Keep contract references short and auditable. Example wording:
+          </p>
+          <ul>
+            <li>"Per Section 4.2 of our agreement, a [X]% monthly late fee applies after [Y] days overdue."</li>
+            <li>"As agreed in our invoice terms, late charges begin after the due date grace period."</li>
+            <li>"This notice follows the payment and late-fee terms accepted on [date]."</li>
+          </ul>
+          <p>
+            Link to the exact clause or attach the terms excerpt when possible. That keeps your
+            <strong> overdue invoice late fee email</strong> clear and defensible.
+          </p>
+          <p class="text-sm text-muted-foreground">Check your contract/local rules.</p>
+
+          <h2 id="escalation-path">Escalation path</h2>
+          <p>
+            If late-fee notices do not resolve payment, escalate in stages:
+          </p>
+          <ol>
+            <li>Friendly reminder with payment link.</li>
+            <li>Firm reminder with date commitment request.</li>
+            <li>Late-fee notice with updated total.</li>
+            <li>Final notice with deadline and next step.</li>
+          </ol>
+          <p>
+            For firmer language, use
+            <a href="/templates/firm-payment-reminder-email"> firm payment reminder email</a>.
+            For formal notice structure, use
+            <a href="/templates/past-due-invoice-notice-template"> past due invoice notice template</a>.
+            For a full strategy, follow
+            <a href="/guides/how-to-chase-unpaid-invoices"> how to chase unpaid invoices</a>.
+          </p>
+
+          <div class="not-prose my-6 rounded-xl border border-primary/10 bg-primary/5 p-4 text-sm text-muted-foreground">
+            <p><strong class="text-foreground">Quick tips</strong></p>
+            <ul class="mt-2 space-y-1">
+              <li>Start with notice language before applying fees if relationship value is high.</li>
+              <li>Always show updated total after fee is added.</li>
+              <li>Include due date and timezone in every fee email.</li>
+              <li>Keep tone factual and policy-based, never personal.</li>
+            </ul>
+          </div>
+
+          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
+            <p class="font-semibold mb-2">Timeline: late-fee escalation sequence</p>
+            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
+    title Late Fee Reminder Timeline
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d %b
+    section Sequence
+    Friendly reminder          :d1, 2026-04-01, 6d
+    Firm reminder              :d7, 2026-04-07, 7d
+    Late fee notice            :d14, 2026-04-14, 16d
+    Final notice with fee      :d30, 2026-04-30, 15d
+    Post-deadline escalation   :d45, 2026-05-15, 1d</code></pre>
+          </div>
+
+          <h2 id="automate">Automate reminders + notices</h2>
+          <p>
+            Use ChaseAI to generate reminders, <strong>late payment penalty email</strong> wording, and final notices
+            from a single invoice workflow.
+          </p>
+          <ol>
+            <li>Upload invoice details once.</li>
+            <li>Generate stage-based reminder and fee templates.</li>
+            <li>Set deadline and escalation rules.</li>
+            <li>Track replies, promises, and payment completion.</li>
+          </ol>
+
+          <div class="not-prose">
+            <SeoCtaBand
+              heading="Automate late-fee notices without drama"
+              description="Create a full sequence with friendly, firm, and fee-stage reminders in minutes."
+              primaryHref={appUrl}
+              primaryLabel="Generate my sequence"
+              primaryAriaLabel="Generate late fee reminder sequence"
+              secondaryHref="/pricing"
+              secondaryLabel="View pricing"
+              secondaryAriaLabel="View pricing plans"
+            />
+          </div>
+        </article>
+
+        <div class="hidden lg:block" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">Frequently asked questions</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+</BaseLayout>

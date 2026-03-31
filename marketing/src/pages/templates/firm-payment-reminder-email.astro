@@ -1,0 +1,229 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoCtaBand from '../../components/seo/SeoCtaBand';
+import SeoFaq from '../../components/seo/SeoFaq';
+import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+
+const appUrl = 'https://app.chaseai.app';
+const pageSlug = '/templates/firm-payment-reminder-email';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+// META (DO NOT CHANGE)
+const metaTitle = 'Firm Payment Reminder Email (Polite, Not Rude)';
+const metaDescription =
+  'A firm but polite payment reminder email that gets action. Clear deadline, payment link, and escalation language that stays professional.';
+
+const tocItems = [
+  { id: 'firm-template', label: 'The firm template (with deadline + next step)' },
+  { id: 'pause-work', label: 'Pause work wording (professional version)' },
+  { id: 'subject-lines', label: '10 subject lines' },
+  { id: 'what-not', label: 'What NOT to write' },
+  { id: 'automate', label: 'Automate escalation' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const faqs = [
+  {
+    q: 'How firm should a payment reminder be?',
+    a: 'Firm enough to set a clear payment deadline and next action, but still respectful and professional.',
+  },
+  {
+    q: 'When should I send a firm reminder?',
+    a: 'Typically after at least one friendly reminder, or sooner if promised payment dates are repeatedly missed.',
+  },
+  {
+    q: 'Should I mention escalation in a firm reminder?',
+    a: 'Yes, but keep it factual: state what will happen next and when, without threats or emotional language.',
+  },
+  {
+    q: 'Can I pause work if invoices remain unpaid?',
+    a: 'Yes, if your contract allows it. Communicate the pause professionally and provide the payment path to resume work quickly.',
+  },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: metaTitle,
+  description: metaDescription,
+  datePublished: '2026-03-31',
+  dateModified: '2026-03-31',
+  author: {
+    '@type': 'Person',
+    name: 'Alex Morgan',
+    url: 'https://chaseai.app/about',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'ChaseAI',
+    url: 'https://chaseai.app',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://chaseai.app/favicon.svg',
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
+};
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogType="article"
+  structuredData={[articleSchema]}
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://app.chaseai.app" />
+  </Fragment>
+
+  <section class="hero-gradient relative overflow-hidden">
+    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+        Firm Payment Reminder Email (Clear, Polite, Effective)
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+        Use this <strong>firm payment reminder email</strong> when friendly nudges have not worked and you need a
+        clear deadline, clear payment path, and clear next step.
+      </p>
+    </div>
+  </section>
+
+  <section class="">
+    <div class="container">
+      <div class="grid lg:grid-cols-[200px_1fr_200px] gap-10 max-w-6xl mx-auto">
+        <aside>
+          <SeoToc items={tocItems} client:idle />
+        </aside>
+
+        <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
+          <SeoAuthor date="2026-03-31" />
+          <p>
+            A <strong>firm but polite payment reminder email</strong> should never sound angry. It should sound
+            operational: what is outstanding, what deadline applies, and what happens if it is still unpaid.
+          </p>
+
+          <h2 id="firm-template">The firm template (with deadline + next step)</h2>
+          <p>Copy and adapt this template:</p>
+          <p>
+            Subject: "Action required: invoice #[number] overdue"
+          </p>
+          <p>
+            "Hi [Name], invoice #[number] for [amount] remains unpaid and is now [X] days overdue.
+            Please complete payment by [deadline, e.g. Friday 5:00 PM]. Payment link: [link].
+            If there is any issue preventing payment, reply today with details and the confirmed pay date.
+            If payment is not received by the deadline, I will proceed with the next step under our agreement."
+          </p>
+          <p>
+            This format works because it removes ambiguity. You provide one date, one link, and one consequence.
+            That is what makes a <strong>professional payment reminder email</strong> effective.
+          </p>
+
+          <h2 id="pause-work">"Pause work" wording (professional version)</h2>
+          <p>
+            If invoices remain unpaid, this wording keeps boundaries clear without sounding combative:
+          </p>
+          <p>
+            "To keep billing aligned, I will pause new work starting [date] until the outstanding invoice is cleared.
+            As soon as payment is received, I can resume immediately and confirm the next delivery slot."
+          </p>
+          <p>
+            Keep it factual. No blame, no emotion, no legal threats unless you are ready to act.
+          </p>
+
+          <h2 id="subject-lines">10 subject lines</h2>
+          <ul>
+            <li>Action required: invoice #[number] overdue</li>
+            <li>Payment deadline for invoice #[number]: [date]</li>
+            <li>Firm reminder: invoice #[number] still unpaid</li>
+            <li>Invoice #[number] [X] days overdue - please resolve</li>
+            <li>Outstanding balance on invoice #[number] requires action</li>
+            <li>Final payment request before next step: #[number]</li>
+            <li>Invoice #[number] unresolved after prior reminders</li>
+            <li>Immediate response needed: invoice #[number]</li>
+            <li>Please confirm payment today: invoice #[number]</li>
+            <li>Notice: invoice #[number] overdue and pending escalation</li>
+          </ul>
+
+          <h2 id="what-not">What NOT to write (common mistakes)</h2>
+          <ul>
+            <li>Do not use insults, sarcasm, or guilt language.</li>
+            <li>Do not send vague threats without a real next step.</li>
+            <li>Do not hide the payment link or missing amount.</li>
+            <li>Do not write long emotional paragraphs.</li>
+            <li>Do not change deadlines repeatedly without consequence.</li>
+          </ul>
+          <p>
+            Need stronger final-stage wording? Use
+            <a href="/templates/final-notice-unpaid-invoice-email"> final notice unpaid invoice email</a>.
+            If late fees apply under your terms, use
+            <a href="/templates/late-payment-fee-email-template"> late payment fee email template</a>.
+          </p>
+
+          <div class="not-prose my-6 rounded-xl border border-primary/10 bg-primary/5 p-4 text-sm text-muted-foreground">
+            <p><strong class="text-foreground">Quick tips</strong></p>
+            <ul class="mt-2 space-y-1">
+              <li>Always include exact deadline with timezone.</li>
+              <li>Give one payment path and one escalation path.</li>
+              <li>Keep firm emails short and specific.</li>
+              <li>Use one thread so the history is visible.</li>
+            </ul>
+          </div>
+
+          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
+            <p class="font-semibold mb-2">Timeline: escalation schedule</p>
+            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
+    title Firm Reminder Escalation Timeline
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d %b
+    section Sequence
+    Friendly reminder         :d1, 2026-04-01, 6d
+    Direct reminder           :d7, 2026-04-07, 7d
+    Firm reminder             :d14, 2026-04-14, 16d
+    Final notice              :d30, 2026-04-30, 15d
+    Escalation step           :d45, 2026-05-15, 1d</code></pre>
+          </div>
+
+          <h2 id="automate">Automate escalation</h2>
+          <p>
+            Instead of manually rewriting every <strong>strong payment reminder email</strong>, generate a full
+            reminder sequence with scheduled escalation from the
+            <a href="/tools/overdue-invoice-sequence-generator"> overdue invoice sequence generator</a>.
+          </p>
+          <ol>
+            <li>Upload invoice details.</li>
+            <li>Generate friendly, direct, and firm drafts.</li>
+            <li>Set deadlines and escalation triggers.</li>
+            <li>Track responses and payment outcomes.</li>
+          </ol>
+
+          <div class="not-prose">
+            <SeoCtaBand
+              heading="Generate firm reminders with built-in escalation"
+              description="Create a complete overdue sequence with deadline language and next-step automation."
+              primaryHref={appUrl}
+              primaryLabel="Generate my sequence"
+              primaryAriaLabel="Generate overdue reminder sequence"
+              secondaryHref="/pricing"
+              secondaryLabel="View pricing"
+              secondaryAriaLabel="View pricing plans"
+            />
+          </div>
+        </article>
+
+        <div class="hidden lg:block" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">Frequently asked questions</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+</BaseLayout>
