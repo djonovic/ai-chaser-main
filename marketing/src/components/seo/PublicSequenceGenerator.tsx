@@ -48,11 +48,15 @@ export default function PublicSequenceGenerator() {
   const supabaseAnonKey =
     (import.meta.env.PUBLIC_SUPABASE_ANON_KEY as string | undefined) ||
     (import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY as string | undefined);
+  const envDebug = {
+    hasPublicUrl: Boolean(import.meta.env.PUBLIC_SUPABASE_URL),
+    hasPublicAnon: Boolean(import.meta.env.PUBLIC_SUPABASE_ANON_KEY),
+    hasViteUrl: Boolean(import.meta.env.VITE_SUPABASE_URL),
+    hasViteAnon: Boolean(import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY),
+  };
 
   const configError = useMemo(() => {
     if (!supabaseUrl || !supabaseAnonKey) {
-      console.log('buren', supabaseUrl, supabaseAnonKey);
-      
       return 'Missing Supabase env vars. Set PUBLIC_SUPABASE_URL + PUBLIC_SUPABASE_ANON_KEY (or VITE_SUPABASE_URL + VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY), then restart the dev server.';
     }
     return '';
@@ -154,7 +158,15 @@ export default function PublicSequenceGenerator() {
         </a>
       </div>
 
-      {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+      {error && (
+        <div className="mt-3 space-y-1">
+          <p className="text-sm text-red-600">{error}</p>
+          <p className="text-xs text-muted-foreground">
+            Env detected: PUBLIC_URL={String(envDebug.hasPublicUrl)} · PUBLIC_ANON={String(envDebug.hasPublicAnon)} ·
+            VITE_URL={String(envDebug.hasViteUrl)} · VITE_ANON={String(envDebug.hasViteAnon)}
+          </p>
+        </div>
+      )}
 
       {result && (
         <div className="mt-5 space-y-3">
