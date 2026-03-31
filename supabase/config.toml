@@ -15,3 +15,6 @@ verify_jwt = false
 
 [functions.send-test-email]
 verify_jwt = true
+
+[functions.public-generate-sequence-from-pdf]
+verify_jwt = false

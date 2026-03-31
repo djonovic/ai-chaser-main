@@ -1,0 +1,448 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoCtaBand from '../../components/seo/SeoCtaBand';
+import SeoFaq from '../../components/seo/SeoFaq';
+
+const appUrl = 'https://app.chaseai.app';
+const pageSlug = '/templates/overdue-invoice-email-template';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+const metaTitle = 'Overdue Invoice Email Template (Past Due)';
+const metaDescription =
+  'Use these overdue invoice emails to follow up at day 1/7/14/30—plus generate a personalized sequence from your invoice PDF.';
+
+const tocItems = [
+  { id: 'must-include', label: '5 must-have elements' },
+  { id: 'templates', label: 'Templates by day' },
+  { id: 'talk-to-finance', label: 'When they say talk to finance' },
+  { id: 'escalate', label: 'Escalate without sounding rude' },
+  { id: 'automate', label: 'Automated sequence generator' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const stageTemplates = [
+  {
+    day: 'Day 1 (just overdue)',
+    subject: 'Past due: Invoice #[number] for [amount]',
+    body: `Hi [Client Name],
+
+Quick follow-up that invoice #[number] for [amount] was due yesterday.
+
+Please use this payment link: [payment link]
+
+If payment has already been sent, please ignore this message.
+
+Thanks,
+[Your Name]`,
+  },
+  {
+    day: 'Day 7 (clear urgency)',
+    subject: 'Reminder: Invoice #[number] is now 7 days overdue',
+    body: `Hi [Client Name],
+
+I am following up on invoice #[number] for [amount], now 7 days past due.
+
+Could you confirm payment timing today? Payment link: [payment link]
+
+If there is any issue with processing, reply and I can help.
+
+Regards,
+[Your Name]`,
+  },
+  {
+    day: 'Day 14 (firm + specific)',
+    subject: 'Second notice: Invoice #[number] (14 days overdue)',
+    body: `Hi [Client Name],
+
+Invoice #[number] for [amount] remains unpaid and is now 14 days overdue.
+
+Please process this by [date]. If your team needs additional details (PO, delivery confirmation, revised invoice), I can send them immediately.
+
+Payment link: [payment link]
+
+Thank you,
+[Your Name]`,
+  },
+  {
+    day: 'Day 30 (final pre-escalation)',
+    subject: 'Final reminder before escalation: Invoice #[number]',
+    body: `Hi [Client Name],
+
+This is a final reminder for invoice #[number] ([amount]), now 30 days overdue.
+
+If payment is not received by [date], I will escalate based on our agreed terms.
+
+Pay now: [payment link]
+
+Please reply today if there is a blocker I should route correctly.
+
+[Your Name]`,
+  },
+];
+
+const faqs = [
+  {
+    q: 'How many overdue reminders should I send?',
+    a: 'A practical cadence is Day 1, Day 7, Day 14, and Day 30. This creates urgency without over-emailing and gives AP teams enough time to process.',
+  },
+  {
+    q: 'When should I use a final notice template?',
+    a: 'Use a final notice around Day 30 or once prior reminders are ignored. Keep it factual, reference terms, and provide one clear deadline.',
+  },
+  {
+    q: 'Should I include late fees in overdue emails?',
+    a: 'Yes, when your contract or invoice terms allow it. Introduce fees around Day 14 or Day 30 and keep language neutral and policy-based.',
+  },
+  {
+    q: 'What if they reply, "talk to finance"?',
+    a: 'Reply with invoice number, PO, amount, due date, and attachments in one message so AP can action quickly. Avoid restarting the thread from scratch.',
+  },
+  {
+    q: 'Do automated follow-ups hurt client relationships?',
+    a: 'Not when tone and timing are controlled. Automated reminders usually improve consistency and reduce emotional friction for both sides.',
+  },
+  {
+    q: 'Can I customize these templates for corporate clients?',
+    a: 'Yes. Add PO number, legal entity name, and AP email in every message. Corporate AP teams prioritize complete records over long explanations.',
+  },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: metaTitle,
+  description: metaDescription,
+  datePublished: '2026-03-31',
+  dateModified: '2026-03-31',
+  author: {
+    '@type': 'Organization',
+    name: 'ChaseAI',
+    url: 'https://chaseai.app',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'ChaseAI',
+    url: 'https://chaseai.app',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://chaseai.app/favicon.svg',
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const structuredData = [articleSchema, faqSchema];
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogType="article"
+  structuredData={structuredData}
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://app.chaseai.app" />
+  </Fragment>
+
+  <section class="hero-gradient relative overflow-hidden">
+    <div class="container py-16 md:py-24 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+        Overdue Invoice Email Template
+        <span class="block text-lg md:text-2xl font-semibold text-muted-foreground mt-3">
+          Day 1 → Day 30
+        </span>
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+        Use this <strong>overdue invoice email template</strong> pack to follow up consistently at day 1,
+        7, 14, and 30 without sounding aggressive. You can copy and send each email manually,
+        or generate a full sequence from your invoice PDF in about a minute.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a
+          href={appUrl}
+          class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-95 transition-opacity group"
+          aria-label="Generate overdue invoice follow-up sequence"
+          data-track="lead_cta_click"
+          data-cta-id="hero_primary"
+        >
+          Generate overdue follow-ups
+          <span class="ml-2 text-primary-foreground/70 text-xs group-hover:text-primary-foreground/90 transition-colors">No credit card</span>
+        </a>
+        <a
+          href="#templates"
+          class="inline-flex items-center justify-center rounded-lg border border-border px-8 py-3.5 text-base font-semibold hover:bg-muted/50 transition-colors"
+          aria-label="Jump to day 1 template"
+        >
+          Copy day 1 email
+        </a>
+      </div>
+      <div class="mt-3 flex flex-wrap justify-center gap-3 text-sm">
+        <a href="/pricing" class="text-muted-foreground hover:text-foreground" data-track="lead_cta_click" data-cta-id="hero_pricing">See pricing</a>
+        <span class="text-border">•</span>
+        <a href="/features" class="text-muted-foreground hover:text-foreground">View features</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-border bg-muted/30">
+    <div class="container py-6">
+      <div class="grid gap-3 md:grid-cols-3 text-sm">
+        <p class="text-muted-foreground"><strong class="text-foreground">AP proof pack</strong> reduces back-and-forth and gets invoices approved faster.</p>
+        <p class="text-muted-foreground"><strong class="text-foreground">Use the same thread</strong> for all reminders so context stays visible to finance.</p>
+        <p class="text-muted-foreground"><strong class="text-foreground">Escalate by timeline, not emotion</strong>, using clear dates and terms.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container">
+      <div class="grid lg:grid-cols-[200px_1fr_200px] gap-10 max-w-6xl mx-auto">
+        <aside>
+          <SeoToc items={tocItems} client:idle />
+        </aside>
+
+        <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
+          <h2 id="must-include">The 5 things every overdue invoice email must include</h2>
+          <p>
+            A strong <strong>past due invoice email</strong> is short, specific, and easy to action.
+            Most payment delays are workflow problems, not refusal to pay. Your job is to remove friction.
+          </p>
+          <ol>
+            <li><strong>Invoice reference:</strong> invoice number, amount, and due date in the first sentence.</li>
+            <li><strong>Single action:</strong> one payment link or remittance instruction, clearly visible.</li>
+            <li><strong>Clear timeline:</strong> "7 days overdue" or "payment due by Friday" to create urgency.</li>
+            <li><strong>Support path:</strong> one line for disputes or missing paperwork.</li>
+            <li><strong>Professional tone:</strong> factual wording, never emotional language.</li>
+          </ol>
+          <p>
+            If the invoice is close to legal escalation, pair this guide with a
+            <a href="/templates/final-notice-unpaid-invoice-email">final notice unpaid invoice template</a>
+            so your escalation language stays clean and enforceable.
+          </p>
+
+          <div class="not-prose my-6 rounded-xl border border-border bg-muted/30 p-4">
+            <p class="text-sm font-semibold">AP proof pack (3-line checklist)</p>
+            <ul class="mt-2 text-sm text-muted-foreground space-y-1">
+              <li>Invoice PDF with legal entity, due date, and amount</li>
+              <li>PO number and buyer contact (if procurement is involved)</li>
+              <li>Delivery proof: signed acceptance, milestone email, or timesheet</li>
+            </ul>
+          </div>
+
+          <div class="not-prose my-6 rounded-xl border border-primary/20 bg-primary/5 p-4">
+            <p class="text-sm text-muted-foreground">
+              <strong class="text-foreground">Stats callout:</strong> Atradius reports average payment terms in Western Europe at
+              about <strong class="text-foreground">52 days</strong>, which means even "standard" invoices often take
+              longer than expected without structured follow-up.
+              <a
+                href="https://group.atradius.com/knowledge-and-research/reports/b2b-payment-practices-trends%2C-western-europe-2024"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Source
+              </a>
+            </p>
+          </div>
+
+          <h2 id="templates">Templates by overdue stage (Day 1, 7, 14, 30)</h2>
+          <p>
+            These copy/paste templates are built for progressive urgency. Start polite, then tighten language.
+            This structure performs better than jumping immediately to a legal tone.
+          </p>
+
+          <div class="not-prose space-y-4">
+            {stageTemplates.map((item) => (
+              <div class="rounded-lg border border-border bg-muted/20 p-4 md:p-5">
+                <h3 class="text-sm font-semibold mb-2">{item.day}</h3>
+                <p class="text-xs text-muted-foreground mb-2">
+                  <strong>Subject:</strong> {item.subject}
+                </p>
+                <pre class="text-sm text-muted-foreground leading-relaxed whitespace-pre-line font-sans">{item.body}</pre>
+              </div>
+            ))}
+          </div>
+
+          <p>
+            Want this as an auto-scheduled campaign instead of manual sending?
+            Use the <a href="/tools/overdue-invoice-sequence-generator">overdue invoice sequence generator</a>
+            to turn one PDF into the full day 1/7/14/30 flow.
+          </p>
+
+          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm text-muted-foreground">
+            <p><strong class="text-foreground">Image and GIF production notes</strong></p>
+            <ul class="mt-2 space-y-1">
+              <li>Tone ladder (friendly → firm), alt="Overdue invoice tone ladder from day 1 to day 30"</li>
+              <li>Reminder timeline, alt="Overdue invoice follow-up timeline for day 1 day 7 day 14 day 30"</li>
+              <li>Proof-pack checklist card, alt="Checklist of required attachments for accounts payable approval"</li>
+              <li>AP routing diagram, alt="How overdue invoice emails move from contact to finance to payment"</li>
+              <li>GIF (20-30s): Overdue invoice PDF → sequence generated → schedule shown → open tracking shown</li>
+            </ul>
+          </div>
+
+          <div class="not-prose">
+            <SeoCtaBand
+              heading="Save 30+ minutes per overdue invoice"
+              description="Upload one PDF and get a complete follow-up sequence that is personalized, scheduled, and tracked."
+              primaryHref={appUrl}
+              primaryLabel="Generate overdue follow-ups"
+              primaryAriaLabel="Generate overdue invoice follow-up sequence"
+              primaryMicrocopy="No credit card"
+              secondaryHref="/pricing"
+              secondaryLabel="See pricing"
+              secondaryAriaLabel="View ChaseAI pricing plans"
+            />
+          </div>
+
+          <h2 id="talk-to-finance">What to do when they say “talk to finance”</h2>
+          <p>
+            "Talk to finance" is usually a handoff, not a rejection. Keep momentum by replying in-thread,
+            CCing the right AP contact, and sharing complete details in one message.
+          </p>
+          <p>
+            Suggested reply:
+          </p>
+          <blockquote>
+            Thanks for the update. Looping in finance here. Invoice #[number] ([amount], due [date]) is attached
+            with PO #[PO]. Delivery confirmation is also attached. Please confirm expected payment date.
+          </blockquote>
+          <p>
+            If your client uses Net 30 terms but drifts regularly, this walkthrough can help:
+            <a href="/guides/net-30-overdue-what-to-send">what to send when Net 30 is overdue</a>.
+          </p>
+
+          <h2 id="escalate">How to escalate without sounding rude</h2>
+          <p>
+            Escalation works best when it is predictable. Instead of emotional phrasing, reference dates,
+            previous reminders, and next steps. This protects the relationship while signaling seriousness.
+          </p>
+          <ul>
+            <li><strong>State facts first:</strong> invoice number, amount, days overdue.</li>
+            <li><strong>Name one deadline:</strong> "Please process by [date]."</li>
+            <li><strong>Reference terms:</strong> late-fee clause or service pause policy.</li>
+            <li><strong>Offer one path to resolve:</strong> reply with blocker or confirm payment date.</li>
+          </ul>
+          <p>
+            For stricter wording, compare these pages:
+            <a href="/templates/second-invoice-reminder-email">second invoice reminder email</a>,
+            <a href="/templates/firm-payment-reminder-email">firm payment reminder email</a>, and
+            <a href="/templates/past-due-invoice-notice-template">past due invoice notice template</a>.
+          </p>
+
+          <h2 id="automate">Turn this into an automated sequence (free generator)</h2>
+          <p>
+            Manual follow-ups are easy to skip when your week gets busy. Automation solves that.
+            ChaseAI reads your invoice, drafts an <strong>unpaid invoice email template</strong> sequence,
+            schedules reminders, and tracks opens so you can focus on client work.
+          </p>
+          <ol>
+            <li>Upload invoice PDF</li>
+            <li>Review generated day 1/7/14/30 emails</li>
+            <li>Adjust tone, deadlines, and sender identity</li>
+            <li>Activate smart chasing and monitor opens/replies</li>
+          </ol>
+          <p>
+            You can start free, then upgrade as volume grows. <a href="/pricing">See pricing</a> or
+            explore product details on <a href="/features">features</a>.
+          </p>
+
+          <h3>Sources and references</h3>
+          <ul class="text-sm">
+            <li><a href="https://quickbooks.intuit.com/r/small-business-data/small-business-late-payments-report-2025/" target="_blank" rel="noopener noreferrer">QuickBooks Late Payments Report 2025</a></li>
+            <li><a href="https://group.atradius.com/knowledge-and-research/reports/b2b-payment-practices-trends%2C-western-europe-2024" target="_blank" rel="noopener noreferrer">Atradius: Western Europe payment practices</a></li>
+            <li><a href="https://stripe.com/resources/more/dunning-messages-101-what-they-are-when-to-send-them-and-how-to-write-them" target="_blank" rel="noopener noreferrer">Stripe: Dunning messages 101</a></li>
+            <li><a href="https://central.xero.com/s/article/Set-up-invoice-reminders" target="_blank" rel="noopener noreferrer">Xero: Set up invoice reminders</a></li>
+            <li><a href="https://www.zoho.com/us/books/help/settings/reminders.html" target="_blank" rel="noopener noreferrer">Zoho Books: Reminder settings</a></li>
+          </ul>
+        </article>
+
+        <div class="hidden lg:block" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">FAQ</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border">
+    <div class="container max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight">Recover overdue invoices faster</h2>
+      <p class="mt-4 text-muted-foreground leading-relaxed">
+        Generate a structured overdue payment reminder email sequence, send it on schedule,
+        and track who opened each message.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a
+          href={appUrl}
+          class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-95 transition-opacity group"
+          aria-label="Generate overdue invoice follow-up sequence"
+          data-track="lead_cta_click"
+          data-cta-id="footer_primary"
+        >
+          Generate overdue follow-ups
+          <span class="ml-2 text-primary-foreground/70 text-xs group-hover:text-primary-foreground/90 transition-colors">No credit card</span>
+        </a>
+        <a
+          href={`${appUrl}/invoice/upload`}
+          class="inline-flex items-center justify-center rounded-lg border border-border px-8 py-3.5 text-base font-semibold hover:bg-muted/50 transition-colors"
+          aria-label="Upload invoice PDF to generate reminders"
+          data-track="invoice_upload_start"
+          data-cta-id="footer_upload"
+        >
+          Upload invoice PDF
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-border bg-muted/30 py-10">
+    <div class="container max-w-3xl mx-auto">
+      <h3 class="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Related resources</h3>
+      <ul class="grid sm:grid-cols-2 gap-2">
+        <li><a href="/templates/second-invoice-reminder-email" class="text-sm text-muted-foreground hover:text-primary transition-colors">Second invoice reminder email</a></li>
+        <li><a href="/templates/firm-payment-reminder-email" class="text-sm text-muted-foreground hover:text-primary transition-colors">Firm payment reminder email</a></li>
+        <li><a href="/templates/past-due-invoice-notice-template" class="text-sm text-muted-foreground hover:text-primary transition-colors">Past due invoice notice template</a></li>
+        <li><a href="/pricing" class="text-sm text-muted-foreground hover:text-primary transition-colors">Pricing</a></li>
+        <li><a href="/tools/overdue-invoice-sequence-generator" class="text-sm text-muted-foreground hover:text-primary transition-colors">Overdue invoice sequence generator</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <script is:inline define:vars={{ pageSlug }}>
+    function trackEvent(name, props) {
+      try {
+        window.dispatchEvent(
+          new CustomEvent('chaseai:track', { detail: { event: name, ...props } }),
+        );
+      } catch (_) {}
+    }
+    window.trackEvent = trackEvent;
+
+    trackEvent('page_view', { page_slug: pageSlug });
+
+    document.addEventListener('click', function (e) {
+      var el = e.target.closest('[data-track]');
+      if (!el) return;
+      var eventName = el.getAttribute('data-track');
+      var ctaId = el.getAttribute('data-cta-id') || '';
+      trackEvent(eventName, { cta_id: ctaId, page_slug: pageSlug });
+    });
+  </script>
+</BaseLayout>

@@ -6,7 +6,19 @@ const navLinks = [
   { label: 'Contact', href: '/contact' },
 ];
 
+const templateLinks = [
+  { label: 'Invoice Reminder Email Template', href: '/templates/invoice-reminder-email-template' },
+  { label: 'Overdue Invoice Email Template', href: '/templates/overdue-invoice-email-template' },
+  { label: 'Overdue Invoice Email Sequence', href: '/templates/overdue-invoice-email-sequence' },
+];
+
+const toolLinks = [
+  { label: 'Overdue Invoice Sequence Generator', href: '/tools/overdue-invoice-sequence-generator' },
+];
+
 const currentPath = Astro.url.pathname;
+const templatesActive = currentPath.startsWith('/templates/');
+const toolsActive = currentPath.startsWith('/tools/');
 const appUrl = 'https://app.chaseai.app';
 const appPricingUrl = `${appUrl}/pricing`;
 ---
@@ -21,6 +33,68 @@ const appPricingUrl = `${appUrl}/pricing`;
     </a>
 
     <nav class="hidden md:flex items-center gap-1" aria-label="Main navigation">
+      <div class="relative group">
+        <button
+          class:list={[
+            'px-4 py-2 text-sm font-medium rounded-lg transition-colors inline-flex items-center gap-1',
+            templatesActive
+              ? 'text-primary bg-primary/5'
+              : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+          ]}
+          aria-label="Templates submenu"
+        >
+          Templates
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all absolute left-0 mt-2 w-72 rounded-lg border border-border bg-background shadow-lg p-2 z-50">
+          {templateLinks.map(link => (
+            <a
+              href={link.href}
+              class:list={[
+                'block px-3 py-2 text-sm rounded-md transition-colors',
+                currentPath === link.href || currentPath === link.href + '/'
+                  ? 'text-primary bg-primary/5'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+              ]}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+      <div class="relative group">
+        <button
+          class:list={[
+            'px-4 py-2 text-sm font-medium rounded-lg transition-colors inline-flex items-center gap-1',
+            toolsActive
+              ? 'text-primary bg-primary/5'
+              : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+          ]}
+          aria-label="Tools submenu"
+        >
+          Tools
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all absolute left-0 mt-2 w-80 rounded-lg border border-border bg-background shadow-lg p-2 z-50">
+          {toolLinks.map(link => (
+            <a
+              href={link.href}
+              class:list={[
+                'block px-3 py-2 text-sm rounded-md transition-colors',
+                currentPath === link.href || currentPath === link.href + '/'
+                  ? 'text-primary bg-primary/5'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+              ]}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
       {navLinks.map(link => (
         <a
           href={link.href}
@@ -64,6 +138,58 @@ const appPricingUrl = `${appUrl}/pricing`;
 
   <div id="mobile-menu" class="hidden md:hidden border-t border-border/50 bg-background/95 backdrop-blur-lg">
     <div class="container py-4 space-y-1">
+      <details class="px-2" open={templatesActive}>
+        <summary class:list={[
+          'list-none cursor-pointer px-2 py-2.5 text-sm font-medium rounded-lg transition-colors flex items-center justify-between',
+          templatesActive ? 'text-primary bg-primary/5' : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+        ]}>
+          Templates
+          <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <div class="ml-2 mt-1 space-y-1 border-l border-border pl-2">
+          {templateLinks.map(link => (
+            <a
+              href={link.href}
+              class:list={[
+                'block px-4 py-2 text-sm rounded-lg transition-colors',
+                currentPath === link.href || currentPath === link.href + '/'
+                  ? 'text-primary bg-primary/5'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+              ]}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </details>
+      <details class="px-2" open={toolsActive}>
+        <summary class:list={[
+          'list-none cursor-pointer px-2 py-2.5 text-sm font-medium rounded-lg transition-colors flex items-center justify-between',
+          toolsActive ? 'text-primary bg-primary/5' : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+        ]}>
+          Tools
+          <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <div class="ml-2 mt-1 space-y-1 border-l border-border pl-2">
+          {toolLinks.map(link => (
+            <a
+              href={link.href}
+              class:list={[
+                'block px-4 py-2 text-sm rounded-lg transition-colors',
+                currentPath === link.href || currentPath === link.href + '/'
+                  ? 'text-primary bg-primary/5'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+              ]}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </details>
       {navLinks.map(link => (
         <a
           href={link.href}
