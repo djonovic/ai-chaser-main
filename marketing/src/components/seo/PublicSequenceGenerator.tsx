@@ -44,20 +44,28 @@ export default function PublicSequenceGenerator() {
 
   const supabaseUrl =
     (import.meta.env.PUBLIC_SUPABASE_URL as string | undefined) ||
-    (import.meta.env.VITE_SUPABASE_URL as string | undefined);
+    (import.meta.env.VITE_SUPABASE_URL as string | undefined) ||
+    (import.meta.env.NEXT_PUBLIC_SUPABASE_URL as string | undefined);
   const supabaseAnonKey =
     (import.meta.env.PUBLIC_SUPABASE_ANON_KEY as string | undefined) ||
-    (import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY as string | undefined);
+    (import.meta.env.PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY as string | undefined) ||
+    (import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY as string | undefined) ||
+    (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined) ||
+    (import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string | undefined);
   const envDebug = {
     hasPublicUrl: Boolean(import.meta.env.PUBLIC_SUPABASE_URL),
     hasPublicAnon: Boolean(import.meta.env.PUBLIC_SUPABASE_ANON_KEY),
+    hasPublicPublishable: Boolean(import.meta.env.PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY),
     hasViteUrl: Boolean(import.meta.env.VITE_SUPABASE_URL),
     hasViteAnon: Boolean(import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY),
+    hasViteAnonAlt: Boolean(import.meta.env.VITE_SUPABASE_ANON_KEY),
+    hasNextUrl: Boolean(import.meta.env.NEXT_PUBLIC_SUPABASE_URL),
+    hasNextAnon: Boolean(import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
   };
 
   const configError = useMemo(() => {
     if (!supabaseUrl || !supabaseAnonKey) {
-      return 'Missing Supabase env vars. Set PUBLIC_SUPABASE_URL + PUBLIC_SUPABASE_ANON_KEY (or VITE_SUPABASE_URL + VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY), then restart the dev server.';
+      return 'Missing Supabase env vars. Set PUBLIC_SUPABASE_URL + PUBLIC_SUPABASE_ANON_KEY (or VITE/NEXT_PUBLIC equivalents), then redeploy/restart.';
     }
     return '';
   }, [supabaseAnonKey, supabaseUrl]);
@@ -163,7 +171,9 @@ export default function PublicSequenceGenerator() {
           <p className="text-sm text-red-600">{error}</p>
           <p className="text-xs text-muted-foreground">
             Env detected: PUBLIC_URL={String(envDebug.hasPublicUrl)} · PUBLIC_ANON={String(envDebug.hasPublicAnon)} ·
-            VITE_URL={String(envDebug.hasViteUrl)} · VITE_ANON={String(envDebug.hasViteAnon)}
+            PUBLIC_PUBLISHABLE={String(envDebug.hasPublicPublishable)} · VITE_URL={String(envDebug.hasViteUrl)} ·
+            VITE_ANON={String(envDebug.hasViteAnon)} · VITE_ANON_ALT={String(envDebug.hasViteAnonAlt)} ·
+            NEXT_URL={String(envDebug.hasNextUrl)} · NEXT_ANON={String(envDebug.hasNextAnon)}
           </p>
         </div>
       )}
