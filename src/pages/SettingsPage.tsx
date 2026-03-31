@@ -10,7 +10,7 @@ import { supabase } from '@/lib/supabaseClient';
 import { usePlan } from '@/hooks/usePlan';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
-import { Eye, EyeOff, CheckCircle, Key, ExternalLink, Shield } from 'lucide-react';
+import { Eye, EyeOff, CheckCircle, Key, ExternalLink, Shield, Loader2 } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { trackMetaPurchase } from '@/lib/metaPixel';
@@ -302,7 +302,7 @@ export default function SettingsPage() {
                       }
                     }}
                   >
-                    {testEmailLoading ? 'Sending…' : 'Send test email'}
+                    {testEmailLoading ? <><Loader2 className="h-4 w-4 animate-spin mr-1.5" /> Sending...</> : 'Send test email'}
                   </Button>
                 </div>
               </CardContent>

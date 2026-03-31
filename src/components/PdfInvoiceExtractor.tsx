@@ -9,7 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { supabase } from '@/lib/supabaseClient';
 import { usePlan } from '@/hooks/usePlan';
 import { toast } from 'sonner';
-import { Upload, FileText, Sparkles, AlertCircle, CheckCircle2, X } from 'lucide-react';
+import { Upload, FileText, Sparkles, AlertCircle, CheckCircle2, X, Loader2 } from 'lucide-react';
 import type { Client } from '@/types';
 
 interface ExtractedData {
@@ -259,7 +259,7 @@ export function PdfInvoiceExtractor({ clients, onSave, onCancel }: PdfInvoiceExt
         </Card>
         <div className="space-y-3 py-2">
           <div className="flex items-center gap-3">
-            <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+            <Loader2 className="h-5 w-5 animate-spin text-primary" />
             <p className="text-sm font-medium">Analyzing PDF with AI...</p>
           </div>
           <div className="space-y-2.5">
@@ -442,7 +442,7 @@ export function PdfInvoiceExtractor({ clients, onSave, onCancel }: PdfInvoiceExt
           Cancel
         </Button>
         <Button onClick={handleSave} disabled={saving}>
-          {saving ? 'Saving...' : 'Save Invoice'}
+          {saving ? <><Loader2 className="h-4 w-4 animate-spin mr-1.5" /> Saving...</> : 'Save Invoice'}
         </Button>
       </div>
     </div>

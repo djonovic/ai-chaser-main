@@ -11,7 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Plus, LogOut, User, Zap } from 'lucide-react';
+import { Plus, LogOut, User, Zap, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { usePlan } from '@/hooks/usePlan';
@@ -63,8 +63,17 @@ export function AppLayout() {
 
   if (loading || (user && planLoading)) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-pulse text-muted-foreground">Loading...</div>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-background gap-6">
+        <div className="relative">
+          <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+            <Zap className="h-7 w-7 text-primary" />
+          </div>
+          <Loader2 className="absolute -inset-3 h-20 w-20 text-primary/30 animate-spin" />
+        </div>
+        <div className="flex flex-col items-center gap-1.5">
+          <p className="text-sm font-medium text-foreground">ChaseAI</p>
+          <p className="text-xs text-muted-foreground animate-pulse">Loading your workspace...</p>
+        </div>
       </div>
     );
   }

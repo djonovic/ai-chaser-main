@@ -237,7 +237,7 @@ export function SequenceGenerator({ invoice }: Props) {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center gap-3">
-            <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+            <Loader2 className="h-5 w-5 animate-spin text-primary" />
             <p className="text-sm font-medium">Generating smart chase sequence...</p>
           </div>
           <div className="space-y-2">

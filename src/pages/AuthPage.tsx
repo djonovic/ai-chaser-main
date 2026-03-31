@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Zap, Mail, Lock, ArrowRight } from 'lucide-react';
+import { Zap, Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -173,8 +173,7 @@ export default function AuthPage() {
                     </div>
                   </div>
                   <Button type="submit" className="w-full gap-2" disabled={loading}>
-                    {loading ? 'Signing in...' : 'Sign In'}
-                    <ArrowRight className="h-4 w-4" />
+                    {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Signing in...</> : <>Sign In <ArrowRight className="h-4 w-4" /></>}
                   </Button>
                   <div className="relative my-4">
                     <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
@@ -212,8 +211,7 @@ export default function AuthPage() {
                     </div>
                   </div>
                   <Button type="submit" className="w-full gap-2" disabled={loading}>
-                    {loading ? 'Creating account...' : 'Create Account'}
-                    <ArrowRight className="h-4 w-4" />
+                    {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Creating account...</> : <>Create Account <ArrowRight className="h-4 w-4" /></>}
                   </Button>
                 </form>
               </TabsContent>

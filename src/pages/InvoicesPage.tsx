@@ -18,7 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Plus, Search, FileText, CheckCircle, Trash2, Upload, Users, ChevronLeft } from 'lucide-react';
+import { Plus, Search, FileText, CheckCircle, Trash2, Upload, Users, ChevronLeft, Loader2 } from 'lucide-react';
 import { formatCurrency, getDaysOverdue, cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
@@ -370,7 +370,7 @@ export default function InvoicesPage() {
                             Cancel
                           </Button>
                           <Button type="button" onClick={handleManualStep1Continue} disabled={step1Loading}>
-                            {step1Loading ? 'Saving...' : 'Continue'}
+                            {step1Loading ? <><Loader2 className="h-4 w-4 animate-spin mr-1.5" /> Saving...</> : 'Continue'}
                           </Button>
                         </div>
                       </>
@@ -457,7 +457,7 @@ export default function InvoicesPage() {
                               Cancel
                             </Button>
                             <Button type="submit" disabled={submitting}>
-                              {submitting ? 'Creating...' : 'Create invoice'}
+                              {submitting ? <><Loader2 className="h-4 w-4 animate-spin mr-1.5" /> Creating...</> : 'Create invoice'}
                             </Button>
                           </div>
                         </div>

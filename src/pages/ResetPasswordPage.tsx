@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Lock, Zap, ArrowRight } from 'lucide-react';
+import { Lock, Zap, ArrowRight, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabaseClient';
 import { toast } from 'sonner';
@@ -94,8 +94,7 @@ export default function ResetPasswordPage() {
                 <p className="text-xs text-muted-foreground">Minimum 8 characters</p>
               </div>
               <Button type="submit" className="w-full gap-2" disabled={loading}>
-                {loading ? 'Updating...' : 'Update Password'}
-                <ArrowRight className="h-4 w-4" />
+                {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Updating...</> : <>Update Password <ArrowRight className="h-4 w-4" /></>}
               </Button>
             </form>
           </CardContent>

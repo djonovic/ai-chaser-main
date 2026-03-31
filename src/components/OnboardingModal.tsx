@@ -9,7 +9,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Building2, User, ArrowRight, Sparkles } from 'lucide-react';
+import { Building2, User, ArrowRight, Sparkles, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface OnboardingModalProps {
@@ -114,7 +114,7 @@ export function OnboardingModal({ open, onOpenChange, onSave }: OnboardingModalP
             onClick={handleSave}
             disabled={saving}
           >
-            {saving ? 'Saving...' : (
+            {saving ? <><Loader2 className="h-4 w-4 animate-spin" /> Saving...</> : (
               <>Continue <ArrowRight className="h-4 w-4" /></>
             )}
           </Button>

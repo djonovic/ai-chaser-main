@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
+import { Plus, Pencil, Trash2, Loader2 } from 'lucide-react';
 import { useClients } from '@/hooks/useClients';
 import { useInvoices } from '@/hooks/useInvoices';
 import { formatCurrency } from '@/lib/utils';
@@ -139,7 +139,7 @@ export function ClientsManager() {
                   Cancel
                 </Button>
                 <Button type="submit" disabled={submitting}>
-                  {submitting ? 'Adding...' : 'Add client'}
+                  {submitting ? <><Loader2 className="h-4 w-4 animate-spin mr-1.5" /> Adding...</> : 'Add client'}
                 </Button>
               </div>
             </form>
@@ -251,7 +251,7 @@ export function ClientsManager() {
                 Cancel
               </Button>
               <Button type="submit" disabled={editSubmitting}>
-                {editSubmitting ? 'Saving...' : 'Save'}
+                {editSubmitting ? <><Loader2 className="h-4 w-4 animate-spin mr-1.5" /> Saving...</> : 'Save'}
               </Button>
             </div>
           </form>
