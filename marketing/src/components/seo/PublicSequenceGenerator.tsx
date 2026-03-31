@@ -51,6 +51,8 @@ export default function PublicSequenceGenerator() {
 
   const configError = useMemo(() => {
     if (!supabaseUrl || !supabaseAnonKey) {
+      console.log('buren', supabaseUrl, supabaseAnonKey);
+      
       return 'Missing Supabase env vars. Set PUBLIC_SUPABASE_URL + PUBLIC_SUPABASE_ANON_KEY (or VITE_SUPABASE_URL + VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY), then restart the dev server.';
     }
     return '';
