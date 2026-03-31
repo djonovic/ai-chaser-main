@@ -87,8 +87,7 @@ export default function InvoicesPage() {
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
-  const resetCreateDialog = () => {
-    setDialogTab('manual');
+  const resetFormFields = () => {
     setManualWizardStep(1);
     setClientChoice('existing');
     const cleared = resetInvoiceFormState();
@@ -103,6 +102,11 @@ export default function InvoicesPage() {
     setNewClientEmail(cleared.newClientEmail);
     setNewClientPhone(cleared.newClientPhone);
     setNewClientNotes(cleared.newClientNotes);
+  };
+
+  const resetCreateDialog = () => {
+    setDialogTab('manual');
+    resetFormFields();
   };
 
   const handleDialogOpenChange = (open: boolean) => {
@@ -265,7 +269,7 @@ export default function InvoicesPage() {
                   value={dialogTab}
                   onValueChange={(v) => {
                     setDialogTab(v as 'manual' | 'pdf');
-                    if (v === 'pdf') resetCreateDialog();
+                    resetFormFields();
                   }}
                 >
                   <TabsList className="w-full">
