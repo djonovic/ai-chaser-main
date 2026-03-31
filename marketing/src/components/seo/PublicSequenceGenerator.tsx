@@ -110,13 +110,13 @@ export default function PublicSequenceGenerator() {
   };
 
   return (
-    <div className="not-prose rounded-xl border border-border bg-muted/20 p-5">
+    <div className="not-prose rounded-xl border border-border bg-muted/20 p-4 md:p-6">
       <h3 className="text-base font-semibold tracking-tight">Try it free (no account)</h3>
       <p className="mt-2 text-sm text-muted-foreground">
         Upload a PDF, choose tone, and generate a real overdue sequence you can copy right away.
       </p>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+      <div className="mt-5 grid gap-3 sm:grid-cols-2">
         <label className="text-sm sm:col-span-2">
           <span className="block mb-1 text-muted-foreground">Invoice PDF</span>
           <input
@@ -143,7 +143,7 @@ export default function PublicSequenceGenerator() {
         </label>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-5 flex flex-wrap gap-2">
         <button
           type="button"
           onClick={handleGenerate}
@@ -167,7 +167,7 @@ export default function PublicSequenceGenerator() {
       </div>
 
       {result && (
-        <div className="mt-5 space-y-3">
+        <div className="mt-6 space-y-3">
           <div className="rounded-lg border border-border bg-background p-3 text-sm">
             <p>
               <strong>Extracted:</strong>{' '}

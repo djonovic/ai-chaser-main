@@ -89,7 +89,7 @@ const structuredData = [softwareSchema, faqSchema];
   </Fragment>
 
   <section class="hero-gradient relative overflow-hidden">
-    <div class="container py-16 md:py-24 max-w-3xl mx-auto text-center">
+    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
         Overdue Invoice Sequence Generator
         <span class="block text-lg md:text-2xl font-semibold text-muted-foreground mt-3">
@@ -135,7 +135,7 @@ const structuredData = [softwareSchema, faqSchema];
     </div>
   </section>
 
-  <section class="section-padding">
+  <section class="">
     <div class="container">
       <div class="grid lg:grid-cols-[200px_1fr_200px] gap-10 max-w-6xl mx-auto">
         <aside>
@@ -143,12 +143,12 @@ const structuredData = [softwareSchema, faqSchema];
         </aside>
 
         <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
-          <h2 id="free-generator">Generate a free sequence right now</h2>
+          <h2 id="free-generator" class="scroll-mt-24">Generate a free sequence right now</h2>
           <p>
             Upload your invoice PDF below to generate a real sequence immediately. No account is required
             for this preview tool.
           </p>
-          <div class="not-prose">
+          <div class="not-prose my-6">
             <PublicSequenceGenerator client:load />
           </div>
 
