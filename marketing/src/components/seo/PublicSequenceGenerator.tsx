@@ -166,18 +166,6 @@ export default function PublicSequenceGenerator() {
         </a>
       </div>
 
-      {error && (
-        <div className="mt-3 space-y-1">
-          <p className="text-sm text-red-600">{error}</p>
-          <p className="text-xs text-muted-foreground">
-            Env detected: PUBLIC_URL={String(envDebug.hasPublicUrl)} · PUBLIC_ANON={String(envDebug.hasPublicAnon)} ·
-            PUBLIC_PUBLISHABLE={String(envDebug.hasPublicPublishable)} · VITE_URL={String(envDebug.hasViteUrl)} ·
-            VITE_ANON={String(envDebug.hasViteAnon)} · VITE_ANON_ALT={String(envDebug.hasViteAnonAlt)} ·
-            NEXT_URL={String(envDebug.hasNextUrl)} · NEXT_ANON={String(envDebug.hasNextAnon)}
-          </p>
-        </div>
-      )}
-
       {result && (
         <div className="mt-5 space-y-3">
           <div className="rounded-lg border border-border bg-background p-3 text-sm">
