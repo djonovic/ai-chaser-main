@@ -144,7 +144,7 @@ export default function InvoiceDetailPage() {
                     onClick={handleMarkPaid}
                   >
                     {actionLoading === 'paid' ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
-                    <span className="hidden sm:inline">Mark as</span> Paid
+                    Mark as Paid
                   </Button>
                 </>
               )}
