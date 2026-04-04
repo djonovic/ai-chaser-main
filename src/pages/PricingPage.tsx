@@ -21,8 +21,8 @@ const plans = [
     annualPrice: 0,
     description: 'Get started with AI invoice chasing — no credit card required.',
     features: [
-      'Up to 3 invoices',
-      '10 AI sequence generations/month',
+      '1 invoice',
+      '1 AI sequence generation/month',
       'Automated email sending',
       'Basic dashboard',
     ],
@@ -149,7 +149,7 @@ export default function PricingPage() {
       <div className="text-center mb-10">
         <h1 className="text-3xl font-bold tracking-tight">Simple, transparent pricing</h1>
         <p className="text-muted-foreground mt-2 max-w-xl mx-auto">
-          Start free with 3 invoices and 10 AI sequences per month. Upgrade when you need more.
+          Start free with 1 invoice and 1 AI sequence per month. Upgrade when you need more.
         </p>
 
         <div className="flex items-center justify-center gap-3 mt-6">

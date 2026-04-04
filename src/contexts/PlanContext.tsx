@@ -17,7 +17,7 @@ interface PlanLimits {
 }
 
 const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
-  free: { maxInvoices: 3, maxAISequences: 10 },
+  free: { maxInvoices: 1, maxAISequences: 1 },
   starter: { maxInvoices: null, maxAISequences: 50 },
   pro: { maxInvoices: null, maxAISequences: null },
 };

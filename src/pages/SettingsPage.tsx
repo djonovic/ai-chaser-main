@@ -323,7 +323,7 @@ export default function SettingsPage() {
                     ? 'Unlimited invoices & AI sequences'
                     : plan === 'starter'
                       ? 'Unlimited invoices, 50 AI sequences/mo'
-                      : '3 invoices/mo, 10 AI sequences/mo'}
+                      : '1 invoice, 1 AI sequence/mo'}
                 </span>
               </div>
               <p className="text-sm text-muted-foreground flex items-center gap-2">
