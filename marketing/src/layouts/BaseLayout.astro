@@ -15,13 +15,29 @@ interface Props {
   structuredData?: object | object[];
 }
 
-const props = Astro.props;
+const {
+  title,
+  description,
+  canonical,
+  ogImage,
+  ogType,
+  noindex,
+  structuredData,
+} = Astro.props as Props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <SEO {...props} />
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonical}
+      ogImage={ogImage}
+      ogType={ogType}
+      noindex={noindex}
+      structuredData={structuredData}
+    />
     <slot name="head" />
     <!-- Meta Pixel Code -->
     <script is:inline>

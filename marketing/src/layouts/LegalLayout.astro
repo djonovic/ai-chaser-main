@@ -5,12 +5,25 @@ interface Props {
   title: string;
   description: string;
   lastUpdated: string;
+  canonical?: string;
+  ogImage?: string;
+  ogType?: string;
+  noindex?: boolean;
+  structuredData?: object | object[];
 }
 
-const { title, description, lastUpdated } = Astro.props;
+const { title, description, lastUpdated, canonical, ogImage, ogType, noindex, structuredData } = Astro.props as Props;
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogImage={ogImage}
+  ogType={ogType}
+  noindex={noindex}
+  structuredData={structuredData}
+>
   <section class="hero-gradient">
     <div class="container py-16 md:py-20">
       <div class="max-w-3xl mx-auto">

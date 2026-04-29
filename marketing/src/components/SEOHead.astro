@@ -21,7 +21,7 @@ const {
 
 const siteName = 'ChaseAI';
 const siteUrl = 'https://chaseai.app';
-const fullTitle = title === 'ChaseAI' ? title + ' - AI-Powered Invoice Chasing' : `${title} | ${siteName}`;
+const fullTitle = title;
 const canonicalUrl = canonical || new URL(Astro.url.pathname, siteUrl).toString();
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, siteUrl).toString();
 
