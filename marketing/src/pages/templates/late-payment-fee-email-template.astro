@@ -10,9 +10,9 @@ const pageSlug = '/templates/late-payment-fee-email-template';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
 // META (DO NOT CHANGE)
-const metaTitle = 'Late Payment Fee Email Template (Clear + Fair)';
+const metaTitle = 'Late Payment Fee Email Template + Invoice Late Fee Wording | ChaseAI';
 const metaDescription =
-  'How to notify clients about late fees without drama. Copy/paste templates, timing guidance, and wording that protects relationships.';
+  'Use compliant invoice late fee wording and sample emails to notify clients of late fees clearly, professionally, and with enforceable payment terms.';
 
 const tocItems = [
   { id: 'when-fees-make-sense', label: 'When late fees make sense' },
@@ -68,6 +68,13 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Send late payment fee notice emails',
+  step: [{ '@type': 'HowToStep', name: 'Reference contract late fee terms' }, { '@type': 'HowToStep', name: 'Share updated balance and deadline' }],
+};
+const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 
 <BaseLayout
@@ -75,7 +82,7 @@ const articleSchema = {
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={[articleSchema]}
+  structuredData={[articleSchema, howToSchema, faqSchema]}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -239,6 +246,30 @@ const articleSchema = {
         </article>
 
         <div class="hidden lg:block" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border bg-muted/20">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center">Late fee wording: practical do and don't</h2>
+      <div class="mt-4 grid md:grid-cols-2 gap-4 text-sm">
+        <div class="rounded-lg border border-border bg-card p-4">
+          <h3 class="font-semibold">Do</h3>
+          <ul class="mt-2 text-muted-foreground space-y-1 list-disc pl-5">
+            <li>Reference contract clause and invoice date.</li>
+            <li>Show exact fee calculation and updated balance.</li>
+            <li>Offer one clear path to resolve quickly.</li>
+          </ul>
+        </div>
+        <div class="rounded-lg border border-border bg-card p-4">
+          <h3 class="font-semibold">Don't</h3>
+          <ul class="mt-2 text-muted-foreground space-y-1 list-disc pl-5">
+            <li>Use emotional or threatening language.</li>
+            <li>Add new fees that are not in written terms.</li>
+            <li>Hide the original invoice details.</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>

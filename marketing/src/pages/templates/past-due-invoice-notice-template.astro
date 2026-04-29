@@ -10,9 +10,9 @@ const pageSlug = '/templates/past-due-invoice-notice-template';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
 // META (DO NOT CHANGE)
-const metaTitle = 'Past Due Invoice Notice Template (Formal)';
+const metaTitle = 'Past Due Invoice Notice Template (Email + Letter) | ChaseAI';
 const metaDescription =
-  'A formal past due invoice notice you can send by email. Perfect for 30+ days overdue: summary, deadline, and documentation checklist.';
+  'Use this past due invoice notice template with legal-safe wording, deadline language, and escalation steps to recover overdue balances faster.';
 
 const tocItems = [
   { id: 'formal-template', label: 'The formal template (with invoice summary table)' },
@@ -68,6 +68,13 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Send a past due invoice notice',
+  step: [{ '@type': 'HowToStep', name: 'Summarize overdue invoice details' }, { '@type': 'HowToStep', name: 'Provide final payment deadline and next steps' }],
+};
+const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 
 <BaseLayout
@@ -75,7 +82,7 @@ const articleSchema = {
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={[articleSchema]}
+  structuredData={[articleSchema, howToSchema, faqSchema]}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -235,6 +242,20 @@ const articleSchema = {
 
         <div class="hidden lg:block" aria-hidden="true"></div>
       </div>
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border bg-muted/20">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center">Past due notice: what makes it effective</h2>
+      <ul class="mt-4 text-sm text-muted-foreground space-y-2 list-disc pl-5">
+        <li>Use formal but neutral wording.</li>
+        <li>Add a clear deadline and specific consequences tied to terms.</li>
+        <li>Attach supporting documents in the same thread.</li>
+      </ul>
+      <p class="mt-4 text-sm text-muted-foreground">
+        According to QuickBooks (2025), 89% of small businesses face late payments, so consistent process usually matters more than aggressive tone.
+      </p>
     </div>
   </section>
 

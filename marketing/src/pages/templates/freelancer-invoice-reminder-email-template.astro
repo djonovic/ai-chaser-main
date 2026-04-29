@@ -10,9 +10,9 @@ const pageSlug = '/templates/freelancer-invoice-reminder-email-template';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
 // META (DO NOT CHANGE)
-const metaTitle = 'Freelancer Invoice Reminder Email Template';
+const metaTitle = 'Freelancer Invoice Reminder Email Template (2026) | ChaseAI';
 const metaDescription =
-  'Copy/paste freelancer invoice reminder emails (friendly→firm). Includes a 7-step escalation sequence and how to avoid awkward chasing.';
+  'Copy freelancer invoice reminder emails for first reminder, overdue notice, and final follow-up. Get paid faster while keeping client relationships strong.';
 
 const tocItems = [
   { id: 'scripts', label: 'Freelancer-friendly scripts (short + long)' },
@@ -67,6 +67,13 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Use freelancer invoice reminder templates',
+  step: [{ '@type': 'HowToStep', name: 'Send friendly reminder with payment link' }, { '@type': 'HowToStep', name: 'Escalate to firm and final follow-up' }],
+};
+const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 
 <BaseLayout
@@ -74,7 +81,7 @@ const articleSchema = {
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={[articleSchema]}
+  structuredData={[articleSchema, howToSchema, faqSchema]}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -220,6 +227,20 @@ const articleSchema = {
 
         <div class="hidden lg:block" aria-hidden="true"></div>
       </div>
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border bg-muted/20">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center">Freelancer scenario: client stops replying</h2>
+      <ol class="mt-4 text-sm text-muted-foreground space-y-2 list-decimal pl-5">
+        <li>Send second reminder with one specific ask: payment date.</li>
+        <li>If no reply in 5-7 days, send firm reminder with deadline.</li>
+        <li>Pause new work only if contract terms allow and deadline is missed.</li>
+      </ol>
+      <p class="mt-4 text-sm text-muted-foreground">
+        This avoids awkward chasing while protecting cash flow. You can automate the same sequence in the <a class="text-primary hover:underline" href="/tools/overdue-invoice-sequence-generator">free tool</a>.
+      </p>
     </div>
   </section>
 

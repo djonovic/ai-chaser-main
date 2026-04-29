@@ -1,0 +1,11 @@
+---
+interface Props {
+  updatedDate?: string;
+}
+
+const { updatedDate = 'April 29, 2026' } = Astro.props as Props;
+---
+
+<p class="text-sm text-muted-foreground mb-6">
+  Written by Alex Morgan, Invoice & Payments Expert at ChaseAI • Last updated {updatedDate}
+</p>

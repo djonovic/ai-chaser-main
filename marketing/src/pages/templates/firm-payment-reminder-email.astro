@@ -10,9 +10,9 @@ const pageSlug = '/templates/firm-payment-reminder-email';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
 // META (DO NOT CHANGE)
-const metaTitle = 'Firm Payment Reminder Email (Polite, Not Rude)';
+const metaTitle = 'Firm Payment Reminder Email Template (Polite but Strong) | ChaseAI';
 const metaDescription =
-  'A firm but polite payment reminder email that gets action. Clear deadline, payment link, and escalation language that stays professional.';
+  'Send a firm payment reminder without damaging relationships. Use proven wording, deadlines, and escalation language to collect overdue invoices professionally.';
 
 const tocItems = [
   { id: 'firm-template', label: 'The firm template (with deadline + next step)' },
@@ -68,6 +68,13 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Send a firm payment reminder email',
+  step: [{ '@type': 'HowToStep', name: 'Set a clear payment deadline' }, { '@type': 'HowToStep', name: 'State next steps professionally' }],
+};
+const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 
 <BaseLayout
@@ -75,7 +82,7 @@ const articleSchema = {
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={[articleSchema]}
+  structuredData={[articleSchema, howToSchema, faqSchema]}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -217,6 +224,20 @@ const articleSchema = {
 
         <div class="hidden lg:block" aria-hidden="true"></div>
       </div>
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border bg-muted/20">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center">Firm reminder decision guide</h2>
+      <p class="mt-3 text-sm text-muted-foreground">
+        Use firm wording when a payment date was missed or reminders are ignored. Keep language clear and operational.
+      </p>
+      <ol class="mt-3 text-sm text-muted-foreground space-y-2 list-decimal pl-5">
+        <li>State amount due + overdue days.</li>
+        <li>Request payment by a specific date.</li>
+        <li>Name the next step if deadline is missed.</li>
+      </ol>
     </div>
   </section>
 

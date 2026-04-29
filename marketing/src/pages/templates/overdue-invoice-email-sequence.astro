@@ -8,9 +8,9 @@ import SeoAuthor from '../../components/seo/SeoAuthor.astro';
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/templates/overdue-invoice-email-sequence';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
-const metaTitle = 'Overdue Invoice Email Sequence (7 Steps)';
+const metaTitle = 'Overdue Invoice Email Sequence Template (5-7 Steps) | ChaseAI';
 const metaDescription =
-  'Steal a complete 7-step overdue invoice sequence with smart tone progression. Then generate your own with ChaseAI in one click.';
+  'Get a complete overdue invoice email sequence with friendly, direct, and final notice stages to chase outstanding invoices without awkward wording.';
 
 const tocItems = [
   { id: 'why-sequences', label: 'Why sequences work' },
@@ -190,7 +190,14 @@ const faqSchema = {
   })),
 };
 
-const structuredData = [articleSchema, faqSchema];
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Build an overdue invoice email sequence',
+  step: [{ '@type': 'HowToStep', name: 'Map sequence timing by overdue day' }, { '@type': 'HowToStep', name: 'Use friendly-to-firm escalation' }],
+};
+
+const structuredData = [articleSchema, howToSchema, faqSchema];
 ---
 
 <BaseLayout
@@ -411,6 +418,20 @@ const structuredData = [articleSchema, faqSchema];
 
         <div class="hidden lg:block" aria-hidden="true"></div>
       </div>
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border bg-muted/20">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center">Before you send: quick quality check</h2>
+      <ul class="mt-4 text-sm text-muted-foreground space-y-2 list-disc pl-5">
+        <li>Confirm invoice number, amount due, and payment link in every step.</li>
+        <li>Keep one action per email: confirm payment date or pay now.</li>
+        <li>Escalate by timeline (Day 1, 7, 14, 30), not frustration.</li>
+      </ul>
+      <p class="mt-4 text-sm text-muted-foreground">
+        Need a faster workflow? Try our Free AI Overdue Invoice Sequence Generator - no sign-up required: <a class="text-primary hover:underline" href="/tools/overdue-invoice-sequence-generator">overdue invoice sequence generator</a>.
+      </p>
     </div>
   </section>
 

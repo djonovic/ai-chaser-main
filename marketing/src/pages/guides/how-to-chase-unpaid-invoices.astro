@@ -10,9 +10,9 @@ const pageSlug = '/guides/how-to-chase-unpaid-invoices';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
 // META (locked by request)
-const metaTitle = 'How to Chase Unpaid Invoices (Step-by-Step)';
+const metaTitle = 'How to Chase Unpaid Invoices: Step-by-Step Guide (2026) | ChaseAI';
 const metaDescription =
-  'A practical, non-awkward system to chase unpaid invoices: timing, scripts, escalation, and what to do when clients ghost you.';
+  'Learn how to chase unpaid invoices politely and effectively with a proven follow-up schedule, scripts, escalation steps, and automation workflow.';
 
 const tocItems = [
   { id: 'step-1', label: 'Step 1 - Confirm basics' },
@@ -69,6 +69,13 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'How to chase unpaid invoices',
+  step: [{ '@type': 'HowToStep', name: 'Verify invoice and payment terms' }, { '@type': 'HowToStep', name: 'Follow reminder schedule and escalate' }],
+};
+const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 
 <BaseLayout
@@ -76,7 +83,7 @@ const articleSchema = {
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={[articleSchema]}
+  structuredData={[articleSchema, howToSchema, faqSchema]}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -99,6 +106,9 @@ const articleSchema = {
     <div class="container py-6 text-center">
       <p class="text-sm text-muted-foreground">
         <strong class="text-foreground">89%</strong> of small businesses report being paid late by customers.
+      </p>
+      <p class="text-sm text-muted-foreground">
+        Late payments also tie up over <strong class="text-foreground">$3T+</strong> globally each year, so consistent chasing for payment is a cash-flow priority.
       </p>
       <p class="mt-2">
         <a
@@ -126,6 +136,10 @@ const articleSchema = {
             The playbook below answers all the urgent questions at once: <strong>how to follow up on unpaid invoice</strong>,
             <strong> how to ask for payment politely</strong>, and <strong>how to get clients to pay invoices</strong>
             before they drag into month two.
+          </p>
+          <p>
+            You can use it for related intents too: <strong>how to chase an invoice</strong>, <strong>how to chase outstanding invoices</strong>,
+            <strong> how to chase payment politely</strong>, and <strong>how to chase overdue invoices</strong>.
           </p>
 
           <h2 id="step-1">Step 1 - Confirm basics (invoice, terms, payment method)</h2>
@@ -245,6 +259,31 @@ const articleSchema = {
             standard process. That distinction helps preserve professionalism and makes your escalation more credible.
           </p>
 
+          <h2 id="real-world-scenarios">Real-world scenarios (what to do next)</h2>
+          <h3>Freelancer client goes silent after first reminder</h3>
+          <ol>
+            <li>Send second reminder with exact amount, due date, and one payment link.</li>
+            <li>Ask for one concrete response: payment date or blocker.</li>
+            <li>If no reply in 5-7 days, move to firm reminder with deadline.</li>
+          </ol>
+          <h3>Agency invoice is stuck in accounts payable</h3>
+          <ol>
+            <li>Reply in-thread with invoice, PO, due date, and support docs.</li>
+            <li>CC account owner and AP contact together.</li>
+            <li>Request a committed processing date, not a generic update.</li>
+          </ol>
+
+          <h2 id="mistakes-to-avoid">Common mistakes that reduce payment probability</h2>
+          <ul>
+            <li>Over-explaining project context instead of asking for a payment date.</li>
+            <li>Sending reminders without payment instructions or links.</li>
+            <li>Resetting tone to friendly after multiple missed commitments.</li>
+            <li>Waiting too long to escalate from "reminder" to "final notice".</li>
+          </ul>
+          <p>
+            Global late payments now impact over $3T in working capital annually, so treating follow-ups as an operational workflow - not an emotional task - is essential.
+          </p>
+
           <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm text-muted-foreground">
             <p><strong class="text-foreground">Decision tree diagram placeholder</strong></p>
             <p class="mt-2">Flow: no response -> follow-up -> AP contact -> final notice -> escalate.</p>
@@ -281,8 +320,8 @@ const articleSchema = {
             <SeoCtaBand
               heading="Need reminders written and scheduled fast?"
               description="Upload an invoice and get an editable sequence with clear escalation timing."
-              primaryHref={appUrl}
-              primaryLabel="Generate my sequence"
+              primaryHref="/tools/overdue-invoice-sequence-generator"
+              primaryLabel="Try the Free AI Generator"
               primaryAriaLabel="Generate overdue invoice follow-up sequence"
               secondaryHref="/pricing"
               secondaryLabel="View pricing"

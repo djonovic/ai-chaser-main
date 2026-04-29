@@ -10,9 +10,9 @@ const pageSlug = '/templates/second-invoice-reminder-email';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
 // META (DO NOT CHANGE)
-const metaTitle = 'Second Invoice Reminder Email Template';
+const metaTitle = 'Second Invoice Reminder Email Template (2nd Reminder) | ChaseAI';
 const metaDescription =
-  'Use this second reminder when the first email gets ignored. Includes subject lines, wording, and a short escalation-friendly follow-up.';
+  'Copy and customize this second reminder email template with friendly-to-firm wording, clear payment asks, and escalation timing to recover overdue invoices faster.';
 
 const tocItems = [
   { id: 'fast-template', label: 'Fast template (under 100 words)' },
@@ -68,6 +68,13 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Send a second invoice reminder email',
+  step: [{ '@type': 'HowToStep', name: 'Use the 2nd reminder template' }, { '@type': 'HowToStep', name: 'Set a payment deadline' }],
+};
+const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 
 <BaseLayout
@@ -75,7 +82,7 @@ const articleSchema = {
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={[articleSchema]}
+  structuredData={[articleSchema, howToSchema, faqSchema]}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -88,7 +95,7 @@ const articleSchema = {
       </h1>
       <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
         Use this <strong>second invoice reminder email template</strong> to follow up clearly after no reply on your
-        first payment reminder.
+        first payment reminder. It works for both "second reminder" and "2nd reminder" search intent.
       </p>
     </div>
   </section>
@@ -105,6 +112,10 @@ const articleSchema = {
           <p>
             A strong <strong>follow up invoice reminder email</strong> should stay polite but become more direct.
             The key upgrade from reminder one is simple: ask for an explicit payment date.
+          </p>
+          <p>
+            If you are looking for <strong>chasing payment email</strong> or <strong>invoice chasing email</strong> wording,
+            these examples keep tone professional while increasing urgency.
           </p>
 
           <h2 id="fast-template">Fast template (under 100 words)</h2>
@@ -189,6 +200,9 @@ const articleSchema = {
               <li>Reattach invoice and payment method every time.</li>
               <li>Move to firm language only when needed, not by emotion.</li>
             </ul>
+            <p class="mt-3">
+              QuickBooks reports 89% of small businesses face late payments, so a clear second reminder is usually the difference between silence and action.
+            </p>
           </div>
 
           <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
@@ -220,8 +234,8 @@ const articleSchema = {
             <SeoCtaBand
               heading="Generate second-reminder sequences automatically"
               description="Create an editable follow-up flow from first reminder to final notice in minutes."
-              primaryHref={appUrl}
-              primaryLabel="Generate my sequence"
+              primaryHref="/tools/overdue-invoice-sequence-generator"
+              primaryLabel="Try the Free AI Generator"
               primaryAriaLabel="Generate invoice reminder follow-up sequence"
               secondaryHref="/pricing"
               secondaryLabel="View pricing"

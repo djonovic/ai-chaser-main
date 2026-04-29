@@ -8,9 +8,9 @@ import SeoAuthor from '../../components/seo/SeoAuthor.astro';
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/templates/overdue-invoice-email-template';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
-const metaTitle = 'Overdue Invoice Email Template (Past Due)';
+const metaTitle = 'Overdue Invoice Email Template (Copy, Send, Get Paid) | ChaseAI';
 const metaDescription =
-  'Use these overdue invoice emails to follow up at day 1/7/14/30—plus generate a personalized sequence from your invoice PDF.';
+  'Use this overdue invoice email template with clear payment deadlines, polite escalation, and legal-safe wording to chase unpaid invoices effectively.';
 
 const tocItems = [
   { id: 'must-include', label: '5 must-have elements' },
@@ -145,7 +145,14 @@ const faqSchema = {
   })),
 };
 
-const structuredData = [articleSchema, faqSchema];
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Write an overdue invoice email',
+  step: [{ '@type': 'HowToStep', name: 'Start with friendly overdue reminder' }, { '@type': 'HowToStep', name: 'Escalate wording by overdue age' }],
+};
+
+const structuredData = [articleSchema, howToSchema, faqSchema];
 ---
 
 <BaseLayout
@@ -206,6 +213,9 @@ const structuredData = [articleSchema, faqSchema];
         <p class="text-muted-foreground"><strong class="text-foreground">Use the same thread</strong> for all reminders so context stays visible to finance.</p>
         <p class="text-muted-foreground"><strong class="text-foreground">Escalate by timeline, not emotion</strong>, using clear dates and terms.</p>
       </div>
+      <p class="mt-4 text-sm text-muted-foreground">
+        89% of small businesses report late payments (QuickBooks, 2025), and late payments cost the global economy over $3T annually.
+      </p>
     </div>
   </section>
 
@@ -222,6 +232,10 @@ const structuredData = [articleSchema, faqSchema];
           <p>
             A strong <strong>past due invoice email</strong> is short, specific, and easy to action.
             Most payment delays are workflow problems, not refusal to pay. Your job is to remove friction.
+          </p>
+          <p>
+            Use this page for related query intent too: <strong>past due notice</strong>, <strong>past due invoice notice</strong>,
+            <strong> overdue invoice template email</strong>, and <strong>past due invoice email template</strong>.
           </p>
           <ol>
             <li><strong>Invoice reference:</strong> invoice number, amount, and due date in the first sentence.</li>
@@ -299,8 +313,8 @@ const structuredData = [articleSchema, faqSchema];
             <SeoCtaBand
               heading="Save 30+ minutes per overdue invoice"
               description="Upload one PDF and get a complete follow-up sequence that is personalized, scheduled, and tracked."
-              primaryHref={appUrl}
-              primaryLabel="Generate overdue follow-ups"
+              primaryHref="/tools/overdue-invoice-sequence-generator"
+              primaryLabel="Try the Free AI Generator"
               primaryAriaLabel="Generate overdue invoice follow-up sequence"
               primaryMicrocopy="No credit card"
               secondaryHref="/pricing"

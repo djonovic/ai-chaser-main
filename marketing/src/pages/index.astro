@@ -161,8 +161,8 @@ const structuredData = [softwareSchema, faqSchema];
 ---
 
 <BaseLayout
-  title="ChaseAI"
-  description="AI-powered invoice chasing software for freelancers and agencies. Automate payment follow-ups, send professional reminders, and get paid faster. Start free."
+  title="ChaseAI - AI-Powered Invoice Chasing Software | Get Paid 2x Faster"
+  description="AI that reads your invoice PDFs and automatically sends professional chase sequences. Get paid faster without awkward follow-ups. Free plan available - no credit card required."
   structuredData={structuredData}
 >
   <!-- Hero Section -->
@@ -177,7 +177,7 @@ const structuredData = [softwareSchema, faqSchema];
         </h1>
 
         <p class="mt-5 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-balance leading-relaxed">
-          ChaseAI writes and sends professional payment follow-ups for you. You focus on your work. We handle the chasing.
+          ChaseAI is automated invoice chasing software that helps you chase invoices, send a friendly reminder payment email, and recover overdue balances without awkward follow-ups.
         </p>
 
         <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -185,18 +185,18 @@ const structuredData = [softwareSchema, faqSchema];
             href={appUrl}
             class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-600 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 w-full sm:w-auto"
           >
-            Start Free
+            Start Free (no card required)
           </a>
           <a
-            href="/features"
+            href="/tools/overdue-invoice-sequence-generator"
             class="inline-flex items-center justify-center rounded-lg border border-border px-8 py-3 text-base font-semibold text-foreground hover:bg-muted/50 transition-all w-full sm:w-auto"
           >
-            See How It Works
+            Try the Free AI Generator
           </a>
         </div>
 
         <p class="mt-3 text-xs text-muted-foreground">
-          Free plan available &middot; No credit card required
+          Try the Free AI Generator &middot; No credit card required
         </p>
       </div>
 
@@ -221,7 +221,7 @@ const structuredData = [softwareSchema, faqSchema];
                     src={stat.thumb.src}
                     width={stat.thumb.width}
                     height={stat.thumb.height}
-                    alt=""
+                    alt={stat.lightboxAlt}
                     class="h-[5.5rem] sm:h-24 w-full object-cover object-left-top pointer-events-none"
                     loading="lazy"
                     decoding="async"
@@ -264,6 +264,9 @@ const structuredData = [softwareSchema, faqSchema];
         <p class="mt-3 text-lg text-muted-foreground">
           Chasing payments manually drains your time and damages relationships.
         </p>
+        <p class="mt-2 text-sm text-muted-foreground">
+          89% of small businesses report late payments (QuickBooks, 2025), and delayed B2B payments cost the global economy over $3T annually.
+        </p>
       </div>
 
       <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
@@ -291,7 +294,7 @@ const structuredData = [softwareSchema, faqSchema];
           Everything you need to get paid on time
         </h2>
         <p class="mt-3 text-lg text-muted-foreground">
-          Built for freelancers, consultants, and small businesses.
+          Built for freelancers, consultants, and small businesses that need invoice chasing email automation.
         </p>
       </div>
 
@@ -501,6 +504,45 @@ const structuredData = [softwareSchema, faqSchema];
     </div>
   </section>
 
+  <!-- Practical workflow -->
+  <section class="section-padding border-t border-border">
+    <div class="container">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-center">What to do next if invoices are late</h2>
+        <p class="mt-3 text-center text-muted-foreground">
+          Use this simple system when you need to chase unpaid invoices without damaging client relationships.
+        </p>
+        <div class="mt-8 grid md:grid-cols-2 gap-6">
+          <div class="rounded-2xl border border-border p-5 bg-card">
+            <h3 class="font-semibold text-lg">Week 1: Friendly and specific</h3>
+            <ul class="mt-3 text-sm text-muted-foreground space-y-2 list-disc pl-5">
+              <li>Send a friendly reminder payment email with invoice number, amount, and due date.</li>
+              <li>Include one payment link and one clear ask: "Can you confirm payment date?"</li>
+              <li>Keep everything in one thread so context is visible.</li>
+            </ul>
+          </div>
+          <div class="rounded-2xl border border-border p-5 bg-card">
+            <h3 class="font-semibold text-lg">Week 2+: Escalate professionally</h3>
+            <ul class="mt-3 text-sm text-muted-foreground space-y-2 list-disc pl-5">
+              <li>Move to direct wording if no response after 7 days.</li>
+              <li>Add AP-friendly details (PO, proof of delivery, original due date).</li>
+              <li>Issue final notice only when timeline and terms support it.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-6 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm text-muted-foreground">
+          According to QuickBooks (2025), 89% of small businesses experience late payments. A repeatable follow-up process usually outperforms ad hoc reminders.
+          <a class="ml-1 text-primary hover:underline" href="https://quickbooks.intuit.com/r/small-business-data/small-business-late-payments-report-2025/" target="_blank" rel="noopener noreferrer">Source</a>
+        </div>
+        <div class="mt-6 text-center">
+          <a href="/tools/overdue-invoice-sequence-generator" class="inline-flex items-center justify-center rounded-lg bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary-600 transition-colors">
+            Try our Free AI Overdue Invoice Sequence Generator - no sign-up required
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Pricing Preview -->
   <section class="section-padding border-t border-border bg-muted/30" id="pricing">
     <div class="container">
@@ -533,7 +575,7 @@ const structuredData = [softwareSchema, faqSchema];
             href={appUrl}
             class="inline-flex items-center justify-center w-full rounded-lg border border-border px-4 py-2.5 text-sm font-semibold hover:bg-muted/50 transition-colors"
           >
-            Start Free
+            Start Free (no card required)
           </a>
         </div>
 
@@ -562,7 +604,7 @@ const structuredData = [softwareSchema, faqSchema];
             href={appUrl}
             class="inline-flex items-center justify-center w-full rounded-lg bg-primary text-primary-foreground px-4 py-2.5 text-sm font-semibold shadow-sm hover:bg-primary-600 transition-colors"
           >
-            Start Free
+            Start Free (no card required)
           </a>
         </div>
 

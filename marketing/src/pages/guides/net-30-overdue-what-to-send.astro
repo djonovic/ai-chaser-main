@@ -10,9 +10,9 @@ const pageSlug = '/guides/net-30-overdue-what-to-send';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
 // META (DO NOT CHANGE)
-const metaTitle = 'Net 30 Overdue? What to Send (Scripts)';
+const metaTitle = 'Net 30 Overdue: What to Send Clients (Email Scripts) | ChaseAI';
 const metaDescription =
-  'Net 30 passed and still unpaid? Use these scripts and a schedule to follow up with confidence—plus an escalation sequence you can automate.';
+  'Use these Net 30 overdue email scripts to request payment professionally, escalate at the right time, and prevent stalled cash flow.';
 
 const tocItems = [
   { id: 'day-by-day', label: 'Day 1 / 7 / 14 / 30 scripts' },
@@ -68,6 +68,13 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Handle net 30 overdue invoices',
+  step: [{ '@type': 'HowToStep', name: 'Send day-by-day net 30 follow-ups' }, { '@type': 'HowToStep', name: 'Escalate to AP and final notice when needed' }],
+};
+const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 
 <BaseLayout
@@ -75,7 +82,7 @@ const articleSchema = {
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={[articleSchema]}
+  structuredData={[articleSchema, howToSchema, faqSchema]}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -233,6 +240,23 @@ const articleSchema = {
 
         <div class="hidden lg:block" aria-hidden="true"></div>
       </div>
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border bg-muted/20">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center">Net 30 overdue: practical escalation flow</h2>
+      <table class="mt-4 w-full text-sm">
+        <thead><tr><th>Timing</th><th>Recommended action</th></tr></thead>
+        <tbody>
+          <tr><td>Day 1</td><td>Friendly reminder with payment link and due-date reference.</td></tr>
+          <tr><td>Day 7-14</td><td>Direct follow-up and payment-date confirmation request.</td></tr>
+          <tr><td>Day 30+</td><td>Final notice with contract-backed next steps.</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 text-sm text-muted-foreground">
+        If this needs to run consistently across many invoices, use the <a class="text-primary hover:underline" href="/tools/overdue-invoice-sequence-generator">Free AI Overdue Invoice Sequence Generator</a>.
+      </p>
     </div>
   </section>
 

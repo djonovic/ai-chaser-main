@@ -1,0 +1,58 @@
+---
+import SEOHead from './SEOHead.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  ogType?: string;
+  noindex?: boolean;
+  structuredData?: object | object[];
+}
+
+const props = Astro.props as Props;
+const siteUrl = 'https://chaseai.app';
+const canonicalUrl = props.canonical || new URL(Astro.url.pathname, siteUrl).toString();
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'ChaseAI',
+  url: siteUrl,
+  logo: `${siteUrl}/favicon.svg`,
+  sameAs: ['https://chaseai.app'],
+};
+
+const segments = Astro.url.pathname.split('/').filter(Boolean);
+const breadcrumbItems = [
+  { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl + '/' },
+  ...segments.map((segment, index) => {
+    const path = '/' + segments.slice(0, index + 1).join('/');
+    const label = segment
+      .split('-')
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(' ');
+    return {
+      '@type': 'ListItem',
+      position: index + 2,
+      name: label,
+      item: siteUrl + path,
+    };
+  }),
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbItems,
+};
+
+const pageSchemas = props.structuredData
+  ? (Array.isArray(props.structuredData) ? props.structuredData : [props.structuredData])
+  : [];
+
+const mergedSchemas = [organizationSchema, breadcrumbSchema, ...pageSchemas];
+---
+
+<SEOHead {...props} canonical={canonicalUrl} structuredData={mergedSchemas} />

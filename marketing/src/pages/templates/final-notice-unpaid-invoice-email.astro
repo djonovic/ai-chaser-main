@@ -10,9 +10,9 @@ const pageSlug = '/templates/final-notice-unpaid-invoice-email';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
 // META (DO NOT CHANGE)
-const metaTitle = 'Final Notice: Unpaid Invoice Email Template';
+const metaTitle = 'Final Notice Letter for Unpaid Invoices (Email Template) | ChaseAI';
 const metaDescription =
-  'A final notice email for an unpaid invoice that stays professional. Includes a clear deadline, consequences, and a last-chance payment link.';
+  'Use this final notice email template for unpaid invoices with deadline wording, consequences, and clear next steps before collections or legal escalation.';
 
 const tocItems = [
   { id: 'when-to-send', label: 'When to send a final notice' },
@@ -68,6 +68,13 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Send a final notice for unpaid invoices',
+  step: [{ '@type': 'HowToStep', name: 'Confirm prior reminders and balance due' }, { '@type': 'HowToStep', name: 'Set final deadline and escalation path' }],
+};
+const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 
 <BaseLayout
@@ -75,7 +82,7 @@ const articleSchema = {
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={[articleSchema]}
+  structuredData={[articleSchema, howToSchema, faqSchema]}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -226,6 +233,20 @@ const articleSchema = {
 
         <div class="hidden lg:block" aria-hidden="true"></div>
       </div>
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border bg-muted/20">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center">Final notice best practices</h2>
+      <ul class="mt-4 text-sm text-muted-foreground space-y-2 list-disc pl-5">
+        <li>Reference prior reminders and exact outstanding balance.</li>
+        <li>Set one deadline and one consequence aligned to contract terms.</li>
+        <li>Keep tone factual to reduce dispute risk.</li>
+      </ul>
+      <p class="mt-4 text-sm text-muted-foreground">
+        If you need a full progression before final notice, build it in the <a class="text-primary hover:underline" href="/tools/overdue-invoice-sequence-generator">Free AI Overdue Invoice Sequence Generator</a>.
+      </p>
     </div>
   </section>
 

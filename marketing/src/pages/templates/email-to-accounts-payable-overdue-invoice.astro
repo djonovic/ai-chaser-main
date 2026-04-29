@@ -10,9 +10,9 @@ const pageSlug = '/templates/email-to-accounts-payable-overdue-invoice';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
 // META (DO NOT CHANGE)
-const metaTitle = 'Email to Accounts Payable for Overdue Invoice';
+const metaTitle = 'Email to Accounts Payable for Overdue Invoice (Template) | ChaseAI';
 const metaDescription =
-  'Email templates to follow up with AP/finance when your invoice is overdue. Includes subject lines, proof attachments, and next steps.';
+  'Use this AP follow-up template to chase overdue invoices with invoice number, PO details, proof docs, and payment-date confirmation language.';
 
 const tocItems = [
   { id: 'proof-pack', label: 'What AP needs to pay you' },
@@ -68,6 +68,13 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Follow up with accounts payable on overdue invoices',
+  step: [{ '@type': 'HowToStep', name: 'Include AP-ready proof documents' }, { '@type': 'HowToStep', name: 'Request a firm payment date' }],
+};
+const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 
 <BaseLayout
@@ -75,7 +82,7 @@ const articleSchema = {
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={[articleSchema]}
+  structuredData={[articleSchema, howToSchema, faqSchema]}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -279,6 +286,23 @@ const articleSchema = {
 
         <div class="hidden lg:block" aria-hidden="true"></div>
       </div>
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border bg-muted/20">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center">AP handoff template quality check</h2>
+      <table class="mt-4 w-full text-sm">
+        <thead><tr><th>Include</th><th>Why it helps</th></tr></thead>
+        <tbody>
+          <tr><td>Invoice #, amount, due date</td><td>Lets AP validate quickly</td></tr>
+          <tr><td>PO / job code</td><td>Routes invoice to the right queue</td></tr>
+          <tr><td>Payment instructions</td><td>Removes approval friction</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 text-sm text-muted-foreground">
+        For full multi-step follow-up after AP handoff, try the <a class="text-primary hover:underline" href="/tools/overdue-invoice-sequence-generator">Free AI Overdue Invoice Sequence Generator</a>.
+      </p>
     </div>
   </section>
 

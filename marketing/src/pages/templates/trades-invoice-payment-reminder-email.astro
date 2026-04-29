@@ -10,9 +10,9 @@ const pageSlug = '/templates/trades-invoice-payment-reminder-email';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
 // META (DO NOT CHANGE)
-const metaTitle = 'Trades Invoice Payment Reminder Email';
+const metaTitle = 'Trades Invoice Payment Reminder Email Template | ChaseAI';
 const metaDescription =
-  'Payment reminder emails for plumbers, electricians, and trades. Clear, polite templates that get invoices paid without endless calls.';
+  'Use this trades invoice reminder template for contractors and field teams with job-specific wording, due-date clarity, and practical escalation steps.';
 
 const tocItems = [
   { id: 'fast-template', label: 'Fast template (SMS-ish email)' },
@@ -68,6 +68,13 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Send a trades invoice reminder email',
+  step: [{ '@type': 'HowToStep', name: 'Reference job and invoice details' }, { '@type': 'HowToStep', name: 'Escalate from friendly to firm reminders' }],
+};
+const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 
 <BaseLayout
@@ -75,7 +82,7 @@ const articleSchema = {
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={[articleSchema]}
+  structuredData={[articleSchema, howToSchema, faqSchema]}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -225,6 +232,20 @@ const articleSchema = {
 
         <div class="hidden lg:block" aria-hidden="true"></div>
       </div>
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border bg-muted/20">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center">Trades payment reminder playbook</h2>
+      <p class="mt-3 text-sm text-muted-foreground">
+        For electricians, plumbers, and contractors, reminders work best when they are short, factual, and tied to job proof.
+      </p>
+      <ul class="mt-3 text-sm text-muted-foreground space-y-2 list-disc pl-5">
+        <li>Reference job site or project code.</li>
+        <li>Attach completion confirmation in the same thread.</li>
+        <li>Ask for one payment date, then escalate if missed.</li>
+      </ul>
     </div>
   </section>
 

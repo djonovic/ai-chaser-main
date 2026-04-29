@@ -1,17 +1,11 @@
 ---
 interface Props {
-  name?: string;
-  role?: string;
   date?: string;
 }
 
 const {
-  name = 'Alex Morgan',
-  role = 'Invoice & payments writer at ChaseAI',
-  date = '2026-03-31',
+  date = '2026-04-29',
 } = Astro.props;
-
-const initials = name.split(' ').map(n => n[0]).join('');
 
 function formatDate(iso: string): string {
   const d = new Date(iso + 'T00:00:00');
@@ -20,16 +14,7 @@ function formatDate(iso: string): string {
 ---
 
 <div class="not-prose flex items-center gap-3 py-4 mb-2">
-  <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-bold" aria-hidden="true">
-    {initials}
-  </div>
-  <div class="min-w-0">
-    <div class="flex items-center gap-2 flex-wrap">
-      <span class="text-sm font-medium text-foreground">{name}</span>
-      <time datetime={date} class="text-xs text-muted-foreground">
-        {formatDate(date)}
-      </time>
-    </div>
-    <p class="text-xs text-muted-foreground">{role}</p>
-  </div>
+  <p class="text-sm text-muted-foreground">
+    Written by Alex Morgan, Invoice &amp; Payments Expert at ChaseAI &#8226; Last updated {formatDate(date)}
+  </p>
 </div>

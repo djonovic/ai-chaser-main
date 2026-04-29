@@ -10,9 +10,9 @@ const pageSlug = '/templates/friendly-payment-reminder-email';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
 // META (DO NOT CHANGE)
-const metaTitle = 'Friendly Payment Reminder Email Template';
+const metaTitle = 'Friendly Payment Reminder Email Template (Polite Examples) | ChaseAI';
 const metaDescription =
-  'A friendly payment reminder email you can copy/paste. Keep relationships warm while making it easy for clients to pay today.';
+  'Copy friendly payment reminder messages that stay polite while prompting action. Includes examples for first reminders, due-date nudges, and follow-ups.';
 
 const tocItems = [
   { id: 'friendly-template', label: 'Friendly template (short + long version)' },
@@ -67,6 +67,13 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Write a friendly payment reminder email',
+  step: [{ '@type': 'HowToStep', name: 'Use polite context and invoice details' }, { '@type': 'HowToStep', name: 'Include one-click payment link and clear ask' }],
+};
+const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 
 <BaseLayout
@@ -74,7 +81,7 @@ const articleSchema = {
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={[articleSchema]}
+  structuredData={[articleSchema, howToSchema, faqSchema]}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -220,6 +227,20 @@ const articleSchema = {
 
         <div class="hidden lg:block" aria-hidden="true"></div>
       </div>
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border bg-muted/20">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center">Friendly reminder checklist</h2>
+      <ol class="mt-4 text-sm text-muted-foreground space-y-2 list-decimal pl-5">
+        <li>State invoice number and amount in the first sentence.</li>
+        <li>Use warm tone, but ask for a specific payment date.</li>
+        <li>Include one-click payment details every time.</li>
+      </ol>
+      <p class="mt-4 text-sm text-muted-foreground">
+        If no response after this stage, move to a second reminder and then firm wording. You can generate that full progression with the <a class="text-primary hover:underline" href="/tools/overdue-invoice-sequence-generator">Free AI Overdue Invoice Sequence Generator</a>.
+      </p>
     </div>
   </section>
 
