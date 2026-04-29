@@ -1,5 +1,6 @@
 ---
 import SEOHead from './SEOHead.astro';
+import authorImage from '../assets/author-image.optimized.jpeg';
 
 interface Props {
   title: string;
@@ -19,9 +20,35 @@ const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'ChaseAI',
+  legalName: 'Global Bridge MNE LLC',
   url: siteUrl,
   logo: `${siteUrl}/favicon.svg`,
   sameAs: ['https://chaseai.app'],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '30 N Gould St Ste N',
+    addressLocality: 'Sheridan',
+    addressRegion: 'WY',
+    postalCode: '82801',
+    addressCountry: 'US',
+  },
+};
+
+const authorSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Pasko Djonovic',
+  jobTitle: 'Founder',
+  url: `${siteUrl}/author`,
+  image: new URL(authorImage.src, siteUrl).toString(),
+  sameAs: [
+    'https://www.linkedin.com/in/pakidjonovic/',
+    'https://www.instagram.com/pakidjonovic/',
+  ],
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Global Bridge MNE LLC',
+  },
 };
 
 const segments = Astro.url.pathname.split('/').filter(Boolean);
@@ -52,7 +79,7 @@ const pageSchemas = props.structuredData
   ? (Array.isArray(props.structuredData) ? props.structuredData : [props.structuredData])
   : [];
 
-const mergedSchemas = [organizationSchema, breadcrumbSchema, ...pageSchemas];
+const mergedSchemas = [organizationSchema, authorSchema, breadcrumbSchema, ...pageSchemas];
 ---
 
 <SEOHead {...props} canonical={canonicalUrl} structuredData={mergedSchemas} />

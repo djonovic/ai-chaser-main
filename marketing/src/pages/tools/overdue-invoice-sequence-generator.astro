@@ -4,7 +4,6 @@ import SeoToc from '../../components/seo/SeoToc';
 import SeoCtaBand from '../../components/seo/SeoCtaBand';
 import SeoFaq from '../../components/seo/SeoFaq';
 import PublicSequenceGenerator from '../../components/seo/PublicSequenceGenerator';
-import AuthorBox from '../../components/AuthorBox.astro';
 
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/tools/overdue-invoice-sequence-generator';
@@ -85,7 +84,7 @@ const articleSchema = {
   '@type': 'Article',
   headline: metaTitle,
   description: metaDescription,
-  author: { '@type': 'Person', name: 'Alex Morgan' },
+  author: { '@type': 'Person', name: 'Pasko Djonovic' },
   publisher: { '@type': 'Organization', name: 'ChaseAI' },
   mainEntityOfPage: canonicalUrl,
 };
@@ -174,7 +173,6 @@ const structuredData = [softwareSchema, articleSchema, howToSchema, faqSchema];
         </aside>
 
         <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
-          <AuthorBox />
           <h2 id="free-generator" class="scroll-mt-24">Generate a free sequence right now</h2>
           <p>
             Upload your invoice PDF below to generate a real sequence immediately. No account is required

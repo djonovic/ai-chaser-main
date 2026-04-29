@@ -1,6 +1,7 @@
 ---
 import Analytics from '@vercel/analytics/astro';
 import SEO from '../components/SEO.astro';
+import AuthorBox from '../components/AuthorBox.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
@@ -13,6 +14,7 @@ interface Props {
   ogType?: string;
   noindex?: boolean;
   structuredData?: object | object[];
+  showAuthorBox?: boolean;
 }
 
 const {
@@ -23,7 +25,14 @@ const {
   ogType,
   noindex,
   structuredData,
+  showAuthorBox,
 } = Astro.props as Props;
+
+const pathname = Astro.url.pathname;
+const shouldShowAuthorBox =
+  typeof showAuthorBox === 'boolean'
+    ? showAuthorBox
+    : pathname.startsWith('/templates/') || pathname.startsWith('/guides/') || pathname.startsWith('/tools/');
 ---
 
 <!doctype html>
@@ -56,6 +65,13 @@ const {
     <Header />
     <main class="flex-1 pt-16">
       <slot />
+      {shouldShowAuthorBox && (
+        <section class="pb-8">
+          <div class="container max-w-3xl mx-auto text-center">
+            <AuthorBox global={true} />
+          </div>
+        </section>
+      )}
     </main>
     <Footer />
     <Analytics />

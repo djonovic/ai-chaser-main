@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import authorImage from '../assets/author-image.optimized.jpeg';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  mainEntity: {
+    '@type': 'Person',
+    name: 'Pasko Djonovic',
+    jobTitle: 'Founder',
+    url: 'https://chaseai.app/author',
+    image: new URL(authorImage.src, 'https://chaseai.app').toString(),
+    sameAs: [
+      'https://www.linkedin.com/in/pakidjonovic/',
+      'https://www.instagram.com/pakidjonovic/',
+    ],
+    worksFor: {
+      '@type': 'Organization',
+      name: 'ChaseAI',
+    },
+  },
+};
+---
+
+<BaseLayout
+  title="Pasko Djonovic | Founder at ChaseAI"
+  description="Author profile for Pasko Djonovic, Founder at ChaseAI. Expertise in invoice chasing workflows, payment reminder strategy, and overdue invoice recovery."
+  canonical="https://chaseai.app/author"
+  structuredData={structuredData}
+>
+  <section class="hero-gradient">
+    <div class="container py-16 md:py-24 max-w-3xl mx-auto">
+      <img
+        src={authorImage.src}
+        width="112"
+        height="112"
+        loading="eager"
+        decoding="async"
+        alt="Pasko Djonovic, Founder at ChaseAI"
+        class="h-28 w-28 rounded-full object-cover object-[center_10%] border border-border"
+      />
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Pasko Djonovic</h1>
+      <p class="mt-3 text-lg text-muted-foreground">Founder at ChaseAI</p>
+      <p class="mt-6 text-base text-muted-foreground leading-relaxed">
+        I write practical guidance for freelancers, agencies, and small businesses that want to recover overdue invoices without damaging client relationships.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href="https://www.linkedin.com/in/pakidjonovic/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-muted/50 transition-colors">LinkedIn</a>
+        <a href="https://www.instagram.com/pakidjonovic/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-muted/50 transition-colors">Instagram</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
