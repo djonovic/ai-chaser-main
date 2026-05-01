@@ -2,7 +2,7 @@ name: Daily SEO Blog Post
 
 on:
   schedule:
-    - cron: "0 7 * * *" # Daily 07:00 UTC (09:00 CEST during summer time)
+    - cron: '0 7 * * *'     # Svaki dan u 09:00 CEST
   workflow_dispatch:
 
 permissions:
@@ -11,325 +11,50 @@ permissions:
 jobs:
   generate-blog:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
-          cache-dependency-path: marketing/package-lock.json
-
-      - name: Install marketing dependencies
-        run: npm ci --prefix marketing
-
-      - name: Generate blog post with Grok
+      - name: Generate SEO Blog Post with Grok
         id: generate
         env:
           GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
         run: |
           set -euo pipefail
 
-          if [ -z "${GROK_API_KEY:-}" ]; then
-            echo "GROK_API_KEY is not set."
-            exit 1
-          fi
+          PUB_DATE=$(date -u +"%Y-%m-%d")
 
-          PUB_DATE="$(date -u +%F)"
-          BASE_PROMPT=$(cat <<'EOF'
-          You are a world-class SEO content strategist and freelance finance expert writing for ChaseAI (https://chaseai.app).
+          curl -s -X POST "https://api.x.ai/v1/chat/completions" \
+            -H "Authorization: Bearer ${GROK_API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "model": "grok-4-1-fast-non-reasoning",
+              "temperature": 0.7,
+              "messages": [
+                {
+                  "role": "user",
+                  "content": "You are a world-class SEO content writer for freelancers and small businesses.\n\nWrite ONE complete, high-value blog post in Markdown format.\n\nUse this EXACT frontmatter (do not change the order or keys):\n\n---\nslug: \"kebab-case-from-title\"\ntitle: \"SEO-optimized title with long-tail keyword (55-65 chars)\"\ndescription: \"145-160 character compelling meta description with keyword and benefit\"\npubDate: \"'${PUB_DATE}'\"\nupdatedDate: \"'${PUB_DATE}'\"\ntags: [\"invoice-reminders\", \"cash-flow\", \"freelance-finance\"]\nseoKeywords:\n  - \"primary long tail keyword\"\n  - \"secondary long tail keyword\"\n  - \"tertiary long tail keyword\"\ndraft: false\nheroImage: \"/blog/images/placeholder.jpg\"\ncanonicalURL: \"https://chaseai.app/blog/slug/\"\nreadingTime: 10\n---\n\nRequirements:\n- Length: 1400-2000 words\n- Very helpful and practical\n- Use H2, H3, bullet lists, examples, templates\n- Include internal links to existing pages when natural\n- Strong SEO with long-tail keywords\n- Natural CTA for ChaseAI at the end\n- Never repeat the same main topic from the last 14 days\n\nReturn ONLY the full Markdown file (frontmatter + content). No explanations."
+                }
+              ]
+            }' | jq -r '.choices[0].message.content' > blog-post.mdx
 
-          Return ONLY a complete Markdown article with valid Astro frontmatter, no code fences, no explanations.
-
-          Use this exact frontmatter field order:
-          ---
-          slug: "kebab-case-slug-based-on-title"
-          title: "SEO title with long-tail keyword"
-          description: "145-160 chars with keyword + benefit"
-          pubDate: "__PUB_DATE__"
-          updatedDate: "__PUB_DATE__"
-          tags: ["tag-1", "tag-2", "tag-3"]
-          seoKeywords:
-            - "primary long-tail keyword"
-            - "secondary long-tail keyword"
-            - "tertiary long-tail keyword"
-          draft: false
-          heroImage: "/blog/images/relevant-image-name.jpg"
-          canonicalURL: "https://chaseai.app/blog/slug/"
-          readingTime: 10
-          ---
-
-          Article requirements:
-          - Length: 1400-2000 words
-          - Use clear H2/H3 headings, practical steps, examples, templates
-          - Include bullet lists and one comparison table
-          - Topic: invoice chasing, late payments, cash flow, freelancer finance, AR best practices, or automation for SMBs
-          - Include natural internal links to:
-            /guides/how-to-chase-unpaid-invoices/
-            /guides/unpaid-invoice-follow-up-schedule/
-            /templates/overdue-invoice-email-sequence/
-            /templates/invoice-reminder-email-template/
-            /tools/overdue-invoice-sequence-generator/
-          - End with a natural CTA for ChaseAI
-
-          Do not repeat the same main topic/keyword used in the last 14 days.
-          Ensure canonicalURL slug matches slug exactly.
-          EOF
-          )
-          BASE_PROMPT="${BASE_PROMPT/__PUB_DATE__/${PUB_DATE}}"
-
-          validate_content() {
-            local content="$1"
-            local pub_date="$2"
-            CONTENT_TO_VALIDATE="$content" python - "$pub_date" <<'PY'
-            import os
-            import re
-            import sys
-
-            pub_date = sys.argv[1]
-            text = os.environ.get("CONTENT_TO_VALIDATE", "")
-            text = re.sub(r"^```[a-zA-Z]*\n", "", text)
-            text = re.sub(r"\n```$", "", text)
-
-            frontmatter_match = re.match(r"^---\n(.*?)\n---\n", text, flags=re.S)
-            if not frontmatter_match:
-                raise SystemExit("Missing or invalid frontmatter block.")
-            fm = frontmatter_match.group(1)
-
-            required_keys = [
-                "slug",
-                "title",
-                "description",
-                "pubDate",
-                "updatedDate",
-                "tags",
-                "seoKeywords",
-                "draft",
-                "heroImage",
-                "canonicalURL",
-                "readingTime",
-            ]
-            for key in required_keys:
-                if re.search(rf"(?m)^{re.escape(key)}:", fm) is None:
-                    raise SystemExit(f"Missing required frontmatter key: {key}")
-
-            slug_match = re.search(r'(?m)^slug:\s*"([a-z0-9]+(?:-[a-z0-9]+)*)"\s*$', fm)
-            if not slug_match:
-                raise SystemExit("Invalid slug format.")
-            slug = slug_match.group(1)
-
-            title_match = re.search(r'(?m)^title:\s*"([^"]+)"\s*$', fm)
-            if not title_match:
-                raise SystemExit("title is missing or invalid.")
-            if len(title_match.group(1).strip()) > 70:
-                raise SystemExit("title too long (>70).")
-
-            description_match = re.search(r'(?m)^description:\s*"([^"]+)"\s*$', fm)
-            if not description_match:
-                raise SystemExit("description is missing or invalid.")
-            description = description_match.group(1).strip()
-            if not (140 <= len(description) <= 160):
-                raise SystemExit("description length must be 140-160.")
-
-            if re.search(rf'(?m)^pubDate:\s*"{re.escape(pub_date)}"\s*$', fm) is None:
-                raise SystemExit("pubDate mismatch.")
-            if re.search(rf'(?m)^updatedDate:\s*"{re.escape(pub_date)}"\s*$', fm) is None:
-                raise SystemExit("updatedDate mismatch.")
-
-            canonical_match = re.search(r'(?m)^canonicalURL:\s*"([^"]+)"\s*$', fm)
-            if not canonical_match:
-                raise SystemExit("canonicalURL missing.")
-            if canonical_match.group(1) != f"https://chaseai.app/blog/{slug}/":
-                raise SystemExit("canonicalURL must match slug.")
-
-            reading_time_match = re.search(r'(?m)^readingTime:\s*(\d+)\s*$', fm)
-            if not reading_time_match:
-                raise SystemExit("readingTime must be an integer.")
-            reading_time = int(reading_time_match.group(1))
-            if not (9 <= reading_time <= 12):
-                raise SystemExit("readingTime must be 9-12.")
-            PY
-          }
-
-          CONTENT=""
-          FEEDBACK=""
-          for attempt in 1 2 3; do
-            PROMPT="${BASE_PROMPT}"
-            if [ -n "${FEEDBACK}" ]; then
-              PROMPT="${PROMPT}\n\nCRITICAL: The previous output failed validation with this error:\n${FEEDBACK}\n\nRegenerate and strictly fix these constraints. Output only the corrected Markdown article."
-            fi
-
-            REQUEST_BODY=$(jq -n --arg prompt "$PROMPT" '{
-              model: "grok-4-1-fast-non-reasoning",
-              messages: [{ role: "user", content: $prompt }],
-              temperature: 0.7
-            }')
-
-            RESPONSE=$(curl -sS -X POST "https://api.x.ai/v1/chat/completions" \
-              -H "Authorization: Bearer ${GROK_API_KEY}" \
-              -H "Content-Type: application/json" \
-              -d "${REQUEST_BODY}")
-
-            CONTENT=$(echo "${RESPONSE}" | jq -er '.choices[0].message.content')
-            CONTENT=$(printf '%s' "${CONTENT}" | sed -E 's/^```[a-zA-Z]*$//g' | sed -E 's/^```$//g')
-
-            if validate_content "${CONTENT}" "${PUB_DATE}"; then
-              echo "Generation validated on attempt ${attempt}."
-              FEEDBACK=""
-              break
-            fi
-
-            FEEDBACK="$(validate_content "${CONTENT}" "${PUB_DATE}" 2>&1 || true)"
-            echo "Attempt ${attempt} failed validation: ${FEEDBACK}"
-            if [ "${attempt}" = "3" ]; then
-              echo "Failed to generate valid content after 3 attempts."
-              exit 1
-            fi
-          done
-
-          {
-            echo "pub_date=${PUB_DATE}"
-            echo "content<<EOF"
-            printf '%s\n' "${CONTENT}"
-            echo "EOF"
-          } >> "${GITHUB_OUTPUT}"
-
-      - name: Validate frontmatter and create MDX file
-        id: write_file
-        env:
-          CONTENT: ${{ steps.generate.outputs.content }}
-          PUB_DATE: ${{ steps.generate.outputs.pub_date }}
+      - name: Create MDX file and commit
         run: |
           set -euo pipefail
+
           mkdir -p marketing/src/content/blog
 
-          TMP_FILE="$(mktemp)"
-          printf '%s\n' "${CONTENT}" > "${TMP_FILE}"
+          # Extract slug from frontmatter
+          SLUG=$(grep '^slug:' blog-post.mdx | head -1 | sed 's/^slug: "\(.*\)"/\1/')
 
-          python - <<'PY' "${TMP_FILE}" "${PUB_DATE}"
-          import pathlib
-          import re
-          import sys
+          FILENAME="marketing/src/content/blog/${SLUG}.mdx"
 
-          input_path = pathlib.Path(sys.argv[1])
-          pub_date = sys.argv[2]
-          text = input_path.read_text(encoding="utf-8")
-
-          frontmatter_match = re.match(r"^---\n(.*?)\n---\n", text, flags=re.S)
-          if not frontmatter_match:
-              raise SystemExit("Missing or invalid frontmatter block.")
-
-          fm = frontmatter_match.group(1)
-
-          required_keys = [
-              "slug",
-              "title",
-              "description",
-              "pubDate",
-              "updatedDate",
-              "tags",
-              "seoKeywords",
-              "draft",
-              "heroImage",
-              "canonicalURL",
-              "readingTime",
-          ]
-          for key in required_keys:
-              if re.search(rf"(?m)^{re.escape(key)}:", fm) is None:
-                  raise SystemExit(f"Missing required frontmatter key: {key}")
-
-          slug_match = re.search(r'(?m)^slug:\s*"([a-z0-9]+(?:-[a-z0-9]+)*)"\s*$', fm)
-          if not slug_match:
-              raise SystemExit("Invalid slug format.")
-          slug = slug_match.group(1)
-
-          title_match = re.search(r'(?m)^title:\s*"([^"]+)"\s*$', fm)
-          if not title_match:
-              raise SystemExit("title is missing or invalid.")
-          title = title_match.group(1).strip()
-          if len(title) > 70:
-              raise SystemExit(f"title is too long ({len(title)} chars). Max is 70.")
-
-          description_match = re.search(r'(?m)^description:\s*"([^"]+)"\s*$', fm)
-          if not description_match:
-              raise SystemExit("description is missing or invalid.")
-          description = description_match.group(1).strip()
-          if not (140 <= len(description) <= 160):
-              raise SystemExit(
-                  f"description must be between 140 and 160 characters (got {len(description)})."
-              )
-
-          if re.search(rf'(?m)^pubDate:\s*"{re.escape(pub_date)}"\s*$', fm) is None:
-              raise SystemExit("pubDate must match today's date.")
-          if re.search(rf'(?m)^updatedDate:\s*"{re.escape(pub_date)}"\s*$', fm) is None:
-              raise SystemExit("updatedDate must match today's date.")
-
-          canonical_expected = f'https://chaseai.app/blog/{slug}/'
-          canonical_match = re.search(r'(?m)^canonicalURL:\s*"([^"]+)"\s*$', fm)
-          if not canonical_match:
-              raise SystemExit("canonicalURL missing.")
-          if canonical_match.group(1) != canonical_expected:
-              raise SystemExit("canonicalURL must match slug.")
-
-          tags_match = re.search(r'(?m)^tags:\s*\[(.*?)\]\s*$', fm)
-          if not tags_match:
-              raise SystemExit("tags must be provided as a 3-item array.")
-          tags = [t.strip().strip('"').strip("'") for t in tags_match.group(1).split(",") if t.strip()]
-          if len(tags) != 3:
-              raise SystemExit(f"tags must contain exactly 3 items (got {len(tags)}).")
-
-          seo_kw = re.findall(r'(?m)^\s*-\s*"([^"]+)"\s*$', fm)
-          if len(seo_kw) < 3:
-              raise SystemExit(f"seoKeywords must contain at least 3 items (got {len(seo_kw)}).")
-
-          reading_time_match = re.search(r'(?m)^readingTime:\s*(\d+)\s*$', fm)
-          if not reading_time_match:
-              raise SystemExit("readingTime must be an integer.")
-          reading_time = int(reading_time_match.group(1))
-          if not (9 <= reading_time <= 12):
-              raise SystemExit(f"readingTime must be between 9 and 12 (got {reading_time}).")
-
-          output_path = pathlib.Path("marketing/src/content/blog") / f"{slug}.mdx"
-          if output_path.exists():
-              raise SystemExit(f"Post already exists: {output_path}")
-
-          output_path.write_text(text.strip() + "\n", encoding="utf-8")
-          print(output_path.as_posix())
-          PY
-
-          FILE_PATH="$(python - <<'PY' "${TMP_FILE}" "${PUB_DATE}"
-          import pathlib
-          import re
-          import sys
-          text = pathlib.Path(sys.argv[1]).read_text(encoding="utf-8")
-          fm = re.match(r"^---\n(.*?)\n---\n", text, flags=re.S).group(1)
-          slug = re.search(r'(?m)^slug:\s*"([a-z0-9]+(?:-[a-z0-9]+)*)"\s*$', fm).group(1)
-          print(f"marketing/src/content/blog/{slug}.mdx")
-          PY
-          )"
-
-          echo "file_path=${FILE_PATH}" >> "${GITHUB_OUTPUT}"
-
-      - name: Commit and push
-        env:
-          FILE_PATH: ${{ steps.write_file.outputs.file_path }}
-        run: |
-          set -euo pipefail
-
-          if [ -z "${FILE_PATH:-}" ] || [ ! -f "${FILE_PATH}" ]; then
-            echo "No generated file path provided."
-            exit 1
-          fi
-
-          git add "${FILE_PATH}"
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-            exit 0
-          fi
+          mv blog-post.mdx "$FILENAME"
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -m "feat(blog): add daily post ${FILE_PATH##*/}"
+
+          git add "$FILENAME"
+          git commit -m "feat(blog): daily SEO post - ${SLUG} (${{ github.run_id }})" || echo "No changes to commit"
           git push
