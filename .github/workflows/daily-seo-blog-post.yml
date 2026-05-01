@@ -15,6 +15,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: marketing/package-lock.json
+
+      - name: Install marketing dependencies
+        run: npm ci --prefix marketing
+
       - name: Generate blog post with Grok
         id: generate
         env:
