@@ -38,7 +38,7 @@ jobs:
           fi
 
           PUB_DATE="$(date -u +%F)"
-          PROMPT=$(cat <<'EOF'
+          BASE_PROMPT=$(cat <<'EOF'
           You are a world-class SEO content strategist and freelance finance expert writing for ChaseAI (https://chaseai.app).
 
           Return ONLY a complete Markdown article with valid Astro frontmatter, no code fences, no explanations.
@@ -78,22 +78,116 @@ jobs:
           Ensure canonicalURL slug matches slug exactly.
           EOF
           )
-          PROMPT="${PROMPT/__PUB_DATE__/${PUB_DATE}}"
+          BASE_PROMPT="${BASE_PROMPT/__PUB_DATE__/${PUB_DATE}}"
 
-          REQUEST_BODY=$(jq -n --arg prompt "$PROMPT" '{
-            model: "grok-4-1-fast-non-reasoning",
-            messages: [{ role: "user", content: $prompt }],
-            temperature: 0.7
-          }')
+          validate_content() {
+            local content="$1"
+            local pub_date="$2"
+            CONTENT_TO_VALIDATE="$content" python - "$pub_date" <<'PY'
+            import os
+            import re
+            import sys
 
-          RESPONSE=$(curl -sS -X POST "https://api.x.ai/v1/chat/completions" \
-            -H "Authorization: Bearer ${GROK_API_KEY}" \
-            -H "Content-Type: application/json" \
-            -d "${REQUEST_BODY}")
+            pub_date = sys.argv[1]
+            text = os.environ.get("CONTENT_TO_VALIDATE", "")
+            text = re.sub(r"^```[a-zA-Z]*\n", "", text)
+            text = re.sub(r"\n```$", "", text)
 
-          CONTENT=$(echo "${RESPONSE}" | jq -er '.choices[0].message.content')
-          # Remove accidental fenced wrappers if model emits them.
-          CONTENT=$(printf '%s' "${CONTENT}" | sed -E 's/^```[a-zA-Z]*$//g' | sed -E 's/^```$//g')
+            frontmatter_match = re.match(r"^---\n(.*?)\n---\n", text, flags=re.S)
+            if not frontmatter_match:
+                raise SystemExit("Missing or invalid frontmatter block.")
+            fm = frontmatter_match.group(1)
+
+            required_keys = [
+                "slug",
+                "title",
+                "description",
+                "pubDate",
+                "updatedDate",
+                "tags",
+                "seoKeywords",
+                "draft",
+                "heroImage",
+                "canonicalURL",
+                "readingTime",
+            ]
+            for key in required_keys:
+                if re.search(rf"(?m)^{re.escape(key)}:", fm) is None:
+                    raise SystemExit(f"Missing required frontmatter key: {key}")
+
+            slug_match = re.search(r'(?m)^slug:\s*"([a-z0-9]+(?:-[a-z0-9]+)*)"\s*$', fm)
+            if not slug_match:
+                raise SystemExit("Invalid slug format.")
+            slug = slug_match.group(1)
+
+            title_match = re.search(r'(?m)^title:\s*"([^"]+)"\s*$', fm)
+            if not title_match:
+                raise SystemExit("title is missing or invalid.")
+            if len(title_match.group(1).strip()) > 70:
+                raise SystemExit("title too long (>70).")
+
+            description_match = re.search(r'(?m)^description:\s*"([^"]+)"\s*$', fm)
+            if not description_match:
+                raise SystemExit("description is missing or invalid.")
+            description = description_match.group(1).strip()
+            if not (140 <= len(description) <= 160):
+                raise SystemExit("description length must be 140-160.")
+
+            if re.search(rf'(?m)^pubDate:\s*"{re.escape(pub_date)}"\s*$', fm) is None:
+                raise SystemExit("pubDate mismatch.")
+            if re.search(rf'(?m)^updatedDate:\s*"{re.escape(pub_date)}"\s*$', fm) is None:
+                raise SystemExit("updatedDate mismatch.")
+
+            canonical_match = re.search(r'(?m)^canonicalURL:\s*"([^"]+)"\s*$', fm)
+            if not canonical_match:
+                raise SystemExit("canonicalURL missing.")
+            if canonical_match.group(1) != f"https://chaseai.app/blog/{slug}/":
+                raise SystemExit("canonicalURL must match slug.")
+
+            reading_time_match = re.search(r'(?m)^readingTime:\s*(\d+)\s*$', fm)
+            if not reading_time_match:
+                raise SystemExit("readingTime must be an integer.")
+            reading_time = int(reading_time_match.group(1))
+            if not (9 <= reading_time <= 12):
+                raise SystemExit("readingTime must be 9-12.")
+            PY
+          }
+
+          CONTENT=""
+          FEEDBACK=""
+          for attempt in 1 2 3; do
+            PROMPT="${BASE_PROMPT}"
+            if [ -n "${FEEDBACK}" ]; then
+              PROMPT="${PROMPT}\n\nCRITICAL: The previous output failed validation with this error:\n${FEEDBACK}\n\nRegenerate and strictly fix these constraints. Output only the corrected Markdown article."
+            fi
+
+            REQUEST_BODY=$(jq -n --arg prompt "$PROMPT" '{
+              model: "grok-4-1-fast-non-reasoning",
+              messages: [{ role: "user", content: $prompt }],
+              temperature: 0.7
+            }')
+
+            RESPONSE=$(curl -sS -X POST "https://api.x.ai/v1/chat/completions" \
+              -H "Authorization: Bearer ${GROK_API_KEY}" \
+              -H "Content-Type: application/json" \
+              -d "${REQUEST_BODY}")
+
+            CONTENT=$(echo "${RESPONSE}" | jq -er '.choices[0].message.content')
+            CONTENT=$(printf '%s' "${CONTENT}" | sed -E 's/^```[a-zA-Z]*$//g' | sed -E 's/^```$//g')
+
+            if validate_content "${CONTENT}" "${PUB_DATE}"; then
+              echo "Generation validated on attempt ${attempt}."
+              FEEDBACK=""
+              break
+            fi
+
+            FEEDBACK="$(validate_content "${CONTENT}" "${PUB_DATE}" 2>&1 || true)"
+            echo "Attempt ${attempt} failed validation: ${FEEDBACK}"
+            if [ "${attempt}" = "3" ]; then
+              echo "Failed to generate valid content after 3 attempts."
+              exit 1
+            fi
+          done
 
           {
             echo "pub_date=${PUB_DATE}"
