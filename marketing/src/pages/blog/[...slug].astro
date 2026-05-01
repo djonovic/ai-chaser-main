@@ -1,0 +1,83 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatDate, getBlogUrl, getPostSlug, getPublishedBlogPosts } from "../../utils/blog";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+export async function getStaticPaths() {
+  const posts = await getPublishedBlogPosts();
+
+  return posts.map((post) => ({
+    params: { slug: getPostSlug(post) },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props as Props;
+const { Content } = await render(post);
+
+const postPath = getBlogUrl(post);
+const canonical = post.data.canonicalURL ?? `https://chaseai.app${postPath}`;
+const readingTimeLabel =
+  post.data.readingTime !== undefined ? `${post.data.readingTime} min read` : undefined;
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.pubDate.toISOString(),
+  dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+  keywords: post.data.seoKeywords.join(", "),
+  url: canonical,
+  articleSection: post.data.tags,
+  author: {
+    "@type": "Organization",
+    name: "ChaseAI",
+    url: "https://chaseai.app",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "ChaseAI",
+    url: "https://chaseai.app",
+  },
+};
+---
+
+<BaseLayout
+  title={`${post.data.title} | ChaseAI`}
+  description={post.data.description}
+  canonical={canonical}
+  ogType="article"
+  ogImage={post.data.heroImage}
+  structuredData={articleSchema}
+>
+  <article class="section-padding">
+    <div class="container max-w-3xl mx-auto">
+      <p class="text-sm text-muted-foreground">
+        <a href="/blog/" class="hover:text-primary transition-colors">Blog</a>
+        <span class="mx-2">/</span>
+        <span>{formatDate(post.data.pubDate)}</span>
+        {readingTimeLabel && <span class="ml-3">{readingTimeLabel}</span>}
+      </p>
+
+      <h1 class="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-balance">{post.data.title}</h1>
+      <p class="mt-5 text-lg text-muted-foreground leading-relaxed">{post.data.description}</p>
+
+      <div class="mt-6 flex flex-wrap gap-2">
+        {post.data.tags.map((tag) => (
+          <span class="inline-flex items-center rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      <div class="prose prose-neutral max-w-none mt-10 prose-headings:tracking-tight prose-a:text-primary hover:prose-a:underline">
+        <Content />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
