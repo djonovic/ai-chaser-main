@@ -1,0 +1,52 @@
+name: Daily SEO Blog Post
+
+on:
+  schedule:
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-blog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate Blog Post with Grok
+        id: generate
+        env:
+          GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
+        run: |
+          PUB_DATE=$(date -u +"%Y-%m-%d")
+
+          curl -s -X POST "https://api.x.ai/v1/chat/completions" \
+            -H "Authorization: Bearer ${GROK_API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "model": "grok-4-1-fast-non-reasoning",
+              "temperature": 0.65,
+              "messages": [
+                {
+                  "role": "user",
+                  "content": "You are a world-class SEO content writer. Write ONE complete, high-value, practical blog post (1400-2000 words).\n\nSTRICT RULES - MUST FOLLOW EXACTLY:\n\nReturn ONLY the full Markdown with this exact frontmatter (no extra text, no code blocks):\n\n---\nslug: \"kebab-case-slug-from-title\"\ntitle: \"SEO title 55-65 characters max (MUST be 70 or fewer)\"\ndescription: \"Exactly 140-160 characters. Include main keyword and clear benefit.\"\npubDate: \"'${PUB_DATE}'\"\nupdatedDate: \"'${PUB_DATE}'\"\ntags: [\"invoice-reminders\", \"cash-flow\", \"freelance-finance\"]\nseoKeywords:\n  - \"long tail keyword 1\"\n  - \"long tail keyword 2\"\n  - \"long tail keyword 3\"\ndraft: false\nheroImage: \"/blog/images/placeholder.jpg\"\ncanonicalURL: \"https://chaseai.app/blog/slug/\"\nreadingTime: 10\n---\n\nRequirements:\n- Title must be 70 characters or fewer\n- Description must be 140-160 characters exactly\n- Very helpful, practical, step-by-step content\n- Use H2, H3, lists, examples, templates\n- Include long-tail keywords naturally\n- End with natural CTA for ChaseAI\n- Never repeat the same main topic in last 14 days\n\nOutput ONLY the Markdown file. No explanations."
+                }
+              ]
+            }' | jq -r '.choices[0].message.content' > blog-post.mdx
+
+      - name: Create MDX file
+        run: |
+          mkdir -p marketing/src/content/blog
+
+          SLUG=$(grep '^slug:' blog-post.mdx | head -1 | sed 's/^slug: "\(.*\)"/\1/')
+          FILENAME="marketing/src/content/blog/${SLUG}.mdx"
+
+          mv blog-post.mdx "$FILENAME"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "$FILENAME"
+          git commit -m "feat(blog): daily SEO post - ${SLUG}" || echo "No changes"
+          git push
