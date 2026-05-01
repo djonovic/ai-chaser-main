@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Generate Blog Post with Grok
+      - name: Generate clean blog post with Grok
         id: generate
         env:
           GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
@@ -31,19 +31,19 @@ jobs:
               "messages": [
                 {
                   "role": "user",
-                  "content": "You are a world-class SEO writer. Write ONE complete blog post.\n\nRETURN ONLY CLEAN MARKDOWN. No explanations, no ```markdown, no code fences, no extra text.\n\nUse EXACTLY this frontmatter and nothing else:\n\n---\nslug: \"kebab-case-slug-from-title\"\ntitle: \"Title must be 70 characters or fewer\"\ndescription: \"Exactly 140-160 characters long. Must include main keyword and benefit.\"\npubDate: \"'${PUB_DATE}'\"\nupdatedDate: \"'${PUB_DATE}'\"\ntags: [\"invoice-reminders\", \"cash-flow\", \"freelance-finance\"]\nseoKeywords:\n  - \"long-tail-keyword-1\"\n  - \"long-tail-keyword-2\"\n  - \"long-tail-keyword-3\"\ndraft: false\nheroImage: \"/blog/images/placeholder.jpg\"\ncanonicalURL: \"https://chaseai.app/blog/slug/\"\nreadingTime: 10\n---\n\nWrite 1400-2000 words of high-value, practical content. Use H2, H3, lists, examples.\nNever repeat topics. Return ONLY the Markdown file."
+                  "content": "You are a world-class SEO writer. Write ONE complete blog post.\n\nRETURN ONLY CLEAN MARKDOWN. No explanations, no code fences, no ```, no extra text.\n\nUse EXACTLY this frontmatter:\n\n---\nslug: \"kebab-case-slug-from-title\"\ntitle: \"Title must be 70 characters or fewer\"\ndescription: \"Exactly 140-160 characters long. Include main keyword and benefit.\"\npubDate: \"'${PUB_DATE}'\"\nupdatedDate: \"'${PUB_DATE}'\"\ntags: [\"invoice-reminders\", \"cash-flow\", \"freelance-finance\"]\nseoKeywords:\n  - \"long-tail-keyword-1\"\n  - \"long-tail-keyword-2\"\n  - \"long-tail-keyword-3\"\ndraft: false\nheroImage: \"/blog/images/placeholder.jpg\"\ncanonicalURL: \"https://chaseai.app/blog/slug/\"\nreadingTime: 10\n---\n\nWrite 1400-2000 words of practical content. Use H2, H3, lists, examples.\nNever repeat topics.\nReturn ONLY the Markdown file."
                 }
               ]
             }' | jq -r '.choices[0].message.content' > raw.mdx
 
-          # Čišćenje outputa od Groka
-          sed -E '/^```/d' raw.mdx > clean.mdx
+          # Aggressive cleaning
+          sed -E '/^```/d' raw.mdx | sed '/^```$/d' > clean.mdx
 
       - name: Create MDX file
         run: |
           mkdir -p marketing/src/content/blog
 
-          SLUG=$(grep '^slug:' clean.mdx | head -1 | sed 's/^slug: "\(.*\)"/\1/')
+          SLUG=$(grep '^slug:' clean.mdx | head -1 | sed 's/^slug: "\(.*\)"/\1/' | tr -d '[:space:]')
           FILENAME="marketing/src/content/blog/${SLUG}.mdx"
 
           mv clean.mdx "$FILENAME"
@@ -51,5 +51,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add "$FILENAME"
-          git commit -m "feat(blog): daily SEO post - ${SLUG}" || echo "No changes"
+          git commit -m "feat(blog): daily SEO post - ${SLUG}" || echo "No changes to commit"
           git push
