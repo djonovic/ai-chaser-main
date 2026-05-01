@@ -27,23 +27,26 @@ jobs:
             -H "Content-Type: application/json" \
             -d '{
               "model": "grok-4-1-fast-non-reasoning",
-              "temperature": 0.65,
+              "temperature": 0.6,
               "messages": [
                 {
                   "role": "user",
-                  "content": "You are a world-class SEO content writer. Write ONE complete, high-value, practical blog post (1400-2000 words).\n\nSTRICT RULES - MUST FOLLOW EXACTLY:\n\nReturn ONLY the full Markdown with this exact frontmatter (no extra text, no code blocks):\n\n---\nslug: \"kebab-case-slug-from-title\"\ntitle: \"SEO title 55-65 characters max (MUST be 70 or fewer)\"\ndescription: \"Exactly 140-160 characters. Include main keyword and clear benefit.\"\npubDate: \"'${PUB_DATE}'\"\nupdatedDate: \"'${PUB_DATE}'\"\ntags: [\"invoice-reminders\", \"cash-flow\", \"freelance-finance\"]\nseoKeywords:\n  - \"long tail keyword 1\"\n  - \"long tail keyword 2\"\n  - \"long tail keyword 3\"\ndraft: false\nheroImage: \"/blog/images/placeholder.jpg\"\ncanonicalURL: \"https://chaseai.app/blog/slug/\"\nreadingTime: 10\n---\n\nRequirements:\n- Title must be 70 characters or fewer\n- Description must be 140-160 characters exactly\n- Very helpful, practical, step-by-step content\n- Use H2, H3, lists, examples, templates\n- Include long-tail keywords naturally\n- End with natural CTA for ChaseAI\n- Never repeat the same main topic in last 14 days\n\nOutput ONLY the Markdown file. No explanations."
+                  "content": "You are a world-class SEO writer. Write ONE complete blog post.\n\nRETURN ONLY CLEAN MARKDOWN. No explanations, no ```markdown, no code fences, no extra text.\n\nUse EXACTLY this frontmatter and nothing else:\n\n---\nslug: \"kebab-case-slug-from-title\"\ntitle: \"Title must be 70 characters or fewer\"\ndescription: \"Exactly 140-160 characters long. Must include main keyword and benefit.\"\npubDate: \"'${PUB_DATE}'\"\nupdatedDate: \"'${PUB_DATE}'\"\ntags: [\"invoice-reminders\", \"cash-flow\", \"freelance-finance\"]\nseoKeywords:\n  - \"long-tail-keyword-1\"\n  - \"long-tail-keyword-2\"\n  - \"long-tail-keyword-3\"\ndraft: false\nheroImage: \"/blog/images/placeholder.jpg\"\ncanonicalURL: \"https://chaseai.app/blog/slug/\"\nreadingTime: 10\n---\n\nWrite 1400-2000 words of high-value, practical content. Use H2, H3, lists, examples.\nNever repeat topics. Return ONLY the Markdown file."
                 }
               ]
-            }' | jq -r '.choices[0].message.content' > blog-post.mdx
+            }' | jq -r '.choices[0].message.content' > raw.mdx
+
+          # Čišćenje outputa od Groka
+          sed -E '/^```/d' raw.mdx > clean.mdx
 
       - name: Create MDX file
         run: |
           mkdir -p marketing/src/content/blog
 
-          SLUG=$(grep '^slug:' blog-post.mdx | head -1 | sed 's/^slug: "\(.*\)"/\1/')
+          SLUG=$(grep '^slug:' clean.mdx | head -1 | sed 's/^slug: "\(.*\)"/\1/')
           FILENAME="marketing/src/content/blog/${SLUG}.mdx"
 
-          mv blog-post.mdx "$FILENAME"
+          mv clean.mdx "$FILENAME"
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
