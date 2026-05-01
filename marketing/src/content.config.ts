@@ -14,7 +14,7 @@ const blog = defineCollection({
         .optional(),
       title: z
         .string()
-git         .min(10, "title should be descriptive"),
+        .min(10, "title should be descriptive"),
       description: z
         .string()
         .min(30, "description should not be empty"),
