@@ -151,6 +151,22 @@ jobs:
               raise SystemExit("Invalid slug format.")
           slug = slug_match.group(1)
 
+          title_match = re.search(r'(?m)^title:\s*"([^"]+)"\s*$', fm)
+          if not title_match:
+              raise SystemExit("title is missing or invalid.")
+          title = title_match.group(1).strip()
+          if len(title) > 70:
+              raise SystemExit(f"title is too long ({len(title)} chars). Max is 70.")
+
+          description_match = re.search(r'(?m)^description:\s*"([^"]+)"\s*$', fm)
+          if not description_match:
+              raise SystemExit("description is missing or invalid.")
+          description = description_match.group(1).strip()
+          if not (140 <= len(description) <= 160):
+              raise SystemExit(
+                  f"description must be between 140 and 160 characters (got {len(description)})."
+              )
+
           if re.search(rf'(?m)^pubDate:\s*"{re.escape(pub_date)}"\s*$', fm) is None:
               raise SystemExit("pubDate must match today's date.")
           if re.search(rf'(?m)^updatedDate:\s*"{re.escape(pub_date)}"\s*$', fm) is None:
@@ -162,6 +178,24 @@ jobs:
               raise SystemExit("canonicalURL missing.")
           if canonical_match.group(1) != canonical_expected:
               raise SystemExit("canonicalURL must match slug.")
+
+          tags_match = re.search(r'(?m)^tags:\s*\[(.*?)\]\s*$', fm)
+          if not tags_match:
+              raise SystemExit("tags must be provided as a 3-item array.")
+          tags = [t.strip().strip('"').strip("'") for t in tags_match.group(1).split(",") if t.strip()]
+          if len(tags) != 3:
+              raise SystemExit(f"tags must contain exactly 3 items (got {len(tags)}).")
+
+          seo_kw = re.findall(r'(?m)^\s*-\s*"([^"]+)"\s*$', fm)
+          if len(seo_kw) < 3:
+              raise SystemExit(f"seoKeywords must contain at least 3 items (got {len(seo_kw)}).")
+
+          reading_time_match = re.search(r'(?m)^readingTime:\s*(\d+)\s*$', fm)
+          if not reading_time_match:
+              raise SystemExit("readingTime must be an integer.")
+          reading_time = int(reading_time_match.group(1))
+          if not (9 <= reading_time <= 12):
+              raise SystemExit(f"readingTime must be between 9 and 12 (got {reading_time}).")
 
           output_path = pathlib.Path("marketing/src/content/blog") / f"{slug}.mdx"
           if output_path.exists():
