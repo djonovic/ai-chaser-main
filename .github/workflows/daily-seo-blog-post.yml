@@ -1,0 +1,200 @@
+name: Daily SEO Blog Post
+
+on:
+  schedule:
+    - cron: "0 7 * * *" # Daily 07:00 UTC (09:00 CEST during summer time)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-blog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate blog post with Grok
+        id: generate
+        env:
+          GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${GROK_API_KEY:-}" ]; then
+            echo "GROK_API_KEY is not set."
+            exit 1
+          fi
+
+          PUB_DATE="$(date -u +%F)"
+          PROMPT=$(cat <<'EOF'
+You are a world-class SEO content strategist and freelance finance expert writing for ChaseAI (https://chaseai.app).
+
+Return ONLY a complete Markdown article with valid Astro frontmatter, no code fences, no explanations.
+
+Use this exact frontmatter field order:
+---
+slug: "kebab-case-slug-based-on-title"
+title: "SEO title with long-tail keyword"
+description: "145-160 chars with keyword + benefit"
+pubDate: "__PUB_DATE__"
+updatedDate: "__PUB_DATE__"
+tags: ["tag-1", "tag-2", "tag-3"]
+seoKeywords:
+  - "primary long-tail keyword"
+  - "secondary long-tail keyword"
+  - "tertiary long-tail keyword"
+draft: false
+heroImage: "/blog/images/relevant-image-name.jpg"
+canonicalURL: "https://chaseai.app/blog/slug/"
+readingTime: 10
+---
+
+Article requirements:
+- Length: 1400-2000 words
+- Use clear H2/H3 headings, practical steps, examples, templates
+- Include bullet lists and one comparison table
+- Topic: invoice chasing, late payments, cash flow, freelancer finance, AR best practices, or automation for SMBs
+- Include natural internal links to:
+  /guides/how-to-chase-unpaid-invoices/
+  /guides/unpaid-invoice-follow-up-schedule/
+  /templates/overdue-invoice-email-sequence/
+  /templates/invoice-reminder-email-template/
+  /tools/overdue-invoice-sequence-generator/
+- End with a natural CTA for ChaseAI
+
+Do not repeat the same main topic/keyword used in the last 14 days.
+Ensure canonicalURL slug matches slug exactly.
+EOF
+)
+          PROMPT="${PROMPT/__PUB_DATE__/${PUB_DATE}}"
+
+          REQUEST_BODY=$(jq -n --arg prompt "$PROMPT" '{
+            model: "grok-4-1-fast-non-reasoning",
+            messages: [{ role: "user", content: $prompt }],
+            temperature: 0.7
+          }')
+
+          RESPONSE=$(curl -sS -X POST "https://api.x.ai/v1/chat/completions" \
+            -H "Authorization: Bearer ${GROK_API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d "${REQUEST_BODY}")
+
+          CONTENT=$(echo "${RESPONSE}" | jq -er '.choices[0].message.content')
+          # Remove accidental fenced wrappers if model emits them.
+          CONTENT=$(printf '%s' "${CONTENT}" | sed -E 's/^```[a-zA-Z]*$//g' | sed -E 's/^```$//g')
+
+          {
+            echo "pub_date=${PUB_DATE}"
+            echo "content<<EOF"
+            printf '%s\n' "${CONTENT}"
+            echo "EOF"
+          } >> "${GITHUB_OUTPUT}"
+
+      - name: Validate frontmatter and create MDX file
+        id: write_file
+        env:
+          CONTENT: ${{ steps.generate.outputs.content }}
+          PUB_DATE: ${{ steps.generate.outputs.pub_date }}
+        run: |
+          set -euo pipefail
+          mkdir -p marketing/src/content/blog
+
+          TMP_FILE="$(mktemp)"
+          printf '%s\n' "${CONTENT}" > "${TMP_FILE}"
+
+          python - <<'PY' "${TMP_FILE}" "${PUB_DATE}"
+import pathlib
+import re
+import sys
+
+input_path = pathlib.Path(sys.argv[1])
+pub_date = sys.argv[2]
+text = input_path.read_text(encoding="utf-8")
+
+frontmatter_match = re.match(r"^---\n(.*?)\n---\n", text, flags=re.S)
+if not frontmatter_match:
+    raise SystemExit("Missing or invalid frontmatter block.")
+
+fm = frontmatter_match.group(1)
+
+required_keys = [
+    "slug",
+    "title",
+    "description",
+    "pubDate",
+    "updatedDate",
+    "tags",
+    "seoKeywords",
+    "draft",
+    "heroImage",
+    "canonicalURL",
+    "readingTime",
+]
+for key in required_keys:
+    if re.search(rf"(?m)^{re.escape(key)}:", fm) is None:
+        raise SystemExit(f"Missing required frontmatter key: {key}")
+
+slug_match = re.search(r'(?m)^slug:\s*"([a-z0-9]+(?:-[a-z0-9]+)*)"\s*$', fm)
+if not slug_match:
+    raise SystemExit("Invalid slug format.")
+slug = slug_match.group(1)
+
+if re.search(rf'(?m)^pubDate:\s*"{re.escape(pub_date)}"\s*$', fm) is None:
+    raise SystemExit("pubDate must match today's date.")
+if re.search(rf'(?m)^updatedDate:\s*"{re.escape(pub_date)}"\s*$', fm) is None:
+    raise SystemExit("updatedDate must match today's date.")
+
+canonical_expected = f'https://chaseai.app/blog/{slug}/'
+canonical_match = re.search(r'(?m)^canonicalURL:\s*"([^"]+)"\s*$', fm)
+if not canonical_match:
+    raise SystemExit("canonicalURL missing.")
+if canonical_match.group(1) != canonical_expected:
+    raise SystemExit("canonicalURL must match slug.")
+
+output_path = pathlib.Path("marketing/src/content/blog") / f"{slug}.mdx"
+if output_path.exists():
+    raise SystemExit(f"Post already exists: {output_path}")
+
+output_path.write_text(text.strip() + "\n", encoding="utf-8")
+print(output_path.as_posix())
+PY
+
+          FILE_PATH="$(python - <<'PY' "${TMP_FILE}" "${PUB_DATE}"
+import pathlib
+import re
+import sys
+text = pathlib.Path(sys.argv[1]).read_text(encoding="utf-8")
+fm = re.match(r"^---\n(.*?)\n---\n", text, flags=re.S).group(1)
+slug = re.search(r'(?m)^slug:\s*"([a-z0-9]+(?:-[a-z0-9]+)*)"\s*$', fm).group(1)
+print(f"marketing/src/content/blog/{slug}.mdx")
+PY
+)"
+
+          echo "file_path=${FILE_PATH}" >> "${GITHUB_OUTPUT}"
+
+      - name: Build marketing site
+        run: npm --prefix marketing run build -- --force
+
+      - name: Commit and push
+        env:
+          FILE_PATH: ${{ steps.write_file.outputs.file_path }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${FILE_PATH:-}" ] || [ ! -f "${FILE_PATH}" ]; then
+            echo "No generated file path provided."
+            exit 1
+          fi
+
+          git add "${FILE_PATH}"
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "feat(blog): add daily post ${FILE_PATH##*/}"
+          git push
