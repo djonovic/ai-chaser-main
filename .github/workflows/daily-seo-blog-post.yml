@@ -184,9 +184,6 @@ jobs:
 
           echo "file_path=${FILE_PATH}" >> "${GITHUB_OUTPUT}"
 
-      - name: Build marketing site
-        run: npm --prefix marketing run build -- --force
-
       - name: Commit and push
         env:
           FILE_PATH: ${{ steps.write_file.outputs.file_path }}
