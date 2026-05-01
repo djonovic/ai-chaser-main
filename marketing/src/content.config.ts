@@ -14,12 +14,10 @@ const blog = defineCollection({
         .optional(),
       title: z
         .string()
-        .min(10, "title should be descriptive")
-        .max(70, "title must be 70 characters or fewer"),
+git         .min(10, "title should be descriptive"),
       description: z
         .string()
-        .min(140, "description must be between 140 and 160 characters")
-        .max(160, "description must be between 140 and 160 characters"),
+        .min(30, "description should not be empty"),
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
       tags: z.array(z.string().min(1)).min(1, "at least one tag is required"),
