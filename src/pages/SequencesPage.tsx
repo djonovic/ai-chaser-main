@@ -37,7 +37,7 @@ export default function SequencesPage() {
     }
     setDialogOpen(false);
     navigate(`/invoices/${selectedInvoiceId}`);
-    toast.info('Use the AI Sequence Generator on the invoice detail page');
+    toast.info('Use AI generation or pick a default template on the invoice page');
   };
 
   if (loading) {
@@ -65,12 +65,12 @@ export default function SequencesPage() {
           <DialogContent className="max-w-md">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <Zap className="h-5 w-5 text-primary" /> Create AI Sequence
+                <Zap className="h-5 w-5 text-primary" /> Create Sequence
               </DialogTitle>
             </DialogHeader>
             <div className="space-y-4 pt-2">
               <p className="text-sm text-muted-foreground">
-                Select an invoice to generate an AI chase sequence for:
+                Select an invoice to create a chase sequence with AI or templates:
               </p>
               <Select value={selectedInvoiceId} onValueChange={setSelectedInvoiceId}>
                 <SelectTrigger><SelectValue placeholder="Select invoice..." /></SelectTrigger>
@@ -83,7 +83,7 @@ export default function SequencesPage() {
                 </SelectContent>
               </Select>
               <Button className="w-full gap-2" onClick={handleCreateSequence}>
-                <Zap className="h-4 w-4" /> Go to Invoice & Generate
+                <Zap className="h-4 w-4" /> Go to Invoice & Create
               </Button>
             </div>
           </DialogContent>
@@ -94,7 +94,7 @@ export default function SequencesPage() {
         {sequences.length === 0 ? (
           <EmptyState
             title="No sequences yet"
-            description="Create your first AI chase sequence from an invoice detail page."
+            description="Create your first chase sequence from an invoice detail page using AI or templates."
             actionLabel="New Sequence"
             onAction={() => setDialogOpen(true)}
             icon={<Zap className="h-12 w-12 text-muted-foreground/50" />}

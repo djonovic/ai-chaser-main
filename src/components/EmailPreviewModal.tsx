@@ -20,7 +20,15 @@ const statusVariant: Record<StepStatus, string> = {
 /** Replaces {paymentLink} in step body with the actual URL for display. */
 export function bodyWithPaymentLink(body: string, paymentLink: string | null | undefined): string {
   if (!body) return body;
-  return body.replace(/\{paymentLink\}/g, paymentLink && paymentLink.trim() ? paymentLink : '(No payment link set)');
+  const trimmedLink = paymentLink?.trim();
+  if (trimmedLink) {
+    return body.replace(/\{paymentLink\}/g, trimmedLink);
+  }
+  return body
+    .replace(/^.*\{paymentLink\}.*\n?/gim, '')
+    .replace(/\{paymentLink\}/g, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
 }
 
 /** Format ISO timestamp for datetime-local input (YYYY-MM-DDTHH:mm in local time). */

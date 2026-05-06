@@ -81,7 +81,7 @@ const steps = [
     number: '02',
     title: 'Generate a Sequence',
     description:
-      'AI writes a full follow-up sequence matched to the invoice amount, client, and due date.',
+      'Generate with AI or start from built-in templates, then tailor the sequence to invoice amount, client, and due date.',
   },
   {
     number: '03',
@@ -112,7 +112,7 @@ const expectations = [
 const faqs = [
   {
     q: 'How does ChaseAI generate chase sequences?',
-    a: 'It reads your invoice details (client name, amount, overdue period) and writes a series of follow-up emails that escalate naturally. You can edit everything before it sends.',
+    a: 'It reads your invoice details (client name, amount, overdue period) and writes a series of follow-up emails that escalate naturally. You can also start from default templates, then edit everything before it sends.',
   },
   {
     q: 'Will it damage my client relationships?',
@@ -128,7 +128,7 @@ const faqs = [
   },
   {
     q: 'Is there a free plan?',
-    a: 'Yes. The Free plan lets you create 1 invoice and generate 1 AI sequence/month. No credit card required. Upgrade when you need more capacity.',
+    a: 'Yes. The Free plan lets you create 1 invoice and generate 1 sequence/month (AI or template). No credit card required. Upgrade when you need more capacity.',
   },
 ];
 
@@ -564,7 +564,7 @@ const structuredData = [softwareSchema, faqSchema];
           </div>
           <p class="text-sm text-muted-foreground mb-6">No credit card required</p>
           <ul class="space-y-3 mb-8">
-            {['1 invoice', '1 AI sequence generation/month', 'Automated email sending', 'Basic dashboard'].map(f => (
+            {['1 invoice', '1 sequence generation/month', 'Automated email sending', 'Basic dashboard'].map(f => (
               <li class="flex items-center gap-2 text-sm">
                 <svg class="h-4 w-4 text-success shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                 {f}
@@ -593,7 +593,7 @@ const structuredData = [softwareSchema, faqSchema];
           </div>
           <p class="text-sm text-muted-foreground mb-6">For serious freelancers</p>
           <ul class="space-y-3 mb-8">
-            {['Unlimited invoices', '50 AI sequence generations/month', 'Email open tracking', 'Multi-currency support'].map(f => (
+            {['Unlimited invoices', '50 sequence generations/month', 'Email open tracking', 'Multi-currency support'].map(f => (
               <li class="flex items-center gap-2 text-sm">
                 <svg class="h-4 w-4 text-success shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                 {f}
@@ -622,7 +622,7 @@ const structuredData = [softwareSchema, faqSchema];
           </div>
           <p class="text-sm text-muted-foreground mb-6">For power users & teams</p>
           <ul class="space-y-3 mb-8">
-            {['Everything in Starter', 'Unlimited AI sequences', 'PDF invoice export', 'Recovery analytics', 'Priority email support'].map(f => (
+            {['Everything in Starter', 'Unlimited sequence generations', 'PDF invoice export', 'Recovery analytics', 'Priority email support'].map(f => (
               <li class="flex items-center gap-2 text-sm">
                 <svg class="h-4 w-4 text-success shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                 {f}

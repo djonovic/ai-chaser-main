@@ -275,10 +275,18 @@ Deno.serve(async (req) => {
         const paymentLink = invoiceIdToPaymentLink.get(seq.invoice_id);
         const finalSubject = paymentLink
           ? step.subject.replace(/\{paymentLink\}/g, paymentLink)
-          : step.subject;
+          : step.subject
+            .replace(/^.*\{paymentLink\}.*\n?/gim, "")
+            .replace(/\{paymentLink\}/g, "")
+            .replace(/\n{3,}/g, "\n\n")
+            .trim();
         const finalBody = paymentLink
           ? step.body.replace(/\{paymentLink\}/g, paymentLink)
-          : step.body;
+          : step.body
+            .replace(/^.*\{paymentLink\}.*\n?/gim, "")
+            .replace(/\{paymentLink\}/g, "")
+            .replace(/\n{3,}/g, "\n\n")
+            .trim();
 
         const idempotencyKey = `sequence-step/${step.id}`;
         const sendResult = await sendEmailViaResend(

@@ -19,10 +19,10 @@ const plans = [
     name: 'Free',
     monthlyPrice: 0,
     annualPrice: 0,
-    description: 'Get started with AI invoice chasing — no credit card required.',
+    description: 'Get started with invoice chasing — no credit card required.',
     features: [
       '1 invoice',
-      '1 AI sequence generation/month',
+      '1 sequence generation/month',
       'Automated email sending',
       'Basic dashboard',
     ],
@@ -39,7 +39,7 @@ const plans = [
     description: 'For freelancers and consultants who are serious about getting paid.',
     features: [
       'Unlimited invoices',
-      '50 AI sequence generations/month',
+      '50 sequence generations/month',
       'Real-time tracking',
       'Advanced recovery reports',
       'Multi-currency support',
@@ -59,7 +59,7 @@ const plans = [
     description: 'For power users and growing teams who want no limits.',
     features: [
       'Everything in Starter',
-      'Unlimited AI sequence generations',
+      'Unlimited sequence generations',
       'PDF invoice export',
       'Recovery analytics dashboard',
       'Priority email support',
@@ -149,7 +149,7 @@ export default function PricingPage() {
       <div className="text-center mb-10">
         <h1 className="text-3xl font-bold tracking-tight">Simple, transparent pricing</h1>
         <p className="text-muted-foreground mt-2 max-w-xl mx-auto">
-          Start free with 1 invoice and 1 AI sequence per month. Upgrade when you need more.
+          Start free with 1 invoice and 1 sequence generation per month. Upgrade when you need more.
         </p>
 
         <div className="flex items-center justify-center gap-3 mt-6">

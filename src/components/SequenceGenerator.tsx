@@ -26,6 +26,11 @@ import { getDaysOverdue } from '@/lib/utils';
 import { useSettings } from '@/hooks/useSettings';
 import { AILimitModal } from '@/components/AILimitModal';
 import { cn } from '@/lib/utils';
+import {
+  DEFAULT_SEQUENCE_TEMPLATES,
+  buildSequenceFromTemplate,
+  type SequenceSource,
+} from '@/lib/sequenceTemplates';
 import type { Invoice, SequenceStep, SequenceTone, StepStatus } from '@/types';
 
 const TONE_OPTIONS: { value: SequenceTone; label: string; description: string }[] = [
@@ -60,6 +65,8 @@ export function SequenceGenerator({ invoice }: Props) {
   const [previewEditing, setPreviewEditing] = useState(false);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [sequenceTone, setSequenceTone] = useState<SequenceTone>('professional');
+  const [sequenceSource, setSequenceSource] = useState<SequenceSource>('ai');
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>(DEFAULT_SEQUENCE_TEMPLATES[0]?.id ?? '');
   const lastSyncedSeqIdRef = useRef<string | null>(null);
 
   const {
@@ -111,6 +118,8 @@ export function SequenceGenerator({ invoice }: Props) {
 
   useEffect(() => {
     setSequenceTone('professional');
+    setSequenceSource('ai');
+    setSelectedTemplateId(DEFAULT_SEQUENCE_TEMPLATES[0]?.id ?? '');
   }, [invoice.id]);
 
   useEffect(() => {
@@ -157,6 +166,37 @@ export function SequenceGenerator({ invoice }: Props) {
       setGenerating(false);
     }
   }, [hasUserKey, aiLimitReached, userGeminiKey, sequenceTone, invoice, daysOverdue, settings.sender_name, settings.company_name, createSequenceWithSteps, refetch, incrementAIUsage]);
+
+  const handleApplyTemplate = useCallback(async () => {
+    const template = DEFAULT_SEQUENCE_TEMPLATES.find((item) => item.id === selectedTemplateId);
+    if (!template) {
+      toast.error('Please select a template');
+      return;
+    }
+    setGenerating(true);
+    try {
+      const builtSteps = buildSequenceFromTemplate(template, {
+        invoice,
+        senderName: settings.sender_name,
+        companyName: settings.company_name,
+      });
+      if (!builtSteps.length) {
+        toast.error('Template has no steps. Please choose another template.');
+        return;
+      }
+      const seq = await createSequenceWithSteps(invoice.id, template.tone, builtSteps);
+      if (seq) {
+        setSequenceTone(template.tone);
+        setCreatedSequenceId(seq.id);
+        await refetch();
+      }
+    } catch (err) {
+      console.error('Template sequence error:', err);
+      toast.error('Failed to apply template');
+    } finally {
+      setGenerating(false);
+    }
+  }, [selectedTemplateId, invoice, settings.sender_name, settings.company_name, createSequenceWithSteps, refetch]);
 
   const handleStart = async () => {
     if (!sequence || localSteps.length === 0) return;
@@ -222,6 +262,14 @@ export function SequenceGenerator({ invoice }: Props) {
     if (previewStep?.id === stepId) {
       setPreviewStep(prev => prev ? { ...prev, subject, body, send_at: sendAt } : prev);
     }
+    if (sequence && sequence.status !== 'idle') {
+      const ok = await updateSequenceSteps(
+        sequence.id,
+        [{ id: stepId, subject, body, send_at: sendAt }],
+        { skipToast: true }
+      );
+      if (ok) toast.success('Step updated');
+    }
   };
 
   if (isPaid) return null;
@@ -272,36 +320,81 @@ export function SequenceGenerator({ invoice }: Props) {
               </Badge>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="sequence-tone" className="text-sm">
-                Email tone
+              <Label htmlFor="sequence-source" className="text-sm">
+                Sequence source
               </Label>
-              <Select
-                value={sequenceTone}
-                onValueChange={(v) => setSequenceTone(v as SequenceTone)}
-              >
-                <SelectTrigger id="sequence-tone" className="w-full">
-                  <SelectValue placeholder="Select tone" />
+              <Select value={sequenceSource} onValueChange={(v) => setSequenceSource(v as SequenceSource)}>
+                <SelectTrigger id="sequence-source" className="w-full">
+                  <SelectValue placeholder="Choose source" />
                 </SelectTrigger>
                 <SelectContent>
-                  {TONE_OPTIONS.map((opt) => (
-                    <SelectItem key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </SelectItem>
-                  ))}
+                  <SelectItem value="ai">Generate new with AI</SelectItem>
+                  <SelectItem value="template">Use default template</SelectItem>
                 </SelectContent>
               </Select>
-              {toneDescription && (
-                <p className="text-xs text-muted-foreground leading-snug">{toneDescription}</p>
-              )}
+              <p className="text-xs text-muted-foreground leading-snug">
+                Choose between generating a fresh AI sequence or starting from one of 7 ready-made templates.
+              </p>
             </div>
+            {sequenceSource === 'ai' ? (
+              <div className="space-y-2">
+                <Label htmlFor="sequence-tone" className="text-sm">
+                  Email tone
+                </Label>
+                <Select
+                  value={sequenceTone}
+                  onValueChange={(v) => setSequenceTone(v as SequenceTone)}
+                >
+                  <SelectTrigger id="sequence-tone" className="w-full">
+                    <SelectValue placeholder="Select tone" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {TONE_OPTIONS.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {toneDescription && (
+                  <p className="text-xs text-muted-foreground leading-snug">{toneDescription}</p>
+                )}
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <Label htmlFor="sequence-template" className="text-sm">
+                  Template
+                </Label>
+                <Select
+                  value={selectedTemplateId}
+                  onValueChange={setSelectedTemplateId}
+                >
+                  <SelectTrigger id="sequence-template" className="w-full">
+                    <SelectValue placeholder="Select template" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {DEFAULT_SEQUENCE_TEMPLATES.map((template) => (
+                      <SelectItem key={template.id} value={template.id}>
+                        {template.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {selectedTemplateId && (
+                  <p className="text-xs text-muted-foreground leading-snug">
+                    {DEFAULT_SEQUENCE_TEMPLATES.find((template) => template.id === selectedTemplateId)?.description}
+                  </p>
+                )}
+              </div>
+            )}
             <Button
               className="w-full gap-2 h-11 text-base bg-blue-600 hover:bg-blue-700 text-white"
               size="lg"
-              onClick={() => handleGenerate()}
+              onClick={() => (sequenceSource === 'ai' ? handleGenerate() : handleApplyTemplate())}
             >
-              <Zap className="h-5 w-5" /> Generate Smart Sequence
+              <Zap className="h-5 w-5" /> {sequenceSource === 'ai' ? 'Generate Smart Sequence' : 'Use Selected Template'}
             </Button>
-            {!hasUserKey && remainingAIUsage !== null && remainingAIUsage <= 3 && remainingAIUsage > 0 && (
+            {sequenceSource === 'ai' && !hasUserKey && remainingAIUsage !== null && remainingAIUsage <= 3 && remainingAIUsage > 0 && (
               <p className="text-xs text-warning text-center">
                 {remainingAIUsage} AI generation{remainingAIUsage === 1 ? '' : 's'} remaining this month
               </p>
@@ -347,6 +440,25 @@ export function SequenceGenerator({ invoice }: Props) {
             <div className="flex items-center gap-1 flex-wrap justify-end">
               {isIdle && (
                 <div className="flex items-center gap-2 mr-1 w-full sm:w-auto justify-end sm:justify-start">
+                  <Label htmlFor="sequence-source-regen" className="text-xs text-muted-foreground whitespace-nowrap shrink-0">
+                    Source
+                  </Label>
+                  <Select
+                    value={sequenceSource}
+                    onValueChange={(v) => setSequenceSource(v as SequenceSource)}
+                  >
+                    <SelectTrigger id="sequence-source-regen" className="h-8 w-[180px] text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ai">Generate new with AI</SelectItem>
+                      <SelectItem value="template">Use template</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+              {isIdle && sequenceSource === 'ai' && (
+                <div className="flex items-center gap-2 mr-1 w-full sm:w-auto justify-end sm:justify-start">
                   <Label htmlFor="sequence-tone-regen" className="text-xs text-muted-foreground whitespace-nowrap shrink-0">
                     Tone
                   </Label>
@@ -367,8 +479,33 @@ export function SequenceGenerator({ invoice }: Props) {
                   </Select>
                 </div>
               )}
+              {isIdle && sequenceSource === 'template' && (
+                <div className="flex items-center gap-2 mr-1 w-full sm:w-auto justify-end sm:justify-start">
+                  <Label htmlFor="sequence-template-regen" className="text-xs text-muted-foreground whitespace-nowrap shrink-0">
+                    Template
+                  </Label>
+                  <Select value={selectedTemplateId} onValueChange={setSelectedTemplateId}>
+                    <SelectTrigger id="sequence-template-regen" className="h-8 w-[210px] text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {DEFAULT_SEQUENCE_TEMPLATES.map((template) => (
+                        <SelectItem key={template.id} value={template.id}>
+                          {template.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
               {isIdle && (
-                <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleGenerate()} title="Regenerate with selected tone">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-7 w-7"
+                  onClick={() => (sequenceSource === 'ai' ? handleGenerate() : handleApplyTemplate())}
+                  title={sequenceSource === 'ai' ? 'Regenerate with selected tone' : 'Apply selected template'}
+                >
                   <RotateCcw className="h-3.5 w-3.5" />
                 </Button>
               )}
@@ -507,7 +644,7 @@ export function SequenceGenerator({ invoice }: Props) {
           )}
           {isActive && (
             <p className="text-[11px] text-muted-foreground text-center">
-              Emails are sending automatically on schedule. You can pause or stop anytime.
+              Emails are sending automatically on schedule. Pending steps can still be edited or deleted.
             </p>
           )}
         </CardContent>

@@ -50,11 +50,35 @@ export function AILimitModal({ open, onOpenChange, onSaveKey }: AILimitModalProp
         </DialogHeader>
 
         <div className="space-y-4 pt-2">
-          {/* Option 1: Own Key */}
+          {/* Option 1: Upgrade */}
+          <div className="rounded-lg border p-4 space-y-3">
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="gap-1">
+                <Crown className="h-3 w-3" /> Option 1
+              </Badge>
+              <span className="text-sm font-medium">Upgrade your plan</span>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Get more AI sequences with our key, plus premium features
+            </p>
+            <Button
+              variant="default"
+              size="sm"
+              className="gap-1"
+              onClick={() => {
+                onOpenChange(false);
+                navigate('/pricing');
+              }}
+            >
+              <Crown className="h-3 w-3" /> View Plans
+            </Button>
+          </div>
+
+          {/* Option 2: Own Key */}
           <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 space-y-3">
             <div className="flex items-center gap-2">
               <Badge variant="outline" className="gap-1 border-primary/30 text-primary">
-                <Key className="h-3 w-3" /> Option 1
+                <Key className="h-3 w-3" /> Option 2
               </Badge>
               <span className="text-sm font-medium">Add your own Gemini API key</span>
             </div>
@@ -108,30 +132,6 @@ export function AILimitModal({ open, onOpenChange, onSaveKey }: AILimitModalProp
                 <Button size="sm" onClick={handleSaveKey}>Save</Button>
               </div>
             )}
-          </div>
-
-          {/* Option 2: Upgrade */}
-          <div className="rounded-lg border p-4 space-y-3">
-            <div className="flex items-center gap-2">
-              <Badge variant="outline" className="gap-1">
-                <Crown className="h-3 w-3" /> Option 2
-              </Badge>
-              <span className="text-sm font-medium">Upgrade your plan</span>
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Get more AI sequences with our key, plus premium features
-            </p>
-            <Button
-              variant="default"
-              size="sm"
-              className="gap-1"
-              onClick={() => {
-                onOpenChange(false);
-                navigate('/pricing');
-              }}
-            >
-              <Crown className="h-3 w-3" /> View Plans
-            </Button>
           </div>
         </div>
       </DialogContent>

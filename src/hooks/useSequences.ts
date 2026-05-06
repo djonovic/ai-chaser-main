@@ -128,7 +128,8 @@ export function useSequences(invoiceId?: string) {
   /** Updates subject/body/send_at of existing sequence steps (used when user edits and clicks Save Sequence). */
   const updateSequenceSteps = async (
     sequenceId: string,
-    steps: Array<{ id: string; subject: string; body: string; send_at?: string }>
+    steps: Array<{ id: string; subject: string; body: string; send_at?: string }>,
+    options?: { skipToast?: boolean }
   ): Promise<boolean> => {
     if (!user) return false;
 
@@ -148,7 +149,9 @@ export function useSequences(invoiceId?: string) {
 
         if (error) throw error;
       }
-      toast.success('Sequence saved.');
+      if (!options?.skipToast) {
+        toast.success('Sequence saved.');
+      }
       await fetchSequences();
       return true;
     } catch (err) {

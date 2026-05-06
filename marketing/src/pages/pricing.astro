@@ -20,10 +20,10 @@ const plans = [
     price: '$0',
     period: '',
     subtitle: 'No credit card required',
-    description: 'Try AI invoice chasing with no commitment.',
+    description: 'Try invoice chasing with no commitment.',
     features: [
       '1 invoice',
-      '1 AI sequence generation/month',
+      '1 sequence generation/month',
       'Automated email sending',
       'Basic dashboard',
     ],
@@ -41,7 +41,7 @@ const plans = [
     description: 'For freelancers and consultants who are serious about getting paid.',
     features: [
       'Unlimited invoices',
-      '50 AI sequence generations/month',
+      '50 sequence generations/month',
       'Email open tracking',
       'Advanced recovery reports',
       'Multi-currency support',
@@ -62,7 +62,7 @@ const plans = [
     description: 'For power users and growing teams who want no limits.',
     features: [
       'Everything in Starter',
-      'Unlimited AI sequence generations',
+      'Unlimited sequence generations',
       'PDF invoice export',
       'Recovery analytics dashboard',
       'Priority email support',
@@ -79,15 +79,15 @@ const plans = [
 const faqs = [
   {
     q: 'What can I do on the Free plan?',
-    a: 'You can create 1 invoice and 1 AI sequence generation/month. Includes automated email sending and a basic dashboard. A quick way to try ChaseAI before upgrading.',
+    a: 'You can create 1 invoice and 1 sequence generation/month. Includes automated email sending, template-based starts, and a basic dashboard. A quick way to try ChaseAI before upgrading.',
   },
   {
-    q: 'What counts as an "AI sequence generation"?',
-    a: 'Each time you click Generate Smart Sequence on an invoice, that counts as one generation. You can regenerate or create new sequences within your monthly limit. Pro includes unlimited generations (or unlimited on any plan when you add your own Gemini API key in Settings).',
+    q: 'What counts as a "sequence generation"?',
+    a: 'Each time you generate a new sequence (AI-generated or from a default template) on an invoice, that counts as one generation. You can regenerate or create new sequences within your monthly limit. Pro includes unlimited generations (or unlimited on any plan when you add your own Gemini API key in Settings).',
   },
   {
     q: 'Can I use my own API key to bypass AI limits?',
-    a: 'Yes. Add your Google Gemini API key in Settings and you get unlimited AI sequence generations on any plan. ChaseAI adds zero markup to API costs.',
+    a: 'Yes. Add your Google Gemini API key in Settings and you get unlimited sequence generations on any plan. ChaseAI adds zero markup to API costs.',
   },
   {
     q: 'What payment methods do you accept?',
@@ -113,7 +113,7 @@ const faqs = [
 
 const comparisonRows = [
   { feature: 'Invoices', free: '1', starter: 'Unlimited', pro: 'Unlimited' },
-  { feature: 'AI sequence generations', free: '1', starter: '50', pro: 'Unlimited' },
+  { feature: 'Sequence generations', free: '1', starter: '50', pro: 'Unlimited' },
   { feature: 'Automated email sending', free: 'Yes', starter: 'Yes', pro: 'Yes' },
   { feature: 'PDF invoice extraction', free: 'Yes', starter: 'Yes', pro: 'Yes' },
   { feature: 'Client management', free: 'Yes', starter: 'Yes', pro: 'Yes' },
@@ -150,7 +150,7 @@ const structuredData = [pageSchema, faqSchema];
           Simple, transparent pricing
         </h1>
         <p class="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">
-          Start free with 1 invoice and 1 AI sequence per month. Upgrade when you need more.
+          Start free with 1 invoice and 1 sequence generation per month. Upgrade when you need more.
         </p>
       </div>
     </div>

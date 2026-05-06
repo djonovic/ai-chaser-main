@@ -68,6 +68,19 @@ function sanitizeJsonResponse(raw: string): unknown[] {
   }
 }
 
+function enforceOverdueDaysAtSend(body: string, overdueAtSend: number): string {
+  const normalized = body.replace(
+    /\b\d+\s+days?\s+overdue\b/gi,
+    `${overdueAtSend} days overdue`,
+  );
+
+  if (normalized.toLowerCase().includes("days overdue")) {
+    return normalized;
+  }
+
+  return `${normalized}\n\nThis invoice is now ${overdueAtSend} days overdue.`;
+}
+
 function buildPrompt(params: {
   tone: string;
   clientName: string;
@@ -139,6 +152,7 @@ EXACT SCHEDULE – each step shows how many days overdue the invoice will be AT 
 ${scheduleLines}
 
 CRITICAL: Each email MUST reference the correct number of days overdue for THAT specific step (shown above), NOT the current value. The emails are scheduled for the future, so each one must reflect how overdue the invoice will be when the recipient reads it.
+CRITICAL: In each email body, include the literal token "{daysOverdueAtSend}" where the overdue-day number appears.
 
 ESCALATION PROGRESSION (mandatory — adapt wording to match the VOICE above):
 - Steps 1–2: Lighter reminder. Assume the client may have overlooked the invoice; helpful and clear.
@@ -168,7 +182,7 @@ Each element is an object with exactly these 4 keys:
 - "step_number": integer (1 through ${stepCount})
 - "day_offset": integer (use the exact schedule values above)
 - "subject": string (short subject line with invoice number)
-- "body": string (${bodyDescription})
+- "body": string (${bodyDescription}; must include {daysOverdueAtSend})
 
 Example of valid output structure (do NOT copy this content):
 [{"step_number":1,"day_offset":${schedule[0]},"subject":"Reminder: Invoice ${invoiceNumber}","body":"Hi ${clientName},\\n\\nWe noticed invoice ${invoiceNumber} for ${amount} ${currency} is still outstanding...\\n\\nPlease process your payment here: {paymentLink}\\n\\nBest regards,\\n${signatureBlock}"}]`;
@@ -325,16 +339,24 @@ Deno.serve(async (req) => {
 
     const invNum = invoiceNumber || "INV-0000";
     // deno-lint-ignore no-explicit-any
-    const steps = parsed.map((step: any, i: number) => ({
-      step_number: i + 1,
-      day_offset: schedule[i] ?? schedule[schedule.length - 1] + (i - schedule.length + 1) * 7,
-      subject: typeof step.subject === "string" && step.subject.length > 0
-        ? step.subject
-        : `Follow-up – Invoice ${invNum}`,
-      body: typeof step.body === "string" && step.body.length > 0
+    const steps = parsed.map((step: any, i: number) => {
+      const dayOffset = schedule[i] ?? schedule[schedule.length - 1] + (i - schedule.length + 1) * 7;
+      const overdueAtSend = overdue + dayOffset;
+      const rawBody = typeof step.body === "string" && step.body.length > 0
         ? step.body
-        : "",
-    }));
+        : "";
+      const tokenReplaced = rawBody.replaceAll("{daysOverdueAtSend}", String(overdueAtSend));
+      const safeBody = enforceOverdueDaysAtSend(tokenReplaced, overdueAtSend);
+
+      return {
+        step_number: i + 1,
+        day_offset: dayOffset,
+        subject: typeof step.subject === "string" && step.subject.length > 0
+          ? step.subject
+          : `Follow-up – Invoice ${invNum}`,
+        body: safeBody,
+      };
+    });
 
     return jsonResponse(req, { steps, usingUserKey });
   } catch (e) {
