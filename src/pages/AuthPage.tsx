@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Zap, Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
+import { Zap, Mail, Lock, ArrowRight, Loader2, Chrome } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -20,7 +20,7 @@ function getSafeNext(searchParams: URLSearchParams): string {
 export default function AuthPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { signIn, signUp, signInWithMagicLink, resetPassword, user } = useAuth();
+  const { signIn, signUp, signInWithGoogle, signInWithMagicLink, resetPassword, user } = useAuth();
   const [loading, setLoading] = useState(false);
   const next = useMemo(() => getSafeNext(searchParams), [searchParams]);
 
@@ -115,6 +115,15 @@ export default function AuthPage() {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    const { error } = await signInWithGoogle();
+    setLoading(false);
+    if (error) {
+      toast.error(error.message || 'Google sign in failed');
+    }
+  };
+
   if (user) {
     return null;
   }
@@ -141,6 +150,13 @@ export default function AuthPage() {
             <CardContent>
               <TabsContent value="signin" className="mt-0">
                 <form onSubmit={handleSignIn} className="space-y-4">
+                  <Button type="button" variant="outline" className="w-full" disabled={loading} onClick={handleGoogleSignIn}>
+                    <Chrome className="h-4 w-4 mr-2" /> Continue with Google
+                  </Button>
+                  <div className="relative my-4">
+                    <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
+                    <div className="relative flex justify-center text-xs"><span className="bg-card px-2 text-muted-foreground">or</span></div>
+                  </div>
                   <div className="space-y-2">
                     <Label htmlFor="signin-email">Email</Label>
                     <div className="relative">
@@ -192,6 +208,13 @@ export default function AuthPage() {
 
               <TabsContent value="signup" className="mt-0">
                 <form onSubmit={handleSignUp} className="space-y-4">
+                  <Button type="button" variant="outline" className="w-full" disabled={loading} onClick={handleGoogleSignIn}>
+                    <Chrome className="h-4 w-4 mr-2" /> Sign up with Google
+                  </Button>
+                  <div className="relative my-4">
+                    <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
+                    <div className="relative flex justify-center text-xs"><span className="bg-card px-2 text-muted-foreground">or</span></div>
+                  </div>
                   <div className="space-y-2">
                     <Label htmlFor="signup-name">Full Name</Label>
                     <Input id="signup-name" name="name" placeholder="John Doe" required />
