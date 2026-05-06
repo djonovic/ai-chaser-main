@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoFaq from '../../components/seo/SeoFaq';
+import ClientPaymentRiskScorer from '../../components/tools/ClientPaymentRiskScorer';
+
+const pageSlug = '/tools/client-payment-risk-scorer';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+const metaTitle = 'Free Client Payment Risk Scorer — Will They Pay on Time? | ChaseAI';
+const metaDescription =
+  'Score any client payment risk before work starts. Answer 8 questions and get a risk level, recommended deposit, payment terms, and red flags. Free.';
+const tocItems = [
+  { id: 'calculator', label: 'Risk scorer' },
+  { id: 'predictors', label: 'Top predictors' },
+  { id: 'high-risk', label: 'How to handle high risk' },
+  { id: 'industry', label: 'Industry late rates' },
+  { id: 'faq', label: 'FAQ' },
+];
+const faqs = [
+  { q: 'Does high risk mean I should reject the client?', a: 'Not always. It means you should tighten structure: bigger deposit, shorter terms, milestone billing, and clearer contracts.' },
+  { q: 'What single action reduces risk most?', a: 'A signed contract with explicit payment terms before work starts.' },
+  { q: 'Is this score legally enforceable?', a: 'No. It is a practical decision tool for pricing and terms, not legal advice.' },
+];
+const structuredData = [
+  { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Client Payment Risk Scorer', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+  <section class="hero-gradient">
+    <div class="container py-14 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold">Client Payment Risk Scorer — Know Before You Invoice</h1>
+      <p class="mt-5 text-muted-foreground">Late payments are often predictable. This <strong>client payment risk scorer</strong> gives a practical risk level and recommended terms before you start the project.</p>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="grid lg:grid-cols-[210px_1fr_180px] gap-10 max-w-6xl mx-auto">
+        <aside><SeoToc items={tocItems} client:idle /></aside>
+        <article class="prose prose-neutral max-w-none prose-a:text-primary">
+          <h2 id="calculator">Client payment risk scorer</h2>
+          <div class="not-prose my-5"><ClientPaymentRiskScorer client:load /></div>
+          <div class="not-prose my-6 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm">
+            <p>Convert risk into action: better terms, better deposits, and fewer painful write-offs.</p>
+            <a href="https://app.chaseai.app" class="mt-2 inline-flex rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground">Start Free</a>
+          </div>
+
+          <h2 id="predictors">The 4 biggest predictors of late payment</h2>
+          <ol>
+            <li>No signed contract.</li>
+            <li>Previous late-payment history.</li>
+            <li>No deposit received.</li>
+            <li>Vague or missing timeline discussions.</li>
+          </ol>
+
+          <h2 id="high-risk">How to handle a high-risk client</h2>
+          <p>High risk does not always mean no deal. It means reframe the deal: require larger deposit, use milestone billing, shorten terms, and align scope to payment checkpoints.</p>
+
+          <h2 id="industry">Industry late-payment rates</h2>
+          <table>
+            <thead><tr><th>Industry</th><th>Relative late-payment risk</th><th>Practical adjustment</th></tr></thead>
+            <tbody>
+              <tr><td>Tech/SaaS</td><td>Lower</td><td>Net 14–30 with contract</td></tr>
+              <tr><td>Agency/Marketing</td><td>Medium</td><td>Deposit + milestone approvals</td></tr>
+              <tr><td>Construction</td><td>Higher</td><td>Progress billing + strict docs</td></tr>
+              <tr><td>Hospitality/Events</td><td>Higher</td><td>Upfront payment and cancellation terms</td></tr>
+            </tbody>
+          </table>
+          <p>Related: <a href="/tools/payment-terms-generator">Payment Terms Generator</a> and <a href="/templates/invoice-reminder-email-template">Invoice Reminder Email Template</a>.</p>
+
+          <h3>External references</h3>
+          <ul>
+            <li><a href="https://group.atradius.com/knowledge-and-research/reports/b2b-payment-practices-trends%2C-western-europe-2024" target="_blank" rel="noopener noreferrer">Atradius B2B Payment Practices</a></li>
+            <li><a href="https://www.xero.com/uk/campaigns/business-insights/" target="_blank" rel="noopener noreferrer">Xero late payment insights</a></li>
+            <li><a href="https://quickbooks.intuit.com/r/small-business-data/" target="_blank" rel="noopener noreferrer">QuickBooks small business data</a></li>
+          </ul>
+          <p><strong>Written by Pasko Djonovic, Founder at ChaseAI • Last updated May 6, 2026</strong></p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">FAQ</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+  <section class="section-padding border-t border-border">
+    <div class="container max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold">Price risk before it becomes debt</h2>
+      <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
+        <a href="#calculator" class="inline-flex rounded-lg bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground">Score client risk</a>
+        <a href="https://app.chaseai.app" class="inline-flex rounded-lg border border-border px-7 py-3 text-sm font-semibold">Automate collections</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoFaq from '../../components/seo/SeoFaq';
+import CashFlowGapVisualizer from '../../components/tools/CashFlowGapVisualizer';
+
+const pageSlug = '/tools/cash-flow-gap-visualizer';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+const metaTitle = 'Free Cash Flow Gap Visualizer — See the Impact of Late Payments | ChaseAI';
+const metaDescription =
+  'Visualize the cash flow gap created by late-paying clients. Enter expected vs actual payment dates and see when money should arrive vs when it realistically lands. Free.';
+const tocItems = [
+  { id: 'calculator', label: 'Visualizer' },
+  { id: 'what-is-gap', label: 'What is a cash flow gap?' },
+  { id: 'read-chart', label: 'How to read chart' },
+  { id: 'close-gap', label: 'How to close the gap' },
+  { id: 'faq', label: 'FAQ' },
+];
+const faqs = [
+  { q: 'How accurate is this visualization?', a: 'It is a forecast based on your assumptions and client delay history. Accuracy improves as your data quality improves.' },
+  { q: 'What if I have no history for a new client?', a: 'Use 14 days late as a conservative default and refine as real behavior appears.' },
+  { q: 'Can this replace accounting software forecasting?', a: 'It is a targeted planning tool for receivables stress, not a full accounting platform forecast.' },
+];
+const structuredData = [
+  { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Cash Flow Gap Visualizer', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+  <section class="hero-gradient">
+    <div class="container py-14 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold">Cash Flow Gap Visualizer — See Exactly When Late Payments Hurt You</h1>
+      <p class="mt-5 text-muted-foreground">Map expected payment dates against realistic client behavior and see where cash stress appears before it becomes urgent.</p>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="grid lg:grid-cols-[210px_1fr_180px] gap-10 max-w-6xl mx-auto">
+        <aside><SeoToc items={tocItems} client:idle /></aside>
+        <article class="prose prose-neutral max-w-none prose-a:text-primary">
+          <h2 id="calculator">Cash flow gap visualizer</h2>
+          <div class="not-prose my-5"><CashFlowGapVisualizer client:load /></div>
+          <div class="not-prose my-6 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm">
+            <p>ChaseAI closes this gap by automating follow-ups before invoices become overdue.</p>
+            <a href="https://app.chaseai.app" class="mt-2 inline-flex rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground">Try Smart Chasing Free</a>
+          </div>
+
+          <h2 id="what-is-gap">What is a cash flow gap and why it happens</h2>
+          <p>Expenses are predictable and monthly. Receipts are delayed and uneven. Late payment widens the mismatch and can push healthy businesses into short-term cash stress.</p>
+
+          <h2 id="read-chart">How to read your cash flow gap chart</h2>
+          <p>The blue line is ideal timing. The red line is realistic timing. The space between them is delayed cash. The safety threshold highlights days where risk is highest.</p>
+
+          <h2 id="close-gap">4 ways to close a cash flow gap</h2>
+          <ol>
+            <li>Automate invoice chasing to reduce payment delay.</li>
+            <li>Collect deposits on new work.</li>
+            <li>Offer selective early-payment discounts.</li>
+            <li>Build at least a two-month expense buffer.</li>
+          </ol>
+          <p>Related tools: <a href="/tools/late-payment-cost-calculator">Late Payment Cost Calculator</a> and <a href="/tools/dso-calculator">DSO Calculator</a>.</p>
+
+          <h3>External references</h3>
+          <ul>
+            <li><a href="https://quickbooks.intuit.com/r/small-business-data/small-business-late-payments-report-2025/" target="_blank" rel="noopener noreferrer">QuickBooks late payment report</a></li>
+            <li><a href="https://www.xero.com/uk/campaigns/business-insights/" target="_blank" rel="noopener noreferrer">Xero small business cash flow insights</a></li>
+            <li><a href="https://group.atradius.com/knowledge-and-research/reports/b2b-payment-practices-trends%2C-western-europe-2024" target="_blank" rel="noopener noreferrer">Atradius payment behavior benchmarks</a></li>
+          </ul>
+          <p><strong>Written by Pasko Djonovic, Founder at ChaseAI • Last updated May 6, 2026</strong></p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">FAQ</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+  <section class="section-padding border-t border-border">
+    <div class="container max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold">Forecast stress before it happens</h2>
+      <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
+        <a href="#calculator" class="inline-flex rounded-lg bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground">Visualize my gap</a>
+        <a href="https://app.chaseai.app" class="inline-flex rounded-lg border border-border px-7 py-3 text-sm font-semibold">Start free</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

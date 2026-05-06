@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoFaq from '../../components/seo/SeoFaq';
+import LateFeeCalculator from '../../components/tools/LateFeeCalculator';
+
+const pageSlug = '/tools/invoice-late-fee-calculator';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+const metaTitle = 'Free Invoice Late Fee Calculator — How Much to Charge | ChaseAI';
+const metaDescription =
+  'Calculate how much late fee or interest you can charge on an overdue invoice. Supports fixed fees and monthly interest. Includes suggested invoice wording. Free, no sign-up.';
+const tocItems = [
+  { id: 'calculator', label: 'Calculator' },
+  { id: 'how-to-calc', label: 'How to calculate' },
+  { id: 'standard-rates', label: 'Standard rates by region' },
+  { id: 'relationships', label: 'Client relationships' },
+  { id: 'faq', label: 'FAQ' },
+];
+const faqs = [
+  { q: 'Can I charge late fees if this was not in my contract?', a: 'In the UK, statutory B2B interest can apply automatically. In many US states, contractual terms are generally required.' },
+  { q: 'Is 1.5% per month too high?', a: '1.5% monthly equals 18% annualized and is within common commercial ranges in many markets.' },
+  { q: 'What is the UK debt recovery charge?', a: 'It is fixed compensation on top of interest: £40, £70, or £100 depending on invoice size.' },
+];
+const structuredData = [
+  { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Invoice Late Fee Calculator', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+  <section class="hero-gradient">
+    <div class="container py-14 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold">Invoice Late Fee Calculator — Calculate What You’re Owed for Late Payment</h1>
+      <p class="mt-5 text-muted-foreground">This <strong>late payment fee calculator</strong> works out fixed, percentage, or statutory calculations and gives copy-ready invoice wording.</p>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="grid lg:grid-cols-[210px_1fr_180px] gap-10 max-w-6xl mx-auto">
+        <aside><SeoToc items={tocItems} client:idle /></aside>
+        <article class="prose prose-neutral max-w-none prose-a:text-primary">
+          <h2 id="calculator">Invoice late fee calculator</h2>
+          <div class="not-prose my-5"><LateFeeCalculator client:load /></div>
+          <div class="not-prose my-6 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm">
+            <p>Add fee terms once, then automate reminders so clients act before extra charges stack up.</p>
+            <a href="https://app.chaseai.app" class="mt-2 inline-flex rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground">Start free</a>
+          </div>
+
+          <h2 id="how-to-calc">How to calculate a late fee on an invoice</h2>
+          <p>Fixed fee is simple and predictable. Monthly percentage scales better for larger invoices. UK statutory interest can be legally enforceable for B2B invoices under the Late Payment Act.</p>
+
+          <h2 id="standard-rates">What late fee rate is standard</h2>
+          <ul>
+            <li>US: no federal statutory rate; 1–2% monthly is common (state law applies).</li>
+            <li>UK: Bank of England base rate + 8% statutory for qualifying B2B debts.</li>
+            <li>EU: Late Payment Directive sets 8% above ECB reference for B2B.</li>
+            <li>Australia: penalty interest often defined by state-level frameworks.</li>
+          </ul>
+
+          <h2 id="relationships">Does charging a late fee damage client relationships?</h2>
+          <p>It can if it is a surprise. If agreed up front in clear payment terms, it is usually treated as professional policy rather than personal conflict.</p>
+          <p>Set terms first with the <a href="/tools/payment-terms-generator">Payment Terms Generator</a>, then estimate exposure in the <a href="/tools/late-payment-cost-calculator">Late Payment Cost Calculator</a>.</p>
+
+          <h3>External references</h3>
+          <ul>
+            <li><a href="https://www.legislation.gov.uk/ukpga/1998/20/contents" target="_blank" rel="noopener noreferrer">UK Late Payment of Commercial Debts Act 1998</a></li>
+            <li><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32011L0007" target="_blank" rel="noopener noreferrer">EU Late Payment Directive 2011/7/EU</a></li>
+            <li><a href="https://www.sba.gov/" target="_blank" rel="noopener noreferrer">US SBA: Getting paid on time resources</a></li>
+          </ul>
+          <p><strong>Written by Pasko Djonovic, Founder at ChaseAI • Last updated May 6, 2026</strong></p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">FAQ</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+  <section class="section-padding border-t border-border">
+    <div class="container max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold">Apply fair fees with confidence</h2>
+      <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
+        <a href="#calculator" class="inline-flex rounded-lg bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground">Calculate late fee</a>
+        <a href="https://app.chaseai.app" class="inline-flex rounded-lg border border-border px-7 py-3 text-sm font-semibold">Automate follow-up</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

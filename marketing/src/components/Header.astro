@@ -1,6 +1,5 @@
 ---
 const navLinks = [
-  { label: 'Blog', href: '/blog' },
   { label: 'Features', href: '/features' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'About', href: '/about' },
@@ -42,6 +41,16 @@ const templateGroups = [
 
 const toolLinks = [
   { label: 'Overdue Invoice Sequence Generator', href: '/tools/overdue-invoice-sequence-generator' },
+  { label: 'Invoice Follow-Up Email Generator', href: '/tools/invoice-follow-up-email-generator' },
+  { label: 'Late Payment Cost Calculator', href: '/tools/late-payment-cost-calculator' },
+  { label: 'DSO Calculator', href: '/tools/dso-calculator' },
+  { label: 'Payment Terms Generator', href: '/tools/payment-terms-generator' },
+  { label: 'Invoice Late Fee Calculator', href: '/tools/invoice-late-fee-calculator' },
+  { label: 'Accounts Receivable Health Score', href: '/tools/accounts-receivable-health-score' },
+  { label: 'Client Payment Risk Scorer', href: '/tools/client-payment-risk-scorer' },
+  { label: 'Invoice Chasing Sequence Builder', href: '/tools/invoice-chasing-sequence-builder' },
+  { label: 'Cash Flow Gap Visualizer', href: '/tools/cash-flow-gap-visualizer' },
+  { label: 'Freelance Rate + Late Payment Buffer', href: '/tools/freelance-rate-late-payment-buffer-calculator' },
 ];
 
 const guideLinks = [
@@ -50,10 +59,19 @@ const guideLinks = [
   { label: 'Net 30 Overdue: What to Send', href: '/guides/net-30-overdue-what-to-send' },
 ];
 
+const compareLinks = [
+  { label: 'ChaseAI vs Chaser', href: '/vs/chaser' },
+  { label: 'ChaseAI vs Paidnice', href: '/vs/paidnice' },
+  { label: 'ChaseAI vs Satago', href: '/vs/satago' },
+  { label: 'ChaseAI vs Manual Chasing', href: '/vs/manual-chasing' },
+  { label: 'Best Invoice Chasing Software', href: '/best-invoice-chasing-software' },
+];
+
 const currentPath = Astro.url.pathname;
 const templatesActive = currentPath.startsWith('/templates/');
 const toolsActive = currentPath.startsWith('/tools/');
 const guidesActive = currentPath.startsWith('/guides/');
+const compareActive = currentPath.startsWith('/vs/') || currentPath === '/best-invoice-chasing-software' || currentPath === '/best-invoice-chasing-software/';
 const appUrl = 'https://app.chaseai.app';
 ---
 
@@ -115,7 +133,8 @@ const appUrl = 'https://app.chaseai.app';
 
       <!-- Tools dropdown -->
       <div class="relative group">
-        <button
+        <a
+          href="/tools"
           class:list={[
             'px-4 py-2 text-sm font-medium rounded-lg transition-colors inline-flex items-center gap-1',
             toolsActive
@@ -128,8 +147,8 @@ const appUrl = 'https://app.chaseai.app';
           <svg class="h-3.5 w-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
-        </button>
-        <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all absolute left-0 mt-2 w-80 rounded-xl border border-border bg-background shadow-xl p-2 z-50">
+        </a>
+        <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all absolute left-0 top-full w-96 rounded-xl border border-border bg-background shadow-xl p-2 z-50 max-h-[70vh] overflow-auto">
           {toolLinks.map(link => (
             <a
               href={link.href}
@@ -164,6 +183,39 @@ const appUrl = 'https://app.chaseai.app';
         </button>
         <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all absolute left-0 mt-2 w-72 rounded-xl border border-border bg-background shadow-xl p-2 z-50">
           {guideLinks.map(link => (
+            <a
+              href={link.href}
+              class:list={[
+                'block px-3 py-2 text-sm rounded-md transition-colors',
+                currentPath === link.href || currentPath === link.href + '/'
+                  ? 'text-primary bg-primary/5 font-medium'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+              ]}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Compare dropdown -->
+      <div class="relative group">
+        <button
+          class:list={[
+            'px-4 py-2 text-sm font-medium rounded-lg transition-colors inline-flex items-center gap-1',
+            compareActive
+              ? 'text-primary bg-primary/5'
+              : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+          ]}
+          aria-label="Compare submenu"
+        >
+          Compare
+          <svg class="h-3.5 w-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all absolute left-0 mt-2 w-80 rounded-xl border border-border bg-background shadow-xl p-2 z-50">
+          {compareLinks.map(link => (
             <a
               href={link.href}
               class:list={[
@@ -300,6 +352,32 @@ const appUrl = 'https://app.chaseai.app';
         </summary>
         <div class="ml-2 mt-1 space-y-0.5 border-l border-border pl-2">
           {guideLinks.map(link => (
+            <a
+              href={link.href}
+              class:list={[
+                'block px-4 py-1.5 text-sm rounded-lg transition-colors',
+                currentPath === link.href || currentPath === link.href + '/'
+                  ? 'text-primary bg-primary/5 font-medium'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+              ]}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </details>
+      <details class="px-2" open={compareActive}>
+        <summary class:list={[
+          'list-none cursor-pointer px-2 py-2.5 text-sm font-medium rounded-lg transition-colors flex items-center justify-between',
+          compareActive ? 'text-primary bg-primary/5' : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
+        ]}>
+          Compare
+          <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <div class="ml-2 mt-1 space-y-0.5 border-l border-border pl-2">
+          {compareLinks.map(link => (
             <a
               href={link.href}
               class:list={[

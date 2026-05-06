@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const metaTitle = 'Free Invoice & Accounts Receivable Tools | ChaseAI';
+const metaDescription =
+  'Free calculators and generators for invoice follow-up, DSO, late fees, AR health, cash flow gaps, and payment terms. No sign-up required for basic use.';
+
+const tools = [
+  { label: 'Overdue Invoice Sequence Generator', href: '/tools/overdue-invoice-sequence-generator', desc: 'Upload PDF invoice and generate a full reminder sequence.' },
+  { label: 'Invoice Follow-Up Email Generator', href: '/tools/invoice-follow-up-email-generator', desc: 'Generate a single follow-up email by overdue stage and tone.' },
+  { label: 'Late Payment Cost Calculator', href: '/tools/late-payment-cost-calculator', desc: 'Estimate opportunity cost and time-loss from late invoices.' },
+  { label: 'DSO Calculator', href: '/tools/dso-calculator', desc: 'Calculate Days Sales Outstanding and benchmark against industry.' },
+  { label: 'Payment Terms Generator', href: '/tools/payment-terms-generator', desc: 'Generate clear contract/invoice payment terms.' },
+  { label: 'Invoice Late Fee Calculator', href: '/tools/invoice-late-fee-calculator', desc: 'Calculate fixed, percentage, and statutory late fees.' },
+  { label: 'Accounts Receivable Health Score', href: '/tools/accounts-receivable-health-score', desc: 'Get an A–F AR score from overdue ratio, DSO, and collections.' },
+  { label: 'Client Payment Risk Scorer', href: '/tools/client-payment-risk-scorer', desc: 'Assess client payment risk before starting work.' },
+  { label: 'Invoice Chasing Sequence Builder', href: '/tools/invoice-chasing-sequence-builder', desc: 'Build a day-by-day chasing schedule.' },
+  { label: 'Cash Flow Gap Visualizer', href: '/tools/cash-flow-gap-visualizer', desc: 'Visualize expected vs realistic cash arrival over 90 days.' },
+  { label: 'Freelance Rate + Late Payment Buffer Calculator', href: '/tools/freelance-rate-late-payment-buffer-calculator', desc: 'Compute true rates including late-payment overhead.' },
+];
+---
+
+<BaseLayout title={metaTitle} description={metaDescription} canonical="https://chaseai.app/tools">
+  <section class="hero-gradient">
+    <div class="container py-14 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold">Free Invoice & AR Tools</h1>
+      <p class="mt-5 text-muted-foreground">Use these calculators and generators to tighten collections and protect cash flow. Free with no sign-up required for basic use.</p>
+    </div>
+  </section>
+  <section class="section-padding">
+    <div class="container max-w-5xl mx-auto grid gap-4 md:grid-cols-2">
+      {tools.map((tool) => (
+        <a href={tool.href} class="rounded-xl border border-border bg-card p-5 hover:border-primary/50 hover:bg-primary/5 transition-colors">
+          <h2 class="text-lg font-semibold">{tool.label}</h2>
+          <p class="mt-2 text-sm text-muted-foreground">{tool.desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

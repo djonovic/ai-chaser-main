@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoFaq from '../../components/seo/SeoFaq';
+import ARHealthScore from '../../components/tools/ARHealthScore';
+
+const pageSlug = '/tools/accounts-receivable-health-score';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+const metaTitle = 'Free Accounts Receivable Health Score Calculator | ChaseAI';
+const metaDescription =
+  'Get an instant A–F health score for your accounts receivable. See your collection rate, DSO, and overdue ratio — with a plain-English breakdown of what to fix first. Free.';
+const faqs = [
+  { q: 'What is a good AR health score?', a: 'A (90–100) is excellent, B is healthy, C needs attention, and D/F means cash-flow risk is elevated.' },
+  { q: 'How often should I check my AR health score?', a: 'Monthly is ideal for spotting early deterioration before it becomes a cash crunch.' },
+  { q: 'Is this the same as a credit score?', a: 'No. This measures internal collection performance, not external creditworthiness.' },
+];
+const tocItems = [
+  { id: 'calculator', label: 'Calculator' },
+  { id: 'measures', label: 'What it measures' },
+  { id: 'benchmarks', label: 'Benchmarks' },
+  { id: 'improve', label: 'How to improve' },
+  { id: 'faq', label: 'FAQ' },
+];
+const structuredData = [
+  { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Accounts Receivable Health Score Calculator', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+  <section class="hero-gradient">
+    <div class="container py-14 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold">Accounts Receivable Health Score — Get Your A–F Grade in 60 Seconds</h1>
+      <p class="mt-5 text-muted-foreground">This <strong>AR health check</strong> grades overdue ratio, DSO performance, and collection efficiency so you know what to fix first.</p>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="grid lg:grid-cols-[210px_1fr_180px] gap-10 max-w-6xl mx-auto">
+        <aside><SeoToc items={tocItems} client:idle /></aside>
+        <article class="prose prose-neutral max-w-none prose-a:text-primary">
+          <h2 id="calculator">AR health score calculator</h2>
+          <div class="not-prose my-5"><ARHealthScore client:load /></div>
+          <div class="not-prose my-6 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm">
+            <p>Run this monthly and automate reminders to prevent score slippage.</p>
+            <a href="https://app.chaseai.app" class="mt-2 inline-flex rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground">Start free</a>
+          </div>
+
+          <h2 id="measures">What the AR health score measures</h2>
+          <p>Think of AR health like fitness: overdue ratio is body-fat, DSO is stamina, collection rate is consistency. You need all three to stay cash-flow healthy.</p>
+
+          <h2 id="benchmarks">AR benchmarks by business type</h2>
+          <table>
+            <thead><tr><th>Business type</th><th>Healthy DSO</th><th>Acceptable overdue ratio</th><th>Collection rate target</th></tr></thead>
+            <tbody>
+              <tr><td>Freelancer</td><td>&lt;21 days</td><td>&lt;10%</td><td>&gt;96%</td></tr>
+              <tr><td>Agency</td><td>&lt;35 days</td><td>&lt;15%</td><td>&gt;93%</td></tr>
+              <tr><td>Consulting</td><td>&lt;28 days</td><td>&lt;12%</td><td>&gt;95%</td></tr>
+              <tr><td>Trades/Construction</td><td>&lt;40 days</td><td>&lt;20%</td><td>&gt;90%</td></tr>
+            </tbody>
+          </table>
+
+          <h2 id="improve">How to improve each component</h2>
+          <p>To reduce overdue ratio, prioritize oldest invoices first with fixed cadence. To lower DSO, tighten terms and add pre-due reminders. To improve collection rate, automate follow-up so no invoice is forgotten.</p>
+          <p>Related: <a href="/tools/dso-calculator">DSO Calculator</a> and <a href="/tools/late-payment-cost-calculator">Late Payment Cost Calculator</a>.</p>
+
+          <h3>External references</h3>
+          <ul>
+            <li><a href="https://www.cfo.com/" target="_blank" rel="noopener noreferrer">CFO.com AR and DSO coverage</a></li>
+            <li><a href="https://group.atradius.com/knowledge-and-research/reports/b2b-payment-practices-trends%2C-western-europe-2024" target="_blank" rel="noopener noreferrer">Atradius Payment Practices</a></li>
+            <li><a href="https://quickbooks.intuit.com/r/small-business-data/" target="_blank" rel="noopener noreferrer">QuickBooks Small Business Data</a></li>
+          </ul>
+          <p><strong>Written by Pasko Djonovic, Founder at ChaseAI • Last updated May 6, 2026</strong></p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">FAQ</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+  <section class="section-padding border-t border-border">
+    <div class="container max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold">Track AR like a finance team</h2>
+      <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
+        <a href="#calculator" class="inline-flex rounded-lg bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground">Get my score</a>
+        <a href="https://app.chaseai.app" class="inline-flex rounded-lg border border-border px-7 py-3 text-sm font-semibold">Automate follow-ups</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

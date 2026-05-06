@@ -1,0 +1,375 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const pageSlug = '/vs/satago';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+const metaTitle = 'ChaseAI vs Satago (2025): Invoice Chasing Software Compared';
+const metaDescription =
+  'ChaseAI vs Satago: which is right for your business? Satago adds credit checks and invoice finance for UK businesses. ChaseAI delivers AI-generated follow-up emails from $29/mo with no accounting software needed.';
+const ogTitle = 'ChaseAI vs Satago (2025) - Full Comparison';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What is the difference between ChaseAI and Satago?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Satago is a UK-focused credit control platform that combines invoice chasing with Experian credit checks and invoice finance. It starts at £83/month. ChaseAI is an AI-powered invoice chasing tool starting free, focused on generating personalized follow-up emails without requiring accounting software integration.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is Satago only for UK businesses?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Satago was built primarily for UK businesses and its credit check integration is via Experian UK. Its invoice finance product is UK-specific. ChaseAI is currency-agnostic and serves businesses globally.',
+      },
+    },
+  ],
+};
+---
+
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} ogImage="https://chaseai.app/og-default.png" structuredData={structuredData} showAuthorBox={false}>
+  <Fragment slot="head">
+    <meta property="og:title" content={ogTitle} />
+  </Fragment>
+
+  <section class="hero-gradient border-b border-border/50">
+    <div class="container py-14 md:py-16 max-w-4xl mx-auto">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">ChaseAI vs Satago - 2025 Comparison</h1>
+      <p class="mt-5 text-muted-foreground text-lg leading-relaxed">
+        Satago is a serious credit control platform built mainly for UK businesses - it combines invoice chasing with Experian credit checks and
+        invoice finance in one product. ChaseAI focuses on one thing: getting follow-up emails written and sent by AI, without requiring
+        accounting software or a credit control background. If you're a UK business that needs credit data and financing alongside chasing, Satago
+        is worth knowing about. If you want to stop manually writing chase emails and start tomorrow, ChaseAI is the faster, cheaper path.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container max-w-4xl mx-auto">
+      <div class="rounded-2xl border-2 border-primary/30 bg-primary/5 p-6 md:p-8">
+        <p class="text-sm font-semibold tracking-wide text-primary">QUICK VERDICT</p>
+        <div class="mt-5 grid gap-6 md:grid-cols-2">
+          <div>
+            <h2 class="text-xl font-bold">Choose ChaseAI if:</h2>
+            <ul class="mt-3 space-y-2 text-sm md:text-base text-foreground">
+              <li>✓ You're not in the UK (or don't need UK-specific credit data)</li>
+              <li>✓ You don't need invoice finance / funding</li>
+              <li>✓ You want to get started without a lengthy setup</li>
+              <li>✓ Budget is a priority - free to $49/mo vs £83/mo+</li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold">Choose Satago if:</h2>
+            <ul class="mt-3 space-y-2 text-sm md:text-base text-foreground">
+              <li>✓ You're a UK business that needs Experian credit checks</li>
+              <li>✓ You want invoice finance bundled with your chasing tool</li>
+              <li>✓ You use Xero, QuickBooks, or Sage already</li>
+              <li>✓ You need Days Beyond Terms (DBT) data on your clients</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <article class="prose prose-neutral max-w-none prose-a:text-primary mt-10">
+        <h2>Pricing comparison</h2>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>ChaseAI</th>
+              <th>Satago</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Free plan</td>
+              <td>✅ Permanent free plan</td>
+              <td>✅ Standard plan (free, limited)</td>
+            </tr>
+            <tr>
+              <td>Paid entry plan</td>
+              <td>$29/mo</td>
+              <td>£83/mo (~$105/mo) paid annually</td>
+            </tr>
+            <tr>
+              <td>Paid monthly</td>
+              <td>$49/mo (Pro)</td>
+              <td>£99/mo (~$125/mo) monthly</td>
+            </tr>
+            <tr>
+              <td>Invoice finance</td>
+              <td>❌ No</td>
+              <td>✅ Yes (UK only)</td>
+            </tr>
+            <tr>
+              <td>Credit checks</td>
+              <td>❌ No</td>
+              <td>✅ Experian-powered</td>
+            </tr>
+            <tr>
+              <td>Accounting software required</td>
+              <td>❌ No</td>
+              <td>✅ Xero, QB, Sage, or 300+ integrations</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Satago's paid plan is 2-3x the cost of ChaseAI Pro. The premium is for credit data and invoice finance - if you don't need those,
+          you're paying for features that don't affect your workflow.
+        </p>
+
+        <div class="not-prose my-8 rounded-xl border border-primary/30 bg-primary/5 p-6">
+          <h3 class="text-xl font-bold tracking-tight">Try ChaseAI free - no accounting software, no credit card</h3>
+          <p class="mt-2 text-muted-foreground">Generate your first AI invoice chasing sequence in under 5 minutes.</p>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <a
+              href="https://app.chaseai.app"
+              class="inline-flex items-center rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90"
+            >
+              Start Free →
+            </a>
+            <a
+              href="/pricing"
+              class="inline-flex items-center rounded-lg border border-border px-5 py-2.5 text-sm font-semibold hover:bg-muted/40"
+            >
+              See Pricing
+            </a>
+          </div>
+        </div>
+
+        <h2>Feature comparison</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>ChaseAI</th>
+              <th>Satago</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>AI-generated follow-up sequences</td>
+              <td>✅ Yes - from your invoice PDF</td>
+              <td>⚠️ Template-based reminders</td>
+            </tr>
+            <tr>
+              <td>No accounting software required</td>
+              <td>✅ Works from PDF</td>
+              <td>❌ Requires connected accounting software</td>
+            </tr>
+            <tr>
+              <td>Xero / QuickBooks / Sage sync</td>
+              <td>❌ No</td>
+              <td>✅ 300+ accounting integrations</td>
+            </tr>
+            <tr>
+              <td>Experian credit checks</td>
+              <td>❌ No</td>
+              <td>✅ Yes - including credit score + trend</td>
+            </tr>
+            <tr>
+              <td>Days Beyond Terms (DBT) data</td>
+              <td>❌ No</td>
+              <td>✅ See how late clients pay other suppliers</td>
+            </tr>
+            <tr>
+              <td>Invoice finance</td>
+              <td>❌ No</td>
+              <td>✅ UK only</td>
+            </tr>
+            <tr>
+              <td>Email open tracking</td>
+              <td>✅ Yes</td>
+              <td>✅ Yes</td>
+            </tr>
+            <tr>
+              <td>SMS reminders</td>
+              <td>❌ No</td>
+              <td>✅ Yes (via Satago)</td>
+            </tr>
+            <tr>
+              <td>Automated thank-you emails</td>
+              <td>❌ No</td>
+              <td>✅ Yes</td>
+            </tr>
+            <tr>
+              <td>Client payment portal</td>
+              <td>❌ No</td>
+              <td>❌ No</td>
+            </tr>
+            <tr>
+              <td>Late fee enforcement</td>
+              <td>❌ No</td>
+              <td>✅ Custom late fee schedules</td>
+            </tr>
+            <tr>
+              <td>Multi-currency</td>
+              <td>✅ Yes</td>
+              <td>✅ Yes</td>
+            </tr>
+            <tr>
+              <td>Geographic focus</td>
+              <td>Global</td>
+              <td>UK primary</td>
+            </tr>
+            <tr>
+              <td>Starting price</td>
+              <td>Free</td>
+              <td>£83/mo (~$105) paid annually</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Where Satago is genuinely better</h2>
+        <p>
+          <strong>Experian credit data:</strong> Satago's partnership with Experian is a genuine differentiator. You can check any current or
+          prospective client's credit score, see the direction it's trending, and get a suggested credit limit - all before you start work.
+          ChaseAI has a <a href="/tools/client-payment-risk-scorer">Client Payment Risk Scorer</a> tool based on behavioral signals, but no
+          real-time bureau data.
+        </p>
+        <p>
+          <strong>Days Beyond Terms (DBT):</strong> Satago shows you how many days late your clients pay other suppliers, not just you. This
+          early warning system for problematic clients has no equivalent in ChaseAI.
+        </p>
+        <p>
+          <strong>Invoice finance:</strong> If cash flow gaps are causing real business strain, Satago can advance payment on outstanding invoices
+          (UK businesses only). This is a completely different product capability - chasing software plus a financing facility in one dashboard.
+        </p>
+        <p>
+          <strong>Thank-you emails:</strong> Satago automatically sends thank-you emails when clients pay. It's a small thing that protects client
+          relationships. ChaseAI's sequences end when payment is detected but don't send a thank-you.
+        </p>
+
+        <h2>Where ChaseAI is genuinely better</h2>
+        <p>
+          <strong>Price:</strong> Satago's paid plan starts at £83/month (~$105). For a freelancer chasing 10-30 invoices a month, this is hard
+          to justify when ChaseAI's Starter plan is $29/mo and includes AI-generated sequences.
+        </p>
+        <p>
+          <strong>Geographic focus:</strong> Satago was built for UK businesses and its most valuable features (Experian, invoice finance,
+          statutory late payment tools) are UK-specific. ChaseAI is built for any business in any country.
+        </p>
+        <p>
+          <strong>No accounting software needed:</strong> Satago requires a connected accounting package. ChaseAI works from a PDF upload - useful
+          for businesses using Stripe invoicing, FreshBooks, Wave, Bonsai, or any other tool.
+        </p>
+        <p>
+          <strong>AI-written emails:</strong> Satago's chase reminders are template-based. ChaseAI generates follow-up emails specifically from
+          your invoice content, which read as personalized rather than automated.
+        </p>
+        <p>
+          <strong>Simpler to start:</strong> Satago's full platform (credit checks, finance, chasing, integrations) has a meaningful setup curve.
+          ChaseAI is 5 minutes from signup to first sequence sent.
+        </p>
+
+        <h2>Who should choose which</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Situation</th>
+              <th>Best choice</th>
+              <th>Why</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>UK B2B business needing credit checks</td>
+              <td>Satago</td>
+              <td>Experian data + DBT is genuinely valuable</td>
+            </tr>
+            <tr>
+              <td>UK business with cash flow gaps needing financing</td>
+              <td>Satago</td>
+              <td>Invoice finance is Satago's unique offering</td>
+            </tr>
+            <tr>
+              <td>Freelancer outside the UK, no accounting software</td>
+              <td>ChaseAI</td>
+              <td>Satago's best features don't apply</td>
+            </tr>
+            <tr>
+              <td>Small agency wanting quick setup and AI emails</td>
+              <td>ChaseAI</td>
+              <td>Faster, cheaper, more relevant</td>
+            </tr>
+            <tr>
+              <td>Business on Sage wanting full AR automation (UK)</td>
+              <td>Satago</td>
+              <td>Deep Sage integration + credit data</td>
+            </tr>
+            <tr>
+              <td>Consultant, global clients, just wants emails sent</td>
+              <td>ChaseAI</td>
+              <td>Works anywhere, no integration needed</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>FAQ</h2>
+        <h3>Is Satago available outside the UK?</h3>
+        <p>
+          Satago's core platform is available to businesses in multiple countries, but its highest-value features - Experian credit checks and
+          invoice finance - are UK-specific. Outside the UK, you get invoice chasing automation without the credit intelligence layer.
+        </p>
+        <h3>Does Satago have a free plan?</h3>
+        <p>
+          Satago has a Standard plan described as free for credit control (basic use), with paid plans from £83/month for the full platform
+          including integrations. ChaseAI's free plan includes actual AI sequence generation with no time limit.
+        </p>
+        <h3>Can ChaseAI replace Satago's invoice finance feature?</h3>
+        <p>
+          No. Invoice finance (advancing payment on outstanding invoices) is a financing product, not a software feature. ChaseAI doesn't offer
+          financing. If you need cash before clients pay, Satago's UK invoice finance or a dedicated financing provider is the right tool.
+        </p>
+
+        <h3>External references</h3>
+        <ul>
+          <li>
+            Satago GetApp UK listing:
+            <a href="https://www.getapp.co.uk/software/102553/satago" target="_blank" rel="noopener noreferrer">
+              getapp.co.uk/software/102553/satago
+            </a>
+          </li>
+          <li>
+            Satago Capterra:
+            <a href="https://www.capterra.ca/software/145197/satago" target="_blank" rel="noopener noreferrer">
+              capterra.ca/software/145197/satago
+            </a>
+          </li>
+          <li>
+            Late Payment of Commercial Debts Act 1998:
+            <a href="https://www.legislation.gov.uk/ukpga/1998/20/contents" target="_blank" rel="noopener noreferrer">legislation.gov.uk</a>
+          </li>
+        </ul>
+        <h3>Related tools and guides</h3>
+        <ul>
+          <li><a href="/tools/late-payment-cost-calculator">Late Payment Cost Calculator</a></li>
+          <li><a href="/tools/invoice-follow-up-email-generator">Invoice Follow-Up Email Generator</a></li>
+          <li><a href="/tools/client-payment-risk-scorer">Client Payment Risk Scorer</a></li>
+          <li><a href="/guides/how-to-chase-unpaid-invoices">How to Chase Unpaid Invoices</a></li>
+          <li><a href="https://app.chaseai.app">Start Free</a></li>
+        </ul>
+        <p><strong>Written by Pasko Djonovic, Founder at ChaseAI • Last updated May 6, 2026</strong></p>
+        <p><strong>Disclosure:</strong> ChaseAI is one of the tools compared on this page.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight">Not sure yet? Try the free plan.</h2>
+      <p class="mt-3 text-muted-foreground">No card required. No Xero needed. Test one invoice sequence and decide from real usage.</p>
+      <a
+        href="https://app.chaseai.app"
+        class="mt-6 inline-flex items-center rounded-lg bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90"
+      >
+        Start Free - No Credit Card
+      </a>
+    </div>
+  </section>
+</BaseLayout>

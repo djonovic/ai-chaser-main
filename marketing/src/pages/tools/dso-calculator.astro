@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoFaq from '../../components/seo/SeoFaq';
+import DSOCalculator from '../../components/tools/DSOCalculator';
+
+const pageSlug = '/tools/dso-calculator';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+const metaTitle = 'Free DSO Calculator — Days Sales Outstanding | ChaseAI';
+const metaDescription =
+  'Calculate your Days Sales Outstanding (DSO) instantly. Enter your AR balance and revenue, get your DSO, compare to benchmarks, and understand cash-flow impact. Free.';
+const tocItems = [
+  { id: 'calculator', label: 'Calculator' },
+  { id: 'what-is-dso', label: 'What is DSO?' },
+  { id: 'benchmarks', label: 'Industry benchmarks' },
+  { id: 'reduce', label: 'How to reduce DSO' },
+  { id: 'faq', label: 'FAQ' },
+];
+const faqs = [
+  { q: 'What DSO is considered good?', a: 'Generally, DSO within 5–10 days of your terms is healthy. 20+ days above terms indicates a collection issue.' },
+  { q: 'What is the difference between DSO and average collection period?', a: 'They are the same metric with different wording.' },
+  { q: 'Should I use 30, 60, or 90 days?', a: '90 days usually provides the most stable baseline for small businesses.' },
+];
+const structuredData = [
+  { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'DSO Calculator', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+  <section class="hero-gradient">
+    <div class="container py-14 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold">DSO Calculator — Calculate Days Sales Outstanding + Industry Benchmark</h1>
+      <p class="mt-5 text-muted-foreground">This <strong>days sales outstanding calculator</strong> shows how fast you collect, how you compare with your industry, and how much cash is tied up in receivables.</p>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="grid lg:grid-cols-[210px_1fr_180px] gap-10 max-w-6xl mx-auto">
+        <aside><SeoToc items={tocItems} client:idle /></aside>
+        <article class="prose prose-neutral max-w-none prose-a:text-primary">
+          <h2 id="calculator">DSO calculator</h2>
+          <div class="not-prose my-5"><DSOCalculator client:load /></div>
+          <div class="not-prose my-6 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm">
+            <p>Reduce DSO with automated reminders and stronger payment terms.</p>
+            <a href="https://app.chaseai.app" class="mt-2 inline-flex rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground">Start free</a>
+          </div>
+
+          <h2 id="what-is-dso">What is Days Sales Outstanding (DSO)?</h2>
+          <p>DSO measures how long it takes to collect invoice revenue. Formula: <strong>DSO = (AR ÷ Total Credit Sales) × Number of Days</strong>. If AR is $24,000 and 90-day sales are $60,000, DSO is 36 days.</p>
+
+          <h2 id="benchmarks">DSO benchmarks by industry (2024–2025)</h2>
+          <table>
+            <thead><tr><th>Industry</th><th>Average DSO</th><th>Best-in-class DSO</th><th>Source</th></tr></thead>
+            <tbody>
+              <tr><td>Freelance/Creative</td><td>28 days</td><td>&lt;21 days</td><td>ChaseAI user data</td></tr>
+              <tr><td>Digital Agency</td><td>38 days</td><td>&lt;28 days</td><td>Atradius 2024</td></tr>
+              <tr><td>Consulting</td><td>32 days</td><td>&lt;25 days</td><td>Atradius 2024</td></tr>
+              <tr><td>Construction</td><td>47 days</td><td>&lt;35 days</td><td>Dun & Bradstreet</td></tr>
+              <tr><td>SaaS</td><td>42 days</td><td>&lt;30 days</td><td>OpenView Partners</td></tr>
+            </tbody>
+          </table>
+
+          <h2 id="reduce">How to reduce your DSO</h2>
+          <ol>
+            <li>Use shorter terms where possible.</li>
+            <li>Require deposits on larger projects.</li>
+            <li>Automate reminders before and after due date.</li>
+            <li>Offer selective early-payment discounts.</li>
+            <li>Send invoices immediately after delivery.</li>
+          </ol>
+          <p>Related tools: <a href="/tools/accounts-receivable-health-score">AR Health Score</a> and <a href="/tools/late-payment-cost-calculator">Late Payment Cost Calculator</a>.</p>
+
+          <h3>External references</h3>
+          <ul>
+            <li><a href="https://group.atradius.com/knowledge-and-research/reports/b2b-payment-practices-trends%2C-western-europe-2024" target="_blank" rel="noopener noreferrer">Atradius B2B Payment Practices</a></li>
+            <li><a href="https://www.dnb.com/" target="_blank" rel="noopener noreferrer">Dun & Bradstreet DSO Research</a></li>
+            <li><a href="https://www.cfo.com/" target="_blank" rel="noopener noreferrer">CFO.com: DSO and business health</a></li>
+          </ul>
+          <p><strong>Written by Pasko Djonovic, Founder at ChaseAI • Last updated May 6, 2026</strong></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">FAQ</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+  <section class="section-padding border-t border-border">
+    <div class="container max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold">See your DSO and close the gap faster</h2>
+      <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
+        <a href="#calculator" class="inline-flex rounded-lg bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground">Calculate DSO</a>
+        <a href="https://app.chaseai.app" class="inline-flex rounded-lg border border-border px-7 py-3 text-sm font-semibold">Start free</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

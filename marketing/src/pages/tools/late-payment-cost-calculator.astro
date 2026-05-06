@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoFaq from '../../components/seo/SeoFaq';
+import LatePaymentCostCalculator from '../../components/tools/LatePaymentCostCalculator';
+
+const pageSlug = '/tools/late-payment-cost-calculator';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+const metaTitle = 'Free Late Payment Cost Calculator | ChaseAI';
+const metaDescription =
+  'Find out exactly how much late invoices are costing your business. Enter your invoice data and see the true cash flow impact, opportunity cost, and hours wasted chasing. Free, no sign-up required.';
+
+const tocItems = [
+  { id: 'calculator', label: 'Calculator' },
+  { id: 'how-it-works', label: 'How it works' },
+  { id: 'what-the-numbers-mean', label: 'Real cost breakdown' },
+  { id: 'benchmarks', label: 'Industry benchmarks' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const faqs = [
+  { q: 'What interest rate does the calculator use for opportunity cost?', a: 'It uses 8% annually as a conservative estimate of capital value in your business.' },
+  { q: 'Does this include late fees I charge clients?', a: 'No. This calculator shows your internal cost. If you collect late fees, your net cost can be lower.' },
+  { q: 'How accurate is the annual projection?', a: 'It is an estimate based on your own inputs. The result can be higher if your chasing hours are understated.' },
+  { q: 'Is this tool free?', a: 'Yes, completely free with no account required for basic use.' },
+];
+
+const structuredData = [
+  { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Late Payment Cost Calculator', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+  <section class="hero-gradient">
+    <div class="container py-14 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Late Payment Cost Calculator — See What Overdue Invoices Really Cost You</h1>
+      <p class="mt-5 text-base md:text-lg text-muted-foreground">Most businesses track what they are owed, but not what late payment costs. This <strong>late payment calculator</strong> converts overdue invoices into cash flow gap, opportunity cost, and time lost chasing.</p>
+      <p class="mt-4"><a href="#calculator" class="text-primary font-semibold">Calculate Your Cost →</a> · <a href="https://app.chaseai.app" class="text-primary font-semibold">Automate Invoice Chasing</a></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="grid lg:grid-cols-[210px_1fr_180px] gap-10 max-w-6xl mx-auto">
+        <aside><SeoToc items={tocItems} client:idle /></aside>
+        <article class="prose prose-neutral max-w-none prose-a:text-primary">
+          <h2 id="calculator">Late payment calculator</h2>
+          <div class="not-prose my-5"><LatePaymentCostCalculator client:load /></div>
+
+          <h2 id="how-it-works">How the late payment cost calculator works</h2>
+          <p>The calculator combines three cost layers: tied capital (opportunity cost), hours spent chasing, and annual compounding. Together they show the real drag on cash flow.</p>
+          <p>For practical scripts and follow-up timing, see <a href="/guides/how-to-chase-unpaid-invoices">how to chase unpaid invoices</a>.</p>
+
+          <h2 id="what-the-numbers-mean">What counts as a real cost of late payment</h2>
+          <p>Most teams only count the invoice face value. The hidden losses are time, financing pressure, and delayed reinvestment.</p>
+          <table>
+            <thead><tr><th>Cost type</th><th>What it means</th><th>Typical impact</th></tr></thead>
+            <tbody>
+              <tr><td>Cash flow gap</td><td>Capital tied up and unavailable</td><td>8–12% annual equivalent</td></tr>
+              <tr><td>Time cost</td><td>Hours spent on reminders and disputes</td><td>$75–200/invoice at pro rates</td></tr>
+              <tr><td>Relationship friction</td><td>Awkward chasing affects client trust</td><td>Hard to quantify, real</td></tr>
+              <tr><td>Annual compounding</td><td>Small monthly leakage scales up</td><td>Often 5–15% of annual revenue</td></tr>
+            </tbody>
+          </table>
+
+          <h2 id="benchmarks">Industry benchmarks for late payment</h2>
+          <ul>
+            <li>UK SMEs are owed around £22,000 in late payments at any time (Xero 2024).</li>
+            <li>US small businesses wait roughly 37 days past due on average (QuickBooks 2025).</li>
+            <li>Freelancers often spend 1.5–2 hours per invoice in follow-up.</li>
+          </ul>
+
+          <h3>External references</h3>
+          <ul>
+            <li><a href="https://www.xero.com/uk/campaigns/business-insights/" target="_blank" rel="noopener noreferrer">Xero Business Insights</a></li>
+            <li><a href="https://quickbooks.intuit.com/r/small-business-data/small-business-late-payments-report-2025/" target="_blank" rel="noopener noreferrer">QuickBooks Late Payments Report 2025</a></li>
+            <li><a href="https://group.atradius.com/knowledge-and-research/reports/b2b-payment-practices-trends%2C-western-europe-2024" target="_blank" rel="noopener noreferrer">Atradius B2B Payment Practices 2024</a></li>
+          </ul>
+          <p>Related tools: <a href="/tools/invoice-late-fee-calculator">Invoice Late Fee Calculator</a> and <a href="/tools/dso-calculator">DSO Calculator</a>.</p>
+          <p><strong>Written by Pasko Djonovic, Founder at ChaseAI • Last updated May 6, 2026</strong></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">FAQ</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border">
+    <div class="container max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold">Reduce late-payment drag this month</h2>
+      <p class="mt-4 text-muted-foreground">Run the numbers, then automate reminders so the gap does not keep compounding.</p>
+      <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
+        <a href="#calculator" class="inline-flex rounded-lg bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground">Calculate now</a>
+        <a href="https://app.chaseai.app" class="inline-flex rounded-lg border border-border px-7 py-3 text-sm font-semibold">Start free</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

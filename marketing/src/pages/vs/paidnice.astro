@@ -1,0 +1,379 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const pageSlug = '/vs/paidnice';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+const metaTitle = 'ChaseAI vs Paidnice (2025): Invoice Chasing Software Compared';
+const metaDescription =
+  'ChaseAI vs Paidnice: full pricing and feature comparison. Paidnice automates late fees for Xero/QB users. ChaseAI uses AI to write follow-up emails with no accounting software required. See which fits your business.';
+const ogTitle = 'ChaseAI vs Paidnice (2025) - Which Is Right for You?';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What is the difference between ChaseAI and Paidnice?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Paidnice is a rules-based AR automation tool that layers on top of Xero and QuickBooks, specializing in automated late fee enforcement. ChaseAI uses AI to write personalized follow-up email sequences and works from a PDF invoice with no accounting software integration required.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Does Paidnice work without Xero or QuickBooks?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'No. Paidnice requires a Xero or QuickBooks Online connection to function. ChaseAI works as a standalone tool from a PDF upload, with no accounting software integration needed.',
+      },
+    },
+  ],
+};
+---
+
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} ogImage="https://chaseai.app/og-default.png" structuredData={structuredData} showAuthorBox={false}>
+  <Fragment slot="head">
+    <meta property="og:title" content={ogTitle} />
+  </Fragment>
+
+  <section class="hero-gradient border-b border-border/50">
+    <div class="container py-14 md:py-16 max-w-4xl mx-auto">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">ChaseAI vs Paidnice - 2025 Comparison for Small Businesses</h1>
+      <p class="mt-5 text-muted-foreground text-lg leading-relaxed">
+        Paidnice won the 2025 Xero Global Small Business App of the Year - deservedly, for businesses already on Xero or QuickBooks who want
+        automated late fee enforcement. ChaseAI takes a completely different approach: AI-generated follow-up emails that work from a PDF, no
+        accounting software required. They solve similar problems with different tools for different users. Here's the honest breakdown.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container max-w-4xl mx-auto">
+      <div class="rounded-2xl border-2 border-primary/30 bg-primary/5 p-6 md:p-8">
+        <p class="text-sm font-semibold tracking-wide text-primary">QUICK VERDICT</p>
+        <div class="mt-5 grid gap-6 md:grid-cols-2">
+          <div>
+            <h2 class="text-xl font-bold">Choose ChaseAI if:</h2>
+            <ul class="mt-3 space-y-2 text-sm md:text-base text-foreground">
+              <li>✓ You don't use Xero or QuickBooks Online</li>
+              <li>✓ You want AI to write the follow-up emails for you</li>
+              <li>✓ Simplicity matters - setup in 5 minutes, not 30</li>
+              <li>✓ You're a freelancer or small service business</li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold">Choose Paidnice if:</h2>
+            <ul class="mt-3 space-y-2 text-sm md:text-base text-foreground">
+              <li>✓ You run your business on Xero or QuickBooks Online</li>
+              <li>✓ You need to automatically apply late fees and interest charges</li>
+              <li>✓ You want a full rules engine (different policies per client type)</li>
+              <li>✓ You need client statements and payment plan management</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <article class="prose prose-neutral max-w-none prose-a:text-primary mt-10">
+        <h2>Pricing comparison</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Plan</th>
+              <th>ChaseAI</th>
+              <th>Paidnice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Free plan</td>
+              <td>✅ Permanent free plan</td>
+              <td>✅ Free trial available</td>
+            </tr>
+            <tr>
+              <td>Entry paid plan</td>
+              <td>$29/mo (unlimited invoices, 50 AI sequences/mo)</td>
+              <td>$39/mo (Essentials - 150 invoices)</td>
+            </tr>
+            <tr>
+              <td>Mid-tier</td>
+              <td>$49/mo (unlimited everything)</td>
+              <td>$69/mo (Pro - higher volume)</td>
+            </tr>
+            <tr>
+              <td>Accounting software required</td>
+              <td>❌ No</td>
+              <td>✅ Xero or QuickBooks Online required</td>
+            </tr>
+            <tr>
+              <td>Contract</td>
+              <td>No - cancel anytime</td>
+              <td>No - cancel anytime</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Both products are in a similar price range. The real differentiator isn't cost - it's whether you use Xero/QuickBooks and whether you
+          need late fee automation vs AI email generation.
+        </p>
+
+        <div class="not-prose my-8 rounded-xl border border-primary/30 bg-primary/5 p-6">
+          <h3 class="text-xl font-bold tracking-tight">Try ChaseAI free - no accounting software, no credit card</h3>
+          <p class="mt-2 text-muted-foreground">Generate your first AI invoice chasing sequence in under 5 minutes.</p>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <a
+              href="https://app.chaseai.app"
+              class="inline-flex items-center rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90"
+            >
+              Start Free →
+            </a>
+            <a
+              href="/pricing"
+              class="inline-flex items-center rounded-lg border border-border px-5 py-2.5 text-sm font-semibold hover:bg-muted/40"
+            >
+              See Pricing
+            </a>
+          </div>
+        </div>
+
+        <h2>Feature comparison</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>ChaseAI</th>
+              <th>Paidnice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>AI-written follow-up email sequences</td>
+              <td>✅ Yes - generated from your invoice PDF</td>
+              <td>❌ Template-based (you write the templates)</td>
+            </tr>
+            <tr>
+              <td>PDF invoice upload</td>
+              <td>✅ Yes</td>
+              <td>❌ Pulls from Xero/QB only</td>
+            </tr>
+            <tr>
+              <td>No accounting software required</td>
+              <td>✅ Works standalone</td>
+              <td>❌ Requires Xero or QuickBooks Online</td>
+            </tr>
+            <tr>
+              <td>Xero / QuickBooks integration</td>
+              <td>❌ Not currently</td>
+              <td>✅ Core requirement - native sync</td>
+            </tr>
+            <tr>
+              <td>Automated late fee enforcement</td>
+              <td>❌ No</td>
+              <td>✅ Yes - core differentiator</td>
+            </tr>
+            <tr>
+              <td>Compounding interest automation</td>
+              <td>❌ No</td>
+              <td>✅ Yes</td>
+            </tr>
+            <tr>
+              <td>Payment plan management</td>
+              <td>❌ No</td>
+              <td>✅ Yes - self-service portal for clients</td>
+            </tr>
+            <tr>
+              <td>Customer statements (30/60/90 day)</td>
+              <td>❌ No</td>
+              <td>✅ Yes</td>
+            </tr>
+            <tr>
+              <td>SMS reminders</td>
+              <td>❌ No</td>
+              <td>✅ Yes</td>
+            </tr>
+            <tr>
+              <td>Email open tracking</td>
+              <td>✅ Yes</td>
+              <td>✅ Yes</td>
+            </tr>
+            <tr>
+              <td>Client self-service payment portal</td>
+              <td>❌ No</td>
+              <td>✅ Yes</td>
+            </tr>
+            <tr>
+              <td>Credit reports / risk scoring</td>
+              <td>❌ No</td>
+              <td>✅ Yes</td>
+            </tr>
+            <tr>
+              <td>Safe mode (test before live)</td>
+              <td>❌ N/A</td>
+              <td>✅ Yes - draft mode to test rules</td>
+            </tr>
+            <tr>
+              <td>Setup time</td>
+              <td>~5 minutes</td>
+              <td>30-60 minutes (rules configuration)</td>
+            </tr>
+            <tr>
+              <td>Designed for</td>
+              <td>Freelancers, small agencies</td>
+              <td>SMBs with systematic AR processes</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Where Paidnice is genuinely better</h2>
+        <p>
+          <strong>Late fee automation:</strong> Paidnice's core strength is applying late fees and compounding interest automatically based on
+          rules you configure once. If a client is 15 days overdue, Paidnice can automatically add a fee to their account per your payment terms,
+          without you lifting a finger. ChaseAI doesn't do this - you'd need to use the
+          <a href="/tools/invoice-late-fee-calculator">Invoice Late Fee Calculator</a> and add it manually.
+        </p>
+        <p>
+          <strong>Rules engine by client type:</strong> Paidnice lets you set completely different AR policies for different client groups. Good
+          long-term clients get gentle reminders; chronic late payers get immediate escalation plus late fees. ChaseAI applies a single
+          AI-generated sequence per invoice without client-level policy differentiation.
+        </p>
+        <p>
+          <strong>Client statements:</strong> Paidnice auto-sends 30/60/90 day aging statements. If your clients have multiple outstanding
+          invoices and need a consolidated view, this matters. ChaseAI focuses on individual invoice sequences.
+        </p>
+        <p>
+          <strong>Already on Xero/QB:</strong> If you're a Xero or QuickBooks Online user, Paidnice syncs in real-time and every new invoice is
+          automatically enrolled in your collection policy. ChaseAI requires a PDF upload per invoice.
+        </p>
+
+        <h2>Where ChaseAI is genuinely better</h2>
+        <p>
+          <strong>No accounting software required:</strong> ChaseAI's biggest practical advantage for its audience. Freelancers on Wave,
+          FreshBooks, Bonsai, or even just Stripe invoices can use ChaseAI immediately. Paidnice is functionally unusable without Xero or
+          QuickBooks Online.
+        </p>
+        <p>
+          <strong>AI writes the emails:</strong> Paidnice gives you templates you customize. ChaseAI generates the entire follow-up sequence from
+          your invoice content - client name, amount, due date, tone progression - so you're not staring at a blank template.
+        </p>
+        <p>
+          <strong>Simpler mental model:</strong> Paidnice's rules engine is powerful but requires time to configure correctly (they even built a
+          safe mode for testing before going live). ChaseAI's workflow is: upload invoice, review AI sequence, approve. For freelancers who want
+          to spend 5 minutes not 60, this matters.
+        </p>
+        <p>
+          <strong>Free plan:</strong> ChaseAI has a permanent free plan. Paidnice offers a trial, not a free tier.
+        </p>
+
+        <h2>Who should choose which</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Situation</th>
+              <th>Best choice</th>
+              <th>Why</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Freelancer, no Xero/QB, hates writing emails</td>
+              <td>ChaseAI</td>
+              <td>Works from PDF, AI writes everything</td>
+            </tr>
+            <tr>
+              <td>SMB on Xero/QB, needs late fee enforcement</td>
+              <td>Paidnice</td>
+              <td>Rules engine + Xero sync is its core strength</td>
+            </tr>
+            <tr>
+              <td>Consultant, 10-20 invoices/month, simple needs</td>
+              <td>ChaseAI</td>
+              <td>Faster, cheaper, no integration needed</td>
+            </tr>
+            <tr>
+              <td>B2B business with chronic late payers needing penalties</td>
+              <td>Paidnice</td>
+              <td>Automatic late fee application is unmatched</td>
+            </tr>
+            <tr>
+              <td>Agency using FreshBooks or Stripe invoicing</td>
+              <td>ChaseAI</td>
+              <td>Paidnice won't work without Xero/QB</td>
+            </tr>
+            <tr>
+              <td>Finance team wanting set-and-forget full AR automation</td>
+              <td>Paidnice</td>
+              <td>Built exactly for this</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>FAQ</h2>
+        <h3>Can I use Paidnice without Xero or QuickBooks?</h3>
+        <p>
+          No. Paidnice requires Xero or QuickBooks Online as its data source. Without one of these, the product doesn't function. If you don't
+          use either, ChaseAI is the straightforward alternative.
+        </p>
+        <h3>Does ChaseAI automatically apply late fees?</h3>
+        <p>
+          No. ChaseAI focuses on follow-up email sequences. For late fee calculation, use the free
+          <a href="/tools/invoice-late-fee-calculator">Invoice Late Fee Calculator</a> and add it to your invoice manually.
+        </p>
+        <h3>Paidnice won the 2025 Xero App of the Year - does that mean it's better?</h3>
+        <p>
+          It means it's the best app for Xero users in its category. That award is specifically for the Xero ecosystem. If you're not a Xero
+          user, it's not relevant to your decision.
+        </p>
+        <h3>Is ChaseAI's AI better than Paidnice's templates?</h3>
+        <p>
+          Different approaches. ChaseAI generates unique email content from your invoice details. Paidnice uses structured templates you configure
+          once. If you want full control over wording, Paidnice's template system gives you that. If you want the AI to handle it, ChaseAI does.
+        </p>
+
+        <h3>External references</h3>
+        <ul>
+          <li>
+            Paidnice G2 reviews:
+            <a href="https://www.g2.com/products/paidnice/reviews" target="_blank" rel="noopener noreferrer">
+              g2.com/products/paidnice/reviews
+            </a>
+          </li>
+          <li>
+            Paidnice Capterra:
+            <a href="https://www.capterra.com/p/254868/Paidnice/" target="_blank" rel="noopener noreferrer">
+              capterra.com/p/254868/Paidnice/
+            </a>
+          </li>
+          <li>
+            Xero Global Small Business App of the Year 2025:
+            <a href="https://www.xero.com/" target="_blank" rel="noopener noreferrer">xero.com</a>
+          </li>
+        </ul>
+        <h3>Related tools and guides</h3>
+        <ul>
+          <li><a href="/tools/late-payment-cost-calculator">Late Payment Cost Calculator</a></li>
+          <li><a href="/tools/invoice-follow-up-email-generator">Invoice Follow-Up Email Generator</a></li>
+          <li><a href="/tools/client-payment-risk-scorer">Client Payment Risk Scorer</a></li>
+          <li><a href="/guides/how-to-chase-unpaid-invoices">How to Chase Unpaid Invoices</a></li>
+          <li><a href="https://app.chaseai.app">Start Free</a></li>
+        </ul>
+        <p><strong>Written by Pasko Djonovic, Founder at ChaseAI • Last updated May 6, 2026</strong></p>
+        <p><strong>Disclosure:</strong> ChaseAI is one of the tools compared on this page.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight">Not sure yet? Try the free plan.</h2>
+      <p class="mt-3 text-muted-foreground">
+        No card required. No accounting integration needed. Test one invoice and see if the workflow fits your business.
+      </p>
+      <a
+        href="https://app.chaseai.app"
+        class="mt-6 inline-flex items-center rounded-lg bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90"
+      >
+        Start Free - No Credit Card
+      </a>
+    </div>
+  </section>
+</BaseLayout>

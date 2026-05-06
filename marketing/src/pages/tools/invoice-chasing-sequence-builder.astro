@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import ChasingSequenceBuilder from '../../components/tools/ChasingSequenceBuilder';
+import SeoFaq from '../../components/seo/SeoFaq';
+
+const pageSlug = '/tools/invoice-chasing-sequence-builder';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+const metaTitle = 'Free Invoice Chasing Sequence Builder — Build Your Follow-Up Schedule | ChaseAI';
+const metaDescription =
+  'Build a custom invoice chasing sequence in 60 seconds. Enter invoice details and get a day-by-day follow-up schedule with timing recommendations and tone guidance. Free.';
+const tocItems = [
+  { id: 'calculator', label: 'Sequence builder' },
+  { id: 'timing', label: 'Why timing matters' },
+  { id: 'adjust', label: 'Adjust by client type' },
+  { id: 'escalate', label: 'When to escalate' },
+  { id: 'faq', label: 'FAQ' },
+];
+const faqs = [
+  { q: 'How many reminders should I send?', a: 'Most SMB scenarios need 4–7 touchpoints depending on amount, client history, and terms.' },
+  { q: 'When should I start phone calls?', a: 'Usually between day 10 and day 21 overdue if email-only follow-up is not producing commitment.' },
+  { q: 'Is this the same as the AI sequence generator?', a: 'No. This is manual scheduling logic. The AI sequence tool builds a full sequence from uploaded invoice data.' },
+];
+const structuredData = [
+  { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Invoice Chasing Sequence Builder', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+  <section class="hero-gradient">
+    <div class="container py-14 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold">Invoice Chasing Sequence Builder — Your Personalized Follow-Up Schedule</h1>
+      <p class="mt-5 text-muted-foreground">Timing is often more important than wording. This tool creates a day-by-day follow-up sequence so you stop guessing when to chase next.</p>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="grid lg:grid-cols-[210px_1fr_180px] gap-10 max-w-6xl mx-auto">
+        <aside><SeoToc items={tocItems} client:idle /></aside>
+        <article class="prose prose-neutral max-w-none prose-a:text-primary">
+          <h2 id="calculator">Invoice chasing sequence builder</h2>
+          <div class="not-prose my-5"><ChasingSequenceBuilder client:load /></div>
+          <div class="not-prose my-6 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm">
+            <p>Want this sequence to run automatically? ChaseAI sends each step on schedule without manual tracking.</p>
+            <a href="https://app.chaseai.app" class="mt-2 inline-flex rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground">Start Smart Chasing</a>
+          </div>
+
+          <h2 id="timing">Why timing matters more than wording</h2>
+          <p>Invoices followed up quickly after due date are more likely to resolve early. Cadence creates momentum; random reminders create noise.</p>
+
+          <h2 id="adjust">How to adjust the sequence for different client types</h2>
+          <table>
+            <thead><tr><th>Client type</th><th>Start follow-up</th><th>Tone progression</th><th>Phone call</th></tr></thead>
+            <tbody>
+              <tr><td>New client</td><td>Day 1 overdue</td><td>Friendly to firm over 2 weeks</td><td>Day 14</td></tr>
+              <tr><td>Good long-term client</td><td>Day 3 overdue</td><td>Friendly longer</td><td>Day 21</td></tr>
+              <tr><td>Previously late client</td><td>Day 1 overdue</td><td>Firm by Day 7</td><td>Day 10</td></tr>
+              <tr><td>Enterprise</td><td>Day 5 overdue</td><td>Process-focused</td><td>Escalation only</td></tr>
+            </tbody>
+          </table>
+
+          <h2 id="escalate">When to escalate beyond email</h2>
+          <p>Use phone around day 14–21. Move to formal written notice around day 30. Consider collections/small claims around day 60+ based on amount and evidence quality.</p>
+          <p>Related resources: <a href="/tools/overdue-invoice-sequence-generator">AI Sequence Generator</a> and <a href="/guides/how-to-chase-unpaid-invoices">How to chase unpaid invoices</a>.</p>
+
+          <h3>External references</h3>
+          <ul>
+            <li><a href="https://quickbooks.intuit.com/r/small-business-data/small-business-late-payments-report-2025/" target="_blank" rel="noopener noreferrer">QuickBooks late payments report</a></li>
+            <li><a href="https://stripe.com/resources/more/what-is-a-payment-reminder-how-to-write-and-send-one-successfully" target="_blank" rel="noopener noreferrer">Stripe payment reminder guidance</a></li>
+            <li><a href="https://group.atradius.com/knowledge-and-research/reports/b2b-payment-practices-trends%2C-western-europe-2024" target="_blank" rel="noopener noreferrer">Atradius payment behavior report</a></li>
+          </ul>
+          <p><strong>Written by Pasko Djonovic, Founder at ChaseAI • Last updated May 6, 2026</strong></p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">FAQ</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+  <section class="section-padding border-t border-border">
+    <div class="container max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold">Build once, follow up consistently</h2>
+      <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
+        <a href="#calculator" class="inline-flex rounded-lg bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground">Build my schedule</a>
+        <a href="https://app.chaseai.app" class="inline-flex rounded-lg border border-border px-7 py-3 text-sm font-semibold">Automate it</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

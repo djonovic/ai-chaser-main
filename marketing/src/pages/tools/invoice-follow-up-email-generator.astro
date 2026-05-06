@@ -1,0 +1,159 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoFaq from '../../components/seo/SeoFaq';
+import InvoiceFollowUpGenerator from '../../components/tools/InvoiceFollowUpGenerator';
+
+const pageSlug = '/tools/invoice-follow-up-email-generator';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+const metaTitle = 'Free Invoice Follow-Up Email Generator | ChaseAI';
+const metaDescription =
+  'Generate a professional invoice follow-up email in seconds. Choose your overdue days, tone, and get a ready-to-send reminder. Free, no account required.';
+const appUrl = 'https://app.chaseai.app';
+
+const tocItems = [
+  { id: 'calculator', label: 'Generator' },
+  { id: 'when-to-use-tone', label: 'When to use each tone' },
+  { id: 'good-email', label: 'What makes a good follow-up' },
+  { id: 'common-mistakes', label: 'Common mistakes' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const faqs = [
+  {
+    q: 'Is this different from the Overdue Invoice Sequence Generator?',
+    a: 'Yes. This tool generates one email for a specific stage, while the Sequence Generator builds a full escalation workflow from an invoice PDF.',
+  },
+  {
+    q: 'Can I customize the generated email?',
+    a: 'Yes. The output is editable text, so you can adjust wording, timeline, and sign-off before sending.',
+  },
+  {
+    q: 'Does this use AI?',
+    a: 'No API call is used here. This tool uses deterministic templates based on your inputs for instant generation.',
+  },
+  {
+    q: 'Is this free?',
+    a: 'Yes. It is free to use and does not require an account for basic generation.',
+  },
+];
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Invoice Follow-Up Email Generator',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const structuredData = [softwareSchema, faqSchema];
+---
+
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+  <section class="hero-gradient relative overflow-hidden">
+    <div class="container py-14 md:py-18 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Invoice Follow-Up Email Generator — Professional Reminders in Seconds</h1>
+      <p class="mt-5 text-base md:text-lg text-muted-foreground leading-relaxed">
+        Writing a polite but firm invoice follow-up email is harder than it sounds. Too soft and it gets ignored.
+        Too aggressive and you damage the relationship. This <strong>invoice follow-up email generator</strong> writes
+        the right email for your situation based on overdue days and tone.
+      </p>
+      <div class="mt-7 flex flex-col sm:flex-row justify-center gap-3">
+        <a href="#calculator" class="inline-flex rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground">Generate my email</a>
+        <a href={appUrl} class="inline-flex rounded-lg border border-border px-6 py-3 text-sm font-semibold">Automate follow-ups</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="grid lg:grid-cols-[210px_1fr_180px] gap-10 max-w-6xl mx-auto">
+        <aside><SeoToc items={tocItems} client:idle /></aside>
+        <article class="prose prose-neutral max-w-none prose-a:text-primary">
+          <h2 id="calculator">Invoice follow-up email generator</h2>
+          <div class="not-prose my-5">
+            <InvoiceFollowUpGenerator client:load />
+          </div>
+
+          <div class="not-prose my-6 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm">
+            <p>Want to automate the entire sequence — not just one email?</p>
+            <a href={appUrl} class="mt-2 inline-flex rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground">Try Smart Chasing Free →</a>
+          </div>
+
+          <h2 id="when-to-use-tone">When to use each follow-up tone</h2>
+          <table>
+            <thead><tr><th>Days overdue</th><th>Recommended tone</th><th>Goal</th></tr></thead>
+            <tbody>
+              <tr><td>1–7 days</td><td>Friendly reminder</td><td>Catch honest oversights</td></tr>
+              <tr><td>8–21 days</td><td>Polite but firm</td><td>Request confirmation and payment date</td></tr>
+              <tr><td>22–45 days</td><td>Firm</td><td>Create urgency with a clear ask</td></tr>
+              <tr><td>45+ days</td><td>Final notice</td><td>Signal escalation is next</td></tr>
+            </tbody>
+          </table>
+
+          <h2 id="good-email">What makes a good invoice follow-up email</h2>
+          <ul>
+            <li>One clear action: pay now or confirm payment date.</li>
+            <li>Invoice number in the subject line so AP can route quickly.</li>
+            <li>Payment link in every reminder.</li>
+            <li>Escalating tone, never emotional language.</li>
+          </ul>
+          <p>
+            If you need full script examples, use <a href="/templates/invoice-reminder-email-template">invoice reminder templates</a> and
+            <a href="/templates/overdue-invoice-email-template"> overdue invoice templates</a>.
+          </p>
+
+          <h2 id="common-mistakes">Common mistakes in invoice follow-up emails</h2>
+          <ul>
+            <li>Changing threads and losing AP context.</li>
+            <li>Omitting the invoice number or due date.</li>
+            <li>Writing long paragraphs instead of a clear request.</li>
+            <li>Apologizing for following up.</li>
+          </ul>
+          <p>
+            For end-to-end workflows, see the <a href="/tools/overdue-invoice-sequence-generator">AI Sequence Generator</a> or read
+            <a href="/guides/how-to-chase-unpaid-invoices"> how to chase unpaid invoices</a>.
+          </p>
+
+          <h3>External references</h3>
+          <ul>
+            <li><a href="https://stripe.com/resources/more/what-is-a-payment-reminder-how-to-write-and-send-one-successfully" target="_blank" rel="noopener noreferrer">Stripe: Payment reminder best practices</a></li>
+            <li><a href="https://quickbooks.intuit.com/r/small-business-data/small-business-late-payments-report-2025/" target="_blank" rel="noopener noreferrer">QuickBooks: Small Business Late Payments Report 2025</a></li>
+            <li><a href="https://group.atradius.com/knowledge-and-research/reports/b2b-payment-practices-trends%2C-western-europe-2024" target="_blank" rel="noopener noreferrer">Atradius: B2B Payment Practices 2024</a></li>
+          </ul>
+
+          <p><strong>Written by Pasko Djonovic, Founder at ChaseAI • Last updated May 6, 2026</strong></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">FAQ</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border">
+    <div class="container max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight">Stop rewriting reminder emails every week</h2>
+      <p class="mt-4 text-muted-foreground">Generate one instantly here, then automate the sequence in ChaseAI when you are ready.</p>
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="#calculator" class="inline-flex rounded-lg bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground">Generate email</a>
+        <a href={appUrl} class="inline-flex rounded-lg border border-border px-7 py-3 text-sm font-semibold">Start free</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

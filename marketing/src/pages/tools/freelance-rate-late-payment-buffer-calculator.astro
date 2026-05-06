@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeoToc from '../../components/seo/SeoToc';
+import SeoFaq from '../../components/seo/SeoFaq';
+import FreelanceRateCalculator from '../../components/tools/FreelanceRateCalculator';
+
+const pageSlug = '/tools/freelance-rate-late-payment-buffer-calculator';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+const metaTitle = 'Freelance Rate Calculator with Late Payment Buffer | ChaseAI';
+const metaDescription =
+  'Calculate your true freelance rate accounting for late payments, unpaid invoices, and chasing time. See how much to add to your rate to hit your income target. Free.';
+const tocItems = [
+  { id: 'calculator', label: 'Calculator' },
+  { id: 'why-lower', label: 'Why rates feel low' },
+  { id: 'buffer', label: 'Typical buffer' },
+  { id: 'alternatives', label: 'Alternatives to buffer' },
+  { id: 'faq', label: 'FAQ' },
+];
+const faqs = [
+  { q: 'Should I tell clients I added a late-payment buffer?', a: 'Usually no. This is an internal pricing strategy, not a separate client line item.' },
+  { q: 'What if my bad debt is 0%?', a: 'Still account for chasing time and opportunity cost, which are common even with low write-offs.' },
+  { q: 'Does this work for day rates?', a: 'Yes. The tool outputs both hourly and day-rate equivalents.' },
+  { q: 'How does automation reduce required rates?', a: 'Reducing monthly chasing hours lowers hidden overhead and can reduce your required effective rate.' },
+];
+const structuredData = [
+  { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Freelance Rate + Late Payment Buffer Calculator', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+  <section class="hero-gradient">
+    <div class="container py-14 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold">Freelance Rate Calculator — Including the Late Payment Buffer You’re Not Charging</h1>
+      <p class="mt-5 text-muted-foreground">Most calculators ignore payment delay friction. This one estimates your true rate after bad debt, opportunity cost, and chasing time.</p>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="grid lg:grid-cols-[210px_1fr_180px] gap-10 max-w-6xl mx-auto">
+        <aside><SeoToc items={tocItems} client:idle /></aside>
+        <article class="prose prose-neutral max-w-none prose-a:text-primary">
+          <h2 id="calculator">Freelance rate + late payment buffer calculator</h2>
+          <div class="not-prose my-5"><FreelanceRateCalculator client:load /></div>
+          <div class="not-prose my-6 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm">
+            <p>Use this as your pricing floor, then reduce overhead with better payment systems.</p>
+            <a href="https://app.chaseai.app" class="mt-2 inline-flex rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground">Start Free</a>
+          </div>
+
+          <h2 id="why-lower">Why your freelance rate is lower than you think</h2>
+          <p>Revenue targets alone miss the drag of late payers, write-offs, and admin follow-up time. That is why many freelancers hit revenue goals but still feel underpaid.</p>
+
+          <h2 id="buffer">How much buffer do freelancers typically need?</h2>
+          <ul>
+            <li>Bad debt: around 2–4% annually.</li>
+            <li>Opportunity cost: roughly 0.5–1.5% monthly revenue drag.</li>
+            <li>Chasing time: often 2–4 hours monthly.</li>
+            <li>Total practical buffer: frequently 5–12% above baseline rate.</li>
+          </ul>
+
+          <h2 id="alternatives">Alternatives to building buffer into every rate</h2>
+          <p>Use client-specific terms instead: higher deposits for new clients, shorter terms for risky projects, and automation to reduce chasing hours.</p>
+          <p>Related tools: <a href="/tools/late-payment-cost-calculator">Late Payment Cost Calculator</a>, <a href="/tools/client-payment-risk-scorer">Client Risk Scorer</a>, and <a href="/tools/payment-terms-generator">Payment Terms Generator</a>.</p>
+
+          <h3>External references</h3>
+          <ul>
+            <li><a href="https://quickbooks.intuit.com/r/freelance/" target="_blank" rel="noopener noreferrer">QuickBooks freelance cash flow resources</a></li>
+            <li><a href="https://www.xero.com/uk/campaigns/business-insights/" target="_blank" rel="noopener noreferrer">Xero small business insights</a></li>
+            <li><a href="https://group.atradius.com/knowledge-and-research/reports/b2b-payment-practices-trends%2C-western-europe-2024" target="_blank" rel="noopener noreferrer">Atradius payment behavior report</a></li>
+          </ul>
+          <p><strong>Written by Pasko Djonovic, Founder at ChaseAI • Last updated May 6, 2026</strong></p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section id="faq" class="section-padding border-t border-border bg-muted/30">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">FAQ</h2>
+      <SeoFaq items={faqs} client:visible />
+    </div>
+  </section>
+  <section class="section-padding border-t border-border">
+    <div class="container max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold">Price for reality, not just revenue targets</h2>
+      <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
+        <a href="#calculator" class="inline-flex rounded-lg bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground">Calculate true rate</a>
+        <a href="https://app.chaseai.app" class="inline-flex rounded-lg border border-border px-7 py-3 text-sm font-semibold">Reduce chasing overhead</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

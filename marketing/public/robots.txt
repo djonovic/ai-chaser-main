@@ -3,5 +3,3 @@ Allow: /
 Disallow: /lp
 
 Sitemap: https://chaseai.app/sitemap-index.xml
-Sitemap: https://chaseai.app/blog-sitemap.xml
-Sitemap: https://chaseai.app/rss.xml
