@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -10,7 +10,6 @@ import { usePlan } from '@/hooks/usePlan';
 import { supabase } from '@/lib/supabaseClient';
 import { useNavigate } from 'react-router-dom';
 import type { PlanType } from '@/types';
-import { trackMetaInitiateCheckout, trackMetaViewContent } from '@/lib/metaPixel';
 import { openCheckoutUrl } from '@/lib/capacitor';
 
 const plans = [
@@ -77,13 +76,6 @@ export default function PricingPage() {
   const [annual, setAnnual] = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
   const navigate = useNavigate();
-  const viewContentTracked = useRef(false);
-
-  useEffect(() => {
-    if (viewContentTracked.current) return;
-    viewContentTracked.current = true;
-    trackMetaViewContent({ contentName: 'App pricing', contentCategory: 'subscription' });
-  }, []);
 
   const handlePlanAction = useCallback(
     async (targetPlan: PlanType) => {
@@ -104,24 +96,6 @@ export default function PricingPage() {
           if (error) throw error;
           if (data?.error) throw new Error(data.error);
           if (data?.url) {
-            const p = plans.find((x) => x.key === targetPlan);
-            if (p) {
-              const value =
-                annual && 'annualTotal' in p && p.annualTotal != null
-                  ? p.annualTotal
-                  : p.monthlyPrice;
-              const metaEventId = (data as { metaEventId?: string }).metaEventId;
-              if (metaEventId) {
-                sessionStorage.setItem('meta_purchase_event_id', metaEventId);
-                sessionStorage.setItem('meta_purchase_value', String(value));
-                sessionStorage.setItem('meta_purchase_currency', 'USD');
-              }
-              trackMetaInitiateCheckout({
-                value,
-                currency: 'USD',
-                plan: targetPlan,
-              });
-            }
             await openCheckoutUrl(data.url);
             return;
           }

@@ -109,7 +109,6 @@ Deno.serve(async (req) => {
     }
 
     const appUrl = Deno.env.get("APP_URL") ?? "https://app.chaseai.app";
-    const metaEventId = crypto.randomUUID();
     const session = await stripePost(stripeKey, "/checkout/sessions", {
       customer: customerId,
       mode: "subscription",
@@ -119,7 +118,6 @@ Deno.serve(async (req) => {
       cancel_url: `${appUrl}/pricing`,
       "metadata[supabase_user_id]": user.id,
       "metadata[plan]": plan,
-      "metadata[meta_event_id]": metaEventId,
       "subscription_data[metadata][supabase_user_id]": user.id,
       "subscription_data[metadata][plan]": plan,
       allow_promotion_codes: "true",
@@ -131,7 +129,6 @@ Deno.serve(async (req) => {
 
     return jsonResponse(req, {
       url: session.data!.url as string,
-      metaEventId,
     });
   } catch (e) {
     console.error("create-checkout error:", e);

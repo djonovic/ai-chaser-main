@@ -48,18 +48,6 @@ const shouldShowAuthorBox =
       structuredData={structuredData}
     />
     <slot name="head" />
-    <!-- Meta Pixel Code -->
-    <script is:inline>
-      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init','738326265882504');
-      fbq('track','PageView');
-    </script>
-    <noscript>
-      <img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id=738326265882504&ev=PageView&noscript=1"
-        alt="" />
-    </noscript>
-    <!-- End Meta Pixel Code -->
   </head>
   <body class="min-h-screen flex flex-col">
     <Header />
@@ -78,20 +66,30 @@ const shouldShowAuthorBox =
     <script is:inline>
       (function () {
         if (!document.querySelector('.language-mermaid')) return;
-        var s = document.createElement('script');
-        s.src = 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js';
-        s.onload = function () {
-          window.mermaid.initialize({ startOnLoad: false, theme: 'neutral', gantt: { useWidth: 800 } });
-          document.querySelectorAll('.language-mermaid').forEach(function (el) {
-            var pre = el.closest('pre');
-            var container = document.createElement('div');
-            container.className = 'mermaid';
-            container.textContent = el.textContent;
-            if (pre) { pre.replaceWith(container); } else { el.replaceWith(container); }
-          });
-          window.mermaid.run();
-        };
-        document.body.appendChild(s);
+        function loadMermaid() {
+          var s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js';
+          s.async = true;
+          s.defer = true;
+          s.onload = function () {
+            window.mermaid.initialize({ startOnLoad: false, theme: 'neutral', gantt: { useWidth: 800 } });
+            document.querySelectorAll('.language-mermaid').forEach(function (el) {
+              var pre = el.closest('pre');
+              var container = document.createElement('div');
+              container.className = 'mermaid';
+              container.textContent = el.textContent;
+              if (pre) { pre.replaceWith(container); } else { el.replaceWith(container); }
+            });
+            window.mermaid.run();
+          };
+          document.body.appendChild(s);
+        }
+
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(loadMermaid, { timeout: 2000 });
+        } else {
+          window.addEventListener('load', loadMermaid, { once: true });
+        }
       })();
     </script>
   </body>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
 import authorImage from '../assets/author-image.optimized.jpeg';
 
 const structuredData = {
@@ -31,12 +32,12 @@ const structuredData = {
 >
   <section class="hero-gradient">
     <div class="container py-16 md:py-24 max-w-3xl mx-auto">
-      <img
-        src={authorImage.src}
-        width="112"
-        height="112"
+      <Image
+        src={authorImage}
+        width={112}
+        height={112}
         loading="eager"
-        decoding="async"
+        fetchpriority="high"
         alt="Pasko Djonovic, Founder at ChaseAI"
         class="h-28 w-28 rounded-full object-cover object-[center_10%] border border-border"
       />

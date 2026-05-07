@@ -20,6 +20,9 @@ export default defineConfig({
     mdx(),
   ],
   vite: {
+    build: {
+      target: 'es2020',
+    },
     ssr: {
       noExternal: ['lucide-react'],
     },

@@ -288,11 +288,6 @@ const contactOptions = [
             });
           })
           .then(function () {
-            try {
-              if (typeof window.fbq === 'function') {
-                window.fbq('track', 'Lead', { content_name: 'Contact form' });
-              }
-            } catch (err) {}
             form.reset();
             alert('Thanks! Your message was sent. We typically reply within one business day.');
           })

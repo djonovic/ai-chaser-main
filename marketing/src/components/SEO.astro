@@ -15,6 +15,9 @@ interface Props {
 const props = Astro.props as Props;
 const siteUrl = 'https://chaseai.app';
 const canonicalUrl = props.canonical || new URL(Astro.url.pathname, siteUrl).toString();
+const ogImageUrl = props.ogImage
+  ? (props.ogImage.startsWith('http') ? props.ogImage : new URL(props.ogImage, siteUrl).toString())
+  : new URL('/og-default.png', siteUrl).toString();
 
 const organizationSchema = {
   '@context': 'https://schema.org',
@@ -79,7 +82,55 @@ const pageSchemas = props.structuredData
   ? (Array.isArray(props.structuredData) ? props.structuredData : [props.structuredData])
   : [];
 
-const mergedSchemas = [organizationSchema, authorSchema, breadcrumbSchema, ...pageSchemas];
+const webSiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'ChaseAI',
+  url: siteUrl,
+  inLanguage: 'en-US',
+};
+
+const webPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: props.title,
+  description: props.description,
+  url: canonicalUrl,
+  inLanguage: 'en-US',
+};
+
+const normalizedPageSchemas = pageSchemas.map((schema) => {
+  if (!schema || typeof schema !== 'object') return schema;
+  const typed = schema as Record<string, unknown>;
+  const schemaType = typed['@type'];
+
+  if (schemaType === 'Article') {
+    return {
+      ...typed,
+      image: typed.image ?? [ogImageUrl],
+      inLanguage: typed.inLanguage ?? 'en-US',
+      mainEntityOfPage: typed.mainEntityOfPage ?? canonicalUrl,
+    };
+  }
+
+  if (schemaType === 'HowTo') {
+    return {
+      ...typed,
+      inLanguage: typed.inLanguage ?? 'en-US',
+    };
+  }
+
+  return typed;
+});
+
+const mergedSchemas = [
+  organizationSchema,
+  authorSchema,
+  webSiteSchema,
+  webPageSchema,
+  breadcrumbSchema,
+  ...normalizedPageSchemas,
+];
 ---
 
 <SEOHead {...props} canonical={canonicalUrl} structuredData={mergedSchemas} />

@@ -242,17 +242,10 @@ curl -L -X POST 'https://pxuxwpmzhtuyrfrwfeae.supabase.co/functions/v1/process-s
 
 ---
 
-## 6. Meta Pixel + Conversions API
-
-See **[META_PIXEL_AND_CAPI.md](./META_PIXEL_AND_CAPI.md)** for Events Manager setup, env vars (`VITE_META_PIXEL_ID` for the app; marketing Pixel is hardcoded in `marketing/src/layouts/BaseLayout.astro`), Supabase secrets `META_PIXEL_ID` + `META_CAPI_ACCESS_TOKEN`, and deploy notes.
-
----
-
-## 7. Next steps
+## 6. Next steps
 
 1. Run the migration SQL (or `supabase db push`).
 2. Set all Edge Function secrets and `SITE_URL`.
 3. Deploy Edge Functions and configure Stripe webhook URL and OAuth redirect URIs as above.
 4. Schedule the two cron jobs (or equivalent HTTP cron) for `sync-accounting` and `check-gmail-replies`.
 5. In the app: add Stripe keys in **Settings → Integrations** (optional; webhook uses project-level keys). Connect QuickBooks/Xero/Gmail as needed; paid and reply behaviour will run on the defined schedule.
-6. Optional: configure Meta Pixel + CAPI per **META_PIXEL_AND_CAPI.md**.

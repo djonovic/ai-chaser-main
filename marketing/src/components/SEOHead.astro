@@ -22,6 +22,8 @@ const {
 const siteName = 'ChaseAI';
 const siteUrl = 'https://chaseai.app';
 const fullTitle = title;
+const clampedDescription =
+  description.length > 158 ? `${description.slice(0, 155).trimEnd()}...` : description;
 const canonicalUrl = canonical || new URL(Astro.url.pathname, siteUrl).toString();
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, siteUrl).toString();
 
@@ -34,7 +36,7 @@ const schemas = structuredData
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>{fullTitle}</title>
-<meta name="description" content={description} />
+<meta name="description" content={clampedDescription} />
 <link rel="canonical" href={canonicalUrl} />
 
 {noindex
@@ -47,7 +49,7 @@ const schemas = structuredData
 <meta property="og:type" content={ogType} />
 <meta property="og:url" content={canonicalUrl} />
 <meta property="og:title" content={fullTitle} />
-<meta property="og:description" content={description} />
+<meta property="og:description" content={clampedDescription} />
 <meta property="og:image" content={ogImageUrl} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -57,17 +59,25 @@ const schemas = structuredData
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={fullTitle} />
-<meta name="twitter:description" content={description} />
+<meta name="twitter:description" content={clampedDescription} />
 <meta name="twitter:image" content={ogImageUrl} />
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
 <meta name="theme-color" content="#3B82F6" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="dns-prefetch" href="https://connect.facebook.net" />
+<link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+<link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link rel="preconnect" href="https://va.vercel-scripts.com" />
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+<link rel="dns-prefetch" href="https://va.vercel-scripts.com" />
 
 {schemas.map(schema => (
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />

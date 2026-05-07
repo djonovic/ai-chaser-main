@@ -9,8 +9,7 @@ export function getCorsHeaders(req: Request): Record<string, string> {
   const isAllowed =
     ALLOWED_ORIGINS.length === 0 ||
     ALLOWED_ORIGINS.includes(origin) ||
-    origin.startsWith("http://localhost") ||
-    origin === "capacitor://localhost";
+    origin.startsWith("http://localhost");
 
   return {
     "Access-Control-Allow-Origin": isAllowed ? origin : ALLOWED_ORIGINS[0] ?? "",

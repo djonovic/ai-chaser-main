@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /lp
+Disallow: /lp/
 
 Sitemap: https://chaseai.app/sitemap-index.xml
+Host: chaseai.app

@@ -13,7 +13,6 @@ import { toast } from 'sonner';
 import { Eye, EyeOff, CheckCircle, Key, ExternalLink, Shield, Loader2 } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
-import { trackMetaPurchase } from '@/lib/metaPixel';
 
 export default function SettingsPage() {
   const { settings, updateSettings } = useSettings();
@@ -59,24 +58,6 @@ export default function SettingsPage() {
       setSearchParams(next, { replace: true });
     };
 
-    const eventId = sessionStorage.getItem('meta_purchase_event_id');
-    if (!eventId) {
-      clearSessionIdFromUrl();
-      return;
-    }
-
-    const sentKey = `meta_purchase_sent_${eventId}`;
-    if (sessionStorage.getItem(sentKey)) {
-      clearSessionIdFromUrl();
-      return;
-    }
-
-    const value = Number.parseFloat(
-      sessionStorage.getItem('meta_purchase_value') ?? '0',
-    );
-    const currency = sessionStorage.getItem('meta_purchase_currency') ?? 'USD';
-    trackMetaPurchase({ eventId, value, currency });
-    sessionStorage.setItem(sentKey, '1');
     if (!sessionStorage.getItem('chaseai_welcome_post_checkout')) {
       sessionStorage.setItem('chaseai_welcome_post_checkout', '1');
       toast.success(
@@ -84,9 +65,6 @@ export default function SettingsPage() {
         { duration: 10000 },
       );
     }
-    sessionStorage.removeItem('meta_purchase_event_id');
-    sessionStorage.removeItem('meta_purchase_value');
-    sessionStorage.removeItem('meta_purchase_currency');
     clearSessionIdFromUrl();
   }, [searchParams, setSearchParams]);
 

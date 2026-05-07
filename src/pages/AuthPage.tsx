@@ -8,7 +8,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
-import { trackMetaCompleteRegistration } from '@/lib/metaPixel';
 
 function getSafeNext(searchParams: URLSearchParams): string {
   const n = searchParams.get('next');
@@ -88,7 +87,6 @@ export default function AuthPage() {
     if (error) {
       toast.error(error.message || 'Sign up failed');
     } else {
-      trackMetaCompleteRegistration();
       toast.success('Account created! Check your email to confirm.');
     }
   };

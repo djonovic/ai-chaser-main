@@ -1,0 +1,30 @@
+---
+interface FaqItem {
+  q: string;
+  a: string;
+}
+
+const { items } = Astro.props as { items: FaqItem[] };
+---
+
+<div class="divide-y divide-border rounded-xl border border-border">
+  {items.map((item, i) => (
+    <details class="group" open={i === 0}>
+      <summary class="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-medium hover:bg-muted/30 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+        <span>{item.q}</span>
+        <svg
+          class="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </summary>
+      <div class="px-5 pb-4 text-sm text-muted-foreground leading-relaxed">
+        {item.a}
+      </div>
+    </details>
+  ))}
+</div>
