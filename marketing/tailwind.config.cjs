@@ -53,7 +53,7 @@ module.exports = {
         },
         muted: {
           DEFAULT: 'hsl(210, 40%, 96%)',
-          foreground: 'hsl(215, 16%, 47%)',
+          foreground: 'hsl(215, 20%, 38%)',
         },
         accent: {
           DEFAULT: 'hsl(210, 40%, 96%)',

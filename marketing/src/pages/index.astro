@@ -210,7 +210,7 @@ const structuredData = [softwareSchema, faqSchema];
           Why teams use ChaseAI
         </p>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10 lg:gap-x-8 lg:gap-y-8">
-          {stats.map((stat) => (
+          {stats.map((stat, index) => (
             <div class="flex flex-col items-center text-center min-w-0 max-w-sm mx-auto w-full">
               <button
                 type="button"
@@ -223,11 +223,14 @@ const structuredData = [softwareSchema, faqSchema];
                 <div class="relative overflow-hidden rounded-xl border border-border bg-muted/40 shadow-sm transition-shadow group-hover:shadow-md group-hover:border-primary/25">
                   <Image
                     src={stat.thumb}
-                    width={stat.thumb.width}
-                    height={stat.thumb.height}
+                    width={480}
+                    height={192}
                     alt={stat.lightboxAlt}
                     class="h-[5.5rem] sm:h-24 w-full object-cover object-left-top pointer-events-none"
-                    loading="lazy"
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    fetchpriority={index === 0 ? 'high' : 'auto'}
+                    quality={70}
+                    sizes="(max-width: 640px) 240px, 240px"
                   />
                 </div>
                 <span
@@ -758,12 +761,14 @@ const structuredData = [softwareSchema, faqSchema];
         img.alt = '';
       }
 
-      document.querySelectorAll('[data-home-lightbox-open]').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var src = btn.getAttribute('data-home-lightbox-src');
-          var alt = btn.getAttribute('data-home-lightbox-alt') || '';
-          if (src) openLightbox(src, alt);
-        });
+      document.addEventListener('click', function (e) {
+        var target = e.target;
+        if (!(target instanceof Element)) return;
+        var btn = target.closest('[data-home-lightbox-open]');
+        if (!btn) return;
+        var src = btn.getAttribute('data-home-lightbox-src');
+        var alt = btn.getAttribute('data-home-lightbox-alt') || '';
+        if (src) openLightbox(src, alt);
       });
 
       backdrop.addEventListener('click', closeLightbox);
