@@ -31,10 +31,10 @@ const plans = [
   {
     key: 'starter' as PlanType,
     name: 'Starter',
-    monthlyPrice: 29,
-    annualPrice: 24,
-    annualTotal: 288,
-    savePercent: 17,
+    monthlyPrice: 19,
+    annualPrice: 19,
+    annualTotal: 228,
+    savePercent: 0,
     description: 'For freelancers and consultants who are serious about getting paid.',
     features: [
       'Unlimited invoices',
@@ -51,10 +51,10 @@ const plans = [
   {
     key: 'pro' as PlanType,
     name: 'Pro',
-    monthlyPrice: 49,
+    monthlyPrice: 39,
     annualPrice: 39,
     annualTotal: 468,
-    savePercent: 20,
+    savePercent: 0,
     description: 'For power users and growing teams who want no limits.',
     features: [
       'Everything in Starter',
@@ -136,7 +136,7 @@ export default function PricingPage() {
           </span>
           {annual && (
             <Badge variant="secondary" className="text-xs gap-1">
-              Save 17–20%
+              Yearly billing
             </Badge>
           )}
         </div>
@@ -185,7 +185,8 @@ export default function PricingPage() {
                 </div>
                 {'annualTotal' in p && annual && p.annualTotal && (
                   <p className="text-xs text-muted-foreground mt-1">
-                    ${p.annualTotal}/year · Save {p.savePercent}%
+                    ${p.annualTotal}/year
+                    {p.savePercent > 0 ? ` · Save ${p.savePercent}%` : ''}
                   </p>
                 )}
                 {price > 0 && !annual && (
