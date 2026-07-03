@@ -1,6 +1,7 @@
 ---
 import SEOHead from './SEOHead.astro';
 import authorImage from '../assets/author-image.optimized.jpeg';
+import { getCanonicalUrl, SITE_URL } from '../lib/canonical';
 
 interface Props {
   title: string;
@@ -13,8 +14,8 @@ interface Props {
 }
 
 const props = Astro.props as Props;
-const siteUrl = 'https://chaseai.app';
-const canonicalUrl = props.canonical || new URL(Astro.url.pathname, siteUrl).toString();
+const siteUrl = SITE_URL;
+const canonicalUrl = getCanonicalUrl(props.canonical, Astro.url.pathname);
 const ogImageUrl = props.ogImage
   ? (props.ogImage.startsWith('http') ? props.ogImage : new URL(props.ogImage, siteUrl).toString())
   : new URL('/og-default.png', siteUrl).toString();
@@ -56,7 +57,7 @@ const authorSchema = {
 
 const segments = Astro.url.pathname.split('/').filter(Boolean);
 const breadcrumbItems = [
-  { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl + '/' },
+  { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
   ...segments.map((segment, index) => {
     const path = '/' + segments.slice(0, index + 1).join('/');
     const label = segment

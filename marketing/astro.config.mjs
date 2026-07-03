@@ -6,6 +6,7 @@ import mdx from '@astrojs/mdx';
 
 export default defineConfig({
   site: 'https://chaseai.app',
+  trailingSlash: 'never',
   output: 'static',
   server: {
     port: 4321,
@@ -15,7 +16,9 @@ export default defineConfig({
     webAnalytics: { enabled: false },
   }),
   integrations: [
-    sitemap(),
+    sitemap({
+      filter: (page) => !page.includes('/lp'),
+    }),
     react(),
     mdx(),
   ],

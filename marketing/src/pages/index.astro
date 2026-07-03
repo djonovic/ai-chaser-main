@@ -143,8 +143,8 @@ const softwareSchema = {
   description: 'AI-powered invoice chasing software that automates payment follow-ups and helps freelancers get paid faster.',
   offers: [
     { '@type': 'Offer', price: '0', priceCurrency: 'USD', name: 'Free' },
-    { '@type': 'Offer', price: '19', priceCurrency: 'USD', name: 'Starter' },
-    { '@type': 'Offer', price: '39', priceCurrency: 'USD', name: 'Pro' },
+    { '@type': 'Offer', price: '9', priceCurrency: 'USD', name: 'Starter' },
+    { '@type': 'Offer', price: '19', priceCurrency: 'USD', name: 'Pro' },
   ],
 };
 
@@ -164,6 +164,7 @@ const structuredData = [softwareSchema, faqSchema];
 <BaseLayout
   title="ChaseAI - AI-Powered Invoice Chasing Software | Get Paid 2x Faster"
   description="AI that reads your invoice PDFs and automatically sends professional chase sequences. Get paid faster without awkward follow-ups. Free plan available - no credit card required."
+  canonical="https://chaseai.app"
   structuredData={structuredData}
 >
   <Fragment slot="head">
@@ -594,7 +595,7 @@ const structuredData = [softwareSchema, faqSchema];
           </div>
           <div class="text-sm font-medium text-primary mb-1">Starter</div>
           <div class="flex items-baseline gap-1 mb-2">
-            <span class="text-4xl font-extrabold">$19</span>
+            <span class="text-4xl font-extrabold">$9</span>
             <span class="text-muted-foreground">/mo</span>
           </div>
           <p class="text-sm text-muted-foreground mb-6">For serious freelancers</p>
@@ -623,7 +624,7 @@ const structuredData = [softwareSchema, faqSchema];
           </div>
           <div class="text-sm font-medium text-muted-foreground mb-1">Pro</div>
           <div class="flex items-baseline gap-1 mb-2">
-            <span class="text-4xl font-extrabold">$39</span>
+            <span class="text-4xl font-extrabold">$19</span>
             <span class="text-muted-foreground">/mo</span>
           </div>
           <p class="text-sm text-muted-foreground mb-6">For power users & teams</p>
@@ -701,7 +702,7 @@ const structuredData = [softwareSchema, faqSchema];
           </a>
         </div>
         <p class="mt-4 text-xs text-muted-foreground">
-          Free forever &middot; Upgrade from $19/mo &middot; Cancel anytime
+          Free forever &middot; Upgrade from $9/mo &middot; Cancel anytime
         </p>
       </div>
     </div>

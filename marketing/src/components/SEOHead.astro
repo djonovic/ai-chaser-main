@@ -1,4 +1,6 @@
 ---
+import { getCanonicalUrl } from '../lib/canonical';
+
 interface Props {
   title: string;
   description: string;
@@ -24,7 +26,7 @@ const siteUrl = 'https://chaseai.app';
 const fullTitle = title;
 const clampedDescription =
   description.length > 158 ? `${description.slice(0, 155).trimEnd()}...` : description;
-const canonicalUrl = canonical || new URL(Astro.url.pathname, siteUrl).toString();
+const canonicalUrl = getCanonicalUrl(canonical, Astro.url.pathname);
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, siteUrl).toString();
 
 const schemas = structuredData

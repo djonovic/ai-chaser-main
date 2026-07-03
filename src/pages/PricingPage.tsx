@@ -31,9 +31,9 @@ const plans = [
   {
     key: 'starter' as PlanType,
     name: 'Starter',
-    monthlyPrice: 19,
-    annualPrice: 19,
-    annualTotal: 228,
+    monthlyPrice: 9,
+    annualPrice: 9,
+    annualTotal: 108,
     savePercent: 0,
     description: 'For freelancers and consultants who are serious about getting paid.',
     features: [
@@ -51,9 +51,9 @@ const plans = [
   {
     key: 'pro' as PlanType,
     name: 'Pro',
-    monthlyPrice: 39,
-    annualPrice: 39,
-    annualTotal: 468,
+    monthlyPrice: 19,
+    annualPrice: 19,
+    annualTotal: 228,
     savePercent: 0,
     description: 'For power users and growing teams who want no limits.',
     features: [
@@ -189,8 +189,16 @@ export default function PricingPage() {
                     {p.savePercent > 0 ? ` · Save ${p.savePercent}%` : ''}
                   </p>
                 )}
-                {price > 0 && !annual && (
+                {price > 0 && !annual && 'annualTotal' in p && p.annualTotal && (
+                  <p className="text-xs text-muted-foreground mt-1">
+                    or ${p.annualTotal}/year billed annually
+                  </p>
+                )}
+                {price > 0 && !annual && !('annualTotal' in p && p.annualTotal) && (
                   <p className="text-xs text-muted-foreground mt-1">Billed monthly</p>
+                )}
+                {price > 0 && annual && (
+                  <p className="text-xs text-muted-foreground mt-1">Billed annually</p>
                 )}
                 {price === 0 && (
                   <p className="text-xs text-muted-foreground mt-1">No credit card required</p>

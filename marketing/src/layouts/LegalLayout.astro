@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { getCanonicalUrl } from '../lib/canonical';
 
 interface Props {
   title: string;
@@ -13,12 +14,13 @@ interface Props {
 }
 
 const { title, description, lastUpdated, canonical, ogImage, ogType, noindex, structuredData } = Astro.props as Props;
+const canonicalUrl = getCanonicalUrl(canonical, Astro.url.pathname);
 ---
 
 <BaseLayout
   title={title}
   description={description}
-  canonical={canonical}
+  canonical={canonicalUrl}
   ogImage={ogImage}
   ogType={ogType}
   noindex={noindex}

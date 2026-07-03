@@ -10,7 +10,7 @@ const pageSchema = {
   '@type': 'WebPage',
   name: 'ChaseAI Pricing',
   description:
-    'ChaseAI pricing plans: Free (1 invoice), Starter ($19/mo), and Pro ($39/mo). Start free, no credit card required.',
+    'ChaseAI pricing plans: Free (1 invoice), Starter ($9/mo), and Pro ($19/mo). Start free, no credit card required.',
   url: 'https://chaseai.app/pricing',
 };
 
@@ -35,9 +35,9 @@ const plans = [
   },
   {
     name: 'Starter',
-    price: '$19',
+    price: '$9',
     period: '/mo',
-    subtitle: '$228/year billed annually',
+    subtitle: '$108/year billed annually',
     description: 'For freelancers and consultants who are serious about getting paid.',
     features: [
       'Unlimited invoices',
@@ -56,9 +56,9 @@ const plans = [
   },
   {
     name: 'Pro',
-    price: '$39',
+    price: '$19',
     period: '/mo',
-    subtitle: '$468/year billed annually',
+    subtitle: '$228/year billed annually',
     description: 'For power users and growing teams who want no limits.',
     features: [
       'Everything in Starter',
@@ -140,6 +140,7 @@ const structuredData = [pageSchema, faqSchema];
 <BaseLayout
   title="ChaseAI Pricing | Invoice Chasing Software Plans (Free + Pro)"
   description="Compare ChaseAI plans for freelancers and agencies. Start free, automate invoice reminders, and upgrade when you need more sequences and tracking."
+  canonical="https://chaseai.app/pricing"
   structuredData={structuredData}
 >
   <!-- Hero -->
@@ -273,17 +274,17 @@ const structuredData = [pageSchema, faqSchema];
               <div class="text-sm text-muted-foreground mt-1">Avg overdue invoice</div>
             </div>
             <div class="p-5 rounded-xl bg-primary/5 border border-primary/10">
-              <div class="text-3xl font-extrabold text-primary">$19</div>
+              <div class="text-3xl font-extrabold text-primary">$9</div>
               <div class="text-sm text-muted-foreground mt-1">ChaseAI Starter/mo</div>
             </div>
             <div class="p-5 rounded-xl bg-success/5 border border-success/10">
-              <div class="text-3xl font-extrabold text-success">144x</div>
+              <div class="text-3xl font-extrabold text-success">467x</div>
               <div class="text-sm text-muted-foreground mt-1">ROI on first recovery</div>
             </div>
           </div>
 
           <p class="text-center text-sm text-muted-foreground mt-5">
-            Most users recover their first overdue invoice within a week. That is a 221x return on a $19/month plan.
+            Most users recover their first overdue invoice within a week. That is a 467x return on a $9/month plan.
           </p>
         </div>
       </div>
