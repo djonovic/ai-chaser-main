@@ -1,8 +1,70 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { optionsResponse, jsonResponse } from "../_shared/cors.ts";
-import { getAuthenticatedUser } from "../_shared/auth.ts";
+import type { User } from "https://esm.sh/@supabase/supabase-js@2";
 
 const STRIPE_API = "https://api.stripe.com/v1";
+
+const allowedOriginsRaw = Deno.env.get("ALLOWED_ORIGINS") ?? "";
+const ALLOWED_ORIGINS = allowedOriginsRaw
+  ? allowedOriginsRaw.split(",").map((o) => o.trim())
+  : [];
+
+function getCorsHeaders(req: Request): Record<string, string> {
+  const origin = req.headers.get("Origin") ?? "";
+  const isAllowed =
+    ALLOWED_ORIGINS.length === 0 ||
+    ALLOWED_ORIGINS.includes(origin) ||
+    origin.startsWith("http://localhost");
+
+  return {
+    "Access-Control-Allow-Origin": isAllowed ? origin : ALLOWED_ORIGINS[0] ?? "",
+    "Access-Control-Allow-Headers":
+      "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+  };
+}
+
+function optionsResponse(req: Request): Response {
+  return new Response(null, { status: 204, headers: getCorsHeaders(req) });
+}
+
+function jsonResponse(
+  req: Request,
+  body: Record<string, unknown>,
+  status = 200,
+): Response {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...getCorsHeaders(req), "Content-Type": "application/json" },
+  });
+}
+
+async function getAuthenticatedUser(
+  req: Request,
+): Promise<{ user: User; token: string } | { error: string; status: number }> {
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader?.startsWith("Bearer ")) {
+    return { error: "Missing or invalid Authorization header", status: 401 };
+  }
+
+  const token = authHeader.replace("Bearer ", "").trim();
+  const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+  const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
+
+  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+    global: { headers: { Authorization: `Bearer ${token}` } },
+  });
+
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser(token);
+
+  if (error || !user) {
+    return { error: "Unauthorized", status: 401 };
+  }
+
+  return { user, token };
+}
 
 async function stripeGet(
   secretKey: string,
@@ -58,7 +120,6 @@ Deno.serve(async (req) => {
         return jsonResponse(req, { error: "Session does not belong to this user" }, 403);
       }
 
-      // Only activate paid/trial checkouts (not abandoned).
       const status = session.status as string | undefined;
       if (status && status !== "complete") {
         return jsonResponse(req, { error: "Checkout not completed", status }, 400);
@@ -84,7 +145,6 @@ Deno.serve(async (req) => {
         return jsonResponse(req, { plan: "free", synced: false });
       }
 
-      // Prefer trialing, then active.
       for (const status of ["trialing", "active"]) {
         const list = await stripeGet(
           stripeKey,
@@ -92,7 +152,9 @@ Deno.serve(async (req) => {
         );
         const sub = (list as { data?: Record<string, unknown>[] } | null)?.data?.[0];
         if (sub) {
-          plan = planFromMetadata(sub.metadata as Record<string, unknown> | undefined);
+          plan =
+            planFromMetadata(sub.metadata as Record<string, unknown> | undefined) ??
+            "starter";
           subscriptionId = sub.id as string;
           break;
         }

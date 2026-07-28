@@ -117,7 +117,18 @@ Deno.serve(async (req) => {
       case "customer.subscription.deleted": {
         const subscription = event.data.object;
         const userId = subscription.metadata?.supabase_user_id;
-        if (!userId) break;
+        const subscriptionId = subscription.id as string | undefined;
+
+        let targetUserId = userId as string | undefined;
+        if (!targetUserId && subscriptionId) {
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("id")
+            .eq("stripe_subscription_id", subscriptionId)
+            .maybeSingle();
+          targetUserId = profile?.id;
+        }
+        if (!targetUserId) break;
 
         await supabase
           .from("profiles")
@@ -126,9 +137,9 @@ Deno.serve(async (req) => {
             stripe_subscription_id: null,
             plan_expires_at: null,
           })
-          .eq("id", userId);
+          .eq("id", targetUserId);
 
-        console.log(`Subscription cancelled, reverted to free: user=${userId}`);
+        console.log(`Subscription cancelled, reverted to free: user=${targetUserId}`);
         break;
       }
 

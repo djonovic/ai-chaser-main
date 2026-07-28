@@ -13,6 +13,12 @@ verify_jwt = false
 [functions.create-checkout]
 verify_jwt = false
 
+[functions.confirm-checkout]
+verify_jwt = false
+
+[functions.cancel-subscription]
+verify_jwt = false
+
 [functions.send-test-email]
 verify_jwt = true
 

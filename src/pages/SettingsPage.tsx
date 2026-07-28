@@ -16,7 +16,7 @@ import { ConfirmDialog } from '@/components/ConfirmDialog';
 
 export default function SettingsPage() {
   const { settings, updateSettings } = useSettings();
-  const { plan, hasUserKey, userGeminiKey, saveUserGeminiKey, aiUsageCount, maxAISequences, upgradePlan, refreshPlan } = usePlan();
+  const { plan, hasUserKey, userGeminiKey, saveUserGeminiKey, aiUsageCount, maxAISequences, refreshPlan } = usePlan();
   const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -393,6 +393,7 @@ export default function SettingsPage() {
                   <>
                     <Button
                       variant="outline"
+                      disabled={syncingBilling}
                       onClick={() => setCancelSubscriptionOpen(true)}
                     >
                       Cancel Subscription
@@ -401,15 +402,34 @@ export default function SettingsPage() {
                       open={cancelSubscriptionOpen}
                       onOpenChange={setCancelSubscriptionOpen}
                       title="Cancel subscription?"
-                      description="Access in the app will end when you confirm. You will need an active subscription again to use ChaseAI. Stripe-billed subscriptions should also be cancelled in your Stripe receipt or by contacting support so you are not charged again."
+                      description="This cancels your Stripe subscription immediately (including during a free trial), so you won’t be charged. You’ll need to start a new plan to use ChaseAI again."
                       confirmLabel="Yes, cancel subscription"
                       destructive
                       onConfirm={async () => {
-                        await upgradePlan('free');
-                        setCancelSubscriptionOpen(false);
-                        toast.success(
-                          'Subscription access removed in the app. Start a new plan anytime from Pricing.',
-                        );
+                        setSyncingBilling(true);
+                        try {
+                          const { data, error } = await supabase.functions.invoke(
+                            'cancel-subscription',
+                            { body: {} },
+                          );
+                          if (error) throw error;
+                          if (data?.error) throw new Error(data.error);
+                          await refreshPlan();
+                          setCancelSubscriptionOpen(false);
+                          toast.success(
+                            data?.stripe_canceled
+                              ? 'Subscription cancelled in Stripe. You won’t be charged.'
+                              : 'Subscription access removed.',
+                          );
+                        } catch (e) {
+                          toast.error(
+                            e instanceof Error
+                              ? e.message
+                              : 'Failed to cancel subscription',
+                          );
+                        } finally {
+                          setSyncingBilling(false);
+                        }
                       }}
                     />
                   </>
