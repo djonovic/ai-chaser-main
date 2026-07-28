@@ -4,41 +4,229 @@ import SeoToc from '../../components/seo/SeoToc.astro';
 import SeoCtaBand from '../../components/seo/SeoCtaBand';
 import SeoFaq from '../../components/seo/SeoFaq.astro';
 import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+import CopyBlock from '../../components/seo/CopyBlock.astro';
+import TimelineSteps from '../../components/seo/TimelineSteps.astro';
 
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/templates/second-invoice-reminder-email';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
-// META (DO NOT CHANGE)
-const metaTitle = 'Second Invoice Reminder Email Template (2nd Reminder) | ChaseAI';
+const metaTitle = '2nd Payment Reminder Email: 10 Templates + Subject Lines';
 const metaDescription =
-  'Copy and customize this second reminder email template with friendly-to-firm wording, clear payment asks, and escalation timing to recover overdue invoices faster.';
+  'Copy a 2nd payment reminder email for friendly, professional, firm or accounts-payable follow-up. Includes subject lines and payment-date wording.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Templates', href: '/templates' },
+  { label: '2nd Payment Reminder Email', href: pageSlug },
+];
 
 const tocItems = [
-  { id: 'fast-template', label: 'Fast template (under 100 words)' },
-  { id: 'detailed-template', label: 'Detailed template (AP-friendly)' },
+  { id: 'fast-template', label: 'Start here: the go-to 2nd reminder' },
+  { id: 'templates', label: 'All 10 templates' },
   { id: 'subject-lines', label: 'Subject lines' },
-  { id: 'decision-rule', label: 'Next step decision rule' },
-  { id: 'automate', label: 'Automate' },
+  { id: 'when-to-send', label: 'When to send a second reminder' },
+  { id: 'decision-rule', label: 'When to escalate' },
+  { id: 'related', label: 'Related templates' },
   { id: 'faq', label: 'FAQ' },
+];
+
+const templates = [
+  {
+    id: 'friendly-second',
+    heading: '1. Friendly second reminder',
+    context:
+      'Use when the client is normally reliable and the first reminder may simply have been missed.',
+    subject: 'Quick follow-up: invoice [Invoice number]',
+    text: `Hi [Client name],
+
+Just circling back on invoice [Invoice number] for [Outstanding amount], which was due on [Original due date]. I sent a reminder last week and wanted to make sure it didn't get buried.
+
+Could you confirm when payment is scheduled? Here's the payment link again: [Payment link]
+
+Thanks so much,
+[Your name]`,
+  },
+  {
+    id: 'detailed-template',
+    heading: '2. Professional second reminder',
+    context:
+      'A fuller, businesslike follow-up that restates every detail an accounts team needs to process payment without digging through old emails.',
+    subject: 'Second reminder: invoice [Invoice number] outstanding',
+    text: `Hi [Client name],
+
+I'm following up on invoice [Invoice number] for [Outstanding amount], due on [Original due date], which remains outstanding. For convenience:
+
+Invoice number: [Invoice number]
+Amount due: [Outstanding amount]
+Original due date: [Original due date]
+Payment link: [Payment link]
+
+Please confirm either that payment has been scheduled (with the expected date) or that there's a blocker we should resolve. I've reattached the invoice to this email.
+
+Thank you,
+[Your name]`,
+  },
+  {
+    id: 'firm-second',
+    heading: '3. Firm second reminder',
+    context:
+      'Use when the first reminder got no reply at all and the invoice is more than a week overdue. Direct, but not hostile.',
+    subject: 'Invoice [Invoice number] now [X] days overdue - payment date needed',
+    text: `Hi [Client name],
+
+Invoice [Invoice number] for [Outstanding amount] is now [X] days past its due date of [Original due date], and I haven't had a response to my previous reminder.
+
+Please confirm a payment date by [reply-by date]. If there is a problem with the invoice, let me know today so we can resolve it.
+
+Payment link: [Payment link]
+
+Regards,
+[Your name]`,
+  },
+  {
+    id: 'very-short',
+    heading: '4. Very short second reminder',
+    context:
+      'Two sentences. Works well on mobile and for busy clients who respond better to brevity.',
+    subject: '2nd reminder: invoice [Invoice number]',
+    text: `Hi [Client name] - second reminder that invoice [Invoice number] ([Outstanding amount], due [Original due date]) is still open. Can you confirm a payment date today? Pay here: [Payment link]
+
+Thanks, [Your name]`,
+  },
+  {
+    id: 'ap-follow-up',
+    heading: '5. Accounts-payable follow-up',
+    context:
+      'For invoices routed through an AP department rather than your direct contact. Reference numbers do the heavy lifting here.',
+    subject: 'Payment follow-up: invoice [Invoice number] / PO [PO number]',
+    text: `Hello Accounts Payable team,
+
+I'm following up on invoice [Invoice number] (PO [PO number]) for [Outstanding amount], issued on [Invoice date] and due [Original due date]. This is my second follow-up.
+
+Could you confirm the invoice is approved in your system and share the scheduled payment date? If anything is missing for processing - a copy of the invoice, PO reference or supplier details - let me know and I'll send it right away.
+
+Kind regards,
+[Your name]`,
+  },
+  {
+    id: 'missing-payment-date',
+    heading: '6. Missing payment-date follow-up',
+    context:
+      'Use when the client replied to your first reminder but never gave an actual date. The single ask: a date.',
+    subject: 'Invoice [Invoice number]: payment date confirmation',
+    text: `Hi [Client name],
+
+Thanks for your reply about invoice [Invoice number]. To close this out on my side, could you confirm the specific date payment will be sent?
+
+Amount due: [Outstanding amount], originally due [Original due date]. Payment link: [Payment link]
+
+Much appreciated,
+[Your name]`,
+  },
+  {
+    id: 'with-payment-link',
+    heading: '7. Reminder with payment link',
+    context:
+      'Puts the payment action front and center. Best when the friction is genuinely "I keep forgetting", not a cash-flow issue.',
+    subject: 'One click to settle invoice [Invoice number]',
+    text: `Hi [Client name],
+
+Following up on invoice [Invoice number] for [Outstanding amount] (due [Original due date]).
+
+You can pay in under a minute here: [Payment link]
+
+If it's already been paid, ignore this and thank you. Otherwise, I'd appreciate it if you could settle it this week.
+
+Best,
+[Your name]`,
+  },
+  {
+    id: 'broken-promise',
+    heading: '8. Reminder after a broken promise to pay',
+    context:
+      'The client committed to a date and missed it. Reference the promise factually and ask for a new, firm date.',
+    subject: 'Invoice [Invoice number]: payment expected [promised date]',
+    text: `Hi [Client name],
+
+When we last spoke, payment for invoice [Invoice number] ([Outstanding amount]) was expected by [promised date]. It hasn't arrived yet.
+
+I understand things slip, but I do need a firm date now. Please confirm today when payment will be made, or call me if there's an issue we should talk through.
+
+Payment link: [Payment link]
+
+Regards,
+[Your name]`,
+  },
+  {
+    id: 'valued-client',
+    heading: '9. Reminder for a valued long-term client',
+    context:
+      'Protects the relationship while still being clear that the invoice needs to be paid. Warmth plus specifics.',
+    subject: 'Small admin item: invoice [Invoice number]',
+    text: `Hi [Client name],
+
+Hope things are going well. One small admin item: invoice [Invoice number] for [Outstanding amount] (due [Original due date]) is still open - I know these things slip through, so this is just a friendly second nudge.
+
+Here's the payment link when convenient this week: [Payment link]
+
+Looking forward to the next project.
+
+Warm regards,
+[Your name]`,
+  },
+  {
+    id: 'before-escalation',
+    heading: '10. Second reminder before escalation',
+    context:
+      'The last "normal" reminder before you switch to firm or final-notice wording. Signal the next step without threatening.',
+    subject: 'Invoice [Invoice number]: response needed by [reply-by date]',
+    text: `Hi [Client name],
+
+Invoice [Invoice number] for [Outstanding amount] is now [X] days overdue and I haven't received a response to my previous reminders.
+
+I'd genuinely prefer to resolve this between us. Please reply with a payment date by [reply-by date]. If I don't hear back, I'll need to move this to our formal overdue process.
+
+Payment link: [Payment link]
+
+Regards,
+[Your name]`,
+  },
+];
+
+const subjectLines = [
+  'Second reminder: invoice [Invoice number] overdue',
+  '2nd reminder: invoice [Invoice number] ([Outstanding amount])',
+  'Follow-up: invoice [Invoice number] still outstanding',
+  'Invoice [Invoice number]: payment date confirmation needed',
+  'Reminder 2: action needed on invoice [Invoice number]',
+  'Invoice [Invoice number] [X] days overdue - quick update?',
+  'Please confirm payment timing: invoice [Invoice number]',
+  'Second payment request: invoice [Invoice number]',
+  'Invoice [Invoice number] status check (second reminder)',
+  'Re: invoice [Invoice number] - following up again',
 ];
 
 const faqs = [
   {
-    q: 'When should I send a second invoice reminder?',
-    a: 'Usually 3 to 7 days after the first reminder if there is no response or payment confirmation.',
+    q: 'When should I send a second payment reminder email?',
+    a: 'Send it 3 to 7 days after the first reminder if you have had no payment and no reply. Waiting longer signals the invoice is not a priority; following up sooner can feel pushy for clients who simply missed one email.',
   },
   {
-    q: 'How is a second payment reminder email different from the first?',
-    a: 'It should be more direct, ask for a clear payment date, and include concise escalation-ready wording.',
+    q: 'How should a 2nd reminder differ from the first?',
+    a: 'It should be shorter and more direct, reference the earlier reminder, and ask for one specific thing: a confirmed payment date. The first reminder assumes the client forgot; the second asks them to commit.',
+  },
+  {
+    q: 'What must a second reminder email include?',
+    a: 'Invoice number, amount, original due date, days overdue, a payment link or payment instructions, and a clear ask. Reattach the invoice so nobody has to search for it.',
   },
   {
     q: 'Should I CC anyone on the second reminder?',
-    a: 'For business clients, CC the project lead or accounts payable contact to improve accountability.',
+    a: 'For business clients, it often helps to CC the project lead or the accounts payable contact. It adds gentle accountability without changing your tone.',
   },
   {
     q: 'What if there is still no reply after the second reminder?',
-    a: 'Move to a firm reminder with a deadline, then final notice if there is still no payment plan.',
+    a: 'Move to a firm reminder with a deadline after another 5 to 7 days, and issue a final notice around day 30 if there is still no payment or payment plan. Escalate on schedule, not on emotion.',
   },
 ];
 
@@ -48,11 +236,11 @@ const articleSchema = {
   headline: metaTitle,
   description: metaDescription,
   datePublished: '2026-03-31',
-  dateModified: '2026-03-31',
+  dateModified: '2026-07-28',
   author: {
     '@type': 'Person',
     name: 'Pasko Djonovic',
-    url: 'https://chaseai.app/about',
+    url: 'https://chaseai.app/author',
   },
   publisher: {
     '@type': 'Organization',
@@ -68,13 +256,15 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
-const howToSchema = {
+const faqSchema = {
   '@context': 'https://schema.org',
-  '@type': 'HowTo',
-  name: 'Send a second invoice reminder email',
-  step: [{ '@type': 'HowToStep', name: 'Use the 2nd reminder template' }, { '@type': 'HowToStep', name: 'Set a payment deadline' }],
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
 };
-const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 
 <BaseLayout
@@ -82,7 +272,8 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={[articleSchema, howToSchema, faqSchema]}
+  structuredData={[articleSchema, faqSchema]}
+  breadcrumbs={breadcrumbs}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -91,11 +282,11 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
   <section class="hero-gradient relative overflow-hidden">
     <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
-        Second Invoice Reminder Email (When the First Gets Ignored)
+        2nd Payment Reminder Email Templates
       </h1>
       <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-        Use this <strong>second invoice reminder email template</strong> to follow up clearly after no reply on your
-        first payment reminder. It works for both "second reminder" and "2nd reminder" search intent.
+        Ten copyable second-reminder templates - friendly, professional, firm and accounts-payable -
+        plus subject lines and the wording that gets a payment date confirmed.
       </p>
     </div>
   </section>
@@ -108,132 +299,110 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
         </aside>
 
         <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
-          <SeoAuthor date="2026-03-31" />
+          <SeoAuthor date="2026-07-28" />
           <p>
-            A strong <strong>follow up invoice reminder email</strong> should stay polite but become more direct.
-            The key upgrade from reminder one is simple: ask for an explicit payment date.
-          </p>
-          <p>
-            If you are looking for <strong>chasing payment email</strong> or <strong>invoice chasing email</strong> wording,
-            these examples keep tone professional while increasing urgency.
+            The job of a second reminder is different from the first: instead of assuming the client forgot,
+            you ask them to commit to a payment date. Here is the go-to version - copy it, replace the
+            placeholders, and send. Nine more variants for specific situations follow below.
           </p>
 
-          <h2 id="fast-template">Fast template (under 100 words)</h2>
+          <h2 id="fast-template">Start here: the go-to second reminder</h2>
+          <CopyBlock
+            label="Go-to second reminder (under 100 words)"
+            subject="Second reminder: invoice [Invoice number] - payment date needed"
+            text={`Hi [Client name],
+
+Following up on invoice [Invoice number] for [Outstanding amount], now [X] days past its due date of [Original due date]. I wanted to check whether payment is already in progress.
+
+If not, please confirm your expected payment date today. Payment link: [Payment link]
+
+If anything is blocking payment, reply and I'll help resolve it quickly.
+
+Thanks,
+[Your name]`}
+          />
+
+          <h2 id="templates">All 10 second-reminder templates</h2>
           <p>
-            Subject: "Second reminder: invoice #[number] [X] days overdue"
-          </p>
-          <p>
-            "Hi [Name], following up on invoice #[number] for [amount], now [X] days overdue.
-            I wanted to check if payment is already in progress. If not, please confirm expected payment date today.
-            Payment link: [link]. If there is any issue, reply and I can help resolve quickly. Thanks."
-          </p>
-          <p>
-            This is ideal when you need a <strong>second payment reminder email</strong> that is fast, clear, and
-            easy for clients to act on.
+            Pick the variant that matches your situation - each one states the invoice number, amount, due
+            date and a single clear ask.
           </p>
 
-          <h2 id="detailed-template">Detailed template (AP-friendly)</h2>
-          <p>
-            Subject: "Follow-up required: invoice #[number] outstanding"
-          </p>
-          <p>
-            "Hi [Name/AP team], I am following up on invoice #[number] for [amount], due on [date], which remains
-            outstanding. I have attached the invoice again and included payment details below for convenience:
-          </p>
+          {templates.map((template) => (
+            <>
+              <h3 id={template.id}>{template.heading}</h3>
+              <p>{template.context}</p>
+              <CopyBlock
+                label={template.heading.replace(/^\d+\.\s/, '')}
+                subject={template.subject}
+                text={template.text}
+              />
+            </>
+          ))}
+
+          <h2 id="subject-lines">Second reminder subject lines</h2>
           <ul>
-            <li>Invoice number: #[number]</li>
-            <li>Amount due: [amount]</li>
-            <li>Original due date: [date]</li>
-            <li>Payment method/link: [link]</li>
+            {subjectLines.map((line) => (
+              <li>{line}</li>
+            ))}
           </ul>
           <p>
-            Please confirm one of the following today:
-          </p>
-          <ol>
-            <li>Payment has been scheduled, with expected date.</li>
-            <li>There is a blocker we should resolve immediately.</li>
-          </ol>
-          <p>
-            Thank you, [Your Name]"
+            Saying "second reminder" or "2nd reminder" in the subject signals sequence stage without
+            aggression. For the full library across every stage, see these
+            <a href="/templates/payment-reminder-email-subject-lines"> payment reminder subject lines</a>.
           </p>
 
-          <h2 id="subject-lines">Subject lines</h2>
-          <ul>
-            <li>Second reminder: invoice #[number] overdue</li>
-            <li>Follow-up: invoice #[number] still outstanding</li>
-            <li>Invoice #[number] payment date confirmation needed</li>
-            <li>Reminder 2: action needed on invoice #[number]</li>
-            <li>Invoice #[number] [X] days overdue - quick update?</li>
-            <li>Please confirm payment timing: invoice #[number]</li>
-            <li>Outstanding invoice #[number] follow-up</li>
-            <li>Second payment request: invoice #[number]</li>
-            <li>Invoice #[number] status check (second reminder)</li>
-            <li>Payment follow-up: invoice #[number]</li>
-          </ul>
+          <h2 id="when-to-send">When to send a second reminder - and what it must include</h2>
           <p>
-            These work especially well for <strong>invoice reminder email after no response</strong> because they
-            clearly signal sequence stage and urgency.
-          </p>
-
-          <h2 id="decision-rule">Next step decision rule (firm vs final notice)</h2>
-          <p>
-            Use this simple rule after sending reminder two:
+            Send the second reminder <strong>3 to 7 days after the first</strong> if you have had no payment
+            and no reply. Every version should contain:
           </p>
           <ul>
-            <li>If client replies with a specific pay date: hold tone, monitor, follow up only if missed.</li>
-            <li>If client replies vaguely: send a firm reminder with deadline.</li>
-            <li>If no response after 5 to 7 more days: move to firm reminder.</li>
-            <li>If still unresolved around 30 days: issue final notice.</li>
+            <li>Invoice number and amount</li>
+            <li>Original due date and days overdue</li>
+            <li>A reference to the earlier reminder</li>
+            <li>One clear ask: a confirmed payment date</li>
+            <li>A payment link or payment instructions</li>
+            <li>An invitation to flag problems or disputes</li>
           </ul>
           <p>
-            Use this full
-            <a href="/guides/unpaid-invoice-follow-up-schedule"> unpaid invoice follow-up schedule</a>
-            for day-by-day timing. For next-stage wording, send a
-            <a href="/templates/firm-payment-reminder-email"> firm payment reminder email</a>.
+            Tone-wise, stay polite but drop the "just checking in" energy of a
+            <a href="/templates/friendly-payment-reminder-email"> friendly first reminder</a>. Shorter,
+            more specific, and anchored to a date.
           </p>
 
-          <div class="not-prose my-6 rounded-xl border border-primary/10 bg-primary/5 p-4 text-sm text-muted-foreground">
-            <p><strong class="text-foreground">Quick tips</strong></p>
-            <ul class="mt-2 space-y-1">
-              <li>Second reminders should be shorter than first reminders.</li>
-              <li>Ask for date confirmation, not generic "update."</li>
-              <li>Reattach invoice and payment method every time.</li>
-              <li>Move to firm language only when needed, not by emotion.</li>
-            </ul>
-            <p class="mt-3">
-              QuickBooks reports 89% of small businesses face late payments, so a clear second reminder is usually the difference between silence and action.
-            </p>
-          </div>
+          <h2 id="decision-rule">When to escalate after the second reminder</h2>
+          <ul>
+            <li>Client replies with a specific pay date: hold tone, monitor, follow up only if the date is missed.</li>
+            <li>Client replies vaguely: send a <a href="/templates/firm-payment-reminder-email">firm payment reminder</a> with a deadline.</li>
+            <li>No response after another 5-7 days: move straight to the firm reminder.</li>
+            <li>Still unresolved around day 30: issue a <a href="/templates/final-notice-unpaid-invoice-email">final notice</a> or a formal <a href="/templates/past-due-invoice-notice-template">past due notice</a>.</li>
+          </ul>
 
-          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
-            <p class="font-semibold mb-2">Timeline: first to second to escalation</p>
-            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
-    title Second Reminder Decision Timeline
-    dateFormat  YYYY-MM-DD
-    axisFormat  %d %b
-    section Reminder flow
-    First reminder            :d1, 2026-04-01, 3d
-    Second reminder           :d4, 2026-04-04, 4d
-    Firm reminder window      :d8, 2026-04-08, 22d
-    Final notice phase        :d30, 2026-04-30, 15d</code></pre>
-          </div>
+          <TimelineSteps
+            title="Timeline: first to second to escalation"
+            steps={[
+              { window: 'Day 1-3', label: 'First reminder' },
+              { window: 'Day 4-7', label: 'Second reminder' },
+              { window: 'Day 8-29', label: 'Firm reminder window' },
+              { window: 'Day 30-44', label: 'Final notice phase' },
+            ]}
+          />
 
-          <h2 id="automate">Automate</h2>
-          <p>
-            Skip manual chasing and generate your full reminder chain from one invoice with the
-            <a href="/tools/overdue-invoice-sequence-generator"> overdue invoice sequence generator</a>.
-          </p>
-          <ol>
-            <li>Upload invoice details.</li>
-            <li>Generate first, second, and firm follow-up drafts.</li>
-            <li>Set timing rules once.</li>
-            <li>Track replies and payment status automatically.</li>
-          </ol>
+          <h2 id="related">Related templates</h2>
+          <ul>
+            <li><a href="/templates/friendly-payment-reminder-email">Friendly payment reminder email</a> - the first-touch templates that come before this stage.</li>
+            <li><a href="/templates/firm-payment-reminder-email">Firm payment reminder email</a> - the next step when second reminders are ignored.</li>
+            <li><a href="/templates/final-notice-unpaid-invoice-email">Final notice for an unpaid invoice</a> - the last message before escalation.</li>
+            <li><a href="/templates/past-due-invoice-notice-template">Past due notice template</a> - formal letter and email formats.</li>
+            <li><a href="/templates/invoice-reminder-email-template">Invoice reminder email templates</a> - the full sequence in one place.</li>
+            <li><a href="/best-invoice-chasing-software">Automated invoice chasing software</a> - tools that send second reminders for you on schedule.</li>
+          </ul>
 
           <div class="not-prose">
             <SeoCtaBand
-              heading="Generate second-reminder sequences automatically"
-              description="Create an editable follow-up flow from first reminder to final notice in minutes."
+              heading="Never write a second reminder manually again"
+              description="ChaseAI drafts and sends your full follow-up sequence - first reminder to final notice - from one invoice."
               primaryHref="/tools/overdue-invoice-sequence-generator"
               primaryLabel="Try the Free AI Generator"
               primaryAriaLabel="Generate invoice reminder follow-up sequence"
@@ -251,7 +420,9 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
 
   <section id="faq" class="section-padding border-t border-border bg-muted/30">
     <div class="container max-w-3xl mx-auto">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">Frequently asked questions</h2>
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">
+        2nd payment reminder FAQ
+      </h2>
       <SeoFaq items={faqs} />
     </div>
   </section>

@@ -1,0 +1,88 @@
+---
+/**
+ * A copyable email/wording template block with an accessible copy button.
+ * Copies only the subject (when present) and body text, never UI labels.
+ */
+interface Props {
+  /** Visible caption, e.g. "Template 1: Friendly second reminder" */
+  label?: string;
+  /** Optional email subject line shown above the body and included in the copy */
+  subject?: string;
+  /** The copyable template body. Line breaks are preserved. */
+  text: string;
+}
+
+const { label, subject, text } = Astro.props as Props;
+---
+
+<figure class="not-prose my-6 overflow-hidden rounded-xl border border-border bg-card" data-copy-block>
+  {label && (
+    <figcaption class="border-b border-border bg-muted/40 px-4 py-2.5 text-sm font-semibold">
+      {label}
+    </figcaption>
+  )}
+  <div class="px-4 py-4">
+    {subject && (
+      <p class="mb-3 border-b border-dashed border-border pb-3 text-sm">
+        <span class="font-semibold">Subject:</span>{' '}
+        <span data-copy-subject>{subject}</span>
+      </p>
+    )}
+    <pre
+      class="whitespace-pre-wrap break-words font-sans text-sm leading-relaxed text-foreground"
+      data-copy-source>{text}</pre>
+  </div>
+  <div class="flex items-center gap-3 border-t border-border bg-muted/20 px-4 py-2.5">
+    <button
+      type="button"
+      data-copy-button
+      class="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-semibold hover:bg-muted/50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+    >
+      <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3" />
+      </svg>
+      <span data-copy-button-label>Copy template</span>
+    </button>
+    <span data-copy-status role="status" aria-live="polite" class="text-xs text-muted-foreground"></span>
+  </div>
+</figure>
+
+<script>
+  function initCopyBlocks() {
+    document.querySelectorAll<HTMLElement>('[data-copy-block]').forEach((block) => {
+      if (block.dataset.copyInit === 'true') return;
+      block.dataset.copyInit = 'true';
+
+      const button = block.querySelector<HTMLButtonElement>('[data-copy-button]');
+      const buttonLabel = block.querySelector<HTMLElement>('[data-copy-button-label]');
+      const status = block.querySelector<HTMLElement>('[data-copy-status]');
+      const source = block.querySelector<HTMLElement>('[data-copy-source]');
+      const subject = block.querySelector<HTMLElement>('[data-copy-subject]');
+      if (!button || !source || !buttonLabel || !status) return;
+
+      button.addEventListener('click', async () => {
+        const body = source.innerText;
+        const payload = subject ? `Subject: ${subject.innerText}\n\n${body}` : body;
+        try {
+          await navigator.clipboard.writeText(payload);
+          buttonLabel.textContent = 'Copied';
+          status.textContent = 'Template copied to clipboard';
+          window.setTimeout(() => {
+            buttonLabel.textContent = 'Copy template';
+            status.textContent = '';
+          }, 2500);
+        } catch {
+          const range = document.createRange();
+          range.selectNodeContents(source);
+          const selection = window.getSelection();
+          selection?.removeAllRanges();
+          selection?.addRange(range);
+          status.textContent = 'Press Ctrl+C (or Cmd+C) to copy the selected text';
+        }
+      });
+    });
+  }
+
+  initCopyBlocks();
+  document.addEventListener('astro:page-load', initCopyBlocks);
+</script>

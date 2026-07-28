@@ -3,13 +3,15 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const pageSlug = '/vs/manual-chasing';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Comparisons', href: '/vs' },
+  { label: 'ChaseAI vs Manual Chasing', href: pageSlug },
+];
 const metaTitle = 'Invoice Chasing Software vs Doing It Manually: Is It Worth It? (2026)';
 const metaDescription =
   'Is invoice chasing software worth the cost vs chasing invoices yourself? We break down the real time cost, cash flow impact, and ROI of automating vs manual follow-up. Honest numbers inside.';
-const ogTitle = 'Invoice Chasing Software vs Manual - Is Automation Worth It? (2026)';
-const ogDescription =
-  'The real math behind manual invoice chasing vs software. How much is your time actually worth, and when does $9/mo pay for itself?';
-
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -34,12 +36,7 @@ const structuredData = {
 };
 ---
 
-<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} ogImage="https://chaseai.app/og-default.png" structuredData={structuredData} showAuthorBox={false}>
-  <Fragment slot="head">
-    <meta property="og:title" content={ogTitle} />
-    <meta property="og:description" content={ogDescription} />
-  </Fragment>
-
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} breadcrumbs={breadcrumbs} ogImage="https://chaseai.app/og-default.png" structuredData={structuredData} showAuthorBox={false}>
   <section class="hero-gradient border-b border-border/50">
     <div class="container py-14 md:py-16 max-w-4xl mx-auto">
       <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Invoice Chasing Software vs Manual Follow-Up - The Real Math for 2026</h1>

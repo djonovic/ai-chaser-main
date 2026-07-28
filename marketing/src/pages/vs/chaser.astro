@@ -1,90 +1,131 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import LastVerified from '../../components/seo/LastVerified.astro';
 
 const pageSlug = '/vs/chaser';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
-const metaTitle = 'ChaseAI vs Chaser (2026): Which Invoice Chasing Software Is Right for You?';
+const metaTitle = 'Chaser Pricing (2026) vs ChaseAI: Features & Costs';
 const metaDescription =
-  'ChaseAI vs Chaser: honest comparison of pricing, features, and who each tool is actually built for. Chaser starts at $49/mo. ChaseAI starts at $9/mo with a 14-day free trial. See the full breakdown.';
-const ogTitle = 'ChaseAI vs Chaser (2026): Invoice Chasing Software Compared';
-const ogDescription =
-  'Chaser vs ChaseAI: full pricing, features, and use-case comparison. Find out which one gets you paid faster for your business size.';
+  'Compare Chaser pricing, invoice limits, integrations and features with ChaseAI. See the best fit for freelancers, small businesses and finance teams.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Comparisons', href: '/vs' },
+  { label: 'ChaseAI vs Chaser', href: pageSlug },
+];
 
 const faqs = [
   {
-    q: 'What is the difference between ChaseAI and Chaser?',
-    a: 'ChaseAI is an AI-powered invoice chasing tool built for freelancers and small businesses. It works from a PDF invoice with no accounting software required, starting at $9/month with a 14-day free trial. Chaser is a full AR automation platform for SMBs and mid-market businesses, requiring Xero or QuickBooks integration, starting at $49/month for 50 invoices.',
+    q: 'How much does Chaser cost?',
+    a: "Chaser's entry plan starts at $49/month for up to 50 invoices, rising to $129/month for 150 invoices and $369/month for 400 invoices, with custom enterprise pricing above that. Pricing scales with invoice volume, so always check current vendor pricing before committing.",
   },
   {
-    q: 'Is ChaseAI cheaper than Chaser?',
-    a: "Yes. ChaseAI paid plans start at $9/month with a 14-day free trial on Starter. Chaser's entry plan starts at $49/month for up to 50 invoices, rising to $369/month for 400 invoices.",
+    q: 'Does Chaser require accounting software?',
+    a: 'Yes. Chaser is built around a native connection to accounting software such as Xero, QuickBooks or Sage. If you invoice from FreshBooks, Wave, spreadsheets or PDFs, that requirement is a blocker.',
+  },
+  {
+    q: 'Is Chaser suitable for freelancers?',
+    a: "It depends on volume. At $49/month for 50 invoices, the math works if you consistently send that many. For freelancers with 10-30 invoices a month, ChaseAI's $9/month Starter plan covers the same core job - automated, well-written payment follow-ups - at a fraction of the cost.",
+  },
+  {
+    q: 'What is a lower-cost alternative to Chaser?',
+    a: 'ChaseAI starts at $9/month with a 14-day free trial and no invoice limits. It focuses on the core problem - writing and sending payment follow-ups automatically - without the full AR platform (credit checks, payment portal, forecasting) that drives up Chaser pricing.',
+  },
+  {
+    q: 'Can ChaseAI work without accounting software?',
+    a: 'Yes. ChaseAI works from an uploaded invoice PDF or manual entry - no Xero, QuickBooks or Sage connection is required. That is the main architectural difference between the two products.',
   },
   {
     q: 'Can I switch from Chaser to ChaseAI?',
-    a: "Yes. ChaseAI doesn't require any accounting software connection, so there's nothing to migrate. Upload your first invoice PDF and you're running a sequence in minutes. Starter includes a 14-day free trial if you want to test before committing.",
+    a: "Yes. ChaseAI doesn't require any accounting software connection, so there's nothing to migrate. Upload your first invoice PDF and you're running a sequence in minutes. Your invoice history in Chaser doesn't transfer, but for most small businesses the active invoice list is small enough that this isn't a significant issue.",
   },
   {
     q: 'Does ChaseAI integrate with Xero or QuickBooks?',
-    a: 'Not currently. ChaseAI works via PDF upload or manual invoice entry. Xero and QuickBooks integration is on the roadmap. If accounting software sync is critical today, Chaser is the stronger choice.',
-  },
-  {
-    q: 'What happens to my Chaser data if I switch?',
-    a: "ChaseAI is a separate system - you'd start fresh. Your invoice history and client communications in Chaser don't transfer, but for most small businesses the active invoice list is small enough that this isn't a significant issue.",
-  },
-  {
-    q: 'Is Chaser worth it for a solo freelancer?',
-    a: "It depends on your invoice volume. At $49/mo for 50 invoices, the math works if you're consistently sending that volume. For freelancers with 10-30 invoices/month, ChaseAI's $9/mo Starter plan is a better fit.",
+    a: 'Not currently. ChaseAI works via PDF upload or manual invoice entry; Xero and QuickBooks integration is on the roadmap. If accounting software sync is critical today, Chaser is the stronger choice.',
   },
   {
     q: 'Does ChaseAI have a free trial?',
-    a: 'Yes. Starter includes a 14-day free trial. You add a card at checkout and won’t be charged until the trial ends. Cancel anytime during the trial to avoid charges. Paid plans start at $9/month.',
+    a: 'Yes. Starter includes a 14-day free trial. You add a card at checkout and won\u2019t be charged until the trial ends. Cancel anytime during the trial to avoid charges. Paid plans start at $9/month.',
   },
 ];
 
-const structuredData = {
+const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'What is the difference between ChaseAI and Chaser?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'ChaseAI is an AI-powered invoice chasing tool built for freelancers and small businesses. It works from a PDF invoice with no accounting software required, starting at $9/month with a 14-day free trial. Chaser is a full AR automation platform for SMBs and mid-market businesses, requiring Xero or QuickBooks integration, starting at $49/month for 50 invoices.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Is ChaseAI cheaper than Chaser?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: "Yes. ChaseAI paid plans start at $9/month with a 14-day free trial on Starter. Chaser's entry plan starts at $49/month for up to 50 invoices, rising to $369/month for 400 invoices.",
-      },
-    },
-  ],
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
 };
 ---
 
-<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} ogImage="https://chaseai.app/og-default.png" structuredData={structuredData} showAuthorBox={false}>
-  <Fragment slot="head">
-    <meta property="og:title" content={ogTitle} />
-    <meta property="og:description" content={ogDescription} />
-  </Fragment>
-
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  structuredData={faqSchema}
+  showAuthorBox={false}
+  breadcrumbs={breadcrumbs}
+>
   <section class="hero-gradient border-b border-border/50">
     <div class="container py-14 md:py-16 max-w-4xl mx-auto">
-      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">ChaseAI vs Chaser - Honest Comparison for 2026</h1>
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Chaser Pricing vs ChaseAI: Which Is Better for You?</h1>
       <p class="mt-5 text-muted-foreground text-lg leading-relaxed">
-        I built ChaseAI because I needed a tool to chase invoices without paying enterprise prices or connecting my entire accounting stack first.
-        Chaser is a genuinely good product - but it's built for finance teams with Xero or QuickBooks already in place, not for freelancers who
-        just want to stop writing follow-up emails. Here's an honest side-by-side so you can decide which one is right for your situation.
+        Chaser starts at $49/month for 50 invoices and requires Xero, QuickBooks or Sage. ChaseAI starts at
+        $9/month, works from a PDF invoice with no accounting software, and includes a 14-day free trial.
+        Below is the full pricing and feature breakdown so you can pick the right fit for your volume,
+        stack and budget.
       </p>
+      <div class="mt-5">
+        <LastVerified subject="Pricing" />
+      </div>
     </div>
   </section>
 
   <section class="section-padding">
     <div class="container max-w-4xl mx-auto">
-      <div class="rounded-2xl border-2 border-primary/30 bg-primary/5 p-6 md:p-8">
+      <div class="overflow-x-auto rounded-2xl border border-border">
+        <table class="w-full text-sm">
+          <caption class="sr-only">Chaser vs ChaseAI at a glance</caption>
+          <thead class="bg-muted/40 text-left">
+            <tr>
+              <th scope="col" class="px-4 py-3 font-semibold">Product</th>
+              <th scope="col" class="px-4 py-3 font-semibold">Starting price</th>
+              <th scope="col" class="px-4 py-3 font-semibold">Invoice limits</th>
+              <th scope="col" class="px-4 py-3 font-semibold">Accounting software</th>
+              <th scope="col" class="px-4 py-3 font-semibold">Automated reminders</th>
+              <th scope="col" class="px-4 py-3 font-semibold">AI-assisted wording</th>
+              <th scope="col" class="px-4 py-3 font-semibold">Setup</th>
+              <th scope="col" class="px-4 py-3 font-semibold">Best suited for</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-border">
+            <tr>
+              <th scope="row" class="px-4 py-3 font-semibold text-left">ChaseAI</th>
+              <td class="px-4 py-3">$9/mo (14-day free trial)</td>
+              <td class="px-4 py-3">Unlimited invoices</td>
+              <td class="px-4 py-3">None required - works from PDF</td>
+              <td class="px-4 py-3">Yes</td>
+              <td class="px-4 py-3">Yes - AI writes from your invoice</td>
+              <td class="px-4 py-3">~5 minutes</td>
+              <td class="px-4 py-3">Freelancers, small agencies</td>
+            </tr>
+            <tr>
+              <th scope="row" class="px-4 py-3 font-semibold text-left">Chaser</th>
+              <td class="px-4 py-3">$49/mo (trial available)</td>
+              <td class="px-4 py-3">50 invoices on entry plan</td>
+              <td class="px-4 py-3">Xero, QuickBooks or Sage required</td>
+              <td class="px-4 py-3">Yes (email, SMS, auto-calls)</td>
+              <td class="px-4 py-3">Templates with AI optimization</td>
+              <td class="px-4 py-3">30-60 minutes</td>
+              <td class="px-4 py-3">SMB and mid-market finance teams</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-8 rounded-2xl border-2 border-primary/30 bg-primary/5 p-6 md:p-8">
         <p class="text-sm font-semibold tracking-wide text-primary">QUICK VERDICT</p>
         <div class="mt-5 grid gap-6 md:grid-cols-2">
           <div>
@@ -109,7 +150,24 @@ const structuredData = {
       </div>
 
       <article class="prose prose-neutral max-w-none prose-a:text-primary mt-10">
-        <h2>Pricing comparison</h2>
+        <h2>Chaser pricing overview</h2>
+        <p>
+          Chaser prices by invoice volume: $49/month for up to 50 invoices, $129/month for up to 150, and
+          $369/month for up to 400, with custom enterprise pricing above that. A trial is available, and
+          the platform assumes a live connection to Xero, QuickBooks or Sage. Volume tiers and features
+          change from time to time, so check current vendor pricing via the sources at the bottom of this
+          page before deciding.
+        </p>
+
+        <h2>ChaseAI pricing overview</h2>
+        <p>
+          ChaseAI has two paid plans: $9/month (unlimited invoices, 50 sequence generations) and $19/month
+          (unlimited invoices and sequences). Starter includes a 14-day free trial - a card is required at
+          checkout, and you can cancel anytime during the trial. Full details are on the
+          <a href="/pricing">pricing page</a>.
+        </p>
+
+        <h2>Pricing comparison by volume</h2>
         <table>
           <thead>
             <tr>
@@ -142,18 +200,19 @@ const structuredData = {
             <tr>
               <td>Enterprise</td>
               <td>Contact</td>
-              <td>Custom</td>
+              <td>Custom - check current vendor pricing</td>
             </tr>
             <tr>
               <td>Card required for trial</td>
-              <td>Yes — cancel anytime</td>
-              <td>Varies</td>
+              <td>Yes - cancel anytime</td>
+              <td>Check current vendor pricing</td>
             </tr>
           </tbody>
         </table>
         <p>
-          Chaser's pricing scales by invoice volume. At 150 invoices/month, you're paying $129/mo on Chaser vs $19/mo on ChaseAI. At 400
-          invoices, $369/mo vs $19/mo.
+          Chaser's pricing scales by invoice volume. At 150 invoices/month, you're paying $129/mo on Chaser
+          vs $19/mo on ChaseAI. At 400 invoices, $369/mo vs $19/mo - though at that volume Chaser's full AR
+          platform features may justify the difference.
         </p>
 
         <div class="not-prose my-8 rounded-xl border border-primary/30 bg-primary/5 p-6">
@@ -175,7 +234,7 @@ const structuredData = {
           </div>
         </div>
 
-        <h2>Feature comparison</h2>
+        <h2>Key feature differences</h2>
         <table>
           <thead>
             <tr>
@@ -255,13 +314,41 @@ const structuredData = {
               <td>Freelancers, small agencies</td>
               <td>SMBs, mid-market finance teams</td>
             </tr>
-            <tr>
-              <td>Starting price</td>
-              <td>Free</td>
-              <td>$49/month</td>
-            </tr>
           </tbody>
         </table>
+
+        <h2>Setup and integrations</h2>
+        <p>
+          Chaser onboarding starts with connecting your accounting software; reminder rules, templates and
+          the payment portal build on that connection. Expect 30-60 minutes to a working setup, and plan for
+          the integration to be a hard requirement. ChaseAI's setup is upload a PDF (or type the invoice
+          details), review the AI-generated sequence, and send - about 5 minutes, with no integrations to
+          maintain. The trade-off: Chaser syncs invoice status automatically, while ChaseAI relies on you
+          uploading or entering invoices.
+        </p>
+
+        <h2>Best option for freelancers</h2>
+        <p>
+          ChaseAI, in most cases. Freelancers rarely clear the 50-invoice threshold that makes Chaser's $49/mo
+          entry plan efficient, and many don't run Xero or QuickBooks at all. ChaseAI's $9/mo plan covers
+          unlimited invoices, writes the follow-up emails for you, and needs no accounting stack. See also
+          <a href="/invoice-chasing-software-for-freelancers"> invoice chasing software for freelancers</a>.
+        </p>
+
+        <h2>Best option for small businesses</h2>
+        <p>
+          It depends on your stack. A small business already running Xero or QuickBooks with 50+ invoices a
+          month gets real value from Chaser's native sync and payment portal. A small business invoicing from
+          other tools, or one that mainly wants professional follow-ups sent on time, is better served by
+          ChaseAI at a fraction of the price.
+        </p>
+
+        <h2>Best option for finance teams</h2>
+        <p>
+          Chaser. For teams handling 100+ invoices a month with dedicated AR staff, Chaser's credit checks,
+          cash-flow forecasting, auto-calls and payment portal form a genuine credit-to-cash workflow that
+          ChaseAI does not attempt to replicate.
+        </p>
 
         <h2>Where Chaser is genuinely better</h2>
         <p>
@@ -277,16 +364,11 @@ const structuredData = {
           If your process relies on calls, Chaser's Auto-call feature can schedule and make automated debtor phone calls. ChaseAI is
           intentionally email-first, so teams with phone-heavy collections workflows will likely prefer Chaser.
         </p>
-        <p>
-          For finance teams handling 200+ invoices per month, Chaser's full AR workflow (credit-to-cash, forecasting, and deeper AR dashboards)
-          becomes genuinely useful. ChaseAI is built for lower-volume users where simplicity and speed are worth more than enterprise workflow
-          depth.
-        </p>
 
         <h2>Where ChaseAI is genuinely better</h2>
         <p>
-          <strong>Price:</strong> At $9/mo for unlimited invoices, ChaseAI is 5x-41x cheaper depending on your invoice volume. For a
-          freelancer chasing 20-50 invoices/month, paying $129-$369/mo for Chaser is hard to justify.
+          <strong>Price:</strong> At $9/mo for unlimited invoices, ChaseAI is a fraction of Chaser's cost at
+          every volume tier. For a freelancer chasing 20-50 invoices/month, paying $129-$369/mo for Chaser is hard to justify.
         </p>
         <p>
           <strong>No accounting software required:</strong> ChaseAI works from a PDF. You don't need to connect Xero, QuickBooks, or Sage. For
@@ -345,7 +427,7 @@ const structuredData = {
         </table>
 
         <h2>Frequently asked questions</h2>
-        {faqs.slice(2).map((item) => (
+        {faqs.map((item) => (
           <>
             <h3>{item.q}</h3>
             <p>{item.a}</p>
@@ -377,13 +459,14 @@ const structuredData = {
         </ul>
         <h3>Related tools and guides</h3>
         <ul>
+          <li><a href="/best-invoice-chasing-software">Best automated invoice chasing software compared</a></li>
           <li><a href="/tools/late-payment-cost-calculator">Late Payment Cost Calculator</a></li>
           <li><a href="/tools/invoice-follow-up-email-generator">Invoice Follow-Up Email Generator</a></li>
           <li><a href="/tools/client-payment-risk-scorer">Client Payment Risk Scorer</a></li>
           <li><a href="/guides/how-to-chase-unpaid-invoices">How to Chase Unpaid Invoices</a></li>
           <li><a href="https://app.chaseai.app">Start free trial</a></li>
         </ul>
-        <p><strong>Written by Pasko Djonovic, Founder at ChaseAI • Last updated May 6, 2026</strong></p>
+        <p><strong>Written by Pasko Djonovic, Founder at ChaseAI</strong></p>
         <p><strong>Disclosure:</strong> ChaseAI is one of the tools compared on this page.</p>
       </article>
     </div>

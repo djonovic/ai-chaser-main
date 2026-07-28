@@ -1,0 +1,28 @@
+---
+interface BreadcrumbItem {
+  label: string;
+  href: string;
+}
+
+const { items } = Astro.props as { items: BreadcrumbItem[] };
+const lastIndex = items.length - 1;
+---
+
+<nav aria-label="Breadcrumb" class="border-b border-border/60 bg-muted/20">
+  <ol class="container flex flex-wrap items-center gap-1.5 py-2.5 text-xs text-muted-foreground">
+    {items.map((item, index) => (
+      <li class="flex items-center gap-1.5">
+        {index > 0 && (
+          <svg class="h-3 w-3 shrink-0 text-muted-foreground/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        )}
+        {index === lastIndex ? (
+          <span aria-current="page" class="font-medium text-foreground">{item.label}</span>
+        ) : (
+          <a href={item.href} class="hover:text-foreground transition-colors">{item.label}</a>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>

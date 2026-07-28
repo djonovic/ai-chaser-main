@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const pageSlug = '/templates';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const metaTitle = 'Payment Reminder & Invoice Email Templates Library';
+const metaDescription =
+  'Browse copy-and-send templates for every stage of invoice chasing: friendly reminders, second reminders, past due notices, late fees and final notices.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Templates', href: pageSlug },
+];
+
+const groups = [
+  {
+    title: 'By reminder stage',
+    description: 'Follow the sequence from first nudge to final demand.',
+    links: [
+      {
+        label: 'Invoice reminder email templates (hub)',
+        href: '/templates/invoice-reminder-email-template',
+        note: '7 concise examples covering every stage, with links to the full pages.',
+      },
+      {
+        label: 'Friendly payment reminder email',
+        href: '/templates/friendly-payment-reminder-email',
+        note: 'Polite templates for before due, due today and the first days overdue.',
+      },
+      {
+        label: '2nd payment reminder email',
+        href: '/templates/second-invoice-reminder-email',
+        note: 'Ten second-reminder templates with subject lines and payment-date wording.',
+      },
+      {
+        label: 'Firm payment reminder email',
+        href: '/templates/firm-payment-reminder-email',
+        note: 'Direct wording for invoices 2+ weeks overdue.',
+      },
+      {
+        label: 'Final notice for an unpaid invoice',
+        href: '/templates/final-notice-unpaid-invoice-email',
+        note: 'Soft and firm final notices with deadline variations.',
+      },
+    ],
+  },
+  {
+    title: 'By scenario',
+    description: 'Specific situations that need their own wording.',
+    links: [
+      {
+        label: 'Overdue invoice email templates by day',
+        href: '/templates/overdue-invoice-email-template',
+        note: 'Standalone emails for day 1, 7, 14 and 30 overdue.',
+      },
+      {
+        label: 'Overdue invoice email sequence',
+        href: '/templates/overdue-invoice-email-sequence',
+        note: 'A complete automated multi-email campaign with timing and stop rules.',
+      },
+      {
+        label: 'Past due invoice notice (letter + email)',
+        href: '/templates/past-due-invoice-notice-template',
+        note: 'Formal 30-, 60- and 90-day notices in letter and email formats.',
+      },
+      {
+        label: 'Invoice late fee wording',
+        href: '/templates/late-payment-fee-email-template',
+        note: '8 copyable examples for payment terms, footers and fee-applied emails.',
+      },
+      {
+        label: 'Accounts payable follow-up email',
+        href: '/templates/email-to-accounts-payable-overdue-invoice',
+        note: '5 AP-specific templates with attachment checklists.',
+      },
+      {
+        label: 'Payment reminder email subject lines',
+        href: '/templates/payment-reminder-email-subject-lines',
+        note: '50 subject lines grouped from friendly to final notice.',
+      },
+    ],
+  },
+  {
+    title: 'By industry',
+    description: 'Wording tuned to how different businesses invoice.',
+    links: [
+      {
+        label: 'Freelancer invoice reminder template',
+        href: '/templates/freelancer-invoice-reminder-email-template',
+        note: 'For solo professionals protecting client relationships.',
+      },
+      {
+        label: 'Agency invoice reminder template',
+        href: '/templates/agency-invoice-reminder-email-template',
+        note: 'For teams chasing retainers and project invoices.',
+      },
+      {
+        label: 'Trades invoice payment reminder',
+        href: '/templates/trades-invoice-payment-reminder-email',
+        note: 'For tradespeople and contractors on job-based billing.',
+      },
+      {
+        label: 'Subcontractor payment reminder',
+        href: '/templates/subcontractor-payment-reminder-email',
+        note: 'For subcontractors chasing general contractors.',
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  breadcrumbs={breadcrumbs}
+>
+  <section class="hero-gradient relative overflow-hidden">
+    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+        Invoice Reminder and Payment Email Templates
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+        Copy-and-send templates for every stage of chasing an invoice, organized by stage, scenario and
+        industry. Every page includes subject lines and editable placeholders.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container max-w-4xl mx-auto space-y-12">
+      {groups.map((group) => (
+        <div>
+          <h2 class="text-xl md:text-2xl font-bold tracking-tight">{group.title}</h2>
+          <p class="mt-1 text-sm text-muted-foreground">{group.description}</p>
+          <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+            {group.links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="block h-full rounded-xl border border-border bg-card p-4 transition-colors hover:border-primary/40 hover:bg-muted/30"
+                >
+                  <span class="font-semibold text-sm">{link.label}</span>
+                  <span class="mt-1 block text-xs text-muted-foreground leading-relaxed">{link.note}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      <p class="text-sm text-muted-foreground">
+        Prefer not to send these manually? <a href="/best-invoice-chasing-software" class="text-primary hover:underline">Compare automated invoice chasing software</a>
+        or see <a href="/guides/unpaid-invoice-follow-up-schedule" class="text-primary hover:underline">when to send each reminder</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

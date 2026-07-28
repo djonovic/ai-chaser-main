@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SeoToc from '../../components/seo/SeoToc.astro';
+import TimelineSteps from '../../components/seo/TimelineSteps.astro';
 import SeoCtaBand from '../../components/seo/SeoCtaBand';
 import SeoFaq from '../../components/seo/SeoFaq.astro';
 import SeoAuthor from '../../components/seo/SeoAuthor.astro';
@@ -9,16 +10,22 @@ const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/templates/trades-invoice-payment-reminder-email';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
-// META (DO NOT CHANGE)
-const metaTitle = 'Trades Invoice Payment Reminder Email Template | ChaseAI';
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Templates', href: '/templates' },
+  { label: 'Trades Payment Reminder', href: pageSlug },
+];
+
+const metaTitle = 'Trades & Tradie Invoice Payment Reminder Email Templates';
 const metaDescription =
-  'Use this trades invoice reminder template for contractors and field teams with job-specific wording, due-date clarity, and practical escalation steps.';
+  'Copy invoice payment reminder emails built for tradies, plumbers, electricians and contractors, with job references, proof checklists and automated follow-up.';
 
 const tocItems = [
   { id: 'fast-template', label: 'Fast template (SMS-ish email)' },
   { id: 'detailed-template', label: 'Detailed template (itemized + link)' },
   { id: 'proof-checklist', label: 'Job done proof checklist' },
   { id: 'firm-shift', label: 'When to shift to firm language' },
+  { id: 'tradies-automation', label: 'Automated follow-up for tradies' },
   { id: 'automate', label: 'Automate reminders' },
   { id: 'faq', label: 'FAQ' },
 ];
@@ -39,6 +46,10 @@ const faqs = [
   {
     q: 'Can I include job proof in reminder emails?',
     a: 'Yes, and you should. Attach completion photos, signed job sheet, or acceptance confirmation to reduce disputes.',
+  },
+  {
+    q: 'How can tradies automate invoice follow-up?',
+    a: 'Use invoice chasing software that reads the invoice, schedules reminders from friendly to firm, and stops automatically when payment lands. ChaseAI does this from an uploaded invoice PDF, so there is no manual tracking between jobs.',
   },
 ];
 
@@ -81,6 +92,7 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
   title={metaTitle}
   description={metaDescription}
   canonical={canonicalUrl}
+  breadcrumbs={breadcrumbs}
   ogType="article"
   structuredData={[articleSchema, howToSchema, faqSchema]}
 >
@@ -94,8 +106,8 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
         Trades Invoice Payment Reminder Email (Copy/Paste)
       </h1>
       <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-        Built for plumbers, electricians, and contractors who need polite reminders that get payment moving
-        without endless back-and-forth calls.
+        Built for tradies, plumbers, electricians, and contractors who need polite reminders that get payment
+        moving without endless back-and-forth calls.
       </p>
     </div>
   </section>
@@ -189,20 +201,36 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
             </ul>
           </div>
 
-          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
-            <p class="font-semibold mb-2">Timeline: trades reminder progression</p>
-            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
-    title Trades Invoice Reminder Timeline
-    dateFormat  YYYY-MM-DD
-    axisFormat  %d %b
-    section Sequence
-    Friendly reminder         :d1, 2026-04-01, 3d
-    Second reminder           :d4, 2026-04-04, 3d
-    Direct reminder           :d7, 2026-04-07, 7d
-    Firm reminder             :d14, 2026-04-14, 16d
-    Past due notice           :d30, 2026-04-30, 15d
-    Escalation step           :d45, 2026-05-15, 1d</code></pre>
-          </div>
+          <TimelineSteps
+            title="Timeline: trades reminder progression"
+            steps={[
+              { window: 'Day 1-3', label: 'Friendly reminder' },
+              { window: 'Day 4-6', label: 'Second reminder' },
+              { window: 'Day 7-13', label: 'Direct reminder' },
+              { window: 'Day 14-29', label: 'Firm reminder' },
+              { window: 'Day 30-44', label: 'Past due notice' },
+              { window: 'Day 45+', label: 'Escalation step' },
+            ]}
+          />
+
+          <h2 id="tradies-automation">Automated invoice follow-up for tradies</h2>
+          <p>
+            If you run a trade business in Australia, the UK, or anywhere jobs move faster than paperwork,
+            manual chasing is the first thing to drop. <strong>Automated invoice follow-up for tradies</strong>
+            works like this:
+          </p>
+          <ul>
+            <li>Every invoice gets a follow-up schedule the moment it is sent, so nothing slips after a busy week on site.</li>
+            <li>Reminders escalate automatically: friendly at a few days overdue, direct at one week, firm at two.</li>
+            <li>Follow-ups stop the moment payment lands, so you never chase a client who already paid.</li>
+            <li>The job reference and payment link are in every message, so clients can pay from their phone.</li>
+          </ul>
+          <p>
+            This matters most for sole traders and small crews: you cannot check a spreadsheet between jobs, and
+            clients pay the person who reminds them. See how automation compares with doing it yourself in
+            <a href="/vs/manual-chasing"> invoice chasing software vs manual chasing</a>, or start with the
+            <a href="/best-invoice-chasing-software"> best invoice chasing software comparison</a>.
+          </p>
 
           <h2 id="automate">Automate reminders</h2>
           <p>

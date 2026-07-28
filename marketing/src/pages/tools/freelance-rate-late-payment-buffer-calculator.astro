@@ -6,6 +6,12 @@ import FreelanceRateCalculator from '../../components/tools/FreelanceRateCalcula
 
 const pageSlug = '/tools/freelance-rate-late-payment-buffer-calculator';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Tools', href: '/tools' },
+  { label: 'Late Payment Buffer Calculator', href: pageSlug },
+];
 const metaTitle = 'Freelance Rate Calculator with Late Payment Buffer | ChaseAI';
 const metaDescription =
   'Calculate your true freelance rate accounting for late payments, unpaid invoices, and chasing time. See how much to add to your rate to hit your income target. Free.';
@@ -28,7 +34,7 @@ const structuredData = [
 ];
 ---
 
-<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} breadcrumbs={breadcrumbs} structuredData={structuredData}>
   <section class="hero-gradient">
     <div class="container py-14 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold">Freelance Rate Calculator — Including the Late Payment Buffer You’re Not Charging</h1>

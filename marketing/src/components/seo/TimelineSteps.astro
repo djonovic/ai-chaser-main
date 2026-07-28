@@ -1,0 +1,32 @@
+---
+/**
+ * Static, semantic replacement for the old client-rendered Gantt diagrams.
+ * Renders a follow-up timeline as an ordered list with day windows.
+ */
+interface Step {
+  /** Day window, e.g. "Day 1-3" or "Day 45+" */
+  window: string;
+  label: string;
+}
+
+interface Props {
+  title: string;
+  steps: Step[];
+}
+
+const { title, steps } = Astro.props as Props;
+---
+
+<div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
+  <p class="mb-3 font-semibold">{title}</p>
+  <ol class="space-y-2.5 border-l-2 border-primary/30 pl-4">
+    {steps.map((step) => (
+      <li class="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-3">
+        <span class="w-24 shrink-0 text-xs font-semibold uppercase tracking-wide text-primary">
+          {step.window}
+        </span>
+        <span class="text-muted-foreground">{step.label}</span>
+      </li>
+    ))}
+  </ol>
+</div>

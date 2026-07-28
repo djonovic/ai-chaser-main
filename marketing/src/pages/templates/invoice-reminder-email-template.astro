@@ -4,154 +4,166 @@ import SeoToc from '../../components/seo/SeoToc.astro';
 import SeoCtaBand from '../../components/seo/SeoCtaBand';
 import SeoFaq from '../../components/seo/SeoFaq.astro';
 import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+import CopyBlock from '../../components/seo/CopyBlock.astro';
+import TimelineSteps from '../../components/seo/TimelineSteps.astro';
 
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/templates/invoice-reminder-email-template';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
-const metaTitle = 'Invoice Reminder Email Template (Friendly to Final Notice) | ChaseAI';
+
+const metaTitle = 'Invoice Reminder Email Templates: 7 Copy-and-Send Examples';
 const metaDescription =
-  'Copy a complete invoice reminder email template sequence from first follow-up to final notice, with proven scripts for faster client payments.';
+  'Copy 7 invoice reminder email templates from friendly first notice to final demand. Includes subject lines, timing and payment follow-up wording.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Templates', href: '/templates' },
+  { label: 'Invoice Reminder Email Templates', href: pageSlug },
+];
 
 const tocItems = [
-  { id: 'when-to-send', label: 'When to send a reminder' },
-  { id: 'templates', label: '7 email templates' },
-  { id: 'subject-lines', label: 'Subject lines that work' },
-  { id: 'common-mistakes', label: 'Mistakes to avoid' },
-  { id: 'automate', label: 'Automate your sequence' },
+  { id: 'sequence', label: 'Which reminder to send when' },
+  { id: 'templates', label: 'The 7 templates' },
+  { id: 'essentials', label: 'What every reminder must include' },
   { id: 'faq', label: 'FAQ' },
 ];
 
-const templates = [
+const stages = [
   {
-    step: 1,
-    label: 'Courtesy reminder',
-    timing: '3 days before due date',
-    subject: 'Quick reminder: Invoice #[number] due [date]',
-    body: `Hi [Name],
+    id: 'before-due',
+    heading: '1. Before the due date',
+    note: 'A courtesy note a few days out. Prevents "I forgot" and surfaces disputes early.',
+    href: '/templates/friendly-payment-reminder-email',
+    linkText: 'More pre-due and friendly wording: friendly payment reminder emails',
+    subject: 'Invoice [Invoice number] due [Original due date]',
+    text: `Hi [Client name],
 
-Just a friendly heads-up that invoice #[number] for [amount] is due on [date]. You can pay via [payment link].
+A quick note that invoice [Invoice number] for [Outstanding amount] is due on [Original due date]. Payment link: [Payment link]
 
-Let me know if you have questions.
+If anything about the invoice needs adjusting, let me know before the due date.
 
 Thanks,
 [Your name]`,
   },
   {
-    step: 2,
-    label: 'Due-date reminder',
-    timing: 'Day of due date',
-    subject: 'Invoice #[number] is due today',
-    body: `Hi [Name],
+    id: 'due-today',
+    heading: '2. Due today',
+    note: 'Send the morning it falls due. Factual, short, zero pressure.',
+    href: '/templates/friendly-payment-reminder-email',
+    linkText: 'Full due-today and day-one variants: friendly reminder templates',
+    subject: 'Invoice [Invoice number] is due today',
+    text: `Hi [Client name],
 
-This is a quick reminder that invoice #[number] for [amount] is due today. If you've already sent payment, please disregard this note.
+Just a reminder that invoice [Invoice number] for [Outstanding amount] is due today. You can pay here: [Payment link]
 
-Payment link: [link]
+Thanks for keeping it on your radar.
 
 Best,
 [Your name]`,
   },
   {
-    step: 3,
-    label: 'Gentle follow-up',
-    timing: '3 days overdue',
-    subject: 'Following up on invoice #[number]',
-    body: `Hi [Name],
+    id: 'friendly-overdue',
+    heading: '3. Friendly overdue reminder',
+    note: 'A few days past due. Still assume good faith - most invoices at this stage are oversights.',
+    href: '/templates/overdue-invoice-email-template',
+    linkText: 'Day-by-day overdue wording: overdue invoice email templates',
+    subject: 'Friendly reminder: invoice [Invoice number] past due',
+    text: `Hi [Client name],
 
-I wanted to follow up on invoice #[number] for [amount], which was due on [date]. Could you let me know the status?
+Invoice [Invoice number] for [Outstanding amount] was due on [Original due date] and looks unpaid on our side - I'm sure it just slipped through.
 
-Payment link: [link]
+Here's the payment link: [Payment link]. If it's already been sent, ignore this and thank you!
+
+Best,
+[Your name]`,
+  },
+  {
+    id: 'second-reminder',
+    heading: '4. Second reminder',
+    note: 'No reply to the first? Ask for a specific payment date - that is the entire upgrade.',
+    href: '/templates/second-invoice-reminder-email',
+    linkText: 'Ten variants including AP and broken-promise wording: 2nd payment reminder emails',
+    subject: 'Second reminder: invoice [Invoice number] - payment date needed',
+    text: `Hi [Client name],
+
+Following up on invoice [Invoice number] for [Outstanding amount], now [X] days overdue. Could you confirm your expected payment date today?
+
+Payment link: [Payment link]. If something is blocking payment, reply and I'll help resolve it.
 
 Thanks,
 [Your name]`,
   },
   {
-    step: 4,
-    label: 'Direct reminder',
-    timing: '7 days overdue',
-    subject: 'Payment overdue: Invoice #[number]',
-    body: `Hi [Name],
+    id: 'firm-reminder',
+    heading: '5. Firm reminder',
+    note: 'Two or more weeks overdue with no committed date. Direct language, a deadline, and a named next step.',
+    href: '/templates/firm-payment-reminder-email',
+    linkText: 'Full firm-stage wording and escalation rules: firm payment reminder email',
+    subject: 'Invoice [Invoice number] - response required by [reply-by date]',
+    text: `Hi [Client name],
 
-Invoice #[number] for [amount] is now 7 days past due. Please arrange payment at your earliest convenience. If there's an issue, I'm happy to discuss.
+Invoice [Invoice number] for [Outstanding amount] is now [X] days overdue and I haven't received a response to my previous reminders.
 
-Payment link: [link]
+Please confirm payment, or a payment date, by [reply-by date]. If I don't hear back, I'll need to move this to our formal overdue process.
+
+Payment link: [Payment link]
 
 Regards,
 [Your name]`,
   },
   {
-    step: 5,
-    label: 'Firm follow-up',
-    timing: '14 days overdue',
-    subject: 'Second notice: Invoice #[number] — 14 days past due',
-    body: `Hi [Name],
+    id: 'final-notice',
+    heading: '6. Final notice',
+    note: 'The genuinely last message before escalation. Factual summary, hard deadline, cautious consequence wording.',
+    href: '/templates/final-notice-unpaid-invoice-email',
+    linkText: 'Letter formats and deadline variations: final notice templates',
+    subject: 'Final notice: invoice [Invoice number]',
+    text: `Dear [Client name],
 
-I'm writing regarding the outstanding balance of [amount] on invoice #[number], now 14 days overdue. Please process payment by [new deadline] to avoid any disruption to our working relationship.
+Despite previous reminders, invoice [Invoice number] for [Outstanding amount] (due [Original due date]) remains unpaid.
 
-Payment link: [link]
+Please pay the full balance by [payment deadline]: [Payment link]
+
+If we do not receive payment or hear from you by that date, we may need to escalate this matter, subject to our agreement and applicable law. Contact us immediately if the invoice is disputed.
+
+Sincerely,
+[Your name]`,
+  },
+  {
+    id: 'ap-follow-up',
+    heading: '7. Accounts-payable follow-up',
+    note: 'When payment runs through an AP department, references matter more than tone.',
+    href: '/templates/email-to-accounts-payable-overdue-invoice',
+    linkText: 'All five AP variants with attachment checklists: accounts payable follow-up emails',
+    subject: 'Invoice [Invoice number] / PO [PO number] - past due',
+    text: `Hello Accounts Payable team,
+
+Invoice [Invoice number] (PO [PO number]) for [Outstanding amount] was due on [Original due date] and is unpaid. A copy is attached.
+
+Could you confirm it's approved for payment and share the scheduled payment date?
 
 Thank you,
-[Your name]`,
-  },
-  {
-    step: 6,
-    label: 'Final notice',
-    timing: '30 days overdue',
-    subject: 'Final notice: Invoice #[number] — 30 days overdue',
-    body: `[Name],
-
-Invoice #[number] for [amount] has been outstanding for 30 days. This is a final reminder before I assess late fees per our agreement. Please remit payment within 5 business days.
-
-Payment link: [link]
-
-[Your name]`,
-  },
-  {
-    step: 7,
-    label: 'Escalation warning',
-    timing: '45+ days overdue',
-    subject: 'Unresolved: Invoice #[number] — action required',
-    body: `[Name],
-
-Despite previous reminders, invoice #[number] ([amount]) remains unpaid after 45 days. If payment is not received by [date], I will need to explore further options including [collections agency / legal counsel].
-
-Please contact me immediately to resolve this.
-
-[Your name]`,
+[Your name]
+[Phone / email]`,
   },
 ];
 
 const faqs = [
   {
-    q: 'How many reminders should I send before escalating?',
-    a: 'Most professionals send 4–6 reminders over 30 days before involving collections. The seven-step sequence above covers the full range from courtesy to escalation.',
+    q: 'How do you politely remind a client about an invoice?',
+    a: 'State the facts - invoice number, amount, due date - assume good faith, and make paying effortless with a payment link. "I\u2019m sure it slipped through" does more work than any pressure tactic in the first two weeks.',
   },
   {
-    q: 'Should I call or email for overdue invoices?',
-    a: 'Start with email so you have a paper trail. If emails go unanswered after 14 days, follow up with a phone call and reference the reminders you already sent.',
+    q: 'How many payment reminders should I send?',
+    a: 'A typical sequence is four to six touches: a pre-due note, a due-today or day-one reminder, a second reminder, a firm reminder, and a final notice around day 30. Consistency matters more than volume.',
   },
   {
-    q: 'Can I charge late fees on overdue invoices?',
-    a: 'Yes, if your contract or invoice terms specify them. Mention late-fee terms on your original invoice and reference them in reminders starting around Day 14.',
+    q: 'What is the best schedule for invoice reminder emails?',
+    a: 'A reliable default: 3 days before due, on the due date, 3-5 days overdue, day 7-10 (second reminder), day 14 (firm), day 30 (final notice). Adjust for your industry\u2019s payment norms - the follow-up schedule guide covers day-by-day timing.',
   },
   {
-    q: 'What is the best time of day to send a payment reminder?',
-    a: "Tuesday through Thursday between 9\u201311 AM in the client\u2019s time zone tends to perform best. Avoid Mondays (inbox overload) and Fridays (weekend mode).",
-  },
-  {
-    q: 'Should I CC anyone on payment reminders?',
-    a: 'For corporate clients, CC the project manager or procurement contact after the second reminder. For small-business clients, keep correspondence one-to-one.',
-  },
-  {
-    q: 'Is it unprofessional to send automated invoice reminders?',
-    a: 'Not at all. Tools like ChaseAI, Xero, and QuickBooks all offer built-in reminders. Automation ensures consistent follow-up without the emotional overhead of manual chasing.',
-  },
-  {
-    q: 'What if the client disputes the invoice amount?',
-    a: 'Pause automated reminders immediately. Address the dispute directly with supporting documentation, resolve the discrepancy, and then resume the sequence.',
-  },
-  {
-    q: 'How does ChaseAI compare to accounting-software reminders?',
-    a: 'Accounting tools typically send one-line nudges. ChaseAI generates a full escalation sequence with AI-written emails tailored to your specific invoice, client, and tone preferences, and also supports template-based starts.',
+    q: 'Should invoice reminders be sent automatically?',
+    a: 'For more than a handful of invoices a month, yes. The main failure mode of manual chasing is inconsistency - reminders that go out late or not at all. Automation keeps the sequence running while you stay in control of wording.',
   },
 ];
 
@@ -161,11 +173,11 @@ const articleSchema = {
   headline: metaTitle,
   description: metaDescription,
   datePublished: '2026-03-31',
-  dateModified: '2026-03-31',
+  dateModified: '2026-07-28',
   author: {
     '@type': 'Person',
     name: 'Pasko Djonovic',
-    url: 'https://chaseai.app/about',
+    url: 'https://chaseai.app/author',
   },
   publisher: {
     '@type': 'Organization',
@@ -181,7 +193,6 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
-
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -191,15 +202,6 @@ const faqSchema = {
     acceptedAnswer: { '@type': 'Answer', text: f.a },
   })),
 };
-
-const howToSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'HowTo',
-  name: 'Use an invoice reminder email sequence',
-  step: [{ '@type': 'HowToStep', name: 'Send a friendly reminder' }, { '@type': 'HowToStep', name: 'Escalate to firm and final notice wording' }],
-};
-
-const structuredData = [articleSchema, howToSchema, faqSchema];
 ---
 
 <BaseLayout
@@ -207,340 +209,116 @@ const structuredData = [articleSchema, howToSchema, faqSchema];
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={structuredData}
+  structuredData={[articleSchema, faqSchema]}
+  breadcrumbs={breadcrumbs}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
   </Fragment>
 
-  <!-- ════════ HERO ════════ -->
   <section class="hero-gradient relative overflow-hidden">
-    <div class="container py-16 md:py-24 max-w-3xl mx-auto text-center">
+    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
-        Invoice Reminder Email Template
-        <span class="block text-lg md:text-2xl font-semibold text-muted-foreground mt-3">
-          Copy/Paste + 7-Step Escalation
-        </span>
+        Invoice Reminder Email Templates for Every Stage
       </h1>
       <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-        Stop rewriting the same follow-up from scratch. Grab a proven <strong>invoice reminder email template</strong> below, swap the brackets, and send—or let ChaseAI generate a custom sequence from your invoice in 60&nbsp;seconds.
-      </p>
-      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-        <a
-          href={appUrl}
-          class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-95 transition-opacity group"
-          aria-label="Generate invoice reminder email sequence"
-          data-track="lead_cta_click"
-          data-cta-id="hero_primary"
-        >
-          Generate my reminder sequence
-          <span class="ml-2 text-primary-foreground/70 text-xs group-hover:text-primary-foreground/90 transition-colors">14-day free trial</span>
-        </a>
-        <a
-          href="#templates"
-          class="inline-flex items-center justify-center rounded-lg border border-border px-8 py-3.5 text-base font-semibold hover:bg-muted/50 transition-colors"
-          aria-label="Jump to email templates section"
-        >
-          Copy the 7 templates
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ════════ TRUST / STATS STRIP ════════ -->
-  <section class="border-y border-border bg-muted/30">
-    <div class="container py-6">
-      <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 text-center">
-        <p class="text-sm text-muted-foreground">
-          <strong class="text-foreground">56%</strong> of small businesses are owed money right now
-        </p>
-        <span class="hidden md:inline text-border">|</span>
-        <p class="text-sm text-muted-foreground">
-          Average outstanding: <strong class="text-foreground">$17,500</strong>
-        </p>
-        <span class="hidden md:inline text-border">|</span>
-        <p class="text-sm text-muted-foreground">
-          <strong class="text-foreground">47%</strong> of invoices paid 30+ days late
-        </p>
-      </div>
-      <p class="text-center mt-2">
-        <a
-          href="https://quickbooks.intuit.com/r/small-business-data/small-business-late-payments-report-2025/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-xs text-muted-foreground/70 hover:text-primary transition-colors"
-        >
-          Source: QuickBooks Late Payments Report
-        </a>
+        Seven copy-and-send reminders covering the whole cycle - before due, due today, overdue, second
+        reminder, firm, final notice and accounts payable - each linked to a full page of variants.
       </p>
     </div>
   </section>
 
-  <!-- ════════ MAIN CONTENT + TOC ════════ -->
-  <section class="section-padding">
+  <section class="">
     <div class="container">
       <div class="grid lg:grid-cols-[200px_1fr_200px] gap-10 max-w-6xl mx-auto">
-
-        <!-- TOC (sticky desktop / collapsible mobile) -->
         <aside>
           <SeoToc items={tocItems} />
         </aside>
 
-        <!-- Prose column — centered between equal-width sidebars -->
         <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
-          <SeoAuthor date="2026-03-31" />
-
-          <!-- ── When to send ── -->
-          <h2 id="when-to-send">When to send an invoice reminder (timing that works)</h2>
+          <SeoAuthor date="2026-07-28" />
           <p>
-            Timing matters more than wording. Send too early and you seem pushy; wait too long and the
-            client forgets entirely. The schedule below balances politeness with persistence:
+            The right invoice reminder depends on one thing: how overdue the invoice is. This page gives you
+            one strong, copyable template for each stage of the follow-up cycle, plus a link to the full
+            library for that stage when you need more variants, subject lines or letter formats.
           </p>
+
+          <h2 id="sequence">Which reminder to send when</h2>
+          <TimelineSteps
+            title="The invoice reminder sequence at a glance"
+            steps={[
+              { window: 'Day -3', label: 'Courtesy note before the due date' },
+              { window: 'Day 0', label: 'Due-today reminder' },
+              { window: 'Day 3-6', label: 'Friendly overdue reminder' },
+              { window: 'Day 7-13', label: 'Second reminder (ask for a payment date)' },
+              { window: 'Day 14-29', label: 'Firm reminder with deadline' },
+              { window: 'Day 30+', label: 'Final notice, then formal past-due process' },
+            ]}
+          />
+          <p>
+            For the reasoning behind this timing, see the
+            <a href="/guides/unpaid-invoice-follow-up-schedule"> unpaid invoice follow-up schedule</a>.
+          </p>
+
+          <h2 id="templates">The 7 invoice reminder templates</h2>
+
+          {stages.map((stage) => (
+            <>
+              <h3 id={stage.id}>{stage.heading}</h3>
+              <p>{stage.note}</p>
+              <CopyBlock
+                label={stage.heading.replace(/^\d+\.\s/, '')}
+                subject={stage.subject}
+                text={stage.text}
+              />
+              <p>
+                <a href={stage.href}>{stage.linkText}</a>
+              </p>
+            </>
+          ))}
+
+          <h2 id="essentials">What every invoice reminder must include</h2>
           <ul>
-            <li><strong>Day –3:</strong> Courtesy heads-up before the due date</li>
-            <li><strong>Day 0:</strong> Due-date reminder</li>
-            <li><strong>Day +3:</strong> Gentle nudge (still friendly)</li>
-            <li><strong>Day +7:</strong> Direct follow-up</li>
-            <li><strong>Day +14:</strong> Firm reminder with consequences mentioned</li>
-            <li><strong>Day +30:</strong> Final notice</li>
-            <li><strong>Day +45:</strong> Escalation warning (collections or legal)</li>
+            <li>Invoice number and amount</li>
+            <li>Original due date (and days overdue, once late)</li>
+            <li>A payment link or clear payment instructions</li>
+            <li>One specific ask - pay now, or confirm a payment date</li>
+            <li>A reply path for disputes or questions</li>
           </ul>
-
           <p>
-            This cadence gives the client three chances to pay before you ever sound stern. If you'd
-            rather automate the entire timeline,
-            <a href="https://app.chaseai.app">ChaseAI's overdue-invoice sequence generator</a>
-            builds one from your PDF in a single click. For invoices already past 30 days, skip straight
-            to our <a href="/templates/final-notice-unpaid-invoice-email">final notice for unpaid invoice</a> template.
+            Subject lines carry more weight than most people expect - a reminder that is never opened
+            cannot get you paid. Browse
+            <a href="/templates/payment-reminder-email-subject-lines"> 50 payment reminder subject lines</a>
+            grouped by the same stages as this page. And if your terms include late fees, use proper
+            <a href="/templates/late-payment-fee-email-template"> invoice late fee wording</a> rather than
+            improvising it in a reminder.
           </p>
 
-          <!-- ── 7 Templates ── -->
-          <h2 id="templates">7 invoice reminder email templates (friendly → firm)</h2>
-          <p>
-            Each <strong>payment reminder email template</strong> below is written in plain, professional
-            US English. Swap the bracketed fields with your details and hit send.
-          </p>
-
-          <div class="not-prose space-y-4">
-            {templates.map((t) => (
-              <div class="rounded-lg border border-border bg-muted/20 p-4 md:p-5">
-                <div class="flex items-center gap-2 mb-3">
-                  <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                    {t.step}
-                  </span>
-                  <h3 class="text-sm font-semibold">
-                    {t.label} — <span class="font-normal text-muted-foreground">{t.timing}</span>
-                  </h3>
-                </div>
-                <p class="text-xs text-muted-foreground mb-2">
-                  <strong>Subject:</strong> {t.subject}
-                </p>
-                <pre class="text-sm text-muted-foreground leading-relaxed whitespace-pre-line font-sans">{t.body}</pre>
-              </div>
-            ))}
-          </div>
-
-          <!-- Practical examples -->
-          <h3>Real-world examples</h3>
-
-          <p>
-            <strong>Example A — Small invoice ($350, freelance designer).</strong>
-            A freelancer invoiced $350 for logo work. The client missed the due date. Using Template 3
-            at Day +3 and Template 5 at Day +14 got a reply within 48 hours. Keeping the tone friendly
-            early preserved the relationship; the firm follow-up created the urgency needed to move AP
-            along.
-          </p>
-          <p>
-            <strong>Example B — Corporate invoice ($4,500, agency).</strong>
-            An agency billed $4,500 for a website build. The corporate AP team needed Templates 4
-            and 6 because internal approvals caused delays. Including the PO number in the subject line
-            and CC'ing the project manager shortened the payment cycle by two weeks.
-          </p>
-          <p>
-            Need custom <strong>invoice follow-up email</strong> wording for different scenarios? See
-            our <a href="/templates/overdue-invoice-email-template">overdue invoice email template</a> page.
-          </p>
-
-          <!-- Inline CTA band -->
           <div class="not-prose">
             <SeoCtaBand
-              heading="Done copying? Let AI write the rest."
-              description="Upload your invoice and get a full escalation sequence—personalized, scheduled, and ready to send."
+              heading="Send the whole sequence automatically"
+              description="ChaseAI drafts all seven stages from your invoice and sends each one on schedule until you're paid."
               primaryHref={appUrl}
-              primaryLabel="Generate my reminder sequence"
-              primaryAriaLabel="Generate invoice reminder email sequence"
-              secondaryHref="/pricing"
-              secondaryLabel="See pricing"
-              secondaryAriaLabel="View ChaseAI pricing plans"
+              primaryLabel="Start free trial"
+              primaryAriaLabel="Start ChaseAI free trial"
+              secondaryHref="/tools/overdue-invoice-sequence-generator"
+              secondaryLabel="Try the free generator"
+              secondaryAriaLabel="Try the free overdue invoice sequence generator"
             />
           </div>
-
-          <!-- ── Subject lines ── -->
-          <h2 id="subject-lines">Subject lines that increase opens</h2>
-          <p>
-            Your <strong>invoice reminder email wording</strong> starts with the subject line. If the
-            client doesn't open the email, nothing else matters. Proven patterns:
-          </p>
-          <ul>
-            <li><strong>"Invoice #[number] due [date]"</strong> — Clear and scannable</li>
-            <li><strong>"Quick reminder about your balance"</strong> — Casual, non-threatening</li>
-            <li><strong>"Payment overdue — action needed"</strong> — Creates urgency</li>
-            <li><strong>"Following up on [amount] owed"</strong> — Specific dollar anchor</li>
-            <li><strong>"[Company], your invoice is [X] days past due"</strong> — Personalized + timeline</li>
-          </ul>
-          <p>
-            <em>Tip:</em> Include the invoice number <em>and</em> amount in the subject line for corporate
-            clients. AP teams process dozens of invoices daily and need to match yours instantly. For
-            subject lines tailored to seriously overdue accounts, see our
-            <a href="/templates/overdue-invoice-email-template">overdue invoice email template</a> guide.
-          </p>
-
-          <!-- ── Common mistakes ── -->
-          <h2 id="common-mistakes">Common mistakes that make clients ignore you</h2>
-          <ol>
-            <li><strong>Vague subject lines.</strong> "Quick question" gets archived. State the invoice number.</li>
-            <li><strong>Walls of text.</strong> Keep it under 100 words. One ask, one payment link.</li>
-            <li><strong>Apologetic language.</strong> "Sorry to bother you" undermines your position. You delivered work; payment is expected.</li>
-            <li><strong>No payment link.</strong> Every single email should include a one-click way to pay.</li>
-            <li><strong>Inconsistent timing.</strong> Random follow-ups signal you're not serious. Stick to a schedule—or <a href="https://app.chaseai.app">automate it</a>.</li>
-          </ol>
-          <p>
-            If you've already made these mistakes and need to reset the tone, our
-            <a href="/templates/final-notice-unpaid-invoice-email">final notice email template</a>
-            gives you a clean, firm starting point.
-          </p>
-
-          <!-- ── Automate ── -->
-          <h2 id="automate">Turn templates into an automated follow-up sequence (1-click)</h2>
-          <p>
-            Copy-pasting templates works. Automating them works better. ChaseAI lets you upload an
-            invoice PDF, extracts the client name, amount, and due date, then generates a complete
-            invoice reminder email template sequence—friendly through firm—that sends on your schedule.
-          </p>
-
-          <p>Here's the workflow:</p>
-          <ol>
-            <li>Upload your invoice PDF (or enter details manually)</li>
-            <li>AI extracts fields and generates 5–7 personalized emails</li>
-            <li>Review and edit each draft</li>
-            <li>Set the schedule and click <strong>"Start Smart Chasing"</strong></li>
-            <li>Track opens, replies, and payment status in real time</li>
-          </ol>
-          <p>
-            Starter includes a 14-day free trial. <a href="/pricing">See pricing</a> for plan details.
-          </p>
-
-          <h3>Sources &amp; further reading</h3>
-          <ul class="text-sm">
-            <li><a href="https://quickbooks.intuit.com/learn-support/en-global/help-article/invoicing/send-invoice-reminders-automatically-manually/L84cQjpxo_ROW_en" target="_blank" rel="noopener noreferrer">QuickBooks: Send invoice reminders automatically</a></li>
-            <li><a href="https://stripe.com/resources/more/what-is-a-payment-reminder-how-to-write-and-send-one-successfully" target="_blank" rel="noopener noreferrer">Stripe: How to write a payment reminder</a></li>
-            <li><a href="https://central.xero.com/s/article/Set-up-invoice-reminders" target="_blank" rel="noopener noreferrer">Xero: Set up invoice reminders</a></li>
-            <li><a href="https://www.zoho.com/us/books/help/settings/reminders.html" target="_blank" rel="noopener noreferrer">Zoho Books: Automated payment reminders</a></li>
-          </ul>
         </article>
 
-        <!-- Empty right column balances the TOC for centered content -->
         <div class="hidden lg:block" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
-  <section class="section-padding border-t border-border bg-muted/20">
-    <div class="container max-w-3xl mx-auto">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center">How to choose the right reminder stage</h2>
-      <table class="mt-4 w-full text-sm">
-        <thead><tr><th>Invoice status</th><th>Recommended message</th></tr></thead>
-        <tbody>
-          <tr><td>Just due / 1 day late</td><td>Friendly reminder</td></tr>
-          <tr><td>7-14 days overdue</td><td>Direct reminder with date ask</td></tr>
-          <tr><td>30+ days overdue</td><td>Final notice with clear deadline</td></tr>
-        </tbody>
-      </table>
-      <p class="mt-4 text-sm text-muted-foreground">
-        Turn this manual framework into an automated workflow with the <a class="text-primary hover:underline" href="/tools/overdue-invoice-sequence-generator">Free AI Overdue Invoice Sequence Generator</a>.
-      </p>
-    </div>
-  </section>
-
-  <!-- ════════ FAQ ════════ -->
   <section id="faq" class="section-padding border-t border-border bg-muted/30">
     <div class="container max-w-3xl mx-auto">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">
-        Frequently asked questions
+        Invoice reminder FAQ
       </h2>
       <SeoFaq items={faqs} />
     </div>
   </section>
-
-  <!-- ════════ FINAL CTA ════════ -->
-  <section class="section-padding border-t border-border">
-    <div class="container max-w-2xl mx-auto text-center">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight">
-        Stop writing reminders from scratch
-      </h2>
-      <p class="mt-4 text-muted-foreground leading-relaxed">
-        Upload an invoice and let ChaseAI generate a complete follow-up sequence in under a minute.
-        Start a 14-day free trial on Starter — cancel anytime.
-      </p>
-      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-        <a
-          href={appUrl}
-          class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-95 transition-opacity"
-          aria-label="Generate invoice reminder email sequence"
-          data-track="lead_cta_click"
-          data-cta-id="footer_primary"
-        >
-          Generate my reminder sequence
-        </a>
-        <a
-          href={`${appUrl}/invoice/upload`}
-          class="inline-flex items-center justify-center rounded-lg border border-border px-8 py-3.5 text-base font-semibold hover:bg-muted/50 transition-colors"
-          aria-label="Upload invoice PDF to generate reminders"
-          data-track="invoice_upload_start"
-          data-cta-id="footer_upload"
-        >
-          Upload invoice PDF
-        </a>
-      </div>
-      <p class="mt-4 text-xs text-muted-foreground">
-        14-day free trial on Starter · Cancel anytime
-      </p>
-    </div>
-  </section>
-
-  <!-- ════════ RELATED LINKS ════════ -->
-  <section class="border-t border-border bg-muted/30 py-10">
-    <div class="container max-w-3xl mx-auto">
-      <h3 class="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Related resources</h3>
-      <ul class="grid sm:grid-cols-2 gap-2">
-        <li><a href="https://app.chaseai.app" class="text-sm text-muted-foreground hover:text-primary transition-colors">Overdue Invoice Sequence Generator</a></li>
-        <li><a href="/templates/overdue-invoice-email-template" class="text-sm text-muted-foreground hover:text-primary transition-colors">Overdue Invoice Email Template</a></li>
-        <li><a href="/templates/final-notice-unpaid-invoice-email" class="text-sm text-muted-foreground hover:text-primary transition-colors">Final Notice for Unpaid Invoice</a></li>
-        <li><a href="/guides/unpaid-invoice-follow-up-schedule" class="text-sm text-muted-foreground hover:text-primary transition-colors">Unpaid Invoice Follow-Up Schedule</a></li>
-        <li><a href="/features" class="text-sm text-muted-foreground hover:text-primary transition-colors">All ChaseAI Features</a></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ════════ ANALYTICS ════════ -->
-  <script is:inline define:vars={{ pageSlug }}>
-    function trackEvent(name, props) {
-      try {
-        window.dispatchEvent(
-          new CustomEvent('chaseai:track', { detail: { event: name, ...props } }),
-        );
-      } catch (_) {}
-    }
-    window.trackEvent = trackEvent;
-
-    trackEvent('page_view', { page_slug: pageSlug });
-
-    document.addEventListener('click', function (e) {
-      var el = e.target.closest('[data-track]');
-      if (!el) return;
-      var eventName = el.getAttribute('data-track');
-      var ctaId = el.getAttribute('data-cta-id') || '';
-      trackEvent(eventName, { cta_id: ctaId, page_slug: pageSlug });
-    });
-  </script>
 </BaseLayout>

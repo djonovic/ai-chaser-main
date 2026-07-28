@@ -9,6 +9,12 @@ const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/guides/unpaid-invoice-follow-up-schedule';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Guides', href: '/guides' },
+  { label: 'Unpaid Invoice Follow-Up Schedule', href: pageSlug },
+];
+
 // META (DO NOT CHANGE)
 const metaTitle = 'Unpaid Invoice Follow-Up Schedule: Day-by-Day Timeline | ChaseAI';
 const metaDescription =
@@ -81,6 +87,7 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
   title={metaTitle}
   description={metaDescription}
   canonical={canonicalUrl}
+  breadcrumbs={breadcrumbs}
   ogType="article"
   structuredData={[articleSchema, howToSchema, faqSchema]}
 >

@@ -4,41 +4,146 @@ import SeoToc from '../../components/seo/SeoToc.astro';
 import SeoCtaBand from '../../components/seo/SeoCtaBand';
 import SeoFaq from '../../components/seo/SeoFaq.astro';
 import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+import CopyBlock from '../../components/seo/CopyBlock.astro';
+import TimelineSteps from '../../components/seo/TimelineSteps.astro';
 
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/templates/late-payment-fee-email-template';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
-// META (DO NOT CHANGE)
-const metaTitle = 'Late Payment Fee Email Template + Invoice Late Fee Wording | ChaseAI';
+const metaTitle = 'Invoice Late Fee Wording: 8 Examples + Email Template';
 const metaDescription =
-  'Use compliant invoice late fee wording and sample emails to notify clients of late fees clearly, professionally, and with enforceable payment terms.';
+  'Copy invoice late fee wording for payment terms, reminders and fee-applied notices. Includes fixed-fee and percentage examples plus an email template.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Templates', href: '/templates' },
+  { label: 'Invoice Late Fee Wording', href: pageSlug },
+];
 
 const tocItems = [
-  { id: 'when-fees-make-sense', label: 'When late fees make sense' },
-  { id: 'templates', label: 'Templates (gentle notice to applied fee)' },
-  { id: 'contract-terms', label: 'Reference contract terms cleanly' },
+  { id: 'examples', label: '8 late fee wording examples' },
+  { id: 'policy-template', label: 'Late fee policy template' },
+  { id: 'fixed-vs-percentage', label: 'Fixed fee vs percentage' },
+  { id: 'notify-politely', label: 'How to notify a client politely' },
   { id: 'escalation-path', label: 'Escalation path' },
-  { id: 'automate', label: 'Automate reminders + notices' },
+  { id: 'related', label: 'Related templates and tools' },
   { id: 'faq', label: 'FAQ' },
+];
+
+const examples = [
+  {
+    id: 'footer-wording',
+    heading: '1. Invoice footer wording',
+    context:
+      'Print this at the bottom of every invoice so the fee is never a surprise. It sets the expectation at the moment of billing.',
+    text: `Payment is due by [Original due date]. A late fee of [Late fee] applies to balances unpaid after the due date, as set out in our payment terms.`,
+  },
+  {
+    id: 'payment-terms-wording',
+    heading: '2. Payment-terms wording',
+    context:
+      'Use this in the payment-terms section of a proposal, engagement letter or invoice terms page. It defines when the fee starts and how it is calculated.',
+    text: `Invoices are payable within [X] days of the invoice date. Balances remaining unpaid after [Original due date] may incur a late fee of [Late fee], applied to the outstanding amount until the balance is settled in full.`,
+  },
+  {
+    id: 'contract-clause-wording',
+    heading: '3. Contract-clause wording',
+    context:
+      'A fuller clause for contracts and master service agreements. Have a legal adviser confirm it fits your jurisdiction before relying on it.',
+    text: `Late Payment. If any undisputed invoice remains unpaid after its due date, the Client agrees to pay a late fee of [Late fee] on the outstanding balance. Late fees accrue from the day after the due date until payment is received. This clause does not limit any other remedy available under this agreement or applicable law.`,
+  },
+  {
+    id: 'courtesy-warning',
+    heading: '4. Friendly courtesy warning',
+    context:
+      'Send this once an invoice is a few days overdue but before you actually charge anything. It reminds the client of the terms without applying the fee yet.',
+    subject: 'Invoice [Invoice number] overdue - late fee terms apply soon',
+    text: `Hi [Client name],
+
+A quick note that invoice [Invoice number] for [Outstanding amount] was due on [Original due date] and is still open.
+
+Our payment terms include a late fee of [Late fee] on overdue balances, but I'd much rather not apply it. If you can settle the invoice in the next few days, no fee will be added.
+
+Pay here: [Payment link]
+
+Thanks,
+[Your name]`,
+  },
+  {
+    id: 'warning-before-due',
+    heading: '5. Late-fee warning before the due date',
+    context:
+      'For slow-paying clients, mention the fee just before the due date. It keeps the tone helpful because nothing is overdue yet.',
+    subject: 'Invoice [Invoice number] due [Original due date]',
+    text: `Hi [Client name],
+
+A friendly reminder that invoice [Invoice number] for [Outstanding amount] is due on [Original due date].
+
+As a heads-up, our terms apply a late fee of [Late fee] to balances that remain unpaid after the due date. Paying by [Original due date] avoids any extra charge.
+
+Pay here: [Payment link]
+
+Best regards,
+[Your name]`,
+  },
+  {
+    id: 'fee-applied-email',
+    heading: '6. Fee-applied email',
+    context:
+      'Send this only after the fee has actually been added, and only if your agreement allows it. State the fee, the new total and the payment path - nothing emotional.',
+    subject: 'Late fee applied: invoice [Invoice number] - new total [New total]',
+    text: `Hi [Client name],
+
+Invoice [Invoice number] was due on [Original due date] and remains unpaid. In line with our agreed payment terms, a late fee of [Late fee] has now been applied.
+
+Original amount: [Outstanding amount]
+Late fee: [Late fee]
+New total due: [New total]
+
+Please settle the updated balance here: [Payment link]
+
+If the invoice is disputed or already paid, reply to this email and we will review it right away.
+
+Regards,
+[Your name]`,
+  },
+  {
+    id: 'fixed-fee-example',
+    heading: '7. Fixed-fee example',
+    context:
+      'A flat charge is easy to explain and predictable for small invoices. Swap the figures for your own terms.',
+    text: `A flat late fee of $25 will be added to any invoice unpaid more than 7 days after the due date. Example: invoice [Invoice number] for [Outstanding amount], unpaid 10 days after [Original due date], becomes [New total] ([Outstanding amount] + $25 late fee).`,
+  },
+  {
+    id: 'percentage-example',
+    heading: '8. Percentage or monthly-interest example',
+    context:
+      'Percentage fees scale with invoice size and are common on larger B2B invoices. Many businesses use 1-2% per month, but caps and maximum rates vary by jurisdiction, so confirm what your contract and local law permit.',
+    text: `Overdue balances accrue a late fee of 1.5% per month (18% per year), calculated on the outstanding amount from the day after the due date. Example: [Outstanding amount] unpaid for one month accrues a fee of [Late fee], bringing the total due to [New total].`,
+  },
 ];
 
 const faqs = [
   {
-    q: 'When should I send a late fee notice email?',
-    a: 'Only when your agreement allows it and the client has already passed due date with prior reminders.',
+    q: 'How do you word a late fee on an invoice?',
+    a: 'State the amount or rate, when it starts, and what it applies to in one sentence, for example: "A late fee of 1.5% per month applies to balances unpaid after the due date." Put it in the invoice footer and in your payment terms so clients see it before the invoice is ever late.',
   },
   {
-    q: 'How do I keep a late payment penalty email professional?',
-    a: 'Keep it factual: reference the invoice, due date, contract clause, fee amount, and payment deadline.',
+    q: 'Should a late fee appear in the original payment terms?',
+    a: 'Yes. A late fee is far easier to apply, and far less likely to be disputed, when the client agreed to it in the contract or payment terms before work started. Adding it to the invoice footer as well keeps it visible at billing time.',
   },
   {
-    q: 'Should I waive the first late fee?',
-    a: 'Many teams do for strong clients or first incidents, then enforce fees consistently afterward.',
+    q: 'Can you add a late fee after an invoice is overdue?',
+    a: 'Generally you should not add fees that were never agreed. If your terms did not mention a late fee, send reminders and a past-due notice instead, then update your payment terms for future work. Whether a retroactive fee is enforceable depends on your contract and local law.',
   },
   {
-    q: 'What if the client disputes the late fee?',
-    a: 'Pause escalation briefly, reference terms in writing, and offer a clear path to resolve the balance quickly.',
+    q: 'Should late fees be fixed or percentage-based?',
+    a: 'Fixed fees suit small, similar-sized invoices because they are simple to explain. Percentage or monthly-interest fees scale with invoice value and are more common in B2B contracts. Whichever you choose, apply it consistently and confirm the rate is permitted where you operate.',
+  },
+  {
+    q: 'How do you politely notify a client of a late fee?',
+    a: 'Send a courtesy warning first: reference the invoice number, due date and amount, remind them the fee exists in your terms, and give a short window to pay before it is applied. If the fee is then charged, state the calculation and the new total factually, and invite them to reply if anything is disputed.',
   },
 ];
 
@@ -48,11 +153,11 @@ const articleSchema = {
   headline: metaTitle,
   description: metaDescription,
   datePublished: '2026-03-31',
-  dateModified: '2026-03-31',
+  dateModified: '2026-07-28',
   author: {
     '@type': 'Person',
     name: 'Pasko Djonovic',
-    url: 'https://chaseai.app/about',
+    url: 'https://chaseai.app/author',
   },
   publisher: {
     '@type': 'Organization',
@@ -68,13 +173,15 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
-const howToSchema = {
+const faqSchema = {
   '@context': 'https://schema.org',
-  '@type': 'HowTo',
-  name: 'Send late payment fee notice emails',
-  step: [{ '@type': 'HowToStep', name: 'Reference contract late fee terms' }, { '@type': 'HowToStep', name: 'Share updated balance and deadline' }],
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
 };
-const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 
 <BaseLayout
@@ -82,7 +189,8 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={[articleSchema, howToSchema, faqSchema]}
+  structuredData={[articleSchema, faqSchema]}
+  breadcrumbs={breadcrumbs}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -91,11 +199,11 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
   <section class="hero-gradient relative overflow-hidden">
     <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
-        Late Payment Fee Email Template (Copy/Paste)
+        Invoice Late Fee Wording You Can Copy
       </h1>
       <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-        Use this <strong>late payment fee email template</strong> to notify clients clearly and fairly when invoices
-        are overdue and fee terms apply.
+        Eight copy-and-paste examples covering payment terms, invoice footers, courtesy warnings and
+        fee-applied emails, with fixed-fee and percentage variants.
       </p>
     </div>
   </section>
@@ -108,133 +216,135 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
         </aside>
 
         <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
-          <SeoAuthor date="2026-03-31" />
+          <SeoAuthor date="2026-07-28" />
           <p>
-            A good <strong>late fee notice email</strong> protects both cash flow and relationships. The tone should
-            be neutral, specific, and tied to agreed terms rather than emotion.
+            Good late fee wording does three things: it names the fee amount or rate, says exactly when it
+            starts, and points to the terms the client already agreed to. Below are eight examples you can
+            copy - from a one-line invoice footer to a full fee-applied email - each with placeholders like
+            <code>[Invoice number]</code> and <code>[Late fee]</code> that you replace with your own details.
           </p>
 
-          <h2 id="when-fees-make-sense">When late fees make sense (and when they backfire)</h2>
-          <p>Late fees usually make sense when:</p>
-          <ul>
-            <li>Your contract explicitly defines fee percentage or fixed charge.</li>
-            <li>The client has already received one or more reminders.</li>
-            <li>The invoice is materially overdue and still unpaid.</li>
-          </ul>
-          <p>Late fees often backfire when:</p>
-          <ul>
-            <li>Terms were never documented before invoicing.</li>
-            <li>The delay is caused by your missing paperwork.</li>
-            <li>You apply penalties inconsistently across similar clients.</li>
-          </ul>
-          <p>
-            If in doubt, send a courtesy heads-up first, then enforce terms consistently afterward.
-          </p>
-
-          <h2 id="templates">Templates (gentle notice -> applied fee)</h2>
-          <h3>Template 1: gentle late-fee notice</h3>
-          <p>
-            Subject: "Reminder: invoice #[number] overdue, late fee terms apply"
-          </p>
-          <p>
-            "Hi [Name], invoice #[number] for [amount] is now overdue. Per our terms, late fees may apply after
-            [X] days. Please process payment by [date] to avoid additional charges. Payment link: [link]."
-          </p>
-
-          <h3>Template 2: fee applied notice</h3>
-          <p>
-            Subject: "Late fee applied: invoice #[number]"
-          </p>
-          <p>
-            "Hi [Name], this is a notice that a late fee of [fee amount / fee %] has been applied to invoice
-            #[number] under our agreement terms. Updated total due is [new total]. Please complete payment by
-            [date]. Payment link: [link]."
-          </p>
-
-          <h3>Template 3: final fee + escalation</h3>
-          <p>
-            Subject: "Final notice: overdue invoice #[number] with late fee"
-          </p>
-          <p>
-            "Hi [Name], despite prior reminders, invoice #[number] remains unpaid and late fee terms are now active.
-            Total outstanding is [total]. Please pay by [date/timezone]. If unresolved by this deadline, we will
-            proceed with the next escalation step under contract."
-          </p>
-
-          <h2 id="contract-terms">How to reference your contract terms cleanly</h2>
-          <p>
-            Keep contract references short and auditable. Example wording:
-          </p>
-          <ul>
-            <li>"Per Section 4.2 of our agreement, a [X]% monthly late fee applies after [Y] days overdue."</li>
-            <li>"As agreed in our invoice terms, late charges begin after the due date grace period."</li>
-            <li>"This notice follows the payment and late-fee terms accepted on [date]."</li>
-          </ul>
-          <p>
-            Link to the exact clause or attach the terms excerpt when possible. That keeps your
-            <strong> overdue invoice late fee email</strong> clear and defensible.
-          </p>
-          <p class="text-sm text-muted-foreground">Check your contract/local rules.</p>
-
-          <h2 id="escalation-path">Escalation path</h2>
-          <p>
-            If late-fee notices do not resolve payment, escalate in stages:
-          </p>
-          <ol>
-            <li>Friendly reminder with payment link.</li>
-            <li>Firm reminder with date commitment request.</li>
-            <li>Late-fee notice with updated total.</li>
-            <li>Final notice with deadline and next step.</li>
-          </ol>
-          <p>
-            For firmer language, use
-            <a href="/templates/firm-payment-reminder-email"> firm payment reminder email</a>.
-            For formal notice structure, use
-            <a href="/templates/past-due-invoice-notice-template"> past due invoice notice template</a>.
-            For a full strategy, follow
-            <a href="/guides/how-to-chase-unpaid-invoices"> how to chase unpaid invoices</a>.
-          </p>
-
-          <div class="not-prose my-6 rounded-xl border border-primary/10 bg-primary/5 p-4 text-sm text-muted-foreground">
-            <p><strong class="text-foreground">Quick tips</strong></p>
-            <ul class="mt-2 space-y-1">
-              <li>Start with notice language before applying fees if relationship value is high.</li>
-              <li>Always show updated total after fee is added.</li>
-              <li>Include due date and timezone in every fee email.</li>
-              <li>Keep tone factual and policy-based, never personal.</li>
-            </ul>
+          <div class="not-prose my-6 rounded-xl border border-amber-300/60 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200">
+            <p>
+              <strong>Before you charge a fee:</strong> only apply late fees that your agreement or payment
+              terms allow, and check the maximum rates permitted by local law where you and your client
+              operate. When in doubt, ask a legal adviser - this page is wording guidance, not legal advice.
+            </p>
           </div>
 
-          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
-            <p class="font-semibold mb-2">Timeline: late-fee escalation sequence</p>
-            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
-    title Late Fee Reminder Timeline
-    dateFormat  YYYY-MM-DD
-    axisFormat  %d %b
-    section Sequence
-    Friendly reminder          :d1, 2026-04-01, 6d
-    Firm reminder              :d7, 2026-04-07, 7d
-    Late fee notice            :d14, 2026-04-14, 16d
-    Final notice with fee      :d30, 2026-04-30, 15d
-    Post-deadline escalation   :d45, 2026-05-15, 1d</code></pre>
-          </div>
+          <h2 id="examples">8 late fee wording examples</h2>
 
-          <h2 id="automate">Automate reminders + notices</h2>
+          {examples.map((example) => (
+            <>
+              <h3 id={example.id}>{example.heading}</h3>
+              <p>{example.context}</p>
+              <CopyBlock label={example.heading.replace(/^\d+\.\s/, '')} subject={example.subject} text={example.text} />
+            </>
+          ))}
+
+          <h2 id="policy-template">Late fee policy template (for contracts and terms pages)</h2>
           <p>
-            Use ChaseAI to generate reminders, <strong>late payment penalty email</strong> wording, and final notices
-            from a single invoice workflow.
+            If you want a complete <strong>late fee policy</strong> rather than a single sentence, use this
+            block in your contract, engagement letter, or terms page. It covers the rate, when the fee starts,
+            how it compounds, and what happens if non-payment continues.
           </p>
+          <CopyBlock
+            label="Late fee policy template"
+            text={`Late Payment Policy
+
+1. Payment terms. Invoices are due within [Number] days of the invoice date, by [accepted payment methods].
+
+2. Late fee. Balances unpaid after the due date incur a late fee of [Late fee amount or rate, e.g. 1.5% per month or $25 flat]. The fee is applied on [day fee starts, e.g. the first day after the due date / 7 days after the due date] and on the same day of each following month while the balance remains unpaid.
+
+3. Notice. We will send a reminder before any late fee is applied, and a statement showing the fee calculation and updated total once it is applied.
+
+4. Disputed invoices. If you believe an invoice is incorrect, notify us within [Number] days of the invoice date. Late fees are not applied to amounts under genuine, documented dispute.
+
+5. Continued non-payment. Invoices unpaid [Number] days after the due date may be paused from further work, referred to collections, or pursued through legal channels, and reasonable recovery costs may be added where the law allows.
+
+6. Governing terms. This policy forms part of our agreement and is subject to applicable law in [State/Country].`}
+          />
+          <p>
+            Adjust every placeholder to match what your agreement and local law actually allow — the
+            <a href="/tools/invoice-late-fee-calculator"> invoice late fee calculator</a> covers common rates
+            by region, and the
+            <a href="/tools/payment-terms-generator"> payment terms generator</a> builds the surrounding terms.
+          </p>
+
+          <h2 id="fixed-vs-percentage">Fixed fee vs percentage: how to choose</h2>
+          <p>
+            A <strong>fixed late fee</strong> (for example, $25 after 7 days) is simple to state and works
+            well when your invoices are similar sizes. A <strong>percentage or monthly-interest fee</strong>
+            (for example, 1.5% per month) scales with invoice value, which suits larger B2B invoices but
+            takes one extra sentence to explain. Run your own numbers with the
+            <a href="/tools/invoice-late-fee-calculator"> invoice late fee calculator</a> before you commit a
+            rate to your terms, and keep the same structure across all clients so enforcement stays
+            consistent.
+          </p>
+
+          <h2 id="notify-politely">How to notify a client of a late fee politely</h2>
           <ol>
-            <li>Upload invoice details once.</li>
-            <li>Generate stage-based reminder and fee templates.</li>
-            <li>Set deadline and escalation rules.</li>
-            <li>Track replies, promises, and payment completion.</li>
+            <li>Reference the invoice number, amount and original due date - facts first.</li>
+            <li>Remind them the fee exists in the terms they agreed to, rather than announcing it as new.</li>
+            <li>Give a short window to pay before the fee is applied (example 4 above does this).</li>
+            <li>If the fee is charged, show the calculation and the new total (example 6).</li>
+            <li>Always offer a reply path in case the invoice is disputed or already paid.</li>
           </ol>
+
+          <h2 id="escalation-path">Where late fees fit in your escalation path</h2>
+          <p>
+            A late fee notice is one step in a wider follow-up sequence, not the first message you send.
+            A typical order looks like this:
+          </p>
+
+          <TimelineSteps
+            title="Timeline: late-fee escalation sequence"
+            steps={[
+              { window: 'Day 1-6', label: 'Friendly reminder with payment link' },
+              { window: 'Day 7-13', label: 'Firm reminder asking for a payment date' },
+              { window: 'Day 14-29', label: 'Late fee notice with updated total' },
+              { window: 'Day 30-44', label: 'Final notice with deadline and next step' },
+              { window: 'Day 45+', label: 'Escalation under your agreement' },
+            ]}
+          />
+
+          <p>
+            Before the fee stage, use a
+            <a href="/templates/friendly-payment-reminder-email"> friendly payment reminder email</a> or a
+            <a href="/templates/second-invoice-reminder-email"> second payment reminder</a>. After it, move
+            to a <a href="/templates/past-due-invoice-notice-template"> past due notice template</a> and, if
+            needed, a
+            <a href="/templates/final-notice-unpaid-invoice-email"> final notice for the unpaid invoice</a>.
+          </p>
+
+          <h2 id="related">Related templates and tools</h2>
+          <ul>
+            <li>
+              <a href="/tools/invoice-late-fee-calculator">Invoice late fee calculator</a> - work out fixed
+              and percentage fees on a real balance.
+            </li>
+            <li>
+              <a href="/templates/invoice-reminder-email-template">Invoice reminder email templates</a> - the
+              full reminder sequence from first nudge to final demand.
+            </li>
+            <li>
+              <a href="/templates/past-due-invoice-notice-template">Past due invoice notice</a> - formal
+              letter and email formats for 30, 60 and 90 days.
+            </li>
+            <li>
+              <a href="/templates/final-notice-unpaid-invoice-email">Final notice templates</a> - the last
+              message before escalation.
+            </li>
+            <li>
+              <a href="/best-invoice-chasing-software">Invoice chasing software comparison</a> - tools that
+              send these notices for you automatically.
+            </li>
+          </ul>
 
           <div class="not-prose">
             <SeoCtaBand
               heading="Automate late-fee notices without drama"
-              description="Create a full sequence with friendly, firm, and fee-stage reminders in minutes."
+              description="ChaseAI writes and sends friendly, firm and fee-stage reminders for you, so terms get enforced consistently."
               primaryHref={appUrl}
               primaryLabel="Generate my sequence"
               primaryAriaLabel="Generate late fee reminder sequence"
@@ -250,33 +360,11 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
     </div>
   </section>
 
-  <section class="section-padding border-t border-border bg-muted/20">
-    <div class="container max-w-3xl mx-auto">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center">Late fee wording: practical do and don't</h2>
-      <div class="mt-4 grid md:grid-cols-2 gap-4 text-sm">
-        <div class="rounded-lg border border-border bg-card p-4">
-          <h3 class="font-semibold">Do</h3>
-          <ul class="mt-2 text-muted-foreground space-y-1 list-disc pl-5">
-            <li>Reference contract clause and invoice date.</li>
-            <li>Show exact fee calculation and updated balance.</li>
-            <li>Offer one clear path to resolve quickly.</li>
-          </ul>
-        </div>
-        <div class="rounded-lg border border-border bg-card p-4">
-          <h3 class="font-semibold">Don't</h3>
-          <ul class="mt-2 text-muted-foreground space-y-1 list-disc pl-5">
-            <li>Use emotional or threatening language.</li>
-            <li>Add new fees that are not in written terms.</li>
-            <li>Hide the original invoice details.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section id="faq" class="section-padding border-t border-border bg-muted/30">
     <div class="container max-w-3xl mx-auto">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">Frequently asked questions</h2>
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">
+        Invoice late fee wording FAQ
+      </h2>
       <SeoFaq items={faqs} />
     </div>
   </section>

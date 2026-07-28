@@ -6,6 +6,12 @@ import InvoiceFollowUpGenerator from '../../components/tools/InvoiceFollowUpGene
 
 const pageSlug = '/tools/invoice-follow-up-email-generator';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Tools', href: '/tools' },
+  { label: 'Invoice Follow-Up Email Generator', href: pageSlug },
+];
 const metaTitle = 'Free Invoice Follow-Up Email Generator | ChaseAI';
 const metaDescription =
   'Generate a professional invoice follow-up email in seconds. Choose your overdue days, tone, and get a ready-to-send reminder. Free, no account required.';
@@ -60,7 +66,7 @@ const faqSchema = {
 const structuredData = [softwareSchema, faqSchema];
 ---
 
-<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} breadcrumbs={breadcrumbs} structuredData={structuredData}>
   <section class="hero-gradient relative overflow-hidden">
     <div class="container py-14 md:py-18 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Invoice Follow-Up Email Generator — Professional Reminders in Seconds</h1>

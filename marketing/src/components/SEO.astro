@@ -3,6 +3,11 @@ import SEOHead from './SEOHead.astro';
 import authorImage from '../assets/author-image.optimized.jpeg';
 import { getCanonicalUrl, SITE_URL } from '../lib/canonical';
 
+interface BreadcrumbItem {
+  label: string;
+  href: string;
+}
+
 interface Props {
   title: string;
   description: string;
@@ -11,6 +16,7 @@ interface Props {
   ogType?: string;
   noindex?: boolean;
   structuredData?: object | object[];
+  breadcrumbs?: BreadcrumbItem[];
 }
 
 const props = Astro.props as Props;
@@ -27,7 +33,8 @@ const organizationSchema = {
   legalName: 'Global Bridge MNE LLC',
   url: siteUrl,
   logo: `${siteUrl}/favicon.svg`,
-  sameAs: ['https://chaseai.app'],
+  description:
+    'ChaseAI is automated invoice chasing software that writes and sends professional payment follow-ups so businesses get paid faster.',
   address: {
     '@type': 'PostalAddress',
     streetAddress: '30 N Gould St Ste N',
@@ -56,22 +63,29 @@ const authorSchema = {
 };
 
 const segments = Astro.url.pathname.split('/').filter(Boolean);
-const breadcrumbItems = [
-  { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
-  ...segments.map((segment, index) => {
-    const path = '/' + segments.slice(0, index + 1).join('/');
-    const label = segment
-      .split('-')
-      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-      .join(' ');
-    return {
+const breadcrumbItems = props.breadcrumbs
+  ? props.breadcrumbs.map((crumb, index) => ({
       '@type': 'ListItem',
-      position: index + 2,
-      name: label,
-      item: siteUrl + path,
-    };
-  }),
-];
+      position: index + 1,
+      name: crumb.label,
+      item: crumb.href === '/' ? siteUrl : `${siteUrl}${crumb.href}`,
+    }))
+  : [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
+      ...segments.map((segment, index) => {
+        const path = '/' + segments.slice(0, index + 1).join('/');
+        const label = segment
+          .split('-')
+          .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+          .join(' ');
+        return {
+          '@type': 'ListItem',
+          position: index + 2,
+          name: label,
+          item: siteUrl + path,
+        };
+      }),
+    ];
 
 const breadcrumbSchema = {
   '@context': 'https://schema.org',

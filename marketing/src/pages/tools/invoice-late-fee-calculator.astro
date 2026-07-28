@@ -6,6 +6,12 @@ import LateFeeCalculator from '../../components/tools/LateFeeCalculator';
 
 const pageSlug = '/tools/invoice-late-fee-calculator';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Tools', href: '/tools' },
+  { label: 'Invoice Late Fee Calculator', href: pageSlug },
+];
 const metaTitle = 'Free Invoice Late Fee Calculator — How Much to Charge | ChaseAI';
 const metaDescription =
   'Calculate how much late fee or interest you can charge on an overdue invoice. Supports fixed fees and monthly interest. Includes suggested invoice wording. Free, no sign-up.';
@@ -13,6 +19,7 @@ const tocItems = [
   { id: 'calculator', label: 'Calculator' },
   { id: 'how-to-calc', label: 'How to calculate' },
   { id: 'standard-rates', label: 'Standard rates by region' },
+  { id: 'by-state', label: 'Late fees by US state' },
   { id: 'relationships', label: 'Client relationships' },
   { id: 'faq', label: 'FAQ' },
 ];
@@ -20,6 +27,7 @@ const faqs = [
   { q: 'Can I charge late fees if this was not in my contract?', a: 'In the UK, statutory B2B interest can apply automatically. In many US states, contractual terms are generally required.' },
   { q: 'Is 1.5% per month too high?', a: '1.5% monthly equals 18% annualized and is within common commercial ranges in many markets.' },
   { q: 'What is the UK debt recovery charge?', a: 'It is fixed compensation on top of interest: £40, £70, or £100 depending on invoice size.' },
+  { q: 'What is the maximum invoice late fee by state?', a: 'Most US states do not set a single cap for late fees on business-to-business invoices. Enforceability usually depends on the fee being agreed in your terms and being reasonable. Consumer transactions and government contracts follow different rules, so confirm your state\u2019s current law before charging.' },
 ];
 const structuredData = [
   { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Invoice Late Fee Calculator', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
@@ -27,7 +35,7 @@ const structuredData = [
 ];
 ---
 
-<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} breadcrumbs={breadcrumbs} structuredData={structuredData}>
   <section class="hero-gradient">
     <div class="container py-14 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold">Invoice Late Fee Calculator — Calculate What You’re Owed for Late Payment</h1>
@@ -56,6 +64,58 @@ const structuredData = [
             <li>EU: Late Payment Directive sets 8% above ECB reference for B2B.</li>
             <li>Australia: penalty interest often defined by state-level frameworks.</li>
           </ul>
+
+          <h2 id="by-state">Late fees by US state: what actually applies</h2>
+          <p>
+            Searches like "Illinois late fee calculator" or "New York late fee calculator" usually assume each
+            state publishes one maximum rate. For business-to-business invoices, that is rarely how it works.
+            Three rules cover most situations:
+          </p>
+          <ul>
+            <li><strong>Your contract controls.</strong> A late fee you both agreed to in writing, at a reasonable rate, is generally enforceable in most states.</li>
+            <li><strong>Usury caps mostly target loans</strong>, not late fees on invoices for delivered work — but an extreme fee can still be challenged as a penalty.</li>
+            <li><strong>Different rules for consumers and government work.</strong> Consumer-protection laws may cap fees charged to individuals, and state prompt-payment acts set interest for public contracts.</li>
+          </ul>
+          <div class="not-prose my-5 overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <caption class="sr-only">Common questions about invoice late fees in frequently searched US states</caption>
+              <thead>
+                <tr class="border-b border-border text-left">
+                  <th scope="col" class="py-2 pr-4 font-semibold">State</th>
+                  <th scope="col" class="py-2 pr-4 font-semibold">Single statutory cap for B2B invoice late fees?</th>
+                  <th scope="col" class="py-2 font-semibold">What to check</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b border-border/60">
+                  <th scope="row" class="py-2 pr-4 font-medium">New York</th>
+                  <td class="py-2 pr-4">No single cap for agreed B2B fees</td>
+                  <td class="py-2">Reasonableness of the rate; consumer rules if billing individuals</td>
+                </tr>
+                <tr class="border-b border-border/60">
+                  <th scope="row" class="py-2 pr-4 font-medium">Illinois</th>
+                  <td class="py-2 pr-4">No single cap for agreed B2B fees</td>
+                  <td class="py-2">Contract wording; Illinois prompt-payment rules for public work</td>
+                </tr>
+                <tr class="border-b border-border/60">
+                  <th scope="row" class="py-2 pr-4 font-medium">Pennsylvania</th>
+                  <td class="py-2 pr-4">No single cap for agreed B2B fees</td>
+                  <td class="py-2">Contract wording; separate rules for consumer and public contracts</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="py-2 pr-4 font-medium">Wisconsin</th>
+                  <td class="py-2 pr-4">No single cap for agreed B2B fees</td>
+                  <td class="py-2">Consumer Act limits if billing individuals; contract wording for B2B</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            <strong>Confirm before you charge:</strong> state law changes and the details above are general
+            guidance, not legal advice. Check your state's current statutes or ask a local attorney, then put the
+            agreed fee in your payment terms using proper
+            <a href="/templates/late-payment-fee-email-template">invoice late fee wording</a>.
+          </p>
 
           <h2 id="relationships">Does charging a late fee damage client relationships?</h2>
           <p>It can if it is a surprise. If agreed up front in clear payment terms, it is usually treated as professional policy rather than personal conflict.</p>

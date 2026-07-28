@@ -1,5 +1,5 @@
 ---
-import { getCanonicalUrl } from '../lib/canonical';
+import { getCanonicalUrl, serializeJsonLd } from '../lib/canonical';
 
 interface Props {
   title: string;
@@ -78,5 +78,5 @@ const schemas = structuredData
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" />
 
 {schemas.map(schema => (
-  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <script type="application/ld+json" set:html={serializeJsonLd(schema)} />
 ))}

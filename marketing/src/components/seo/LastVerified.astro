@@ -1,0 +1,19 @@
+---
+import { PRICING_LAST_VERIFIED, formatVerifiedDate } from '../../lib/verification';
+
+interface Props {
+  /** What was verified, e.g. "Pricing" or "Pricing and features" */
+  subject?: string;
+  /** Override the shared date if this page was verified separately (ISO format) */
+  date?: string;
+}
+
+const { subject = 'Pricing', date = PRICING_LAST_VERIFIED } = Astro.props as Props;
+---
+
+<p class="not-prose inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/30 px-3 py-1 text-xs text-muted-foreground">
+  <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+  {subject} last verified: <time datetime={date}>{formatVerifiedDate(date)}</time>
+</p>

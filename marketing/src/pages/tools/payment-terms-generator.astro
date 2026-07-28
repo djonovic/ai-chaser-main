@@ -6,6 +6,12 @@ import PaymentTermsGenerator from '../../components/tools/PaymentTermsGenerator'
 
 const pageSlug = '/tools/payment-terms-generator';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Tools', href: '/tools' },
+  { label: 'Payment Terms Generator', href: pageSlug },
+];
 const metaTitle = 'Free Payment Terms Generator for Invoices & Contracts | ChaseAI';
 const metaDescription =
   'Generate clear, professional payment terms for your invoices and contracts in seconds. Covers due dates, late fees, accepted methods, and dispute clauses. Free, no sign-up required.';
@@ -27,7 +33,7 @@ const tocItems = [
 ];
 ---
 
-<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} breadcrumbs={breadcrumbs} structuredData={structuredData}>
   <section class="hero-gradient">
     <div class="container py-14 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold">Payment Terms Generator — Create Contract-Ready Payment Clauses in Seconds</h1>

@@ -1,14 +1,51 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import LastVerified from '../components/seo/LastVerified.astro';
 
 const pageSlug = '/best-invoice-chasing-software';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
-const metaTitle = 'Best Invoice Chasing Software in 2026 - Honest Comparison';
+const metaTitle = 'Best Automated Invoice Chasing Software: 5 Tools Compared';
 const metaDescription =
-  'The 5 best invoice chasing software tools in 2026. Honest comparison of ChaseAI, Chaser, Paidnice, Satago, and Kolleno - with pricing, pros, cons, and who each is built for.';
-const ogTitle = 'Best Invoice Chasing Software 2026 - Full Comparison';
+  'Compare invoice chasing software by price, integrations, automation and ideal user. Includes ChaseAI, Chaser, Paidnice, Satago and manual options.';
 
-const structuredData = {
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Comparisons', href: '/vs' },
+  { label: 'Best Invoice Chasing Software', href: pageSlug },
+];
+
+const picks = [
+  { label: 'Best for freelancers', value: 'ChaseAI', href: '#chaseai' },
+  { label: 'Best for small businesses', value: 'ChaseAI or Paidnice', href: '#paidnice' },
+  { label: 'Best for accounting integrations', value: 'Chaser', href: '#chaser' },
+  { label: 'Best for AI-assisted message creation', value: 'ChaseAI', href: '#chaseai' },
+  { label: 'Best manual / low-cost option', value: 'Free templates', href: '#manual' },
+];
+
+const faqs = [
+  {
+    q: 'What is the best free invoice chasing software?',
+    a: 'ChaseAI\u2019s Starter plan includes a 14-day free trial so you can test full product workflows before paying. Satago has a limited free plan. Paidnice and Chaser offer trials rather than permanent free tiers. For a free tool with no account, try ChaseAI\u2019s public sequence generator.',
+  },
+  {
+    q: 'Do I need accounting software to use invoice chasing software?',
+    a: 'For Chaser, Paidnice, and Satago, yes. ChaseAI is the notable standalone option and works from PDF upload with no accounting integration.',
+  },
+  {
+    q: "What's the cheapest invoice chasing software?",
+    a: 'ChaseAI starts at $9/month with a 14-day free trial. Paidnice starts around $39/month, Chaser at $49/month, Satago at £83/month. Check current vendor pricing before deciding - see the sources at the bottom of this page.',
+  },
+  {
+    q: 'Which invoice chasing software is best for freelancers?',
+    a: 'ChaseAI is generally the best fit for freelancers: no required integrations, AI or template sequence starts, and lower pricing for low volume.',
+  },
+  {
+    q: 'Can invoice chasing software really get invoices paid faster?',
+    a: "Yes. Consistent reminders outperform ad-hoc follow-up. Chaser reports average faster payment outcomes, and Paidnice reports DSO reduction. ChaseAI's main lift comes from removing manual inconsistency.",
+  },
+];
+
+const itemListSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   name: 'Best Invoice Chasing Software 2026',
@@ -50,30 +87,55 @@ const structuredData = {
     },
   ],
 };
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
 ---
 
-<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData} showAuthorBox={false}>
-  <Fragment slot="head">
-    <meta property="og:title" content={ogTitle} />
-  </Fragment>
-
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  structuredData={[itemListSchema, faqSchema]}
+  showAuthorBox={false}
+  breadcrumbs={breadcrumbs}
+>
   <section class="hero-gradient border-b border-border/50">
     <div class="container py-14 md:py-16 max-w-4xl mx-auto">
-      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Best Invoice Chasing Software in 2026 - Compared Honestly</h1>
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Best Automated Invoice Chasing Software Compared</h1>
       <p class="mt-5 text-muted-foreground text-lg leading-relaxed">
-        I'm the founder of ChaseAI, which is on this list. I've tried to write this as fairly as I can - ChaseAI wins for its specific audience
-        (freelancers and small businesses who don't use Xero/QuickBooks), but the other tools on this list are genuinely better for different
-        situations. Use the table to figure out where you fall.
+        Five tools compared by pricing, integrations, automation and the user each is actually built for:
+        ChaseAI, Paidnice, Chaser, Satago, and a manual option for very low volumes.
       </p>
-      <p class="mt-4 text-muted-foreground">
-        Invoice chasing software automates overdue follow-up: reminders, tone escalation, tracking, and consistency. It's focused on AR collection
-        behavior, not replacing your accounting platform.
+      <p class="mt-4 rounded-lg border border-border bg-muted/30 px-4 py-3 text-sm text-muted-foreground">
+        <strong class="text-foreground">Disclosure:</strong> this comparison is written by the founder of
+        ChaseAI, which is on the list. It aims to point you to the right tool for your setup - even when
+        that tool is not ours.
       </p>
+      <div class="mt-5">
+        <LastVerified subject="Pricing and features" />
+      </div>
     </div>
   </section>
 
   <section class="section-padding">
     <div class="container max-w-4xl mx-auto">
+      <div class="not-prose mb-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {picks.map((pick) => (
+          <a href={pick.href} class="rounded-xl border border-border bg-card p-4 transition-colors hover:border-primary/40 hover:bg-muted/30">
+            <span class="block text-xs font-semibold uppercase tracking-wide text-muted-foreground">{pick.label}</span>
+            <span class="mt-1 block font-bold">{pick.value}</span>
+          </a>
+        ))}
+      </div>
+
       <article class="prose prose-neutral max-w-none prose-a:text-primary">
         <h2>Quick comparison table</h2>
         <table>
@@ -90,7 +152,7 @@ const structuredData = {
             <tr>
               <td><strong>ChaseAI</strong></td>
               <td>Freelancers, small agencies, no-code setup</td>
-              <td>Free / $9/mo</td>
+              <td>$9/mo (14-day trial)</td>
               <td>❌ No - works from PDF</td>
               <td>AI writes the emails</td>
             </tr>
@@ -125,6 +187,106 @@ const structuredData = {
           </tbody>
         </table>
 
+        <h2>Detailed criteria comparison</h2>
+        <p>
+          Prices and features change; unverifiable items are marked "check current vendor pricing" and every
+          vendor is linked in the sources section at the bottom.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Criteria</th>
+              <th>ChaseAI</th>
+              <th>Paidnice</th>
+              <th>Chaser</th>
+              <th>Satago</th>
+              <th>Manual</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pricing (entry)</td>
+              <td>$9/mo</td>
+              <td>~$39/mo</td>
+              <td>$49/mo</td>
+              <td>£83/mo</td>
+              <td>$0</td>
+            </tr>
+            <tr>
+              <td>Free trial</td>
+              <td>✅ 14 days</td>
+              <td>✅ Trial</td>
+              <td>✅ Trial</td>
+              <td>⚠️ Limited free plan</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>Accounting software required</td>
+              <td>❌ No</td>
+              <td>✅ Xero/QB</td>
+              <td>✅ Xero/QB/Sage</td>
+              <td>✅ Yes (300+ options)</td>
+              <td>❌ No</td>
+            </tr>
+            <tr>
+              <td>Reminder automation</td>
+              <td>✅ Yes</td>
+              <td>✅ Yes</td>
+              <td>✅ Yes</td>
+              <td>✅ Yes</td>
+              <td>❌ Manual</td>
+            </tr>
+            <tr>
+              <td>AI writing support</td>
+              <td>✅ Writes from your invoice</td>
+              <td>⚠️ Template-first</td>
+              <td>⚠️ Templates + AI optimization</td>
+              <td>⚠️ Template-based</td>
+              <td>❌ You write it</td>
+            </tr>
+            <tr>
+              <td>Custom sequences</td>
+              <td>✅ Yes</td>
+              <td>✅ Rules engine</td>
+              <td>✅ Yes</td>
+              <td>✅ Yes</td>
+              <td>⚠️ DIY</td>
+            </tr>
+            <tr>
+              <td>Payment links / portal</td>
+              <td>⚠️ Links in emails</td>
+              <td>✅ Portal + plans</td>
+              <td>✅ Payment portal</td>
+              <td>✅ Portal</td>
+              <td>⚠️ DIY</td>
+            </tr>
+            <tr>
+              <td>Reporting</td>
+              <td>⚠️ Basic tracking</td>
+              <td>✅ Yes</td>
+              <td>✅ AR dashboards + forecasting</td>
+              <td>✅ Credit insights</td>
+              <td>❌ None</td>
+            </tr>
+            <tr>
+              <td>Ease of setup</td>
+              <td>~5 minutes</td>
+              <td>Configuration required</td>
+              <td>30-60 minutes</td>
+              <td>Integration setup</td>
+              <td>None</td>
+            </tr>
+            <tr>
+              <td>Best-fit customer</td>
+              <td>Freelancers, small agencies</td>
+              <td>Xero/QB SMBs</td>
+              <td>Finance teams, 100+ invoices</td>
+              <td>UK credit control</td>
+              <td>&lt;3-4 invoices/month</td>
+            </tr>
+          </tbody>
+        </table>
+
         <div class="not-prose my-8 rounded-xl border border-primary/30 bg-primary/5 p-6">
           <h3 class="text-xl font-bold tracking-tight">Try ChaseAI free for 14 days - no accounting software required</h3>
           <p class="mt-2 text-muted-foreground">Generate your first invoice chasing sequence in under 5 minutes, or start from templates.</p>
@@ -144,7 +306,7 @@ const structuredData = {
           </div>
         </div>
 
-        <h2>1. ChaseAI - Best for freelancers and small businesses</h2>
+        <h2 id="chaseai">1. ChaseAI - Best for freelancers and small businesses</h2>
         <p>
           <strong>Who it's for:</strong> Freelancers, consultants, small agencies, and service businesses that don't use Xero or QuickBooks, or
           don't want to connect accounting software.
@@ -178,7 +340,7 @@ const structuredData = {
         </p>
         <p><a href="https://app.chaseai.app">Start ChaseAI free trial →</a></p>
 
-        <h2>2. Paidnice - Best for Xero/QuickBooks users needing late fee automation</h2>
+        <h2 id="paidnice">2. Paidnice - Best for Xero/QuickBooks users needing late fee automation</h2>
         <p>
           <strong>Who it's for:</strong> SMBs on Xero or QuickBooks Online that want rules-driven AR automation and automatic fee enforcement.
         </p>
@@ -196,9 +358,9 @@ const structuredData = {
           <li>Template-first writing approach</li>
           <li>Configuration learning curve</li>
         </ul>
-        <p><strong>Verdict:</strong> Best choice when late-fee automation is your top requirement and you're already on Xero/QB.</p>
+        <p><strong>Verdict:</strong> Best choice when late-fee automation is your top requirement and you're already on Xero/QB. See the full <a href="/vs/paidnice">ChaseAI vs Paidnice comparison</a>.</p>
 
-        <h2>3. Chaser - Best for mid-market finance teams</h2>
+        <h2 id="chaser">3. Chaser - Best for mid-market finance teams and accounting integrations</h2>
         <p>
           <strong>Who it's for:</strong> SMB and mid-market teams with higher invoice volume, dedicated AR staff, and existing accounting
           integrations.
@@ -216,9 +378,9 @@ const structuredData = {
           <li>Requires accounting software integration</li>
           <li>Often overkill for freelancers</li>
         </ul>
-        <p><strong>Verdict:</strong> Strong enterprise-leaning AR platform; expensive but justified for larger finance operations.</p>
+        <p><strong>Verdict:</strong> Strong enterprise-leaning AR platform; expensive but justified for larger finance operations. See the full <a href="/vs/chaser">Chaser pricing comparison</a>.</p>
 
-        <h2>4. Satago - Best for UK businesses needing credit data + financing</h2>
+        <h2 id="satago">4. Satago - Best for UK businesses needing credit data + financing</h2>
         <p>
           <strong>Who it's for:</strong> UK businesses that want chasing, Experian credit checks, and invoice finance in one workflow.
         </p>
@@ -235,9 +397,9 @@ const structuredData = {
           <li>Higher pricing for pure reminder use cases</li>
           <li>Template-based communication flow</li>
         </ul>
-        <p><strong>Verdict:</strong> Purpose-built for UK credit control teams; less compelling outside the UK.</p>
+        <p><strong>Verdict:</strong> Purpose-built for UK credit control teams; less compelling outside the UK. See the full <a href="/vs/satago">ChaseAI vs Satago comparison</a>.</p>
 
-        <h2>5. Manual process + free templates - Still valid for very low volumes</h2>
+        <h2 id="manual">5. Manual process + free templates - Still valid for very low volumes</h2>
         <p><strong>Who it's for:</strong> Businesses with fewer than 3-4 invoices/month and mostly on-time clients.</p>
         <p><strong>Cost:</strong> Free in software spend, but often 1.5-3 hours per overdue invoice in time value.</p>
         <p><strong>Pros:</strong> No subscription, no setup, full control.</p>
@@ -245,8 +407,23 @@ const structuredData = {
         <p><strong>Resources if you stay manual:</strong></p>
         <ul>
           <li><a href="/templates/invoice-reminder-email-template">Free invoice follow-up email templates</a></li>
+          <li><a href="/templates/payment-reminder-email-subject-lines">Payment reminder subject lines</a></li>
           <li><a href="/tools/overdue-invoice-sequence-generator">Overdue Invoice Sequence Generator (free)</a></li>
         </ul>
+
+        <h2>Invoice chasing, payment chasing, AR reminders: same job, different names</h2>
+        <p>
+          You'll see this category under several names - <strong>invoice chasing software</strong>,
+          <strong> automated invoice chasing software</strong>, <strong>payment chasing software</strong>,
+          <strong> accounts-receivable reminder software</strong>, and <strong>tools for chasing unpaid
+          invoices</strong>. They all describe the same core job: automatically sending escalating payment
+          follow-ups until an invoice is paid, instead of you remembering to do it. The meaningful
+          differences between products are the ones in the tables above - whether accounting software is
+          required, whether the tool writes the emails for you (<strong>AI invoice chasing tools</strong>
+          like ChaseAI generate the wording from your actual invoice; template-first tools like Paidnice and
+          Chaser start from a library), and how far beyond reminders the platform goes into credit checks,
+          portals and forecasting.
+        </p>
 
         <h2>How to choose - decision flowchart</h2>
         <p><strong>Do you use Xero or QuickBooks Online?</strong></p>
@@ -262,26 +439,12 @@ const structuredData = {
         </p>
 
         <h2>FAQ</h2>
-        <h3>What is the best free invoice chasing software?</h3>
-        <p>
-          ChaseAI’s Starter plan includes a 14-day free trial so you can test full product workflows before paying. Satago has a limited free plan.
-          Paidnice and Chaser offer trials rather than permanent free tiers. For a free tool with no account, try ChaseAI’s public sequence generator.
-        </p>
-        <h3>Do I need accounting software to use invoice chasing software?</h3>
-        <p>
-          For Chaser, Paidnice, and Satago, yes. ChaseAI is the notable standalone option and works from PDF upload with no accounting integration.
-        </p>
-        <h3>What's the cheapest invoice chasing software?</h3>
-        <p>ChaseAI starts at $9/month with a 14-day free trial. Paidnice starts around $39/month, Chaser at $49/month, Satago at £83/month.</p>
-        <h3>Which invoice chasing software is best for freelancers?</h3>
-        <p>
-          ChaseAI is generally the best fit for freelancers: no required integrations, AI or template sequence starts, and lower pricing for low volume.
-        </p>
-        <h3>Can invoice chasing software really get invoices paid faster?</h3>
-        <p>
-          Yes. Consistent reminders outperform ad-hoc follow-up. Chaser reports average faster payment outcomes, and Paidnice reports DSO
-          reduction. ChaseAI's main lift comes from removing manual inconsistency.
-        </p>
+        {faqs.map((item) => (
+          <>
+            <h3>{item.q}</h3>
+            <p>{item.a}</p>
+          </>
+        ))}
 
         <h3>Related tools and guides</h3>
         <ul>
@@ -289,6 +452,7 @@ const structuredData = {
           <li><a href="/tools/invoice-follow-up-email-generator">Invoice Follow-Up Email Generator</a></li>
           <li><a href="/tools/client-payment-risk-scorer">Client Payment Risk Scorer</a></li>
           <li><a href="/guides/how-to-chase-unpaid-invoices">How to Chase Unpaid Invoices</a></li>
+          <li><a href="/invoice-chasing-software-for-freelancers">Invoice Chasing Software for Freelancers</a></li>
         </ul>
 
         <h3>External references</h3>
@@ -306,7 +470,7 @@ const structuredData = {
             </a>
           </li>
         </ul>
-        <p><strong>Written by Pasko Djonovic, Founder at ChaseAI • Last updated May 6, 2026</strong></p>
+        <p><strong>Written by Pasko Djonovic, Founder at ChaseAI</strong></p>
         <p>
           <strong>Disclosure:</strong> ChaseAI is one of the tools reviewed on this page. The goal is to help you pick the right tool for your
           setup, even if that tool is not ours.

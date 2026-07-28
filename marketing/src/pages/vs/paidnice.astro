@@ -3,11 +3,15 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const pageSlug = '/vs/paidnice';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Comparisons', href: '/vs' },
+  { label: 'ChaseAI vs Paidnice', href: pageSlug },
+];
 const metaTitle = 'ChaseAI vs Paidnice (2026): Invoice Chasing Software Compared';
 const metaDescription =
   'ChaseAI vs Paidnice: full pricing and feature comparison. Paidnice automates late fees for Xero/QB users. ChaseAI uses AI to write follow-up emails with no accounting software required. See which fits your business.';
-const ogTitle = 'ChaseAI vs Paidnice (2026) - Which Is Right for You?';
-
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -32,11 +36,7 @@ const structuredData = {
 };
 ---
 
-<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} ogImage="https://chaseai.app/og-default.png" structuredData={structuredData} showAuthorBox={false}>
-  <Fragment slot="head">
-    <meta property="og:title" content={ogTitle} />
-  </Fragment>
-
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} breadcrumbs={breadcrumbs} ogImage="https://chaseai.app/og-default.png" structuredData={structuredData} showAuthorBox={false}>
   <section class="hero-gradient border-b border-border/50">
     <div class="container py-14 md:py-16 max-w-4xl mx-auto">
       <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">ChaseAI vs Paidnice - 2026 Comparison for Small Businesses</h1>

@@ -6,6 +6,12 @@ import LatePaymentCostCalculator from '../../components/tools/LatePaymentCostCal
 
 const pageSlug = '/tools/late-payment-cost-calculator';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Tools', href: '/tools' },
+  { label: 'Late Payment Cost Calculator', href: pageSlug },
+];
 const metaTitle = 'Free Late Payment Cost Calculator | ChaseAI';
 const metaDescription =
   'Find out exactly how much late invoices are costing your business. Enter your invoice data and see the true cash flow impact, opportunity cost, and hours wasted chasing. Free, no sign-up required.';
@@ -31,7 +37,7 @@ const structuredData = [
 ];
 ---
 
-<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} breadcrumbs={breadcrumbs} structuredData={structuredData}>
   <section class="hero-gradient">
     <div class="container py-14 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Late Payment Cost Calculator — See What Overdue Invoices Really Cost You</h1>

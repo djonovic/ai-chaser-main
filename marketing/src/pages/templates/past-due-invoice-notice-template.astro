@@ -4,41 +4,239 @@ import SeoToc from '../../components/seo/SeoToc.astro';
 import SeoCtaBand from '../../components/seo/SeoCtaBand';
 import SeoFaq from '../../components/seo/SeoFaq.astro';
 import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+import CopyBlock from '../../components/seo/CopyBlock.astro';
+import TimelineSteps from '../../components/seo/TimelineSteps.astro';
 
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/templates/past-due-invoice-notice-template';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
-// META (DO NOT CHANGE)
-const metaTitle = 'Past Due Invoice Notice Template (Email + Letter) | ChaseAI';
+const metaTitle = 'Past Due Notice Letter & Email Templates (30/60/90 Days)';
 const metaDescription =
-  'Use this past due invoice notice template with legal-safe wording, deadline language, and escalation steps to recover overdue balances faster.';
+  'Copy past due notice templates for email and letter formats, including 30-, 60- and 90-day examples, invoice summary wording and escalation steps.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Templates', href: '/templates' },
+  { label: 'Past Due Notice', href: pageSlug },
+];
 
 const tocItems = [
-  { id: 'formal-template', label: 'The formal template (with invoice summary table)' },
-  { id: 'not-received', label: 'Not received / dispute wording' },
-  { id: 'documentation', label: 'Documentation checklist' },
-  { id: 'what-next', label: 'What to do next (AP, final notice)' },
-  { id: 'automate', label: 'Automate' },
+  { id: 'quick-templates', label: 'Start here: email + letter' },
+  { id: 'notice-templates', label: 'All 10 notice templates' },
+  { id: 'day-notices', label: '30-, 60- and 90-day notices' },
+  { id: 'escalation', label: 'Where notices fit in escalation' },
+  { id: 'related', label: 'Related templates' },
   { id: 'faq', label: 'FAQ' },
+];
+
+const invoiceSummaryBlock = `PAST DUE NOTICE
+
+Invoice number: [Invoice number]
+Invoice date: [Invoice date]
+Original due date: [Original due date]
+Days past due: [X]
+Amount outstanding: [Outstanding amount]
+Payment link / details: [Payment link]`;
+
+const shortEmail = `Hi [Client name],
+
+This is a past due notice for invoice [Invoice number] for [Outstanding amount], which was due on [Original due date] and is now [X] days past due.
+
+Please arrange payment at your earliest convenience: [Payment link]
+
+If payment has already been sent or the invoice is disputed, reply to this email and we will update our records.
+
+Regards,
+[Your name]
+[Your company name]`;
+
+const formalLetter = `[Your company name]
+[Your address]
+[Date]
+
+[Client name]
+[Client company name]
+[Client address]
+
+RE: PAST DUE NOTICE - INVOICE [Invoice number]
+
+Dear [Client name],
+
+Our records show that invoice [Invoice number], issued on [Invoice date] in the amount of [Outstanding amount], remains unpaid. The invoice was due on [Original due date] and is now [X] days past due.
+
+Please remit payment in full by [payment deadline]. Payment can be made via [Payment link / payment details].
+
+If payment has already been made, please disregard this notice and send remittance details so we can reconcile our records. If you believe this invoice is in error or wish to discuss payment arrangements, contact us at [phone / email] before the deadline above.
+
+Sincerely,
+
+[Your name]
+[Title]
+[Your company name]`;
+
+const templates = [
+  {
+    id: 'friendly-notice',
+    heading: '1. Friendly past-due notice',
+    context: 'For the first past-due contact with a client who usually pays. A notice in name, a nudge in tone.',
+    subject: 'Past due notice: invoice [Invoice number]',
+    text: `Hi [Client name],
+
+A quick heads-up that invoice [Invoice number] for [Outstanding amount] went past due on [Original due date]. I'm sure it's just slipped through - here's the payment link to settle it: [Payment link]
+
+If anything about the invoice needs clarifying, just reply and I'll sort it out.
+
+Thanks,
+[Your name]`,
+  },
+  {
+    id: 'formal-notice',
+    heading: '2. Formal past-due notice',
+    context: 'For repeat late-payers or larger balances. Formal register, factual tone, and a stated deadline.',
+    subject: 'Formal past due notice - invoice [Invoice number]',
+    text: `Dear [Client name],
+
+This is a formal notice that invoice [Invoice number] for [Outstanding amount], due on [Original due date], remains unpaid and is now [X] days past due.
+
+Please remit payment by [payment deadline] using the following link: [Payment link]
+
+If the invoice is disputed or payment has already been sent, contact us immediately at [phone / email] so we can resolve the matter.
+
+Sincerely,
+[Your name]
+[Your company name]`,
+  },
+  {
+    id: 'second-notice',
+    heading: '3. Second past-due notice',
+    context: 'The first notice went unanswered. Reference it, restate the facts and tighten the deadline.',
+    subject: 'Second notice: invoice [Invoice number] remains past due',
+    text: `Dear [Client name],
+
+This is our second notice regarding invoice [Invoice number] for [Outstanding amount], due [Original due date]. Our first notice was sent on [date of first notice] and we have not received payment or a response.
+
+Please arrange payment by [payment deadline]: [Payment link]
+
+If there is a reason payment has not been made - a dispute, missing paperwork or cash-flow timing - contact us at [phone / email] so we can agree a way forward.
+
+Sincerely,
+[Your name]
+[Your company name]`,
+  },
+  {
+    id: 'before-escalation',
+    heading: '4. Past-due notice before escalation',
+    context: 'The last notice before you move to a final demand. Name the next step plainly, without threats you cannot support.',
+    subject: 'Past due notice: invoice [Invoice number] - action required by [payment deadline]',
+    text: `Dear [Client name],
+
+Despite previous notices, invoice [Invoice number] for [Outstanding amount] (due [Original due date], now [X] days past due) remains unpaid.
+
+Please make payment by [payment deadline]: [Payment link]
+
+If the balance is not settled or a payment arrangement agreed by that date, we may need to escalate this matter, subject to our agreement and applicable law. Please contact us immediately at [phone / email] if the invoice is disputed.
+
+Sincerely,
+[Your name]
+[Your company name]`,
+  },
+  {
+    id: 'payment-plan',
+    heading: '5. Past-due notice with a payment plan option',
+    context: 'When the client has acknowledged a cash-flow problem. Offering an installment path often recovers more than pressing for full payment.',
+    subject: 'Invoice [Invoice number]: payment options',
+    text: `Hi [Client name],
+
+Invoice [Invoice number] for [Outstanding amount] is now [X] days past due. I understand cash flow can get tight, so I'd rather agree a plan than keep sending notices.
+
+Two options:
+
+1. Full payment by [payment deadline]: [Payment link]
+2. A payment plan - for example, [number] installments of [installment amount], starting [start date].
+
+Reply by [reply-by date] with the option that works, and I'll send confirmation. If neither fits, call me at [phone] and we'll find something that does.
+
+Regards,
+[Your name]`,
+  },
+];
+
+const dayNotices = [
+  {
+    id: 'notice-30',
+    heading: '30-day notice',
+    context: 'One month past due. Still professional and cooperative, but with a firm deadline and a named next step.',
+    subject: 'Invoice [Invoice number]: 30 days past due',
+    text: `Dear [Client name],
+
+Invoice [Invoice number] for [Outstanding amount] is now 30 days past its due date of [Original due date].
+
+Please arrange payment within the next 7 days: [Payment link]
+
+If you are unable to pay in full at this time, contact us at [phone / email] to discuss a payment arrangement. If payment has been sent, please share remittance details so we can update our records.
+
+Sincerely,
+[Your name]
+[Your company name]`,
+  },
+  {
+    id: 'notice-60',
+    heading: '60-day notice',
+    context: 'Two months past due. Reference the prior notices, state the account status, and make the consequence of continued non-payment clear but factual.',
+    subject: 'Invoice [Invoice number]: 60 days past due - response required',
+    text: `Dear [Client name],
+
+Invoice [Invoice number] for [Outstanding amount] is now 60 days past due. We have sent previous notices on [dates] without receiving payment or a response.
+
+Your account is now on hold pending resolution. To restore normal terms, please pay the outstanding balance by [payment deadline]: [Payment link]
+
+If the invoice is disputed, contact us immediately at [phone / email]. Otherwise, we may need to escalate this matter, subject to our agreement and applicable law.
+
+Sincerely,
+[Your name]
+[Your company name]`,
+  },
+  {
+    id: 'notice-90',
+    heading: '90-day notice',
+    context: 'Three months past due - typically the last notice before collections or formal action. Keep it factual; do not threaten steps you will not take.',
+    subject: 'Final past due notice: invoice [Invoice number] - 90 days',
+    text: `Dear [Client name],
+
+Invoice [Invoice number] for [Outstanding amount], due [Original due date], is now 90 days past due despite repeated notices.
+
+This is our final past due notice. Please pay the full balance by [payment deadline]: [Payment link]
+
+If we do not receive payment or hear from you by that date, we intend to pursue the remedies available to us under our agreement and applicable law, which may include referring the account to a collections process. Please contact us immediately at [phone / email] if the invoice is disputed or if you wish to agree a payment plan.
+
+Sincerely,
+[Your name]
+[Title]
+[Your company name]`,
+  },
 ];
 
 const faqs = [
   {
-    q: 'When should I send a formal past due invoice notice?',
-    a: 'Most teams send a formal notice once an invoice passes 30 days overdue or after repeated reminders are ignored.',
+    q: 'What should a past-due notice include?',
+    a: 'The invoice number, invoice date, original due date, days past due, the outstanding amount, how to pay, a payment deadline, and a contact path for disputes. A compact invoice-summary block at the top of the notice makes it easy for the client (or their AP team) to verify and act.',
   },
   {
-    q: 'What should a past due notice email include?',
-    a: 'Include invoice summary, amount due, original due date, final deadline, payment method, and supporting documents.',
+    q: 'When should you send a past-due notice?',
+    a: 'Send the first formal notice once friendly reminders have failed - typically around 14 to 30 days past due. Before that, a friendly or second reminder usually recovers payment without formal language.',
   },
   {
-    q: 'How formal should the wording be?',
-    a: 'Use clear operational language without emotional wording. Formal means specific and documented, not hostile.',
+    q: 'What is the difference between a reminder and a past-due notice?',
+    a: 'A reminder is conversational and assumes an oversight. A past-due notice is a formal record: it states the account status, sets a deadline, and often precedes escalation. Notices are also more likely to be filed and forwarded within the client\u2019s organization.',
   },
   {
-    q: 'What comes after a past due invoice notice?',
-    a: 'If unpaid, route through AP and then move to a final notice with clear escalation terms.',
+    q: 'How do you write a 30-day past-due letter?',
+    a: 'Use a formal letter layout with your company details and the date, an "RE: Past due notice - invoice [number]" line, the invoice facts (amount, due date, days past due), a payment deadline about 7 days out, payment instructions, and a contact path for disputes. The 30-day letter template above is ready to copy.',
+  },
+  {
+    q: 'When should a past-due account be escalated?',
+    a: 'Escalate after your final notice deadline passes with no payment or agreed plan - usually somewhere between 60 and 90+ days past due. What escalation looks like (collections, legal action, late fees) depends on your contract and local law, so confirm what applies before stating consequences.',
   },
 ];
 
@@ -48,11 +246,11 @@ const articleSchema = {
   headline: metaTitle,
   description: metaDescription,
   datePublished: '2026-03-31',
-  dateModified: '2026-03-31',
+  dateModified: '2026-07-28',
   author: {
     '@type': 'Person',
     name: 'Pasko Djonovic',
-    url: 'https://chaseai.app/about',
+    url: 'https://chaseai.app/author',
   },
   publisher: {
     '@type': 'Organization',
@@ -68,13 +266,15 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
-const howToSchema = {
+const faqSchema = {
   '@context': 'https://schema.org',
-  '@type': 'HowTo',
-  name: 'Send a past due invoice notice',
-  step: [{ '@type': 'HowToStep', name: 'Summarize overdue invoice details' }, { '@type': 'HowToStep', name: 'Provide final payment deadline and next steps' }],
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
 };
-const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 
 <BaseLayout
@@ -82,7 +282,8 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={[articleSchema, howToSchema, faqSchema]}
+  structuredData={[articleSchema, faqSchema]}
+  breadcrumbs={breadcrumbs}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -91,11 +292,11 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
   <section class="hero-gradient relative overflow-hidden">
     <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
-        Past Due Invoice Notice (Formal Email Template)
+        Past Due Notice Letter and Email Templates
       </h1>
       <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-        Use this <strong>past due invoice notice template</strong> for 30+ day overdue balances when you need a
-        clear, formal message with documented details.
+        Copyable past due notices in both email and formal letter format, including 30-, 60- and 90-day
+        versions, a reusable invoice-summary block and a payment-plan option.
       </p>
     </div>
   </section>
@@ -108,131 +309,108 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
         </aside>
 
         <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
-          <SeoAuthor date="2026-03-31" />
+          <SeoAuthor date="2026-07-28" />
           <p>
-            A formal <strong>past due notice email</strong> should read like a clean account summary plus required
-            next step. Keep it factual, short, and easy for AP or finance to process.
+            A past due notice is the formal step after friendly reminders: it states the invoice facts,
+            sets a deadline, and creates a written record you can rely on if the account escalates. Below
+            are a short past-due email, a formal letter, and a compact invoice summary you can drop into
+            either - followed by ten variants covering friendly through 90-day notices.
           </p>
 
-          <h2 id="formal-template">The formal template (with invoice summary table)</h2>
+          <h2 id="quick-templates">Start here: short email, formal letter, invoice summary</h2>
+
+          <h3>Short past-due email</h3>
+          <CopyBlock
+            label="Short past-due invoice email"
+            subject="Past due notice: invoice [Invoice number] ([X] days)"
+            text={shortEmail}
+          />
+
+          <h3>Formal past-due letter</h3>
           <p>
-            Subject: "Past due notice: invoice #[number] - action required"
+            Use this layout when you need a document rather than an email - to print, attach as a PDF, or
+            send by post. It doubles as your written record if the account is later escalated.
           </p>
+          <CopyBlock label="Formal past-due notice letter" text={formalLetter} />
+
+          <h3>Compact invoice-summary block</h3>
           <p>
-            "Hi [Name/AP team], this is a formal notice that invoice #[number] remains unpaid.
-            Please review the invoice summary and complete payment by [deadline/timezone]."
+            Paste this at the top of any notice so the recipient can verify the debt at a glance.
           </p>
-          <div class="not-prose my-4 overflow-x-auto rounded-lg border border-border">
-            <table class="w-full text-sm">
-              <thead class="bg-muted/40">
-                <tr>
-                  <th class="p-3 text-left">Field</th>
-                  <th class="p-3 text-left">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-t border-border"><td class="p-3">Invoice Number</td><td class="p-3">#[number]</td></tr>
-                <tr class="border-t border-border"><td class="p-3">Invoice Date</td><td class="p-3">[date]</td></tr>
-                <tr class="border-t border-border"><td class="p-3">Original Due Date</td><td class="p-3">[date]</td></tr>
-                <tr class="border-t border-border"><td class="p-3">Days Overdue</td><td class="p-3">[X]</td></tr>
-                <tr class="border-t border-border"><td class="p-3">Amount Due</td><td class="p-3">[amount]</td></tr>
-                <tr class="border-t border-border"><td class="p-3">Payment Link/Details</td><td class="p-3">[link/details]</td></tr>
-              </tbody>
-            </table>
-          </div>
+          <CopyBlock label="Invoice summary block" text={invoiceSummaryBlock} />
+
+          <h2 id="notice-templates">Past due notice templates by situation</h2>
+
+          {templates.map((template) => (
+            <>
+              <h3 id={template.id}>{template.heading}</h3>
+              <p>{template.context}</p>
+              <CopyBlock
+                label={template.heading.replace(/^\d+\.\s/, '')}
+                subject={template.subject}
+                text={template.text}
+              />
+            </>
+          ))}
+
+          <h2 id="day-notices">30-, 60- and 90-day past due notices</h2>
           <p>
-            "If payment has already been made, please share remittance details so I can update records.
-            If there is any processing issue, reply today with the blocker and expected resolution date.
-            Thank you, [Your Name]"
+            Escalate the register as the account ages. Each notice below can be sent as an email or dropped
+            into the formal letter layout above.
           </p>
 
-          <h2 id="not-received">"Not received" / dispute wording</h2>
-          <p>
-            If the client says "not received" or raises a dispute, keep wording neutral and evidence-based:
-          </p>
-          <ul>
-            <li><strong>Not received:</strong> "Resending invoice #[number] and attachments for confirmation."</li>
-            <li><strong>Missing PO:</strong> "Please share PO reference so I can update and reissue if needed."</li>
-            <li><strong>Amount dispute:</strong> "Please specify disputed line item so we can resolve quickly."</li>
-            <li><strong>Vendor details issue:</strong> "Sharing legal entity and remittance details again for setup."</li>
-          </ul>
-          <p>
-            This keeps your <strong>overdue invoice notice</strong> professional while moving the thread toward
-            concrete resolution.
-          </p>
+          {dayNotices.map((notice) => (
+            <>
+              <h3 id={notice.id}>{notice.heading}</h3>
+              <p>{notice.context}</p>
+              <CopyBlock label={notice.heading} subject={notice.subject} text={notice.text} />
+            </>
+          ))}
 
-          <h2 id="documentation">Documentation checklist</h2>
-          <ul>
-            <li>Invoice PDF (current and correct version).</li>
-            <li>PO number or written no-PO confirmation.</li>
-            <li>Delivery/milestone proof if services were delivered.</li>
-            <li>Payment terms excerpt (late fee, due date, escalation terms).</li>
-            <li>Remittance details and pay-now link.</li>
-            <li>Previous reminder trail in the same thread.</li>
-          </ul>
-          <p>
-            Formal notices work best when AP can process the payment from one email without asking for missing docs.
-          </p>
-
-          <h2 id="what-next">What to do next (AP, final notice)</h2>
-          <p>
-            After this notice, use a strict decision path:
-          </p>
-          <ul>
-            <li>If AP confirms payment date, monitor and follow up only if missed.</li>
-            <li>If AP requests missing data, send full packet same day.</li>
-            <li>If no progress, escalate to final notice by your set deadline.</li>
-          </ul>
-          <p>
-            For AP-specific language use
-            <a href="/templates/email-to-accounts-payable-overdue-invoice"> email to accounts payable overdue invoice</a>.
-            For end-stage escalation use
-            <a href="/templates/final-notice-unpaid-invoice-email"> final notice unpaid invoice email</a>.
-          </p>
-
-          <div class="not-prose my-6 rounded-xl border border-primary/10 bg-primary/5 p-4 text-sm text-muted-foreground">
-            <p><strong class="text-foreground">Quick tips</strong></p>
-            <ul class="mt-2 space-y-1">
-              <li>Use "formal notice" wording only after earlier reminders.</li>
-              <li>Include summary table for faster AP handling.</li>
-              <li>Set one deadline with timezone.</li>
-              <li>Keep all communication in a single thread.</li>
-            </ul>
+          <div class="not-prose my-6 rounded-xl border border-amber-300/60 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200">
+            <p>
+              <strong>A note on consequences:</strong> only reference escalation steps, late fees or
+              interest that your agreement and local law actually permit. When in doubt, use neutral
+              wording like "we may need to escalate this matter, subject to our agreement and applicable
+              law."
+            </p>
           </div>
 
-          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
-            <p class="font-semibold mb-2">Timeline: formal notice to escalation</p>
-            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
-    title Past Due Notice Escalation
-    dateFormat  YYYY-MM-DD
-    axisFormat  %d %b
-    section Sequence
-    Friendly reminders        :d1, 2026-04-01, 13d
-    Firm reminder             :d14, 2026-04-14, 16d
-    Past due formal notice    :d30, 2026-04-30, 10d
-    Final notice window       :d40, 2026-05-10, 5d
-    Post-final escalation     :d45, 2026-05-15, 1d</code></pre>
-          </div>
-
-          <h2 id="automate">Automate</h2>
+          <h2 id="escalation">Where notices fit in the escalation path</h2>
+          <TimelineSteps
+            title="Timeline: reminders to formal notices to escalation"
+            steps={[
+              { window: 'Day 1-13', label: 'Friendly and second reminders' },
+              { window: 'Day 14-29', label: 'Firm reminder' },
+              { window: 'Day 30-44', label: 'Formal past due notice (30-day)' },
+              { window: 'Day 45-89', label: 'Second notice, then 60-day notice' },
+              { window: 'Day 90+', label: '90-day final notice, then escalation' },
+            ]}
+          />
           <p>
-            Generate first reminder through formal notice and final escalation from one invoice using the
-            <a href="/tools/overdue-invoice-sequence-generator"> overdue invoice sequence generator</a>.
+            Before the notice stage, try a
+            <a href="/templates/second-invoice-reminder-email"> second payment reminder</a> or a
+            <a href="/templates/firm-payment-reminder-email"> firm reminder</a> - they resolve most late
+            invoices without formal language. After the 90-day notice, the next message is a
+            <a href="/templates/final-notice-unpaid-invoice-email"> final notice</a>.
           </p>
-          <ol>
-            <li>Upload invoice details once.</li>
-            <li>Generate staged reminders with tone progression.</li>
-            <li>Set timing, deadlines, and escalation rules.</li>
-            <li>Track replies and payment completion.</li>
-          </ol>
+
+          <h2 id="related">Related templates</h2>
+          <ul>
+            <li><a href="/templates/invoice-reminder-email-template">Invoice reminder email templates</a> - the full sequence from first nudge to final demand.</li>
+            <li><a href="/templates/late-payment-fee-email-template">Invoice late fee wording</a> - if your terms allow fees on past-due balances.</li>
+            <li><a href="/templates/final-notice-unpaid-invoice-email">Final notice for an unpaid invoice</a> - the step after your last past-due notice.</li>
+            <li><a href="/templates/email-to-accounts-payable-overdue-invoice">Accounts payable follow-up email</a> - when the notice goes to an AP department.</li>
+            <li><a href="/guides/unpaid-invoice-follow-up-schedule">Unpaid invoice follow-up schedule</a> - day-by-day timing for the whole process.</li>
+          </ul>
 
           <div class="not-prose">
             <SeoCtaBand
-              heading="Automate formal past-due notices"
-              description="Build a complete reminder sequence from first nudge to final escalation in minutes."
+              heading="Send every notice on time, automatically"
+              description="ChaseAI escalates from friendly reminder to formal notice on schedule, so no invoice slips through."
               primaryHref={appUrl}
-              primaryLabel="Generate my sequence"
-              primaryAriaLabel="Generate past due invoice sequence"
+              primaryLabel="Start free trial"
+              primaryAriaLabel="Start ChaseAI free trial"
               secondaryHref="/pricing"
               secondaryLabel="View pricing"
               secondaryAriaLabel="View pricing plans"
@@ -245,23 +423,11 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
     </div>
   </section>
 
-  <section class="section-padding border-t border-border bg-muted/20">
-    <div class="container max-w-3xl mx-auto">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center">Past due notice: what makes it effective</h2>
-      <ul class="mt-4 text-sm text-muted-foreground space-y-2 list-disc pl-5">
-        <li>Use formal but neutral wording.</li>
-        <li>Add a clear deadline and specific consequences tied to terms.</li>
-        <li>Attach supporting documents in the same thread.</li>
-      </ul>
-      <p class="mt-4 text-sm text-muted-foreground">
-        According to QuickBooks (2025), 89% of small businesses face late payments, so consistent process usually matters more than aggressive tone.
-      </p>
-    </div>
-  </section>
-
   <section id="faq" class="section-padding border-t border-border bg-muted/30">
     <div class="container max-w-3xl mx-auto">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">Frequently asked questions</h2>
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">
+        Past due notice FAQ
+      </h2>
       <SeoFaq items={faqs} />
     </div>
   </section>

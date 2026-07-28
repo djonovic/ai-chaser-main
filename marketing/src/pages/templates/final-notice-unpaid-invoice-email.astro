@@ -4,41 +4,135 @@ import SeoToc from '../../components/seo/SeoToc.astro';
 import SeoCtaBand from '../../components/seo/SeoCtaBand';
 import SeoFaq from '../../components/seo/SeoFaq.astro';
 import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+import CopyBlock from '../../components/seo/CopyBlock.astro';
+import TimelineSteps from '../../components/seo/TimelineSteps.astro';
 
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/templates/final-notice-unpaid-invoice-email';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
-// META (DO NOT CHANGE)
-const metaTitle = 'Final Notice Letter for Unpaid Invoices (Email Template) | ChaseAI';
+const metaTitle = 'Final Notice Letter for Unpaid Invoice: 4 Templates';
 const metaDescription =
-  'Use this final notice email template for unpaid invoices with deadline wording, consequences, and clear next steps before collections or legal escalation.';
+  'Copy final notice wording for unpaid invoices, including soft and firm email templates, payment deadlines, subject lines and escalation language.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Templates', href: '/templates' },
+  { label: 'Final Notice for Unpaid Invoice', href: pageSlug },
+];
 
 const tocItems = [
-  { id: 'when-to-send', label: 'When to send a final notice' },
-  { id: 'templates', label: 'Final notice templates (soft vs firm)' },
-  { id: 'consequences', label: 'Safe consequences language' },
-  { id: 'attachments', label: 'Attachments checklist' },
-  { id: 'automate', label: 'Automate final escalation' },
+  { id: 'templates', label: 'The 4 final notice templates' },
+  { id: 'deadlines', label: 'Deadline variations' },
+  { id: 'wording-rules', label: 'Escalation wording rules' },
+  { id: 'after-notice', label: 'What comes after a final notice' },
+  { id: 'related', label: 'Related templates' },
   { id: 'faq', label: 'FAQ' },
+];
+
+const templates = [
+  {
+    id: 'soft-final',
+    heading: '1. Soft final reminder',
+    context:
+      'For clients you want to keep. It says "this is the last reminder" without formal-notice weight - often enough to prompt payment while preserving the relationship.',
+    subject: 'Last reminder: invoice [Invoice number]',
+    text: `Hi [Client name],
+
+This is my last reminder about invoice [Invoice number] for [Outstanding amount], which was due on [Original due date] and is now [X] days overdue.
+
+I'd really like to close this out between us. Could you settle it by [payment deadline], or reply today with a payment date? Payment link: [Payment link]
+
+If something is wrong with the invoice, tell me now and I'll fix it immediately.
+
+Thanks,
+[Your name]`,
+  },
+  {
+    id: 'firm-final',
+    heading: '2. Firm final notice email',
+    context:
+      'The standard final notice. Formal register, complete facts, a hard deadline and a factual statement of what happens next.',
+    subject: 'Final notice: invoice [Invoice number] - payment due by [payment deadline]',
+    text: `Dear [Client name],
+
+Despite previous reminders sent on [dates of previous reminders], invoice [Invoice number] for [Outstanding amount], due [Original due date], remains unpaid.
+
+This is a final notice. Please pay the full balance by [payment deadline]: [Payment link]
+
+If payment or a response is not received by that date, we may need to escalate this matter, subject to our agreement and applicable law. If the invoice is disputed or payment has been sent, contact us immediately at [phone / email].
+
+Sincerely,
+[Your name]
+[Your company name]`,
+  },
+  {
+    id: 'formal-letter',
+    heading: '3. Formal final-notice letter',
+    context:
+      'A printable letter format for post, PDF attachment or your records. This document is often what a collections agency or adviser will ask to see first.',
+    text: `[Your company name]
+[Your address]
+[Date]
+
+[Client name]
+[Client company name]
+[Client address]
+
+RE: FINAL NOTICE - UNPAID INVOICE [Invoice number]
+
+Dear [Client name],
+
+This letter is a final notice regarding invoice [Invoice number], issued on [Invoice date] in the amount of [Outstanding amount]. The invoice was due on [Original due date] and remains unpaid despite reminders sent on [dates of previous reminders].
+
+Payment of the full outstanding balance is required by [payment deadline]. Payment can be made via [Payment link / payment details].
+
+If we do not receive payment or hear from you by the deadline above, we intend to pursue the remedies available to us under our agreement and applicable law.
+
+If you believe this invoice is in error, or payment has already been made, contact us immediately at [phone / email] with the relevant details.
+
+Sincerely,
+
+[Your name]
+[Title]
+[Your company name]`,
+  },
+  {
+    id: 'before-escalation',
+    heading: '4. Final notice before escalation',
+    context:
+      'When the final-notice deadline has already passed once. Name the specific next step you genuinely intend to take - and only that step.',
+    subject: 'Invoice [Invoice number]: escalation begins [escalation date]',
+    text: `Dear [Client name],
+
+Our final notice for invoice [Invoice number] ([Outstanding amount], due [Original due date]) set a payment deadline of [previous deadline]. That deadline has passed without payment or a response.
+
+Unless the balance is settled by [escalation date], we will proceed with [specific next step - e.g. referring the account to a collections agency / filing a claim as provided in our agreement].
+
+You can still resolve this today: [Payment link]. If you wish to discuss a payment plan, contact us at [phone / email] before [escalation date].
+
+Sincerely,
+[Your name]
+[Your company name]`,
+  },
 ];
 
 const faqs = [
   {
-    q: 'When should I send a final payment reminder email?',
-    a: 'Usually after multiple reminders and missed payment commitments, often around 30 days overdue depending on contract terms.',
+    q: 'What should a final notice for an unpaid invoice say?',
+    a: 'State the invoice number, amount, due date and the reminders already sent; set one clear payment deadline; explain factually what happens if the deadline passes; and give a contact path for disputes. Keep the tone formal and neutral - the facts carry the weight.',
   },
   {
-    q: 'Should a final demand email unpaid invoice message sound aggressive?',
-    a: 'No. It should be clear, factual, and deadline-based. Professional tone is more credible and reduces dispute risk.',
+    q: 'How long should the final notice deadline be?',
+    a: 'Seven days is the common default and reads as decisive; 14 days suits larger organizations where payment runs take longer. A specific date ("by Friday, March 14") always beats "within 7 days" because there is nothing to calculate.',
   },
   {
-    q: 'Can I mention late fees or collections in a final notice?',
-    a: 'Yes, if your terms allow it. Reference contractual terms and keep wording factual rather than threatening.',
+    q: 'Can I threaten legal action in a final notice?',
+    a: 'Only state consequences you actually intend to pursue and that your agreement and local law support. Empty threats destroy credibility and, depending on jurisdiction, can create legal exposure. Neutral wording like "we may escalate this matter, subject to our agreement and applicable law" is safer than specific threats you have not verified.',
   },
   {
-    q: 'What if the client still does not pay after final notice?',
-    a: 'Document all communication and consider next steps such as pausing work, collections, or legal advice based on your local rules.',
+    q: 'What happens after a final notice is ignored?',
+    a: 'Typical next steps are a collections agency, a small-claims or court process depending on the amount, or writing the debt off. Which is right depends on the balance, your contract and your jurisdiction - many businesses get a one-off consultation with a collections professional or lawyer at this point.',
   },
 ];
 
@@ -48,11 +142,11 @@ const articleSchema = {
   headline: metaTitle,
   description: metaDescription,
   datePublished: '2026-03-31',
-  dateModified: '2026-03-31',
+  dateModified: '2026-07-28',
   author: {
     '@type': 'Person',
     name: 'Pasko Djonovic',
-    url: 'https://chaseai.app/about',
+    url: 'https://chaseai.app/author',
   },
   publisher: {
     '@type': 'Organization',
@@ -68,13 +162,15 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
-const howToSchema = {
+const faqSchema = {
   '@context': 'https://schema.org',
-  '@type': 'HowTo',
-  name: 'Send a final notice for unpaid invoices',
-  step: [{ '@type': 'HowToStep', name: 'Confirm prior reminders and balance due' }, { '@type': 'HowToStep', name: 'Set final deadline and escalation path' }],
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
 };
-const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 
 <BaseLayout
@@ -82,7 +178,8 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={[articleSchema, howToSchema, faqSchema]}
+  structuredData={[articleSchema, faqSchema]}
+  breadcrumbs={breadcrumbs}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -91,11 +188,11 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
   <section class="hero-gradient relative overflow-hidden">
     <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
-        Final Notice Email for an Unpaid Invoice (Copy/Paste)
+        Final Notice Letter and Email for an Unpaid Invoice
       </h1>
       <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-        Use this <strong>final notice unpaid invoice email</strong> when earlier reminders have not produced payment
-        and you need a clear deadline with professional escalation wording.
+        Four copyable final notices - soft reminder, firm email, formal letter and pre-escalation - with
+        deadline variations and escalation wording that stays factual and defensible.
       </p>
     </div>
   </section>
@@ -108,122 +205,86 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
         </aside>
 
         <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
-          <SeoAuthor date="2026-03-31" />
+          <SeoAuthor date="2026-07-28" />
           <p>
-            A <strong>last payment reminder email</strong> should be short, specific, and process-focused.
-            It is not about sounding harsh. It is about setting one deadline and one clear next action.
+            A final notice is the last message before you escalate an unpaid invoice - so it has to do two
+            things at once: give the client one genuine last chance to pay, and create a clean written
+            record that the account was handled properly. Below are four versions, from soft to formal,
+            each with a hard deadline and cautious, factual consequence wording.
           </p>
 
-          <h2 id="when-to-send">When to send a final notice</h2>
+          <h2 id="templates">The 4 final notice templates</h2>
+
+          {templates.map((template) => (
+            <>
+              <h3 id={template.id}>{template.heading}</h3>
+              <p>{template.context}</p>
+              <CopyBlock
+                label={template.heading.replace(/^\d+\.\s/, '')}
+                subject={template.subject}
+                text={template.text}
+              />
+            </>
+          ))}
+
+          <h2 id="deadlines">Deadline variations</h2>
+          <p>Swap the deadline sentence in any template above for one of these:</p>
           <ul>
-            <li>After at least two prior reminders with no payment.</li>
-            <li>After missed promised payment dates.</li>
-            <li>When the invoice is materially overdue under your contract terms.</li>
-            <li>Before you trigger pause-work, collections, or other escalation steps.</li>
+            <li><strong>7 days:</strong> "Please pay the full balance within 7 days, by [specific date]." - the standard, decisive default.</li>
+            <li><strong>14 days:</strong> "Please pay the full balance within 14 days, by [specific date]." - for larger organizations whose payment runs genuinely take longer.</li>
+            <li><strong>Specific date:</strong> "Please pay the full balance by Friday, [specific date], 5pm [timezone]." - the strongest form; there is nothing to calculate and nothing ambiguous.</li>
           </ul>
-          <p>
-            If your process is inconsistent, first align to a clear schedule, then issue final notice in sequence.
-            This improves outcomes and reduces disputes.
-          </p>
 
-          <h2 id="templates">Final notice templates (soft vs firm)</h2>
-          <h3>Soft final notice (relationship-preserving)</h3>
-          <p>
-            Subject: "Final reminder: invoice #[number] requires payment"
-          </p>
-          <p>
-            "Hi [Name], this is a final reminder regarding invoice #[number] for [amount], currently overdue.
-            Please complete payment by [date]. Payment link: [link]. If there is any blocker, reply today so we can
-            resolve it immediately and avoid further escalation."
-          </p>
-
-          <h3>Firm final notice (deadline + consequence)</h3>
-          <p>
-            Subject: "Final notice: invoice #[number] unpaid"
-          </p>
-          <p>
-            "Hi [Name], despite prior reminders, invoice #[number] for [amount] remains unpaid.
-            Final deadline for payment is [date/timezone]. Payment link: [link].
-            If payment is not received by this deadline, I will proceed to next steps under our agreement."
-          </p>
-
-          <h2 id="consequences">What "consequences" language is safe + professional (non-legal-advice wording)</h2>
-          <p>
-            Good consequences language is specific and non-emotional. It should reference your process, not threats.
-            Useful examples:
-          </p>
-          <ul>
-            <li>"If payment is not received by [date], I will pause new work."</li>
-            <li>"If unresolved by [date], I will apply late fees as stated in our terms."</li>
-            <li>"If unresolved by [date], I will escalate to formal collections review."</li>
-            <li>"Please reply today if you need a short payment plan option."</li>
-          </ul>
-          <p>
-            Avoid aggressive language, personal attacks, or legal claims you are not prepared to enforce.
-          </p>
-          <p class="text-sm text-muted-foreground">
-            Not legal advice; consult local rules.
-          </p>
-
-          <h2 id="attachments">Attachments checklist</h2>
-          <ul>
-            <li>Original invoice PDF.</li>
-            <li>Summary of amount due and invoice number in email body.</li>
-            <li>Payment link or remittance details.</li>
-            <li>Relevant terms reference (late fee or payment clause).</li>
-            <li>Prior reminder thread for timeline context.</li>
-          </ul>
-          <p>
-            For alternate wording styles, see
-            <a href="/templates/past-due-invoice-notice-template"> past due invoice notice template</a>.
-            If late fees apply, use
-            <a href="/templates/late-payment-fee-email-template"> late payment fee email template</a>.
-          </p>
-
-          <div class="not-prose my-6 rounded-xl border border-primary/10 bg-primary/5 p-4 text-sm text-muted-foreground">
-            <p><strong class="text-foreground">Quick tips</strong></p>
-            <ul class="mt-2 space-y-1">
-              <li>Keep final notices under 120 words when possible.</li>
-              <li>State one deadline with timezone and one payment path.</li>
-              <li>Use factual consequences that match contract terms.</li>
-              <li>Document all replies in one thread.</li>
-            </ul>
+          <h2 id="wording-rules">Escalation wording: what to say and what to avoid</h2>
+          <div class="not-prose my-6 rounded-xl border border-amber-300/60 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200">
+            <p>
+              <strong>Only state consequences you will actually follow through on</strong> and that your
+              agreement and local law support. This page is wording guidance, not legal advice - if the
+              balance justifies it, confirm your escalation options with a professional before naming them.
+            </p>
           </div>
+          <ul>
+            <li><strong>Safe:</strong> "we may need to escalate this matter, subject to our agreement and applicable law."</li>
+            <li><strong>Safe (if true):</strong> "we intend to refer this account to a collections agency on [date]."</li>
+            <li><strong>Avoid:</strong> naming legal action you have not verified you can or will take.</li>
+            <li><strong>Avoid:</strong> late fees or interest that are not in your written terms - see proper <a href="/templates/late-payment-fee-email-template">invoice late fee wording</a>.</li>
+            <li><strong>Avoid:</strong> emotional language of any kind. The facts are the pressure.</li>
+          </ul>
 
-          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
-            <p class="font-semibold mb-2">Timeline: final escalation timeline</p>
-            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
-    title Final Notice Escalation Plan
-    dateFormat  YYYY-MM-DD
-    axisFormat  %d %b
-    section Sequence
-    Friendly reminders         :d1, 2026-04-01, 7d
-    Second reminder            :d8, 2026-04-08, 6d
-    Firm reminder              :d14, 2026-04-14, 16d
-    Final notice               :d30, 2026-04-30, 15d
-    Post-deadline next step    :d45, 2026-05-15, 1d</code></pre>
-          </div>
-
-          <h2 id="automate">Automate final escalation</h2>
+          <h2 id="after-notice">What comes after a final notice</h2>
+          <TimelineSteps
+            title="Timeline: where the final notice sits"
+            steps={[
+              { window: 'Day 1-7', label: 'Friendly reminders' },
+              { window: 'Day 8-13', label: 'Second reminder' },
+              { window: 'Day 14-29', label: 'Firm reminder' },
+              { window: 'Day 30-44', label: 'Final notice (this page)' },
+              { window: 'Day 45+', label: 'Escalation: collections, claims process, or write-off' },
+            ]}
+          />
           <p>
-            Build and schedule your entire reminder chain, including the
-            <strong> final payment reminder email</strong>, from one invoice with the
-            <a href="/tools/overdue-invoice-sequence-generator"> overdue invoice sequence generator</a>.
+            If the deadline passes silently, your realistic options are a collections agency, a
+            small-claims or court process (depending on the amount and jurisdiction), or writing the debt
+            off and firing the client. Whichever you choose, the paper trail you built with reminders and
+            this notice is what makes it work.
           </p>
-          <ol>
-            <li>Upload invoice details.</li>
-            <li>Generate staged reminder drafts.</li>
-            <li>Set escalation timing and deadline language.</li>
-            <li>Track opens, replies, and payment completion.</li>
-          </ol>
+
+          <h2 id="related">Related templates</h2>
+          <ul>
+            <li><a href="/templates/firm-payment-reminder-email">Firm payment reminder</a> - the stage immediately before a final notice.</li>
+            <li><a href="/templates/past-due-invoice-notice-template">Past due notice (30/60/90 days)</a> - formal notices for aging accounts.</li>
+            <li><a href="/templates/late-payment-fee-email-template">Invoice late fee wording</a> - if your terms allow fees on the outstanding balance.</li>
+            <li><a href="/templates/invoice-reminder-email-template">Invoice reminder email templates</a> - the full sequence from first nudge to this point.</li>
+            <li><a href="/guides/how-to-chase-unpaid-invoices">How to chase unpaid invoices</a> - the complete strategy, including when to escalate.</li>
+          </ul>
 
           <div class="not-prose">
             <SeoCtaBand
-              heading="Generate final-notice sequences automatically"
-              description="Create an escalation-ready reminder flow from first nudge to final notice."
+              heading="Never reach the final notice unprepared"
+              description="ChaseAI sends every earlier reminder on schedule and keeps the full paper trail, so escalation is a last resort - not a scramble."
               primaryHref={appUrl}
-              primaryLabel="Generate my sequence"
-              primaryAriaLabel="Generate final notice invoice sequence"
+              primaryLabel="Start free trial"
+              primaryAriaLabel="Start ChaseAI free trial"
               secondaryHref="/pricing"
               secondaryLabel="View pricing"
               secondaryAriaLabel="View pricing plans"
@@ -236,23 +297,11 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
     </div>
   </section>
 
-  <section class="section-padding border-t border-border bg-muted/20">
-    <div class="container max-w-3xl mx-auto">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center">Final notice best practices</h2>
-      <ul class="mt-4 text-sm text-muted-foreground space-y-2 list-disc pl-5">
-        <li>Reference prior reminders and exact outstanding balance.</li>
-        <li>Set one deadline and one consequence aligned to contract terms.</li>
-        <li>Keep tone factual to reduce dispute risk.</li>
-      </ul>
-      <p class="mt-4 text-sm text-muted-foreground">
-        If you need a full progression before final notice, build it in the <a class="text-primary hover:underline" href="/tools/overdue-invoice-sequence-generator">Free AI Overdue Invoice Sequence Generator</a>.
-      </p>
-    </div>
-  </section>
-
   <section id="faq" class="section-padding border-t border-border bg-muted/30">
     <div class="container max-w-3xl mx-auto">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">Frequently asked questions</h2>
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">
+        Final notice FAQ
+      </h2>
       <SeoFaq items={faqs} />
     </div>
   </section>

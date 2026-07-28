@@ -8,16 +8,23 @@ import SeoAuthor from '../../components/seo/SeoAuthor.astro';
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/templates/overdue-invoice-email-sequence';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
-const metaTitle = 'Overdue Invoice Email Sequence Template (5-7 Steps) | ChaseAI';
+const metaTitle = 'Automated Overdue Invoice Email Sequence: 7 Steps + Timing';
 const metaDescription =
-  'Get a complete overdue invoice email sequence with friendly, direct, and final notice stages to chase outstanding invoices without awkward wording.';
+  'Deploy a complete overdue invoice email sequence: 7 steps with send days, tone progression, stop conditions and automation setup for unpaid invoices.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Templates', href: '/templates' },
+  { label: 'Overdue Invoice Email Sequence', href: pageSlug },
+];
 
 const tocItems = [
   { id: 'why-sequences', label: 'Why sequences work' },
   { id: 'seven-steps', label: 'The 7-step sequence' },
+  { id: 'timing-logic', label: 'Timing logic and stop conditions' },
   { id: 'subject-lines', label: 'Subject lines per step' },
   { id: 'reply-scenarios', label: 'Reply scenarios + responses' },
-  { id: 'automate', label: 'Automate the sequence' },
+  { id: 'automate', label: 'Deploy the sequence' },
   { id: 'faq', label: 'FAQ' },
 ];
 
@@ -159,11 +166,11 @@ const articleSchema = {
   headline: metaTitle,
   description: metaDescription,
   datePublished: '2026-03-31',
-  dateModified: '2026-03-31',
+  dateModified: '2026-07-28',
   author: {
     '@type': 'Person',
     name: 'Pasko Djonovic',
-    url: 'https://chaseai.app/about',
+    url: 'https://chaseai.app/author',
   },
   publisher: {
     '@type': 'Organization',
@@ -190,14 +197,7 @@ const faqSchema = {
   })),
 };
 
-const howToSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'HowTo',
-  name: 'Build an overdue invoice email sequence',
-  step: [{ '@type': 'HowToStep', name: 'Map sequence timing by overdue day' }, { '@type': 'HowToStep', name: 'Use friendly-to-firm escalation' }],
-};
-
-const structuredData = [articleSchema, howToSchema, faqSchema];
+const structuredData = [articleSchema, faqSchema];
 ---
 
 <BaseLayout
@@ -206,6 +206,7 @@ const structuredData = [articleSchema, howToSchema, faqSchema];
   canonical={canonicalUrl}
   ogType="article"
   structuredData={structuredData}
+  breadcrumbs={breadcrumbs}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -216,14 +217,14 @@ const structuredData = [articleSchema, howToSchema, faqSchema];
       <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
         Overdue Invoice Email Sequence
         <span class="block text-lg md:text-2xl font-semibold text-muted-foreground mt-3">
-          7 Steps You Can Copy
+          A Complete Automated Campaign
         </span>
       </h1>
       <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-        This <strong>overdue invoice email sequence</strong> gives you a complete escalation flow from
-        friendly reminder to final action. Copy it exactly, or tailor each step to your client and
-        contract terms. If you want speed, upload your invoice and let ChaseAI generate a personalized
-        sequence in one click.
+        This page covers the whole campaign: send days, tone progression, stop conditions and how to
+        deploy it as automation. If you just need individual emails to send by hand, use the
+        <a href="/templates/overdue-invoice-email-template" class="text-primary hover:underline">overdue invoice email templates by day</a>
+        instead.
       </p>
       <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
         <a
@@ -304,17 +305,6 @@ const structuredData = [articleSchema, howToSchema, faqSchema];
             practical defaults; adjust for your client cycle if needed. The key is to avoid large gaps.
           </p>
 
-          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm text-muted-foreground">
-            <p><strong class="text-foreground">Image ideas</strong></p>
-            <ul class="mt-2 space-y-1">
-              <li>Sequence ladder diagram, alt="Overdue invoice email sequence tone ladder from friendly to escalation"</li>
-              <li>Timeline graphic, alt="Overdue invoice reminder timeline with days and email steps"</li>
-              <li>Replies map decision tree, alt="Decision tree for client replies to overdue invoice reminders"</li>
-              <li>UI screenshot placeholder, alt="Invoice follow-up sequence editor with seven generated steps"</li>
-              <li>GIF (20-30s): generate sequence → edit each step → start smart chasing</li>
-            </ul>
-          </div>
-
           <div class="not-prose space-y-4">
             {sequence.map((s) => (
               <div class="rounded-lg border border-border bg-muted/20 p-4 md:p-5" id={`step-${s.step}`}>
@@ -333,6 +323,20 @@ const structuredData = [articleSchema, howToSchema, faqSchema];
               </div>
             ))}
           </div>
+
+          <h2 id="timing-logic">Timing logic, stop conditions and personalization</h2>
+          <p>
+            An automated sequence is only safe when it knows when to <em>stop</em>. Configure these rules
+            before activating anything:
+          </p>
+          <ul>
+            <li><strong>Stop on payment:</strong> the moment the invoice is settled, all remaining steps cancel. This is non-negotiable - one reminder after payment costs more goodwill than five before it.</li>
+            <li><strong>Pause on reply:</strong> any client response pauses the sequence until you resolve the thread. A disputed invoice must never keep receiving escalation emails.</li>
+            <li><strong>Pause on promise:</strong> if the client commits to a date, pause until that date passes - then resume with missed-promise wording, not the next generic step.</li>
+            <li><strong>Send-day gaps:</strong> keep 3-7 days between early steps and up to 14 days at later stages. Larger gaps lose momentum; smaller ones feel like spam.</li>
+            <li><strong>Personalization:</strong> every step should carry the invoice number, amount, due date and payment link pulled from the actual invoice - plus the client's name and, for firms, their PO reference.</li>
+            <li><strong>Business-hours sending:</strong> schedule sends for the client's morning, mid-week where possible.</li>
+          </ul>
 
           <h2 id="subject-lines">Subject lines per step</h2>
           <p>

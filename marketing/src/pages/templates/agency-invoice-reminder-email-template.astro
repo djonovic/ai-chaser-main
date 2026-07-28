@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SeoToc from '../../components/seo/SeoToc.astro';
+import TimelineSteps from '../../components/seo/TimelineSteps.astro';
 import SeoCtaBand from '../../components/seo/SeoCtaBand';
 import SeoFaq from '../../components/seo/SeoFaq.astro';
 import SeoAuthor from '../../components/seo/SeoAuthor.astro';
@@ -8,6 +9,12 @@ import SeoAuthor from '../../components/seo/SeoAuthor.astro';
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/templates/agency-invoice-reminder-email-template';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Templates', href: '/templates' },
+  { label: 'Agency Invoice Reminder', href: pageSlug },
+];
 
 // META (DO NOT CHANGE)
 const metaTitle = 'Agency Invoice Reminder Email Template (Retainers & Projects) | ChaseAI';
@@ -81,6 +88,7 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
   title={metaTitle}
   description={metaDescription}
   canonical={canonicalUrl}
+  breadcrumbs={breadcrumbs}
   ogType="article"
   structuredData={[articleSchema, howToSchema, faqSchema]}
 >
@@ -196,22 +204,17 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
             </ul>
           </div>
 
-          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
-            <p class="font-semibold mb-2">Timeline: agency follow-up workflow</p>
-            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
-    title Agency Invoice Follow-Up Timeline
-    dateFormat  YYYY-MM-DD
-    axisFormat  %d %b
-    section Client reminders
-    Friendly reminder         :d1, 2026-04-01, 3d
-    Direct follow-up          :d4, 2026-04-04, 4d
-    Escalation reminder       :d8, 2026-04-08, 6d
-    Firm reminder             :d14, 2026-04-14, 16d
-    Final notice              :d30, 2026-04-30, 15d
-    section Internal ops
-    Owner assignment          :done, o1, 2026-04-01, 1d
-    Open/reply tracking       :o2, 2026-04-01, 45d</code></pre>
-          </div>
+          <TimelineSteps
+            title="Timeline: agency follow-up workflow"
+            steps={[
+              { window: 'Day 1-3', label: 'Friendly reminder (assign an owner on day 1)' },
+              { window: 'Day 4-7', label: 'Direct follow-up' },
+              { window: 'Day 8-13', label: 'Escalation reminder' },
+              { window: 'Day 14-29', label: 'Firm reminder' },
+              { window: 'Day 30-44', label: 'Final notice' },
+              { window: 'Ongoing', label: 'Track opens and replies across the whole sequence' },
+            ]}
+          />
 
           <h2 id="automate">Automate follow-ups</h2>
           <p>

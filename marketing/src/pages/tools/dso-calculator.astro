@@ -6,12 +6,20 @@ import DSOCalculator from '../../components/tools/DSOCalculator';
 
 const pageSlug = '/tools/dso-calculator';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Tools', href: '/tools' },
+  { label: 'DSO Calculator', href: pageSlug },
+];
 const metaTitle = 'Free DSO Calculator — Days Sales Outstanding | ChaseAI';
 const metaDescription =
   'Calculate your Days Sales Outstanding (DSO) instantly. Enter your AR balance and revenue, get your DSO, compare to benchmarks, and understand cash-flow impact. Free.';
 const tocItems = [
   { id: 'calculator', label: 'Calculator' },
   { id: 'what-is-dso', label: 'What is DSO?' },
+  { id: 'how-to-calculate', label: 'How to calculate DSO (worked example)' },
+  { id: 'excel', label: 'DSO formula in Excel' },
   { id: 'benchmarks', label: 'Industry benchmarks' },
   { id: 'reduce', label: 'How to reduce DSO' },
   { id: 'faq', label: 'FAQ' },
@@ -20,6 +28,9 @@ const faqs = [
   { q: 'What DSO is considered good?', a: 'Generally, DSO within 5–10 days of your terms is healthy. 20+ days above terms indicates a collection issue.' },
   { q: 'What is the difference between DSO and average collection period?', a: 'They are the same metric with different wording.' },
   { q: 'Should I use 30, 60, or 90 days?', a: '90 days usually provides the most stable baseline for small businesses.' },
+  { q: 'How do you calculate DSO monthly?', a: 'Use the same formula with a 30-day window: month-end accounts receivable divided by that month\u2019s credit sales, multiplied by 30. Monthly DSO is more volatile than quarterly, so watch the trend across several months rather than a single value.' },
+  { q: 'What is the DSO formula in Excel?', a: 'With AR in cell A1, credit sales for the period in B1, and days in the period in C1, the formula is =A1/B1*C1. For a 90-day quarter that is =A1/B1*90.' },
+  { q: 'Does DSO include cash sales?', a: 'No. Only credit sales (invoiced revenue) belong in the denominator. Including cash sales makes DSO look artificially low because that money was never outstanding.' },
 ];
 const structuredData = [
   { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'DSO Calculator', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
@@ -27,7 +38,7 @@ const structuredData = [
 ];
 ---
 
-<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} breadcrumbs={breadcrumbs} structuredData={structuredData}>
   <section class="hero-gradient">
     <div class="container py-14 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold">DSO Calculator — Calculate Days Sales Outstanding + Industry Benchmark</h1>
@@ -48,6 +59,32 @@ const structuredData = [
 
           <h2 id="what-is-dso">What is Days Sales Outstanding (DSO)?</h2>
           <p>DSO measures how long it takes to collect invoice revenue. Formula: <strong>DSO = (AR ÷ Total Credit Sales) × Number of Days</strong>. If AR is $24,000 and 90-day sales are $60,000, DSO is 36 days.</p>
+
+          <h2 id="how-to-calculate">How to calculate DSO, step by step</h2>
+          <ol>
+            <li><strong>Pick a period.</strong> A quarter (90 days) is the most stable; a month (30 days) reacts faster but swings more.</li>
+            <li><strong>Find your accounts receivable balance</strong> at the end of that period — the total of all unpaid invoices.</li>
+            <li><strong>Find your credit sales for the same period</strong> — everything you invoiced, excluding cash-at-sale revenue.</li>
+            <li><strong>Divide AR by credit sales, multiply by the days in the period.</strong></li>
+          </ol>
+          <p><strong>Worked example.</strong> A design studio invoices $45,000 in a quarter and ends the quarter with $18,000 in unpaid invoices:</p>
+          <p><strong>DSO = ($18,000 ÷ $45,000) × 90 = 36 days.</strong></p>
+          <p>
+            On Net 30 terms, 36 days means clients pay about six days late on average — acceptable. If the same
+            studio's DSO were 50, roughly $7,000 of extra cash would be sitting in unpaid invoices at any given
+            moment ($45,000 ÷ 90 × 14 extra days). That is the number DSO makes visible: how much of your own
+            revenue you are lending to clients for free.
+          </p>
+
+          <h2 id="excel">DSO formula in Excel or Google Sheets</h2>
+          <p>Put accounts receivable in <code>A1</code>, period credit sales in <code>B1</code>, and days in the period in <code>C1</code>:</p>
+          <p><code>=A1/B1*C1</code></p>
+          <p>
+            For a rolling monthly view, list month-end AR in column A and monthly invoiced sales in column B,
+            then drag <code>=A2/B2*30</code> down the sheet. The trend across months matters more than any single
+            value — a DSO that climbs three months in a row is an early warning even if it is still "within
+            benchmark".
+          </p>
 
           <h2 id="benchmarks">DSO benchmarks by industry (2024–2025)</h2>
           <table>

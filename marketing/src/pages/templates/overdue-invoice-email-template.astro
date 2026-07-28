@@ -4,80 +4,139 @@ import SeoToc from '../../components/seo/SeoToc.astro';
 import SeoCtaBand from '../../components/seo/SeoCtaBand';
 import SeoFaq from '../../components/seo/SeoFaq.astro';
 import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+import CopyBlock from '../../components/seo/CopyBlock.astro';
 
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/templates/overdue-invoice-email-template';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
-const metaTitle = 'Overdue Invoice Email Template (Copy, Send, Get Paid) | ChaseAI';
+const metaTitle = 'Overdue Invoice Email Templates: Day 1, 7, 14 & 30';
 const metaDescription =
-  'Use this overdue invoice email template with clear payment deadlines, polite escalation, and legal-safe wording to chase unpaid invoices effectively.';
+  'Copy overdue invoice emails for day 1, 7, 14 and 30. Includes friendly, firm and final wording, subject lines and a complete follow-up sequence.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Templates', href: '/templates' },
+  { label: 'Overdue Invoice Email Templates', href: pageSlug },
+];
 
 const tocItems = [
   { id: 'must-include', label: '5 must-have elements' },
   { id: 'templates', label: 'Templates by day' },
+  { id: 'special-cases', label: 'Disputed and broken-promise emails' },
   { id: 'talk-to-finance', label: 'When they say talk to finance' },
   { id: 'escalate', label: 'Escalate without sounding rude' },
-  { id: 'automate', label: 'Automated sequence generator' },
+  { id: 'automate', label: 'Automate the whole sequence' },
   { id: 'faq', label: 'FAQ' },
 ];
 
 const stageTemplates = [
   {
     day: 'Day 1 (just overdue)',
-    subject: 'Past due: Invoice #[number] for [amount]',
-    body: `Hi [Client Name],
+    subject: 'Past due: Invoice #[Invoice number] for [Outstanding amount]',
+    body: `Hi [Client name],
 
-Quick follow-up that invoice #[number] for [amount] was due yesterday.
+Quick follow-up that invoice #[Invoice number] for [Outstanding amount] was due yesterday.
 
-Please use this payment link: [payment link]
+Please use this payment link: [Payment link]
 
 If payment has already been sent, please ignore this message.
 
 Thanks,
-[Your Name]`,
+[Your name]`,
+  },
+  {
+    day: 'Day 3 (gentle check-in)',
+    subject: 'Invoice #[Invoice number] - 3 days past due',
+    body: `Hi [Client name],
+
+Invoice #[Invoice number] for [Outstanding amount] went past due on [Original due date] and still shows unpaid on our side.
+
+No drama - I know these things slip. Here's the payment link when you have a minute: [Payment link]
+
+If there's an issue with the invoice, just reply and I'll fix it.
+
+Best,
+[Your name]`,
   },
   {
     day: 'Day 7 (clear urgency)',
-    subject: 'Reminder: Invoice #[number] is now 7 days overdue',
-    body: `Hi [Client Name],
+    subject: 'Reminder: Invoice #[Invoice number] is now 7 days overdue',
+    body: `Hi [Client name],
 
-I am following up on invoice #[number] for [amount], now 7 days past due.
+I am following up on invoice #[Invoice number] for [Outstanding amount], now 7 days past due.
 
-Could you confirm payment timing today? Payment link: [payment link]
+Could you confirm payment timing today? Payment link: [Payment link]
 
 If there is any issue with processing, reply and I can help.
 
 Regards,
-[Your Name]`,
+[Your name]`,
   },
   {
     day: 'Day 14 (firm + specific)',
-    subject: 'Second notice: Invoice #[number] (14 days overdue)',
-    body: `Hi [Client Name],
+    subject: 'Second notice: Invoice #[Invoice number] (14 days overdue)',
+    body: `Hi [Client name],
 
-Invoice #[number] for [amount] remains unpaid and is now 14 days overdue.
+Invoice #[Invoice number] for [Outstanding amount] remains unpaid and is now 14 days overdue.
 
-Please process this by [date]. If your team needs additional details (PO, delivery confirmation, revised invoice), I can send them immediately.
+Please process this by [payment deadline]. If your team needs additional details (PO, delivery confirmation, revised invoice), I can send them immediately.
 
-Payment link: [payment link]
+Payment link: [Payment link]
 
 Thank you,
-[Your Name]`,
+[Your name]`,
   },
   {
     day: 'Day 30 (final pre-escalation)',
-    subject: 'Final reminder before escalation: Invoice #[number]',
-    body: `Hi [Client Name],
+    subject: 'Final reminder before escalation: Invoice #[Invoice number]',
+    body: `Hi [Client name],
 
-This is a final reminder for invoice #[number] ([amount]), now 30 days overdue.
+This is a final reminder for invoice #[Invoice number] ([Outstanding amount]), now 30 days overdue.
 
-If payment is not received by [date], I will escalate based on our agreed terms.
+If payment is not received by [payment deadline], we may need to escalate this matter, subject to our agreement and applicable law.
 
-Pay now: [payment link]
+Pay now: [Payment link]
 
 Please reply today if there is a blocker I should route correctly.
 
-[Your Name]`,
+[Your name]`,
+  },
+];
+
+const specialTemplates = [
+  {
+    day: 'Disputed invoice',
+    context:
+      'The client has questioned the invoice. Pause the standard sequence, acknowledge the dispute, and separate the disputed part from the undisputed balance.',
+    subject: 'Invoice #[Invoice number]: resolving your query',
+    body: `Hi [Client name],
+
+Thanks for flagging your concern about invoice #[Invoice number]. I want to get this resolved quickly.
+
+As I understand it, the issue is: [summary of dispute]. I've attached [supporting document - contract, timesheet, delivery confirmation] for reference.
+
+If part of the invoice is not in dispute, I'd appreciate payment of the undisputed amount ([undisputed amount]) while we resolve the rest: [Payment link]
+
+Can we close this out this week? I'm available for a quick call at [phone].
+
+Best,
+[Your name]`,
+  },
+  {
+    day: 'Promised payment missed',
+    context:
+      'A committed payment date came and went. Reference the promise factually and get a new, firm date - do not restart the friendly cycle.',
+    subject: 'Invoice #[Invoice number]: payment expected [promised date]',
+    body: `Hi [Client name],
+
+When we spoke on [conversation date], payment for invoice #[Invoice number] ([Outstanding amount]) was expected by [promised date]. It hasn't arrived.
+
+I need a firm date now. Please confirm today when payment will be made: [Payment link]
+
+If circumstances have changed, call me at [phone] and we'll agree a plan - but I can't leave this open-ended.
+
+Regards,
+[Your name]`,
   },
 ];
 
@@ -114,11 +173,11 @@ const articleSchema = {
   headline: metaTitle,
   description: metaDescription,
   datePublished: '2026-03-31',
-  dateModified: '2026-03-31',
+  dateModified: '2026-07-28',
   author: {
     '@type': 'Person',
     name: 'Pasko Djonovic',
-    url: 'https://chaseai.app/about',
+    url: 'https://chaseai.app/author',
   },
   publisher: {
     '@type': 'Organization',
@@ -145,14 +204,7 @@ const faqSchema = {
   })),
 };
 
-const howToSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'HowTo',
-  name: 'Write an overdue invoice email',
-  step: [{ '@type': 'HowToStep', name: 'Start with friendly overdue reminder' }, { '@type': 'HowToStep', name: 'Escalate wording by overdue age' }],
-};
-
-const structuredData = [articleSchema, howToSchema, faqSchema];
+const structuredData = [articleSchema, faqSchema];
 ---
 
 <BaseLayout
@@ -161,6 +213,7 @@ const structuredData = [articleSchema, howToSchema, faqSchema];
   canonical={canonicalUrl}
   ogType="article"
   structuredData={structuredData}
+  breadcrumbs={breadcrumbs}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -169,15 +222,13 @@ const structuredData = [articleSchema, howToSchema, faqSchema];
   <section class="hero-gradient relative overflow-hidden">
     <div class="container py-16 md:py-24 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
-        Overdue Invoice Email Template
-        <span class="block text-lg md:text-2xl font-semibold text-muted-foreground mt-3">
-          Day 1 → Day 30
-        </span>
+        Overdue Invoice Email Templates by Day
       </h1>
       <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-        Use this <strong>overdue invoice email template</strong> pack to follow up consistently at day 1,
-        7, 14, and 30 without sounding aggressive. You can copy and send each email manually,
-        or generate a full sequence from your invoice PDF in about a minute.
+        Copyable standalone emails for day 1, 3, 7, 14 and 30 overdue, plus disputed-invoice and
+        missed-promise wording. Send them manually, or
+        <a href="/templates/overdue-invoice-email-sequence" class="text-primary hover:underline">deploy the full sequence</a>
+        as one automated campaign.
       </p>
       <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
         <a
@@ -214,7 +265,9 @@ const structuredData = [articleSchema, howToSchema, faqSchema];
         <p class="text-muted-foreground"><strong class="text-foreground">Escalate by timeline, not emotion</strong>, using clear dates and terms.</p>
       </div>
       <p class="mt-4 text-sm text-muted-foreground">
-        89% of small businesses report late payments (QuickBooks, 2025), and late payments cost the global economy over $3T annually.
+        89% of small businesses report late payments
+        (<a href="https://quickbooks.intuit.com/r/small-business-data/small-business-late-payments-report-2025/" target="_blank" rel="noopener noreferrer" class="hover:text-foreground underline">QuickBooks, 2025</a>),
+        so consistent day-by-day follow-up is the norm, not an exception.
       </p>
     </div>
   </section>
@@ -227,15 +280,13 @@ const structuredData = [articleSchema, howToSchema, faqSchema];
         </aside>
 
         <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
-          <SeoAuthor date="2026-03-31" />
+          <SeoAuthor date="2026-07-28" />
           <h2 id="must-include">The 5 things every overdue invoice email must include</h2>
           <p>
-            A strong <strong>past due invoice email</strong> is short, specific, and easy to action.
-            Most payment delays are workflow problems, not refusal to pay. Your job is to remove friction.
-          </p>
-          <p>
-            Use this page for related query intent too: <strong>past due notice</strong>, <strong>past due invoice notice</strong>,
-            <strong> overdue invoice template email</strong>, and <strong>past due invoice email template</strong>.
+            A strong overdue invoice email is short, specific, and easy to action. Most payment delays are
+            workflow problems, not refusal to pay - your job is to remove friction. (Need a formal document
+            rather than an email? Use a
+            <a href="/templates/past-due-invoice-notice-template"> past due notice letter</a> instead.)
           </p>
           <ol>
             <li><strong>Invoice reference:</strong> invoice number, amount, and due date in the first sentence.</li>
@@ -274,40 +325,35 @@ const structuredData = [articleSchema, howToSchema, faqSchema];
             </p>
           </div>
 
-          <h2 id="templates">Templates by overdue stage (Day 1, 7, 14, 30)</h2>
+          <h2 id="templates">Templates by overdue stage (Day 1, 3, 7, 14, 30)</h2>
           <p>
             These copy/paste templates are built for progressive urgency. Start polite, then tighten language.
             This structure performs better than jumping immediately to a legal tone.
           </p>
 
-          <div class="not-prose space-y-4">
-            {stageTemplates.map((item) => (
-              <div class="rounded-lg border border-border bg-muted/20 p-4 md:p-5">
-                <h3 class="text-sm font-semibold mb-2">{item.day}</h3>
-                <p class="text-xs text-muted-foreground mb-2">
-                  <strong>Subject:</strong> {item.subject}
-                </p>
-                <pre class="text-sm text-muted-foreground leading-relaxed whitespace-pre-line font-sans">{item.body}</pre>
-              </div>
-            ))}
-          </div>
+          {stageTemplates.map((item) => (
+            <CopyBlock label={item.day} subject={item.subject} text={item.body} />
+          ))}
 
           <p>
-            Want this as an auto-scheduled campaign instead of manual sending?
-            Use the <a href="/tools/overdue-invoice-sequence-generator">overdue invoice sequence generator</a>
-            to turn one PDF into the full day 1/7/14/30 flow.
+            Want this as an auto-scheduled campaign instead of manual sending? See the
+            <a href="/templates/overdue-invoice-email-sequence"> overdue invoice email sequence</a> for
+            timing rules, stop conditions and deployment, or use the
+            <a href="/tools/overdue-invoice-sequence-generator"> overdue invoice sequence generator</a>
+            to turn one PDF into the full flow.
           </p>
 
-          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm text-muted-foreground">
-            <p><strong class="text-foreground">Image and GIF production notes</strong></p>
-            <ul class="mt-2 space-y-1">
-              <li>Tone ladder (friendly → firm), alt="Overdue invoice tone ladder from day 1 to day 30"</li>
-              <li>Reminder timeline, alt="Overdue invoice follow-up timeline for day 1 day 7 day 14 day 30"</li>
-              <li>Proof-pack checklist card, alt="Checklist of required attachments for accounts payable approval"</li>
-              <li>AP routing diagram, alt="How overdue invoice emails move from contact to finance to payment"</li>
-              <li>GIF (20-30s): Overdue invoice PDF → sequence generated → schedule shown → open tracking shown</li>
-            </ul>
-          </div>
+          <h2 id="special-cases">Two special cases: disputed invoice and missed promise</h2>
+          <p>
+            The day-based ladder assumes silence. These two situations need different wording.
+          </p>
+          {specialTemplates.map((item) => (
+            <>
+              <h3>{item.day}</h3>
+              <p>{item.context}</p>
+              <CopyBlock label={item.day} subject={item.subject} text={item.body} />
+            </>
+          ))}
 
           <div class="not-prose">
             <SeoCtaBand
@@ -358,11 +404,13 @@ const structuredData = [articleSchema, howToSchema, faqSchema];
             <a href="/templates/past-due-invoice-notice-template">past due invoice notice template</a>.
           </p>
 
-          <h2 id="automate">Turn this into an automated sequence (free generator)</h2>
+          <h2 id="automate">Turn these emails into an automated sequence</h2>
           <p>
-            Manual follow-ups are easy to skip when your week gets busy. Automation solves that.
-            ChaseAI reads your invoice, drafts an <strong>unpaid invoice email template</strong> sequence,
-            schedules reminders, and tracks opens so you can focus on client work.
+            This page covers standalone messages. If you want the complete campaign - timing logic, stop
+            conditions when the client pays or replies, personalization and deployment - that lives on the
+            <a href="/templates/overdue-invoice-email-sequence"> overdue invoice email sequence</a> page.
+            ChaseAI reads your invoice, drafts the sequence, schedules reminders, and tracks opens so you
+            can focus on client work.
           </p>
           <ol>
             <li>Upload invoice PDF</li>

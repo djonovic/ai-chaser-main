@@ -6,6 +6,12 @@ import CashFlowGapVisualizer from '../../components/tools/CashFlowGapVisualizer'
 
 const pageSlug = '/tools/cash-flow-gap-visualizer';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Tools', href: '/tools' },
+  { label: 'Cash Flow Gap Visualizer', href: pageSlug },
+];
 const metaTitle = 'Free Cash Flow Gap Visualizer — See the Impact of Late Payments | ChaseAI';
 const metaDescription =
   'Visualize the cash flow gap created by late-paying clients. Enter expected vs actual payment dates and see when money should arrive vs when it realistically lands. Free.';
@@ -27,7 +33,7 @@ const structuredData = [
 ];
 ---
 
-<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} breadcrumbs={breadcrumbs} structuredData={structuredData}>
   <section class="hero-gradient">
     <div class="container py-14 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold">Cash Flow Gap Visualizer — See Exactly When Late Payments Hurt You</h1>

@@ -6,6 +6,12 @@ import ARHealthScore from '../../components/tools/ARHealthScore';
 
 const pageSlug = '/tools/accounts-receivable-health-score';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Tools', href: '/tools' },
+  { label: 'Accounts Receivable Health Score', href: pageSlug },
+];
 const metaTitle = 'Free Accounts Receivable Health Score Calculator | ChaseAI';
 const metaDescription =
   'Get an instant A–F health score for your accounts receivable. See your collection rate, DSO, and overdue ratio — with a plain-English breakdown of what to fix first. Free.';
@@ -27,7 +33,7 @@ const structuredData = [
 ];
 ---
 
-<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} breadcrumbs={breadcrumbs} structuredData={structuredData}>
   <section class="hero-gradient">
     <div class="container py-14 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold">Accounts Receivable Health Score — Get Your A–F Grade in 60 Seconds</h1>

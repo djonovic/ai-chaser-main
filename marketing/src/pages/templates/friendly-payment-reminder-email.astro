@@ -4,40 +4,162 @@ import SeoToc from '../../components/seo/SeoToc.astro';
 import SeoCtaBand from '../../components/seo/SeoCtaBand';
 import SeoFaq from '../../components/seo/SeoFaq.astro';
 import SeoAuthor from '../../components/seo/SeoAuthor.astro';
+import CopyBlock from '../../components/seo/CopyBlock.astro';
+import TimelineSteps from '../../components/seo/TimelineSteps.astro';
 
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/templates/friendly-payment-reminder-email';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
 
-// META (DO NOT CHANGE)
-const metaTitle = 'Friendly Payment Reminder Email Template (Polite Examples) | ChaseAI';
+const metaTitle = 'Friendly Payment Reminder Email: 7 Polite Templates';
 const metaDescription =
-  'Copy friendly payment reminder messages that stay polite while prompting action. Includes examples for first reminders, due-date nudges, and follow-ups.';
+  'Copy friendly payment reminder emails for before due, due today and overdue invoices. Includes short professional examples and subject lines.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Templates', href: '/templates' },
+  { label: 'Friendly Payment Reminder', href: pageSlug },
+];
 
 const tocItems = [
-  { id: 'friendly-template', label: 'Friendly template (short + long version)' },
-  { id: 'subject-lines', label: '10 friendly subject lines' },
-  { id: 'switch-firm', label: 'When to switch from friendly to firm' },
-  { id: 'automate', label: 'Turn this into an automated sequence' },
+  { id: 'shortest', label: 'Start here: the shortest version' },
+  { id: 'templates', label: 'All 7 templates by timing' },
+  { id: 'sms', label: 'SMS payment reminders' },
+  { id: 'friendly-not-vague', label: 'Friendly, not vague' },
+  { id: 'when-to-stop', label: 'When friendly stops working' },
+  { id: 'related', label: 'Related templates' },
   { id: 'faq', label: 'FAQ' },
+];
+
+const templates = [
+  {
+    id: 'before-due',
+    heading: '1. Three to seven days before due',
+    context: 'A pre-due courtesy note. Surfaces missing POs or disputes while there is still time to fix them.',
+    subject: 'Invoice [Invoice number] due [Original due date]',
+    text: `Hi [Client name],
+
+Hope all's well! A quick note that invoice [Invoice number] for [Outstanding amount] is due on [Original due date].
+
+Payment link: [Payment link]
+
+If anything on the invoice needs adjusting, let me know before the due date and I'll sort it.
+
+Thanks,
+[Your name]`,
+  },
+  {
+    id: 'due-tomorrow',
+    heading: '2. Due tomorrow',
+    context: 'A light nudge the day before. Often turns "next week" intentions into same-week payment.',
+    subject: 'Invoice [Invoice number] due tomorrow',
+    text: `Hi [Client name],
+
+Just a friendly heads-up that invoice [Invoice number] for [Outstanding amount] is due tomorrow, [Original due date].
+
+You can pay in a minute here: [Payment link]
+
+Thanks so much,
+[Your name]`,
+  },
+  {
+    id: 'due-today',
+    heading: '3. Due today',
+    context: 'Send in the morning of the due date. Purely factual - nothing is late yet.',
+    subject: 'Invoice [Invoice number] is due today',
+    text: `Hi [Client name],
+
+A quick reminder that invoice [Invoice number] for [Outstanding amount] is due today.
+
+Payment link: [Payment link]
+
+If it's already scheduled, you can ignore this - and thank you!
+
+Best,
+[Your name]`,
+  },
+  {
+    id: 'one-day-overdue',
+    heading: '4. One day overdue',
+    context: 'The gentlest possible overdue note. Assume the payment crossed in the mail.',
+    subject: 'Invoice [Invoice number] - due yesterday',
+    text: `Hi [Client name],
+
+Invoice [Invoice number] for [Outstanding amount] was due yesterday and hasn't come through yet - it may simply be in progress on your side.
+
+If not, here's the payment link: [Payment link]
+
+Any questions about the invoice, just reply.
+
+Thanks,
+[Your name]`,
+  },
+  {
+    id: 'three-days-overdue',
+    heading: '5. Three days overdue',
+    context: 'Still friendly, but now ask for a quick confirmation so silence doesn\u2019t stretch into weeks.',
+    subject: 'Quick check: invoice [Invoice number]',
+    text: `Hi [Client name],
+
+Just checking in on invoice [Invoice number] for [Outstanding amount], which was due on [Original due date].
+
+Could you let me know if payment is on its way, or when it's scheduled? Payment link: [Payment link]
+
+Happy to help if anything is blocking it.
+
+Best,
+[Your name]`,
+  },
+  {
+    id: 'seven-days-overdue',
+    heading: '6. Seven days overdue',
+    context: 'The last friendly touch before the second-reminder stage. Name the days overdue and ask for a date.',
+    subject: 'Invoice [Invoice number] - one week past due',
+    text: `Hi [Client name],
+
+Invoice [Invoice number] for [Outstanding amount] is now a week past its due date of [Original due date].
+
+Could you confirm a payment date this week? Payment link: [Payment link]
+
+If there's an issue with the invoice, tell me and I'll resolve it right away.
+
+Thanks,
+[Your name]`,
+  },
+  {
+    id: 'valued-client',
+    heading: '7. Friendly reminder for a valued client',
+    context: 'For long-term clients where the relationship outweighs one invoice. Warm, personal, still specific.',
+    subject: 'Small admin note: invoice [Invoice number]',
+    text: `Hi [Client name],
+
+Hope the [current project / recent work] is going well on your end. One quick admin item: invoice [Invoice number] for [Outstanding amount] (due [Original due date]) is still open.
+
+No rush drama - here's the link whenever convenient this week: [Payment link]
+
+Looking forward to what's next.
+
+Warm regards,
+[Your name]`,
+  },
 ];
 
 const faqs = [
   {
-    q: 'How do I send a friendly payment reminder without sounding weak?',
-    a: 'Be warm but specific: reference invoice number, amount, due date, and payment link in one short message.',
+    q: 'How do you write a friendly payment reminder?',
+    a: 'Keep it short, factual and warm: name the invoice number, amount and due date, include a payment link, and offer help if something is blocking payment. Friendliness comes from tone and brevity, not from leaving out the ask.',
   },
   {
-    q: 'How long should a friendly invoice reminder email be?',
-    a: 'Aim for 60 to 100 words. Short reminders are easier to process and more likely to get a quick response.',
+    q: 'When should the first friendly reminder be sent?',
+    a: 'Three to seven days before the due date. A pre-due reminder is not pushy - it is helpful, and it surfaces missing paperwork while there is still time to fix it.',
   },
   {
-    q: 'When should I stop being friendly and become firm?',
-    a: 'Usually after 7 to 14 days overdue or after a promised pay date is missed.',
+    q: 'How long should you stay friendly with an overdue invoice?',
+    a: 'Roughly the first week overdue. After 7 days with no payment or reply, move to a second reminder that asks for a specific payment date, and to firmer wording after two weeks.',
   },
   {
-    q: 'Should I include a payment link in every reminder?',
-    a: 'Yes. Every reminder should make payment possible in one click to reduce friction and delay.',
+    q: 'Can a payment reminder be friendly and still effective?',
+    a: 'Yes - as long as it is specific. The failure mode is vagueness ("just checking in!"), not warmth. Every effective reminder names the invoice, the amount, the date and the action.',
   },
 ];
 
@@ -47,11 +169,11 @@ const articleSchema = {
   headline: metaTitle,
   description: metaDescription,
   datePublished: '2026-03-31',
-  dateModified: '2026-03-31',
+  dateModified: '2026-07-28',
   author: {
     '@type': 'Person',
     name: 'Pasko Djonovic',
-    url: 'https://chaseai.app/about',
+    url: 'https://chaseai.app/author',
   },
   publisher: {
     '@type': 'Organization',
@@ -67,13 +189,15 @@ const articleSchema = {
     '@id': canonicalUrl,
   },
 };
-const howToSchema = {
+const faqSchema = {
   '@context': 'https://schema.org',
-  '@type': 'HowTo',
-  name: 'Write a friendly payment reminder email',
-  step: [{ '@type': 'HowToStep', name: 'Use polite context and invoice details' }, { '@type': 'HowToStep', name: 'Include one-click payment link and clear ask' }],
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
 };
-const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 
 <BaseLayout
@@ -81,7 +205,8 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
   description={metaDescription}
   canonical={canonicalUrl}
   ogType="article"
-  structuredData={[articleSchema, howToSchema, faqSchema]}
+  structuredData={[articleSchema, faqSchema]}
+  breadcrumbs={breadcrumbs}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
@@ -90,11 +215,11 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
   <section class="hero-gradient relative overflow-hidden">
     <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
-        Friendly Payment Reminder Email (Copy/Paste)
+        Friendly Payment Reminder Email Templates
       </h1>
       <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-        Use this <strong>friendly payment reminder email</strong> when you want to keep tone warm and professional
-        while still making it clear that payment is now due.
+        Seven polite, copyable reminders organized by timing - from a week before the due date to a week
+        overdue - each specific enough to actually get the invoice paid.
       </p>
     </div>
   </section>
@@ -107,117 +232,110 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
         </aside>
 
         <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
-          <SeoAuthor date="2026-03-31" />
+          <SeoAuthor date="2026-07-28" />
           <p>
-            A good <strong>polite payment reminder email</strong> does three things: keeps the relationship positive,
-            removes payment friction, and asks for a clear next action.
+            A friendly payment reminder works when it is warm <em>and</em> specific: invoice number, amount,
+            due date, a payment link, and one clear ask. Here is the shortest version - two sentences you
+            can send right now - followed by seven timing-based variants for every point in the cycle.
           </p>
 
-          <h2 id="friendly-template">Friendly template (short + long version)</h2>
-          <p>Use the short version for first touch and the long version when you need a little more context.</p>
+          <h2 id="shortest">Start here: the shortest friendly reminder</h2>
+          <CopyBlock
+            label="Shortest friendly reminder (two sentences)"
+            subject="Quick reminder: invoice [Invoice number]"
+            text={`Hi [Client name] - a quick, friendly reminder that invoice [Invoice number] for [Outstanding amount] was due on [Original due date]. You can pay here whenever convenient: [Payment link]
 
-          <h3>Short version (quick nudge)</h3>
+Thanks so much,
+[Your name]`}
+          />
+
+          <h2 id="templates">The 7 friendly reminder templates by timing</h2>
+
+          {templates.map((template) => (
+            <>
+              <h3 id={template.id}>{template.heading}</h3>
+              <p>{template.context}</p>
+              <CopyBlock
+                label={template.heading.replace(/^\d+\.\s/, '')}
+                subject={template.subject}
+                text={template.text}
+              />
+            </>
+          ))}
+
+          <h2 id="sms">Friendly payment reminder SMS templates</h2>
           <p>
-            Subject: "Quick reminder: Invoice #[number]"
+            Some clients live in their messages, not their inbox. A <strong>friendly payment reminder SMS</strong>
+            follows the same rule as email — warm but specific — just compressed to one or two sentences with a
+            payable link. Send the email first for the paper trail, then use a text like these:
           </p>
+          <CopyBlock
+            label="SMS: gentle nudge"
+            text={`Hi [Client name], friendly reminder that invoice [Invoice number] ([Outstanding amount]) was due [Original due date]. Pay here: [Payment link] - thanks! [Your name]`}
+          />
+          <CopyBlock
+            label="SMS: due today"
+            text={`Hi [Client name], invoice [Invoice number] for [Outstanding amount] is due today. Quick link if helpful: [Payment link]. Thanks! [Your name]`}
+          />
+          <CopyBlock
+            label="SMS: email follow-up"
+            text={`Hi [Client name], just emailed a reminder about invoice [Invoice number] ([Outstanding amount], due [Original due date]) in case it landed in spam. Link: [Payment link]. Cheers, [Your name]`}
+          />
           <p>
-            "Hi [Name], hope you are well. Just a friendly reminder that invoice #[number] for [amount] was due on
-            [date]. If payment has already been sent, please ignore this note. If not, here is the payment link:
-            [link]. Thanks so much."
+            Keep texts under 300 characters, never send them outside business hours, and switch back to email
+            once an invoice is more than a week overdue so escalation stays documented.
           </p>
 
-          <h3>Long version (friendly with context)</h3>
+          <h2 id="friendly-not-vague">Friendly, not vague</h2>
           <p>
-            Subject: "Friendly follow-up on invoice #[number]"
+            The most common mistake with polite reminders is softening the content along with the tone.
+            "Just checking in!" with no details forces the client to dig for the invoice - so they don't.
+            Every template on this page, however warm, states:
           </p>
-          <p>
-            "Hi [Name], hope your week is going well. I wanted to follow up on invoice #[number] for [amount],
-            due on [date]. I know things get busy, so I am re-sharing the payment link here: [link].
-            If there is anything missing on my side, I am happy to send it right away. Thanks again."
-          </p>
-
-          <p>
-            This <strong>friendly invoice reminder email template</strong> works best in the first phase of follow-up
-            before you move into stronger reminders.
-          </p>
-
-          <h2 id="subject-lines">10 friendly subject lines</h2>
           <ul>
-            <li>Quick reminder: invoice #[number]</li>
-            <li>Friendly follow-up on invoice #[number]</li>
-            <li>Invoice #[number] due [date] - quick check-in</li>
-            <li>Gentle reminder: invoice #[number]</li>
-            <li>Checking in on invoice #[number] for [amount]</li>
-            <li>Reminder from [Your Company]: invoice #[number]</li>
-            <li>Could you confirm payment timing for #[number]?</li>
-            <li>Invoice #[number] status check</li>
-            <li>Friendly nudge on outstanding invoice #[number]</li>
-            <li>Following up kindly: invoice #[number]</li>
+            <li>The invoice number</li>
+            <li>The due date</li>
+            <li>The amount</li>
+            <li>The requested action (pay, or confirm a date)</li>
+            <li>A payment link or payment instructions</li>
+            <li>A contact path for questions or disputes</li>
           </ul>
+
+          <h2 id="when-to-stop">When friendly stops working</h2>
+          <TimelineSteps
+            title="Timeline: friendly to firm progression"
+            steps={[
+              { window: 'Day -7 to 0', label: 'Pre-due and due-today notes (this page)' },
+              { window: 'Day 1-7', label: 'Friendly overdue reminders (this page)' },
+              { window: 'Day 7-13', label: 'Second reminder - ask for a payment date' },
+              { window: 'Day 14-29', label: 'Firm reminder with a deadline' },
+              { window: 'Day 30+', label: 'Final notice and formal past-due process' },
+            ]}
+          />
           <p>
-            Keep these under about 60 characters where possible. Clear subjects improve opens without sounding pushy.
+            After a week of friendly silence, switch to a
+            <a href="/templates/second-invoice-reminder-email"> 2nd payment reminder email</a> that asks for
+            a specific date, then a
+            <a href="/templates/firm-payment-reminder-email"> firm payment reminder</a> at two weeks.
+            Escalating on schedule - not emotion - is what keeps the relationship intact.
           </p>
 
-          <h2 id="switch-firm">When to switch from friendly -> firm</h2>
-          <p>
-            Stay friendly at the start, but do not stay vague forever. A good rule:
-          </p>
+          <h2 id="related">Related templates</h2>
           <ul>
-            <li>Day 1 to Day 4 overdue: friendly reminders.</li>
-            <li>Day 7 to Day 14 overdue: direct reminders with payment-date ask.</li>
-            <li>After missed commitment or 14+ days: firm language and clear deadline.</li>
+            <li><a href="/templates/invoice-reminder-email-template">Invoice reminder email templates</a> - one example for every stage in one place.</li>
+            <li><a href="/templates/second-invoice-reminder-email">Second payment reminder</a> - the next stage after this page.</li>
+            <li><a href="/templates/overdue-invoice-email-template">Overdue invoice emails by day</a> - day 1 through day 30 wording.</li>
+            <li><a href="/templates/payment-reminder-email-subject-lines">Payment reminder subject lines</a> - 50 options grouped by stage.</li>
+            <li><a href="/best-invoice-chasing-software">Automated invoice chasing software</a> - send friendly reminders automatically, on time.</li>
           </ul>
-          <p>
-            For your next-stage message, use a
-            <a href="/templates/second-invoice-reminder-email"> second invoice reminder email</a>.
-            For later escalation, move to a
-            <a href="/templates/firm-payment-reminder-email"> firm payment reminder email</a>.
-          </p>
-
-          <div class="not-prose my-6 rounded-xl border border-primary/10 bg-primary/5 p-4 text-sm text-muted-foreground">
-            <p><strong class="text-foreground">Quick tips</strong></p>
-            <ul class="mt-2 space-y-1">
-              <li>Always include payment link in the first reminder.</li>
-              <li>Avoid apology-heavy language like "sorry to bother you."</li>
-              <li>Ask one question only: "Can you confirm payment date?"</li>
-              <li>Keep all reminders in one thread for context.</li>
-            </ul>
-          </div>
-
-          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
-            <p class="font-semibold mb-2">Timeline: friendly to firm progression</p>
-            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
-    title Friendly Reminder Progression
-    dateFormat  YYYY-MM-DD
-    axisFormat  %d %b
-    section Tone
-    Friendly reminder        :d1, 2026-04-01, 4d
-    Friendly follow-up       :d4, 2026-04-04, 3d
-    Direct reminder          :d7, 2026-04-07, 7d
-    Firm reminder            :d14, 2026-04-14, 16d
-    Final notice phase       :d30, 2026-04-30, 15d</code></pre>
-          </div>
-
-          <h2 id="automate">Turn this into an automated sequence</h2>
-          <p>
-            Want to stop rewriting every <strong>gentle payment reminder email</strong>? Generate a complete
-            follow-up sequence from your invoice in minutes with the
-            <a href="/tools/overdue-invoice-sequence-generator"> overdue invoice sequence generator</a>.
-          </p>
-          <ol>
-            <li>Upload invoice PDF or enter details manually.</li>
-            <li>Generate friendly-through-firm reminders instantly.</li>
-            <li>Edit tone and timing.</li>
-            <li>Schedule and track responses in one place.</li>
-          </ol>
 
           <div class="not-prose">
             <SeoCtaBand
-              heading="Generate a friendly reminder sequence in minutes"
-              description="Turn one invoice into a complete set of reminders with clean tone progression."
-              primaryHref={appUrl}
-              primaryLabel="Generate my reminder sequence"
-              primaryAriaLabel="Generate friendly payment reminder sequence"
+              heading="Friendly reminders, sent on time, every time"
+              description="ChaseAI writes polite, specific follow-ups from your invoice and sends them on schedule so you never chase manually."
+              primaryHref="/tools/overdue-invoice-sequence-generator"
+              primaryLabel="Try the Free AI Generator"
+              primaryAriaLabel="Generate a friendly payment reminder sequence"
               secondaryHref="/pricing"
               secondaryLabel="View pricing"
               secondaryAriaLabel="View pricing plans"
@@ -230,23 +348,11 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
     </div>
   </section>
 
-  <section class="section-padding border-t border-border bg-muted/20">
-    <div class="container max-w-3xl mx-auto">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center">Friendly reminder checklist</h2>
-      <ol class="mt-4 text-sm text-muted-foreground space-y-2 list-decimal pl-5">
-        <li>State invoice number and amount in the first sentence.</li>
-        <li>Use warm tone, but ask for a specific payment date.</li>
-        <li>Include one-click payment details every time.</li>
-      </ol>
-      <p class="mt-4 text-sm text-muted-foreground">
-        If no response after this stage, move to a second reminder and then firm wording. You can generate that full progression with the <a class="text-primary hover:underline" href="/tools/overdue-invoice-sequence-generator">Free AI Overdue Invoice Sequence Generator</a>.
-      </p>
-    </div>
-  </section>
-
   <section id="faq" class="section-padding border-t border-border bg-muted/30">
     <div class="container max-w-3xl mx-auto">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">Frequently asked questions</h2>
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center mb-8">
+        Friendly payment reminder FAQ
+      </h2>
       <SeoFaq items={faqs} />
     </div>
   </section>

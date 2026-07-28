@@ -6,6 +6,12 @@ import SeoFaq from '../../components/seo/SeoFaq.astro';
 
 const pageSlug = '/tools/invoice-chasing-sequence-builder';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Tools', href: '/tools' },
+  { label: 'Invoice Chasing Sequence Builder', href: pageSlug },
+];
 const metaTitle = 'Free Invoice Chasing Sequence Builder — Build Your Follow-Up Schedule | ChaseAI';
 const metaDescription =
   'Build a custom invoice chasing sequence in 60 seconds. Enter invoice details and get a day-by-day follow-up schedule with timing recommendations and tone guidance. Free.';
@@ -27,7 +33,7 @@ const structuredData = [
 ];
 ---
 
-<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} breadcrumbs={breadcrumbs} structuredData={structuredData}>
   <section class="hero-gradient">
     <div class="container py-14 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold">Invoice Chasing Sequence Builder — Your Personalized Follow-Up Schedule</h1>

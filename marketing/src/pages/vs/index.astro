@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const pageSlug = '/vs';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const metaTitle = 'Compare ChaseAI: Chaser, Paidnice, Satago & Manual Chasing';
+const metaDescription =
+  'Side-by-side comparisons of ChaseAI with Chaser, Paidnice, Satago and manual invoice chasing, covering pricing, integrations and best-fit users.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Comparisons', href: pageSlug },
+];
+
+const comparisons = [
+  {
+    label: 'ChaseAI vs Chaser',
+    href: '/vs/chaser',
+    note: 'Chaser pricing, invoice limits and features compared with ChaseAI.',
+  },
+  {
+    label: 'ChaseAI vs Paidnice',
+    href: '/vs/paidnice',
+    note: 'How ChaseAI compares to Paidnice for automated reminders and late fees.',
+  },
+  {
+    label: 'ChaseAI vs Satago',
+    href: '/vs/satago',
+    note: 'Credit control platform vs lightweight AI invoice chasing.',
+  },
+  {
+    label: 'ChaseAI vs manual chasing',
+    href: '/vs/manual-chasing',
+    note: 'What automation actually saves compared to chasing invoices by hand.',
+  },
+];
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  breadcrumbs={breadcrumbs}
+>
+  <section class="hero-gradient relative overflow-hidden">
+    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+        Compare ChaseAI With Other Invoice Chasing Options
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+        Honest, sourced comparisons covering pricing, integrations, automation and which tool fits
+        freelancers, small businesses and finance teams.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container max-w-3xl mx-auto">
+      <ul class="grid gap-4 sm:grid-cols-2">
+        {comparisons.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="block h-full rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/40 hover:bg-muted/30"
+            >
+              <span class="font-semibold">{item.label}</span>
+              <span class="mt-1 block text-sm text-muted-foreground leading-relaxed">{item.note}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-8 text-sm text-muted-foreground">
+        Want the full market view? See the
+        <a href="/best-invoice-chasing-software" class="text-primary hover:underline">best automated invoice chasing software compared</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

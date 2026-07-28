@@ -8,11 +8,18 @@ import PublicSequenceGenerator from '../../components/seo/PublicSequenceGenerato
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/tools/overdue-invoice-sequence-generator';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Tools', href: '/tools' },
+  { label: 'Overdue Invoice Sequence Generator', href: pageSlug },
+];
 const metaTitle = 'Free Overdue Invoice Sequence Generator (AI) | ChaseAI';
 const metaDescription =
   'Upload any invoice PDF and get a complete 5-7 step personalized escalation sequence instantly. Professional, polite-to-firm follow-ups that actually get paid. No sign-up required.';
 
 const tocItems = [
+  { id: 'free-generator', label: 'Free generator' },
   { id: 'how-it-works', label: 'How it works' },
   { id: 'what-you-get', label: 'What you get' },
   { id: 'example-output', label: 'Example output' },
@@ -107,7 +114,7 @@ const structuredData = [softwareSchema, articleSchema, howToSchema, faqSchema];
 <BaseLayout
   title={metaTitle}
   description={metaDescription}
-  canonical={canonicalUrl}
+  canonical={canonicalUrl} breadcrumbs={breadcrumbs}
   structuredData={structuredData}
 >
   <Fragment slot="head">
@@ -115,51 +122,36 @@ const structuredData = [softwareSchema, articleSchema, howToSchema, faqSchema];
   </Fragment>
 
   <section class="hero-gradient relative overflow-hidden">
-    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
+    <div class="container py-10 md:py-14 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
         Overdue Invoice Sequence Generator
         <span class="block text-lg md:text-2xl font-semibold text-muted-foreground mt-3">
-          Free AI Tool
+          Free AI Tool — no account needed
         </span>
       </h1>
-      <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-        Stop writing late-payment reminders from scratch. This <strong>overdue invoice sequence generator</strong>
-        builds a complete escalation flow from one invoice PDF: friendly reminder payment emails, firm follow-ups,
-        and final notice language. You keep full control because every message is editable before sending.
+      <p class="mt-5 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+        Upload one invoice PDF and get a complete 5–7 step escalation sequence: friendly reminders, firm
+        follow-ups, and final notice language. Every message is editable before you send.
       </p>
-      <p class="mt-3 text-sm text-muted-foreground max-w-2xl mx-auto">
-        Late payments are a weekly reality for most small businesses (QuickBooks 2025), which is why consistent invoice chasing timing outperforms one-off reminders.
+    </div>
+  </section>
+
+  <section id="free-generator" class="scroll-mt-24 border-b border-border bg-background">
+    <div class="container py-8 md:py-10 max-w-3xl mx-auto">
+      <h2 class="text-xl md:text-2xl font-bold tracking-tight text-center mb-2">
+        Generate a free sequence right now
+      </h2>
+      <p class="text-sm text-muted-foreground text-center mb-6">
+        Drop in your invoice PDF below. No sign-up required for this preview.
       </p>
-      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-        <a
-          href="#free-generator"
-          class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-95 transition-opacity group"
-          aria-label="Upload invoice PDF to generate reminder sequence"
-          data-track="invoice_upload_start"
-          data-cta-id="hero_upload"
-        >
-          Try the Free AI Generator
-          <span class="ml-2 text-primary-foreground/70 text-xs group-hover:text-primary-foreground/90 transition-colors">No account needed</span>
-        </a>
-        <a
-          href="#example-output"
-          class="inline-flex items-center justify-center rounded-lg border border-border px-6 py-3 text-sm font-semibold hover:bg-muted/50 transition-colors"
-          aria-label="Jump to example sequence output"
-        >
-          See example sequence
-        </a>
-        <a
-          href={appUrl}
-          class="inline-flex items-center justify-center rounded-lg border border-border px-6 py-3 text-sm font-semibold hover:bg-muted/50 transition-colors"
-          aria-label="Start free trial with ChaseAI"
-          data-track="lead_cta_click"
-          data-cta-id="hero_start_free"
-        >
-          Start free trial
-        </a>
-      </div>
-      <p class="mt-4 text-sm">
-        <a href="/pricing" class="text-muted-foreground hover:text-foreground" aria-label="View ChaseAI pricing plans" data-track="lead_cta_click" data-cta-id="hero_pricing">View pricing</a>
+      <PublicSequenceGenerator client:load />
+      <p class="mt-4 text-center text-sm text-muted-foreground">
+        Prefer to see an example first?
+        <a href="#example-output" class="text-primary hover:underline">See example sequence</a>
+        ·
+        <a href={appUrl} class="text-primary hover:underline">Start free trial</a>
+        ·
+        <a href="/pricing" class="text-primary hover:underline">View pricing</a>
       </p>
     </div>
   </section>
@@ -172,15 +164,6 @@ const structuredData = [softwareSchema, articleSchema, howToSchema, faqSchema];
         </aside>
 
         <article class="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
-          <h2 id="free-generator" class="scroll-mt-24">Generate a free sequence right now</h2>
-          <p>
-            Upload your invoice PDF below to generate a real sequence immediately. No account is required
-            for this preview tool.
-          </p>
-          <div class="not-prose my-6">
-            <PublicSequenceGenerator client:visible />
-          </div>
-
           <h2 id="how-it-works">Upload your invoice → get a full sequence (how it works)</h2>
           <p>
             Manual follow-up fails because it depends on memory and mood. One week you send a perfect
@@ -199,20 +182,10 @@ const structuredData = [softwareSchema, articleSchema, howToSchema, faqSchema];
             That review layer is what makes this tool practical for real client relationships.
           </p>
 
-          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm text-muted-foreground">
-            <p><strong class="text-foreground">Diagram/GIF production notes</strong></p>
-            <ul class="mt-2 space-y-1">
-              <li>Input → output flow diagram, alt="Invoice PDF input to generated reminder sequence output"</li>
-              <li>Tone ladder diagram, alt="Friendly to firm escalation ladder for overdue reminders"</li>
-              <li>Timeline diagram, alt="Overdue invoice reminder send timeline by day"</li>
-              <li>GIF: PDF upload → fields extracted → sequence generated → open tracking timeline</li>
-            </ul>
-          </div>
-
           <h2 id="what-you-get">What you’ll get (5–7 steps + tone progression)</h2>
           <p>
-            The output is not a single email. You get a complete <strong>payment reminder email generator</strong>
-            sequence designed around predictable escalation for overdue invoice email, past due invoice email template, and invoice follow up email use cases:
+            The output is not a single email. You get a complete reminder sequence designed around predictable
+            escalation, whether you start from an overdue invoice, a past-due notice, or a routine follow-up:
           </p>
           <ul>
             <li><strong>Step 1:</strong> Friendly reminder after due date</li>

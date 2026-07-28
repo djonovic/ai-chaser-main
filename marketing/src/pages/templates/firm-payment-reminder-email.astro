@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SeoToc from '../../components/seo/SeoToc.astro';
+import TimelineSteps from '../../components/seo/TimelineSteps.astro';
 import SeoCtaBand from '../../components/seo/SeoCtaBand';
 import SeoFaq from '../../components/seo/SeoFaq.astro';
 import SeoAuthor from '../../components/seo/SeoAuthor.astro';
@@ -8,6 +9,12 @@ import SeoAuthor from '../../components/seo/SeoAuthor.astro';
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/templates/firm-payment-reminder-email';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Templates', href: '/templates' },
+  { label: 'Firm Payment Reminder', href: pageSlug },
+];
 
 // META (DO NOT CHANGE)
 const metaTitle = 'Firm Payment Reminder Email Template (Polite but Strong) | ChaseAI';
@@ -81,6 +88,7 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
   title={metaTitle}
   description={metaDescription}
   canonical={canonicalUrl}
+  breadcrumbs={breadcrumbs}
   ogType="article"
   structuredData={[articleSchema, howToSchema, faqSchema]}
 >
@@ -165,10 +173,14 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
             <li>Do not change deadlines repeatedly without consequence.</li>
           </ul>
           <p>
-            Need stronger final-stage wording? Use
+            Not at the firm stage yet? Step back to the
+            <a href="/templates/second-invoice-reminder-email"> 2nd payment reminder email</a>. Need
+            stronger final-stage wording? Use the
             <a href="/templates/final-notice-unpaid-invoice-email"> final notice unpaid invoice email</a>.
-            If late fees apply under your terms, use
-            <a href="/templates/late-payment-fee-email-template"> late payment fee email template</a>.
+            If late fees apply under your terms, use proper
+            <a href="/templates/late-payment-fee-email-template"> invoice late fee wording</a>. The full
+            sequence lives in the
+            <a href="/templates/invoice-reminder-email-template"> invoice reminder email templates</a> hub.
           </p>
 
           <div class="not-prose my-6 rounded-xl border border-primary/10 bg-primary/5 p-4 text-sm text-muted-foreground">
@@ -181,19 +193,16 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
             </ul>
           </div>
 
-          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
-            <p class="font-semibold mb-2">Timeline: escalation schedule</p>
-            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
-    title Firm Reminder Escalation Timeline
-    dateFormat  YYYY-MM-DD
-    axisFormat  %d %b
-    section Sequence
-    Friendly reminder         :d1, 2026-04-01, 6d
-    Direct reminder           :d7, 2026-04-07, 7d
-    Firm reminder             :d14, 2026-04-14, 16d
-    Final notice              :d30, 2026-04-30, 15d
-    Escalation step           :d45, 2026-05-15, 1d</code></pre>
-          </div>
+          <TimelineSteps
+            title="Timeline: escalation schedule"
+            steps={[
+              { window: 'Day 1-6', label: 'Friendly reminder' },
+              { window: 'Day 7-13', label: 'Direct reminder' },
+              { window: 'Day 14-29', label: 'Firm reminder' },
+              { window: 'Day 30-44', label: 'Final notice' },
+              { window: 'Day 45+', label: 'Escalation step' },
+            ]}
+          />
 
           <h2 id="automate">Automate escalation</h2>
           <p>

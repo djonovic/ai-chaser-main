@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const pageSlug = '/guides';
+const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const metaTitle = 'Invoice Chasing Guides: Follow-Up Timing & Strategy';
+const metaDescription =
+  'Step-by-step guides on chasing unpaid invoices: what to send, when to send it, and how to escalate from friendly reminders to final notices.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Guides', href: pageSlug },
+];
+
+const guides = [
+  {
+    label: 'How to chase unpaid invoices',
+    href: '/guides/how-to-chase-unpaid-invoices',
+    note: 'The complete playbook: tone, timing, escalation and when to bring in help.',
+  },
+  {
+    label: 'Unpaid invoice follow-up schedule',
+    href: '/guides/unpaid-invoice-follow-up-schedule',
+    note: 'Exactly which reminder to send on which day, from due date to day 45+.',
+  },
+  {
+    label: 'Net 30 overdue: what to send',
+    href: '/guides/net-30-overdue-what-to-send',
+    note: 'Scripts for day 1, 7, 14 and 30 when a Net 30 invoice goes unpaid.',
+  },
+];
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  breadcrumbs={breadcrumbs}
+>
+  <section class="hero-gradient relative overflow-hidden">
+    <div class="container py-14 md:py-20 max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+        Invoice Chasing Guides
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+        Practical strategy for getting invoices paid: what to send, when to send it, and how to escalate
+        without damaging client relationships.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container max-w-3xl mx-auto">
+      <ul class="grid gap-4">
+        {guides.map((guide) => (
+          <li>
+            <a
+              href={guide.href}
+              class="block rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/40 hover:bg-muted/30"
+            >
+              <span class="font-semibold">{guide.label}</span>
+              <span class="mt-1 block text-sm text-muted-foreground leading-relaxed">{guide.note}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-8 text-sm text-muted-foreground">
+        Ready-made wording lives in the <a href="/templates" class="text-primary hover:underline">template library</a>,
+        and the <a href="/tools/overdue-invoice-sequence-generator" class="text-primary hover:underline">overdue invoice sequence generator</a>
+        can draft a full follow-up sequence from one invoice.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

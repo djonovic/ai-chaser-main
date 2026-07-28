@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SeoToc from '../../components/seo/SeoToc.astro';
+import TimelineSteps from '../../components/seo/TimelineSteps.astro';
 import SeoCtaBand from '../../components/seo/SeoCtaBand';
 import SeoFaq from '../../components/seo/SeoFaq.astro';
 import SeoAuthor from '../../components/seo/SeoAuthor.astro';
@@ -8,6 +9,12 @@ import SeoAuthor from '../../components/seo/SeoAuthor.astro';
 const appUrl = 'https://app.chaseai.app';
 const pageSlug = '/guides/net-30-overdue-what-to-send';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Guides', href: '/guides' },
+  { label: 'Net 30 Overdue: What to Send', href: pageSlug },
+];
 
 // META (DO NOT CHANGE)
 const metaTitle = 'Net 30 Overdue: What to Send Clients (Email Scripts) | ChaseAI';
@@ -81,6 +88,7 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
   title={metaTitle}
   description={metaDescription}
   canonical={canonicalUrl}
+  breadcrumbs={breadcrumbs}
   ogType="article"
   structuredData={[articleSchema, howToSchema, faqSchema]}
 >
@@ -199,18 +207,15 @@ const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEn
             </ul>
           </div>
 
-          <div class="not-prose my-6 rounded-xl border border-border bg-muted/20 p-4 text-sm">
-            <p class="font-semibold mb-2">Timeline: Net 30 follow-up timeline</p>
-            <pre class="overflow-x-auto"><code class="language-mermaid">gantt
-    title Net 30 Overdue Follow-Up Sequence
-    dateFormat  YYYY-MM-DD
-    axisFormat  %d %b
-    section Scripts
-    Day 1 friendly script      :d1, 2026-04-01, 6d
-    Day 7 direct script        :d7, 2026-04-07, 7d
-    Day 14 firm script         :d14, 2026-04-14, 16d
-    Day 30 final-stage script  :d30, 2026-04-30, 15d</code></pre>
-          </div>
+          <TimelineSteps
+            title="Timeline: Net 30 follow-up timeline"
+            steps={[
+              { window: 'Day 1-6', label: 'Day 1 friendly script' },
+              { window: 'Day 7-13', label: 'Day 7 direct script' },
+              { window: 'Day 14-29', label: 'Day 14 firm script' },
+              { window: 'Day 30-44', label: 'Day 30 final-stage script' },
+            ]}
+          />
 
           <h2 id="automate">Automate your Net 30 follow-ups</h2>
           <p>

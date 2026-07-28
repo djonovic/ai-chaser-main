@@ -6,6 +6,12 @@ import ClientPaymentRiskScorer from '../../components/tools/ClientPaymentRiskSco
 
 const pageSlug = '/tools/client-payment-risk-scorer';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Tools', href: '/tools' },
+  { label: 'Client Payment Risk Scorer', href: pageSlug },
+];
 const metaTitle = 'Free Client Payment Risk Scorer — Will They Pay on Time? | ChaseAI';
 const metaDescription =
   'Score any client payment risk before work starts. Answer 8 questions and get a risk level, recommended deposit, payment terms, and red flags. Free.';
@@ -27,7 +33,7 @@ const structuredData = [
 ];
 ---
 
-<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} structuredData={structuredData}>
+<BaseLayout title={metaTitle} description={metaDescription} canonical={canonicalUrl} breadcrumbs={breadcrumbs} structuredData={structuredData}>
   <section class="hero-gradient">
     <div class="container py-14 max-w-3xl mx-auto text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold">Client Payment Risk Scorer — Know Before You Invoice</h1>
