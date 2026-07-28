@@ -1,6 +1,23 @@
 import { optionsResponse, jsonResponse } from "../_shared/cors.ts";
 import { getAuthenticatedUser } from "../_shared/auth.ts";
 
+const ALLOWED_MIME_TYPES = new Set([
+  "application/pdf",
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+  "image/heic",
+  "image/heif",
+]);
+
+function normalizeMimeType(raw: unknown): string {
+  if (typeof raw !== "string" || !raw.trim()) return "application/pdf";
+  const mime = raw.trim().toLowerCase();
+  if (mime === "image/jpg") return "image/jpeg";
+  return mime;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return optionsResponse(req);
@@ -12,10 +29,24 @@ Deno.serve(async (req) => {
       return jsonResponse(req, { error: authResult.error }, authResult.status);
     }
 
-    const { pdfBase64, userApiKey } = await req.json();
+    const body = await req.json();
+    const fileBase64 =
+      (typeof body.fileBase64 === "string" && body.fileBase64) ||
+      (typeof body.pdfBase64 === "string" && body.pdfBase64) ||
+      null;
+    const userApiKey = body.userApiKey;
+    const mimeType = normalizeMimeType(body.mimeType);
 
-    if (!pdfBase64) {
-      return jsonResponse(req, { error: "Missing required field: pdfBase64" }, 400);
+    if (!fileBase64) {
+      return jsonResponse(req, { error: "Missing required field: fileBase64" }, 400);
+    }
+
+    if (!ALLOWED_MIME_TYPES.has(mimeType)) {
+      return jsonResponse(
+        req,
+        { error: "Unsupported file type. Upload a PDF or photo (JPEG, PNG, WebP, HEIC)." },
+        400,
+      );
     }
 
     const apiKey = Deno.env.get("GEMINI_API_KEY") || userApiKey;
@@ -24,8 +55,10 @@ Deno.serve(async (req) => {
     }
 
     const model = "gemini-2.5-flash";
+    const isImage = mimeType.startsWith("image/");
+    const sourceLabel = isImage ? "invoice photo/image" : "PDF invoice";
 
-    const prompt = `You are an invoice data extraction assistant. Analyze this PDF invoice and extract the following fields.
+    const prompt = `You are an invoice data extraction assistant. Analyze this ${sourceLabel} and extract the following fields.
 
 Return ONLY a valid JSON object (no markdown, no explanation) with these keys:
 - client_name (string, the customer/client name on the invoice)
@@ -37,7 +70,7 @@ Return ONLY a valid JSON object (no markdown, no explanation) with these keys:
 - notes (string or null, any payment terms, bank details, or special notes)
 
 If a field is not visible, set it to null. For amount, always return a number (no commas or currency symbols).
-
+${isImage ? "The image may be a photo of a paper invoice or a screenshot — read text carefully even if slightly skewed or blurry.\n" : ""}
 Example: {"client_name":"Acme Corp","client_email":"billing@acme.com","invoice_number":"INV-2024-042","amount":1500.00,"currency":"USD","due_date":"2024-03-15","notes":"Net 30 payment terms"}`;
 
     const response = await fetch(
@@ -52,8 +85,8 @@ Example: {"client_name":"Acme Corp","client_email":"billing@acme.com","invoice_n
                 { text: prompt },
                 {
                   inline_data: {
-                    mime_type: "application/pdf",
-                    data: pdfBase64,
+                    mime_type: mimeType,
+                    data: fileBase64,
                   },
                 },
               ],
@@ -85,7 +118,11 @@ Example: {"client_name":"Acme Corp","client_email":"billing@acme.com","invoice_n
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       console.error("Failed to parse AI extraction response:", text);
-      return jsonResponse(req, { error: "AI could not extract data from this PDF. Try a clearer invoice." }, 500);
+      return jsonResponse(req, {
+        error: isImage
+          ? "AI could not extract data from this photo. Try a clearer, well-lit shot of the full invoice."
+          : "AI could not extract data from this PDF. Try a clearer invoice.",
+      }, 500);
     }
 
     const extracted = JSON.parse(jsonMatch[0]);

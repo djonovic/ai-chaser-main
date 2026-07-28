@@ -9,7 +9,17 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { supabase } from '@/lib/supabaseClient';
 import { usePlan } from '@/hooks/usePlan';
 import { toast } from 'sonner';
-import { Upload, FileText, Sparkles, AlertCircle, CheckCircle2, X, Loader2 } from 'lucide-react';
+import {
+  Upload,
+  FileText,
+  Sparkles,
+  AlertCircle,
+  CheckCircle2,
+  X,
+  Loader2,
+  ImageIcon,
+  Camera,
+} from 'lucide-react';
 import type { Client } from '@/types';
 
 interface ExtractedData {
@@ -38,16 +48,59 @@ interface PdfInvoiceExtractorProps {
 
 type Phase = 'upload' | 'extracting' | 'preview' | 'error';
 
+const PDF_MIME = 'application/pdf';
+const IMAGE_MIMES = new Set([
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+  'image/heic',
+  'image/heif',
+]);
+
+function normalizeMime(file: File): string {
+  const type = (file.type || '').toLowerCase();
+  if (type === 'image/jpg') return 'image/jpeg';
+  if (type) return type;
+  // iOS sometimes omits type for HEIC / camera files
+  const name = file.name.toLowerCase();
+  if (name.endsWith('.pdf')) return PDF_MIME;
+  if (name.endsWith('.png')) return 'image/png';
+  if (name.endsWith('.webp')) return 'image/webp';
+  if (name.endsWith('.heic')) return 'image/heic';
+  if (name.endsWith('.heif')) return 'image/heif';
+  if (name.endsWith('.jpg') || name.endsWith('.jpeg')) return 'image/jpeg';
+  return type;
+}
+
+function isAllowedFile(file: File): boolean {
+  const mime = normalizeMime(file);
+  return mime === PDF_MIME || IMAGE_MIMES.has(mime);
+}
+
+async function fileToBase64(file: File): Promise<string> {
+  const buffer = await file.arrayBuffer();
+  const bytes = new Uint8Array(buffer);
+  const chunkSize = 0x8000;
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+  }
+  return btoa(binary);
+}
+
 export function PdfInvoiceExtractor({ clients, onSave, onCancel }: PdfInvoiceExtractorProps) {
   const { userGeminiKey } = usePlan();
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const pdfInputRef = useRef<HTMLInputElement>(null);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const [phase, setPhase] = useState<Phase>('upload');
   const [dragOver, setDragOver] = useState(false);
   const [fileName, setFileName] = useState('');
+  const [sourceKind, setSourceKind] = useState<'pdf' | 'photo'>('pdf');
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Editable extracted fields
   const [clientName, setClientName] = useState('');
   const [clientEmail, setClientEmail] = useState('');
   const [selectedClientId, setSelectedClientId] = useState('');
@@ -67,6 +120,7 @@ export function PdfInvoiceExtractor({ clients, onSave, onCancel }: PdfInvoiceExt
   const resetForm = () => {
     setPhase('upload');
     setFileName('');
+    setSourceKind('pdf');
     setErrorMessage('');
     setClientName('');
     setClientEmail('');
@@ -95,32 +149,36 @@ export function PdfInvoiceExtractor({ clients, onSave, onCancel }: PdfInvoiceExt
     if (match) setSelectedClientId(match.id);
   };
 
-  const extractFromPdf = useCallback(
+  const extractFromFile = useCallback(
     async (file: File) => {
-      setFileName(file.name);
+      const mimeType = normalizeMime(file);
+      setFileName(file.name || (mimeType.startsWith('image/') ? 'Invoice photo' : 'Invoice PDF'));
+      setSourceKind(mimeType.startsWith('image/') ? 'photo' : 'pdf');
       setPhase('extracting');
       setErrorMessage('');
 
       try {
-        const buffer = await file.arrayBuffer();
-        const base64 = btoa(
-          new Uint8Array(buffer).reduce((acc, byte) => acc + String.fromCharCode(byte), '')
-        );
+        const base64 = await fileToBase64(file);
 
         const { data, error } = await supabase.functions.invoke('extract-invoice-pdf', {
-          body: { pdfBase64: base64, userApiKey: userGeminiKey || undefined },
+          body: {
+            fileBase64: base64,
+            pdfBase64: base64,
+            mimeType,
+            userApiKey: userGeminiKey || undefined,
+          },
         });
 
         if (data?.error && typeof data.error === 'string') throw new Error(data.error);
         if (error) throw new Error(error.message || 'Extraction failed');
-        if (!data?.extracted) throw new Error('No data extracted from PDF');
+        if (!data?.extracted) throw new Error('No data extracted from file');
 
         populateFields(data.extracted);
         setPhase('preview');
       } catch (err) {
-        console.error('PDF extraction error:', err);
+        console.error('Invoice extraction error:', err);
         setErrorMessage(
-          err instanceof Error ? err.message : 'Failed to extract data from PDF'
+          err instanceof Error ? err.message : 'Failed to extract data from file'
         );
         setPhase('error');
       }
@@ -128,18 +186,21 @@ export function PdfInvoiceExtractor({ clients, onSave, onCancel }: PdfInvoiceExt
     [userGeminiKey, clients]
   );
 
-  const handleFileSelect = (file: File | undefined) => {
-    if (!file) return;
-    if (file.type !== 'application/pdf') {
-      toast.error('Please upload a PDF file');
-      return;
-    }
-    if (file.size > 20 * 1024 * 1024) {
-      toast.error('File too large. Maximum size is 20 MB.');
-      return;
-    }
-    extractFromPdf(file);
-  };
+  const handleFileSelect = useCallback(
+    (file: File | undefined) => {
+      if (!file) return;
+      if (!isAllowedFile(file)) {
+        toast.error('Please upload a PDF or photo (JPEG, PNG, WebP, HEIC)');
+        return;
+      }
+      if (file.size > 20 * 1024 * 1024) {
+        toast.error('File too large. Maximum size is 20 MB.');
+        return;
+      }
+      void extractFromFile(file);
+    },
+    [extractFromFile]
+  );
 
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
@@ -147,7 +208,7 @@ export function PdfInvoiceExtractor({ clients, onSave, onCancel }: PdfInvoiceExt
       setDragOver(false);
       handleFileSelect(e.dataTransfer.files[0]);
     },
-    [extractFromPdf]
+    [handleFileSelect]
   );
 
   const handleSave = async () => {
@@ -195,12 +256,11 @@ export function PdfInvoiceExtractor({ clients, onSave, onCancel }: PdfInvoiceExt
     }
   };
 
-  // Upload phase
   if (phase === 'upload') {
     return (
       <div className="space-y-4">
         <div
-          className={`relative flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-8 transition-colors cursor-pointer ${
+          className={`relative flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-6 transition-colors cursor-pointer ${
             dragOver
               ? 'border-primary bg-primary/5'
               : 'border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/50'
@@ -211,31 +271,86 @@ export function PdfInvoiceExtractor({ clients, onSave, onCancel }: PdfInvoiceExt
           }}
           onDragLeave={() => setDragOver(false)}
           onDrop={handleDrop}
-          onClick={() => fileInputRef.current?.click()}
+          onClick={() => pdfInputRef.current?.click()}
         >
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
             <Upload className="h-6 w-6 text-primary" />
           </div>
           <div className="text-center">
-            <p className="text-sm font-medium">
-              Drag & drop your invoice PDF here
-            </p>
+            <p className="text-sm font-medium">Drag & drop a PDF or photo</p>
             <p className="text-xs text-muted-foreground mt-1">
-              or click to browse · PDF up to 20 MB
+              or choose an option below · up to 20 MB
             </p>
           </div>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="application/pdf"
-            className="hidden"
-            onChange={(e) => handleFileSelect(e.target.files?.[0])}
-          />
         </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            className="h-auto flex-col gap-1.5 py-3"
+            onClick={() => pdfInputRef.current?.click()}
+          >
+            <FileText className="h-5 w-5" />
+            <span className="text-xs font-medium">Upload PDF</span>
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="h-auto flex-col gap-1.5 py-3"
+            onClick={() => galleryInputRef.current?.click()}
+          >
+            <ImageIcon className="h-5 w-5" />
+            <span className="text-xs font-medium">Photo library</span>
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="h-auto flex-col gap-1.5 py-3"
+            onClick={() => cameraInputRef.current?.click()}
+          >
+            <Camera className="h-5 w-5" />
+            <span className="text-xs font-medium">Take photo</span>
+          </Button>
+        </div>
+
+        <input
+          ref={pdfInputRef}
+          type="file"
+          accept="application/pdf,.pdf"
+          className="hidden"
+          onChange={(e) => {
+            handleFileSelect(e.target.files?.[0]);
+            e.target.value = '';
+          }}
+        />
+        <input
+          ref={galleryInputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif"
+          className="hidden"
+          onChange={(e) => {
+            handleFileSelect(e.target.files?.[0]);
+            e.target.value = '';
+          }}
+        />
+        {/* capture="environment" opens the rear camera on mobile browsers */}
+        <input
+          ref={cameraInputRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          className="hidden"
+          onChange={(e) => {
+            handleFileSelect(e.target.files?.[0]);
+            e.target.value = '';
+          }}
+        />
+
         <div className="flex items-start gap-2 rounded-lg bg-muted/50 p-3">
           <Sparkles className="h-4 w-4 text-primary mt-0.5 shrink-0" />
           <p className="text-xs text-muted-foreground">
-            AI will extract client name, invoice number, amount, currency, due date, and notes automatically. You can review and edit before saving.
+            AI extracts client name, invoice number, amount, currency, due date, and notes from PDFs or invoice photos. Review and edit before saving.
           </p>
         </div>
         <div className="flex justify-end">
@@ -247,20 +362,25 @@ export function PdfInvoiceExtractor({ clients, onSave, onCancel }: PdfInvoiceExt
     );
   }
 
-  // Extracting phase
   if (phase === 'extracting') {
     return (
       <div className="space-y-4">
         <Card className="border-primary/20 bg-primary/5">
           <CardContent className="flex items-center gap-3 p-4">
-            <FileText className="h-5 w-5 text-primary shrink-0" />
+            {sourceKind === 'photo' ? (
+              <ImageIcon className="h-5 w-5 text-primary shrink-0" />
+            ) : (
+              <FileText className="h-5 w-5 text-primary shrink-0" />
+            )}
             <span className="text-sm font-medium truncate">{fileName}</span>
           </CardContent>
         </Card>
         <div className="space-y-3 py-2">
           <div className="flex items-center gap-3">
             <Loader2 className="h-5 w-5 animate-spin text-primary" />
-            <p className="text-sm font-medium">Analyzing PDF with AI...</p>
+            <p className="text-sm font-medium">
+              Analyzing {sourceKind === 'photo' ? 'photo' : 'PDF'} with AI...
+            </p>
           </div>
           <div className="space-y-2.5">
             <Skeleton className="h-4 w-3/4" />
@@ -276,7 +396,6 @@ export function PdfInvoiceExtractor({ clients, onSave, onCancel }: PdfInvoiceExt
     );
   }
 
-  // Error phase
   if (phase === 'error') {
     return (
       <div className="space-y-4">
@@ -301,14 +420,15 @@ export function PdfInvoiceExtractor({ clients, onSave, onCancel }: PdfInvoiceExt
     );
   }
 
-  // Preview phase — editable extracted fields
   return (
     <div className="space-y-4">
       <Card className="border-success/30 bg-success/5">
         <CardContent className="flex items-center gap-3 p-4">
           <CheckCircle2 className="h-5 w-5 text-success shrink-0" />
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-success">Data extracted from PDF</p>
+            <p className="text-sm font-medium text-success">
+              Data extracted from {sourceKind === 'photo' ? 'photo' : 'PDF'}
+            </p>
             <p className="text-xs text-muted-foreground">Review and edit below, then save.</p>
           </div>
           <Button
@@ -316,7 +436,7 @@ export function PdfInvoiceExtractor({ clients, onSave, onCancel }: PdfInvoiceExt
             size="icon"
             className="h-7 w-7 shrink-0"
             onClick={resetForm}
-            title="Upload different PDF"
+            title="Upload a different file"
           >
             <X className="h-4 w-4" />
           </Button>
@@ -324,7 +444,6 @@ export function PdfInvoiceExtractor({ clients, onSave, onCancel }: PdfInvoiceExt
       </Card>
 
       <div className="space-y-3">
-        {/* Client selection / creation */}
         <div className="space-y-2">
           <Label>Client</Label>
           {matchingClient || selectedClientId ? (
@@ -359,7 +478,7 @@ export function PdfInvoiceExtractor({ clients, onSave, onCancel }: PdfInvoiceExt
               </div>
               {clientName && (
                 <p className="text-xs text-muted-foreground">
-                  New client "{clientName}" will be created on save.
+                  New client &quot;{clientName}&quot; will be created on save.
                   {clients.length > 0 && (
                     <>
                       {' '}Or{' '}

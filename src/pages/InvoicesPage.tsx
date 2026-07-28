@@ -259,7 +259,7 @@ export default function InvoicesPage() {
                       ? manualWizardStep === 1
                         ? 'New invoice — client'
                         : 'New invoice — details'
-                      : 'New invoice from PDF'}
+                      : 'New invoice from file'}
                   </DialogTitle>
                   {dialogTab === 'manual' && (
                     <p className="text-sm text-muted-foreground">Step {manualWizardStep} of 2</p>
@@ -277,7 +277,7 @@ export default function InvoicesPage() {
                       <FileText className="h-3.5 w-3.5" /> Manual
                     </TabsTrigger>
                     <TabsTrigger value="pdf" className="flex-1 gap-1.5">
-                      <Upload className="h-3.5 w-3.5" /> Upload PDF
+                      <Upload className="h-3.5 w-3.5" /> Scan / Upload
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="manual" className="mt-4 space-y-4">
