@@ -16,7 +16,7 @@ export default function SeoCtaBand({
   primaryHref,
   primaryLabel,
   primaryAriaLabel,
-  primaryMicrocopy = 'Free plan available',
+  primaryMicrocopy = '14-day free trial',
   secondaryHref,
   secondaryLabel,
   secondaryAriaLabel,

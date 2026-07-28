@@ -3,43 +3,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const appUrl = 'https://app.chaseai.app';
 const appPricingUrl = `${appUrl}/pricing`;
-const contactPath = '/contact';
 
 const pageSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   name: 'ChaseAI Pricing',
   description:
-    'ChaseAI pricing plans: Free (1 invoice), Starter ($9/mo), and Pro ($19/mo). Start free, no credit card required.',
+    'ChaseAI pricing: Starter ($9/mo) with a 14-day free trial, and Pro ($19/mo). Cancel anytime.',
   url: 'https://chaseai.app/pricing',
 };
 
 const plans = [
   {
-    name: 'Free',
-    price: '$0',
-    period: '',
-    subtitle: 'No credit card required',
-    description: 'Try invoice chasing with no commitment.',
-    features: [
-      '1 invoice',
-      '1 sequence generation/month',
-      'Automated email sending',
-      'Basic dashboard',
-    ],
-    cta: 'Start Free',
-    ctaStyle: 'outline',
-    highlight: false,
-    badge: null,
-    href: appUrl,
-  },
-  {
     name: 'Starter',
     price: '$9',
     period: '/mo',
-    subtitle: '$108/year billed annually',
+    subtitle: '14-day free trial · $108/year billed annually',
     description: 'For freelancers and consultants who are serious about getting paid.',
     features: [
+      '14-day free trial',
       'Unlimited invoices',
       '50 sequence generations/month',
       'Email open tracking',
@@ -48,7 +30,7 @@ const plans = [
       'PDF invoice extraction',
       'Priority email support',
     ],
-    cta: 'Choose Starter',
+    cta: 'Start 14-day free trial',
     ctaStyle: 'primary',
     highlight: true,
     badge: 'Most Popular',
@@ -78,8 +60,8 @@ const plans = [
 
 const faqs = [
   {
-    q: 'What can I do on the Free plan?',
-    a: 'You can create 1 invoice and 1 sequence generation/month. Includes automated email sending, template-based starts, and a basic dashboard. A quick way to try ChaseAI before upgrading.',
+    q: 'Is there a free trial?',
+    a: 'Yes. Starter includes a 14-day free trial. You add a card at checkout and won’t be charged until the trial ends. Cancel anytime during the trial to avoid charges.',
   },
   {
     q: 'What counts as a "sequence generation"?',
@@ -99,11 +81,11 @@ const faqs = [
   },
   {
     q: 'Is there a contract or commitment?',
-    a: 'No. The Free plan has no commitment. Starter and Pro are month-to-month or annual with no long-term contract. Cancel anytime with one click, no cancellation fees.',
+    a: 'No. Starter and Pro are month-to-month or annual with no long-term contract. Cancel anytime with one click, no cancellation fees.',
   },
   {
     q: 'Do you offer refunds?',
-    a: 'Yes. If you\'re not satisfied within the first 14 days of a paid subscription, contact us for a full refund. No questions asked.',
+    a: 'Yes. If you\'re not satisfied within the first 14 days after your first paid charge, contact us for a full refund. No questions asked. During the free trial you can cancel before you\'re charged.',
   },
   {
     q: 'What\'s included in Priority Support?',
@@ -112,16 +94,17 @@ const faqs = [
 ];
 
 const comparisonRows = [
-  { feature: 'Invoices', free: '1', starter: 'Unlimited', pro: 'Unlimited' },
-  { feature: 'Sequence generations', free: '1', starter: '50', pro: 'Unlimited' },
-  { feature: 'Automated email sending', free: 'Yes', starter: 'Yes', pro: 'Yes' },
-  { feature: 'PDF invoice extraction', free: 'Yes', starter: 'Yes', pro: 'Yes' },
-  { feature: 'Client management', free: 'Yes', starter: 'Yes', pro: 'Yes' },
-  { feature: 'Recovery analytics', free: 'Basic', starter: 'Advanced', pro: 'Advanced' },
-  { feature: 'Multi-currency', free: '-', starter: 'Yes', pro: 'Yes' },
-  { feature: 'PDF invoice export', free: '-', starter: '-', pro: 'Yes' },
-  { feature: 'BYOK (own API key)', free: 'Yes', starter: 'Yes', pro: 'Yes' },
-  { feature: 'Support', free: 'Email', starter: 'Priority email', pro: 'Priority email' },
+  { feature: 'Free trial', starter: '14 days', pro: '-' },
+  { feature: 'Invoices', starter: 'Unlimited', pro: 'Unlimited' },
+  { feature: 'Sequence generations', starter: '50/mo', pro: 'Unlimited' },
+  { feature: 'Automated email sending', starter: 'Yes', pro: 'Yes' },
+  { feature: 'PDF invoice extraction', starter: 'Yes', pro: 'Yes' },
+  { feature: 'Client management', starter: 'Yes', pro: 'Yes' },
+  { feature: 'Recovery analytics', starter: 'Advanced', pro: 'Advanced' },
+  { feature: 'Multi-currency', starter: 'Yes', pro: 'Yes' },
+  { feature: 'PDF invoice export', starter: '-', pro: 'Yes' },
+  { feature: 'BYOK (own API key)', starter: 'Yes', pro: 'Yes' },
+  { feature: 'Support', starter: 'Priority email', pro: 'Priority email' },
 ];
 
 const faqSchema = {
@@ -138,8 +121,8 @@ const structuredData = [pageSchema, faqSchema];
 ---
 
 <BaseLayout
-  title="ChaseAI Pricing | Invoice Chasing Software Plans (Free + Pro)"
-  description="Compare ChaseAI plans for freelancers and agencies. Start free, automate invoice reminders, and upgrade when you need more sequences and tracking."
+  title="ChaseAI Pricing | Starter Free Trial + Pro"
+  description="ChaseAI plans for freelancers and agencies. Start a 14-day free trial on Starter, then automate invoice reminders with Starter or Pro."
   canonical="https://chaseai.app/pricing"
   structuredData={structuredData}
 >
@@ -151,7 +134,7 @@ const structuredData = [pageSchema, faqSchema];
           Simple, transparent pricing
         </h1>
         <p class="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">
-          Start free with 1 invoice and 1 sequence generation per month. Upgrade when you need more.
+          Start with a 14-day free trial on Starter. Card required — you won’t be charged until the trial ends. Cancel anytime.
         </p>
       </div>
     </div>
@@ -160,7 +143,7 @@ const structuredData = [pageSchema, faqSchema];
   <!-- Pricing Cards -->
   <section class="pb-20 -mt-4">
     <div class="container">
-      <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
         {plans.map(plan => (
           <div class:list={[
             'flex flex-col p-6 rounded-2xl border bg-card relative',
@@ -233,18 +216,16 @@ const structuredData = [pageSchema, faqSchema];
         </h2>
       </div>
 
-      <div class="max-w-4xl mx-auto overflow-x-auto">
-        <div class="rounded-2xl border border-border bg-card overflow-hidden min-w-[640px]">
-          <div class="grid grid-cols-4 bg-muted/50 border-b border-border">
+      <div class="max-w-3xl mx-auto overflow-x-auto">
+        <div class="rounded-2xl border border-border bg-card overflow-hidden min-w-[480px]">
+          <div class="grid grid-cols-3 bg-muted/50 border-b border-border">
             <div class="px-4 py-3 text-sm font-semibold">Feature</div>
-            <div class="px-4 py-3 text-sm font-semibold text-center">Free</div>
             <div class="px-4 py-3 text-sm font-semibold text-center text-primary">Starter</div>
             <div class="px-4 py-3 text-sm font-semibold text-center">Pro</div>
           </div>
           {comparisonRows.map((row, i) => (
-            <div class:list={['grid grid-cols-4', i % 2 === 0 ? 'bg-card' : 'bg-muted/20']}>
+            <div class:list={['grid grid-cols-3', i % 2 === 0 ? 'bg-card' : 'bg-muted/20']}>
               <div class="px-4 py-3 text-sm font-medium">{row.feature}</div>
-              <div class="px-4 py-3 text-sm text-center font-medium">{row.free}</div>
               <div class="px-4 py-3 text-sm text-center font-medium">{row.starter}</div>
               <div class="px-4 py-3 text-sm text-center font-medium">{row.pro}</div>
             </div>
@@ -295,12 +276,11 @@ const structuredData = [pageSchema, faqSchema];
     <div class="container max-w-3xl mx-auto">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-center">How to pick the right plan</h2>
       <ul class="mt-4 text-sm text-muted-foreground space-y-2 list-disc pl-5">
-        <li>Choose Free if you only need occasional invoice chasing.</li>
-        <li>Choose Starter if you send reminders every week.</li>
-        <li>Choose Pro if you manage many clients and need consistent automation.</li>
+        <li>Start with Starter’s 14-day free trial if you send reminders every week.</li>
+        <li>Choose Pro if you manage many clients and need unlimited sequence generations.</li>
       </ul>
       <p class="mt-4 text-sm text-muted-foreground text-center">
-        You can test the core flow first with the <a class="text-primary hover:underline" href="/tools/overdue-invoice-sequence-generator">Free AI Overdue Invoice Sequence Generator</a>.
+        You can preview the core flow first with the <a class="text-primary hover:underline" href="/tools/overdue-invoice-sequence-generator">AI Overdue Invoice Sequence Generator</a> (no account required).
       </p>
     </div>
   </section>
@@ -338,14 +318,14 @@ const structuredData = [pageSchema, faqSchema];
           Start getting paid faster today
         </h2>
         <p class="mt-4 text-lg text-muted-foreground">
-          Create your free account and start chasing invoices in minutes. Upgrade anytime.
+          Start your 14-day free trial and chase invoices in minutes. Cancel anytime.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
             href={appUrl}
             class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-600 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 w-full sm:w-auto"
           >
-            Start Free
+            Start free trial
           </a>
           <a
             href={appPricingUrl}

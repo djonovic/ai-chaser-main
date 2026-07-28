@@ -111,7 +111,7 @@ export default function LatePaymentCostCalculator() {
           <div className="mt-4 text-sm">
             <p>ChaseAI automates every follow-up so you recover this time and close the cash gap faster.</p>
             <a href="https://app.chaseai.app" className="mt-2 inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">
-              Start Free — No Credit Card
+              Start free trial
             </a>
           </div>
         </div>

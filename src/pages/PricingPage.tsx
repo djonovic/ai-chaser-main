@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
-import { Check, Crown, Zap, FileText, Loader2 } from 'lucide-react';
+import { Check, Crown, Zap, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { usePlan } from '@/hooks/usePlan';
@@ -14,21 +14,6 @@ import { openCheckoutUrl } from '@/lib/capacitor';
 
 const plans = [
   {
-    key: 'free' as PlanType,
-    name: 'Free',
-    monthlyPrice: 0,
-    annualPrice: 0,
-    description: 'Get started with invoice chasing — no credit card required.',
-    features: [
-      '1 invoice',
-      '1 sequence generation/month',
-      'Automated email sending',
-      'Basic dashboard',
-    ],
-    icon: FileText,
-    highlight: false,
-  },
-  {
     key: 'starter' as PlanType,
     name: 'Starter',
     monthlyPrice: 9,
@@ -37,6 +22,7 @@ const plans = [
     savePercent: 0,
     description: 'For freelancers and consultants who are serious about getting paid.',
     features: [
+      '14-day free trial',
       'Unlimited invoices',
       '50 sequence generations/month',
       'Real-time tracking',
@@ -80,11 +66,7 @@ export default function PricingPage() {
   const handlePlanAction = useCallback(
     async (targetPlan: PlanType) => {
       if (targetPlan === plan) {
-        navigate('/settings');
-        return;
-      }
-      if (targetPlan === 'free') {
-        navigate('/dashboard');
+        navigate('/settings?tab=billing');
         return;
       }
       if (targetPlan === 'starter' || targetPlan === 'pro') {
@@ -112,10 +94,10 @@ export default function PricingPage() {
 
   const getButtonLabel = (p: (typeof plans)[0]) => {
     const isCurrent = plan === p.key;
-    if (isCurrent) return p.key === 'free' ? 'Current plan' : 'Manage subscription';
-    if (p.key === 'free') return 'Start Free';
-    if (plan === 'free') return 'Upgrade';
-    return planOrder[p.key] > planOrder[plan] ? 'Upgrade' : 'Downgrade';
+    if (isCurrent) return 'Manage subscription';
+    if (plan === 'free' && p.key === 'starter') return 'Start 14-day free trial';
+    if (plan === 'free') return 'Get started';
+    return planOrder[p.key] > planOrder[plan] ? 'Upgrade' : 'Switch plan';
   };
 
   return (
@@ -123,7 +105,7 @@ export default function PricingPage() {
       <div className="text-center mb-10">
         <h1 className="text-3xl font-bold tracking-tight">Simple, transparent pricing</h1>
         <p className="text-muted-foreground mt-2 max-w-xl mx-auto">
-          Start free with 1 invoice and 1 sequence generation per month. Upgrade when you need more.
+          Start with a 14-day free trial on Starter. Card required — you won&apos;t be charged until the trial ends. Cancel anytime.
         </p>
 
         <div className="flex items-center justify-center gap-3 mt-6">
@@ -142,7 +124,7 @@ export default function PricingPage() {
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 max-w-3xl mx-auto">
         {plans.map((p) => {
           const price = annual ? (p.annualPrice ?? p.monthlyPrice) : p.monthlyPrice;
           const isCurrent = plan === p.key;
@@ -174,15 +156,12 @@ export default function PricingPage() {
                 </div>
                 <p className="text-sm text-muted-foreground">{p.description}</p>
                 <div className="mt-3">
-                  {price === 0 ? (
-                    <span className="text-4xl font-bold">Free</span>
-                  ) : (
-                    <>
-                      <span className="text-4xl font-bold">${price}</span>
-                      <span className="text-muted-foreground">/mo</span>
-                    </>
-                  )}
+                  <span className="text-4xl font-bold">${price}</span>
+                  <span className="text-muted-foreground">/mo</span>
                 </div>
+                {p.key === 'starter' && (
+                  <p className="text-xs text-primary font-medium mt-1">14-day free trial included</p>
+                )}
                 {'annualTotal' in p && annual && p.annualTotal && (
                   <p className="text-xs text-muted-foreground mt-1">
                     ${p.annualTotal}/year
@@ -199,9 +178,6 @@ export default function PricingPage() {
                 )}
                 {price > 0 && annual && (
                   <p className="text-xs text-muted-foreground mt-1">Billed annually</p>
-                )}
-                {price === 0 && (
-                  <p className="text-xs text-muted-foreground mt-1">No credit card required</p>
                 )}
               </CardHeader>
 
@@ -249,7 +225,7 @@ export default function PricingPage() {
           in Settings to bypass AI limits on any plan.
         </p>
         <p className="text-xs text-muted-foreground">
-          All paid plans include priority email support. Prices in USD. Cancel anytime.
+          All plans include priority email support. Prices in USD. Cancel anytime.
         </p>
       </div>
     </div>

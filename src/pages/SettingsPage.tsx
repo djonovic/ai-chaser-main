@@ -294,23 +294,23 @@ export default function SettingsPage() {
             <CardContent className="space-y-4">
               <div className="flex items-center gap-3">
                 <Badge className="bg-primary text-primary-foreground">
-                  {plan.charAt(0).toUpperCase() + plan.slice(1)}
+                  {plan === 'free' ? 'Inactive' : plan.charAt(0).toUpperCase() + plan.slice(1)}
                 </Badge>
                 <span className="text-sm text-muted-foreground">
                   {plan === 'pro'
                     ? 'Unlimited invoices & AI sequences'
                     : plan === 'starter'
                       ? 'Unlimited invoices, 50 AI sequences/mo'
-                      : '1 invoice, 1 AI sequence/mo'}
+                      : 'No active subscription — start a 14-day free trial to use ChaseAI'}
                 </span>
               </div>
               <p className="text-sm text-muted-foreground flex items-center gap-2">
                 <Shield className="h-4 w-4" />
-                Upgrades are automatic. Cancel anytime.
+                Starter includes a 14-day free trial. Cancel anytime before it ends to avoid charges.
               </p>
               <div className="flex gap-2">
                 <Button asChild>
-                  <Link to="/pricing">{plan === 'free' ? 'Upgrade' : 'Change Plan'}</Link>
+                  <Link to="/pricing">{plan === 'free' ? 'Start free trial' : 'Change Plan'}</Link>
                 </Button>
                 {plan !== 'free' && (
                   <>
@@ -324,14 +324,14 @@ export default function SettingsPage() {
                       open={cancelSubscriptionOpen}
                       onOpenChange={setCancelSubscriptionOpen}
                       title="Cancel subscription?"
-                      description="Paid access in the app will end when you confirm. You will need an active subscription again to use ChaseAI. Stripe-billed subscriptions should also be cancelled in your Stripe receipt or by contacting support so you are not charged again."
+                      description="Access in the app will end when you confirm. You will need an active subscription again to use ChaseAI. Stripe-billed subscriptions should also be cancelled in your Stripe receipt or by contacting support so you are not charged again."
                       confirmLabel="Yes, cancel subscription"
                       destructive
                       onConfirm={async () => {
                         await upgradePlan('free');
                         setCancelSubscriptionOpen(false);
                         toast.success(
-                          'Subscription access removed in the app. Resubscribe anytime from Pricing when you are ready.',
+                          'Subscription access removed in the app. Start a new plan anytime from Pricing.',
                         );
                       }}
                     />

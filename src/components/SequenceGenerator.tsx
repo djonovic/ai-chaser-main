@@ -311,12 +311,14 @@ export function SequenceGenerator({ invoice }: Props) {
               <span className="flex items-center gap-1">
                 {hasUserKey ? (
                   <><Key className="h-3 w-3 text-success" /> Using your API key — unlimited</>
-                ) : plan === 'pro' ? 'Unlimited AI sequences' : (
+                ) : plan === 'pro' ? 'Unlimited AI sequences' : plan === 'free' ? (
+                  <>Start a free trial to generate sequences</>
+                ) : (
                   <>Usage: {aiUsageCount}/{maxAISequences ?? '∞'} this month</>
                 )}
               </span>
               <Badge variant="outline" className="text-[10px]">
-                {plan.charAt(0).toUpperCase() + plan.slice(1)}
+                {plan === 'free' ? 'Inactive' : plan.charAt(0).toUpperCase() + plan.slice(1)}
               </Badge>
             </div>
             <div className="space-y-2">

@@ -156,7 +156,7 @@ export default function InvoicesPage() {
     e.preventDefault();
 
     if (!canCreateInvoice(invoices.length)) {
-      toast.error('Invoice limit reached. Upgrade your plan for unlimited invoices.');
+      toast.error('Start a 14-day free trial to create invoices.');
       return;
     }
 
@@ -469,7 +469,7 @@ export default function InvoicesPage() {
                       clients={clients}
                       onSave={async (data) => {
                         if (!canCreateInvoice(invoices.length)) {
-                          toast.error('Invoice limit reached. Upgrade your plan for unlimited invoices.');
+                          toast.error('Start a 14-day free trial to create invoices.');
                           return;
                         }
                         let clientId = data.client_id;

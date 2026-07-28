@@ -16,8 +16,9 @@ interface PlanLimits {
   maxAISequences: number | null;
 }
 
+// `free` = no active subscription (pre-trial or cancelled). Product access requires Starter/Pro.
 const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
-  free: { maxInvoices: 1, maxAISequences: 1 },
+  free: { maxInvoices: 0, maxAISequences: 0 },
   starter: { maxInvoices: null, maxAISequences: 50 },
   pro: { maxInvoices: null, maxAISequences: null },
 };

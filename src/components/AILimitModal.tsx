@@ -45,7 +45,7 @@ export function AILimitModal({ open, onOpenChange, onSaveKey }: AILimitModalProp
             Unlock Unlimited AI Sequences
           </DialogTitle>
           <DialogDescription className="pt-2">
-            Limit reached – add your own Gemini key or upgrade to Pro. Two options:
+            Start a 14-day free trial on Starter, upgrade to Pro, or add your own Gemini key.
           </DialogDescription>
         </DialogHeader>
 
@@ -56,10 +56,10 @@ export function AILimitModal({ open, onOpenChange, onSaveKey }: AILimitModalProp
               <Badge variant="outline" className="gap-1">
                 <Crown className="h-3 w-3" /> Option 1
               </Badge>
-              <span className="text-sm font-medium">Upgrade your plan</span>
+              <span className="text-sm font-medium">Start a plan</span>
             </div>
             <p className="text-xs text-muted-foreground">
-              Get more AI sequences with our key, plus premium features
+              Starter includes a 14-day free trial. Pro unlocks unlimited AI sequences.
             </p>
             <Button
               variant="default"

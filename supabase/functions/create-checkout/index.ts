@@ -108,8 +108,27 @@ Deno.serve(async (req) => {
         .eq("id", user.id);
     }
 
+    // Starter gets a one-time 14-day trial for customers with no prior subscriptions.
+    const trialDays = Deno.env.get("STRIPE_STARTER_TRIAL_DAYS") ?? "14";
+    let offerTrial = false;
+    if (plan === "starter" && Number(trialDays) > 0) {
+      // Stripe defaults to non-canceled; query canceled separately so trials aren't reusable.
+      const [openSubs, canceledSubs] = await Promise.all([
+        stripeGet(stripeKey, `/subscriptions?customer=${customerId}&limit=1`),
+        stripeGet(
+          stripeKey,
+          `/subscriptions?customer=${customerId}&status=canceled&limit=1`,
+        ),
+      ]);
+      const hasOpen =
+        ((openSubs as { data?: unknown[] } | null)?.data?.length ?? 0) > 0;
+      const hasCanceled =
+        ((canceledSubs as { data?: unknown[] } | null)?.data?.length ?? 0) > 0;
+      offerTrial = !hasOpen && !hasCanceled;
+    }
+
     const appUrl = Deno.env.get("APP_URL") ?? "https://app.chaseai.app";
-    const session = await stripePost(stripeKey, "/checkout/sessions", {
+    const sessionParams: Record<string, string> = {
       customer: customerId,
       mode: "subscription",
       "line_items[0][price]": priceId,
@@ -121,7 +140,13 @@ Deno.serve(async (req) => {
       "subscription_data[metadata][supabase_user_id]": user.id,
       "subscription_data[metadata][plan]": plan,
       allow_promotion_codes: "true",
-    });
+      payment_method_collection: "always",
+    };
+    if (offerTrial) {
+      sessionParams["subscription_data[trial_period_days]"] = trialDays;
+    }
+
+    const session = await stripePost(stripeKey, "/checkout/sessions", sessionParams);
 
     if (!session.ok) {
       return jsonResponse(req, { error: session.error! }, 500);

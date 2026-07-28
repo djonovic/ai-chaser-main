@@ -63,7 +63,6 @@ const softwareSchema = {
   dateModified: '2026-03-31',
   screenshot: 'https://chaseai.app/og-default.png',
   offers: [
-    { '@type': 'Offer', price: '0', priceCurrency: 'USD', name: 'Free' },
     { '@type': 'Offer', price: '9', priceCurrency: 'USD', name: 'Starter' },
     { '@type': 'Offer', price: '19', priceCurrency: 'USD', name: 'Pro' },
   ],
@@ -140,7 +139,7 @@ const structuredData = [softwareSchema, articleSchema, howToSchema, faqSchema];
           data-cta-id="hero_upload"
         >
           Try the Free AI Generator
-          <span class="ml-2 text-primary-foreground/70 text-xs group-hover:text-primary-foreground/90 transition-colors">Free plan available</span>
+          <span class="ml-2 text-primary-foreground/70 text-xs group-hover:text-primary-foreground/90 transition-colors">No account needed</span>
         </a>
         <a
           href="#example-output"
@@ -152,11 +151,11 @@ const structuredData = [softwareSchema, articleSchema, howToSchema, faqSchema];
         <a
           href={appUrl}
           class="inline-flex items-center justify-center rounded-lg border border-border px-6 py-3 text-sm font-semibold hover:bg-muted/50 transition-colors"
-          aria-label="Start free with ChaseAI"
+          aria-label="Start free trial with ChaseAI"
           data-track="lead_cta_click"
           data-cta-id="hero_start_free"
         >
-          Start free
+          Start free trial
         </a>
       </div>
       <p class="mt-4 text-sm">
@@ -309,7 +308,7 @@ const structuredData = [softwareSchema, articleSchema, howToSchema, faqSchema];
               primaryHref="#free-generator"
               primaryLabel="Try the Free AI Generator"
               primaryAriaLabel="Upload invoice PDF to generate reminder sequence"
-              primaryMicrocopy="Free plan available"
+              primaryMicrocopy="No account needed"
               secondaryHref="/pricing"
               secondaryLabel="View pricing"
               secondaryAriaLabel="View ChaseAI pricing plans"
@@ -353,16 +352,16 @@ const structuredData = [softwareSchema, articleSchema, howToSchema, faqSchema];
           data-cta-id="footer_upload"
         >
           Upload invoice PDF
-          <span class="ml-2 text-primary-foreground/70 text-xs group-hover:text-primary-foreground/90 transition-colors">Free plan available</span>
+          <span class="ml-2 text-primary-foreground/70 text-xs group-hover:text-primary-foreground/90 transition-colors">No account needed</span>
         </a>
         <a
           href={appUrl}
           class="inline-flex items-center justify-center rounded-lg border border-border px-8 py-3.5 text-base font-semibold hover:bg-muted/50 transition-colors"
-          aria-label="Start free with ChaseAI"
+          aria-label="Start free trial with ChaseAI"
           data-track="lead_cta_click"
           data-cta-id="footer_start_free"
         >
-          Start free
+          Start free trial
         </a>
       </div>
     </div>

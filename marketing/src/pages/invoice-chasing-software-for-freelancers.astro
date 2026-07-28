@@ -35,8 +35,8 @@ const faqs = [
     a: 'Yes. You can pause or stop a sequence immediately when payment is confirmed.',
   },
   {
-    q: 'Is there a free plan?',
-    a: 'Yes. Start free, then upgrade to paid plans as your invoice volume grows.',
+    q: 'Is there a free trial?',
+    a: 'Yes. Starter includes a 14-day free trial. You add a card at checkout and won’t be charged until the trial ends. Cancel anytime during the trial to avoid charges.',
   },
 ];
 
@@ -51,7 +51,6 @@ const softwareSchema = {
   dateModified: '2026-03-31',
   screenshot: 'https://chaseai.app/og-default.png',
   offers: [
-    { '@type': 'Offer', price: '0', priceCurrency: 'USD', name: 'Free' },
     { '@type': 'Offer', price: '9', priceCurrency: 'USD', name: 'Starter' },
     { '@type': 'Offer', price: '19', priceCurrency: 'USD', name: 'Pro' },
   ],
@@ -82,7 +81,7 @@ const softwareSchema = {
           href={appUrl}
           class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-95 transition-opacity"
         >
-          Start free
+          Start free trial
         </a>
         <a
           href="/tools/overdue-invoice-sequence-generator"
@@ -137,15 +136,14 @@ const softwareSchema = {
             See the full product breakdown on <a href="/features">features</a>.
           </p>
 
-          <h2 id="pricing">Pricing (free vs paid)</h2>
+          <h2 id="pricing">Pricing (trial vs paid)</h2>
           <p>
-            Start with the free plan to validate results, then upgrade when recovered cashflow and invoice volume
-            justify it.
+            Start with Starter’s 14-day free trial to validate results, then continue on Starter or upgrade to Pro when
+            recovered cashflow and invoice volume justify it.
           </p>
           <ul>
-            <li><strong>Free:</strong> test core reminders and basic sequence generation.</li>
-            <li><strong>$9:</strong> higher usage and stronger automation for active freelancers.</li>
-            <li><strong>$19:</strong> advanced usage for power users with larger invoice throughput.</li>
+            <li><strong>Starter ($9/mo):</strong> 14-day free trial, unlimited invoices, 50 sequence generations/month.</li>
+            <li><strong>Pro ($19/mo):</strong> unlimited sequence generations and advanced features for power users.</li>
           </ul>
           <p>
             Review plan details on the <a href="/pricing">pricing page</a>.
@@ -154,7 +152,7 @@ const softwareSchema = {
           <div class="not-prose my-6 rounded-xl border border-primary/10 bg-primary/5 p-4 text-sm text-muted-foreground">
             <p><strong class="text-foreground">Quick tips</strong></p>
             <ul class="mt-2 space-y-1">
-              <li>Start with the free plan to see results before committing.</li>
+              <li>Start with the 14-day free trial to see results before you pay.</li>
               <li>Use open tracking to decide when it is time to escalate.</li>
               <li>Always pause reminders the moment payment is confirmed.</li>
               <li>Upgrade only when your invoice volume justifies it.</li>
@@ -183,8 +181,8 @@ const softwareSchema = {
               heading="Automate invoice chasing and get paid faster"
               description="Generate reminder sequences from your invoices with smart tone progression and tracking."
               primaryHref={appUrl}
-              primaryLabel="Start free"
-              primaryAriaLabel="Start free with ChaseAI"
+              primaryLabel="Start free trial"
+              primaryAriaLabel="Start free trial with ChaseAI"
               secondaryHref="/pricing"
               secondaryLabel="View pricing"
               secondaryAriaLabel="View pricing plans"

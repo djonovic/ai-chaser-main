@@ -237,8 +237,8 @@ curl -L -X POST 'https://pxuxwpmzhtuyrfrwfeae.supabase.co/functions/v1/process-s
 ## 5. Plan and quotas
 
 - **Stripe:** All plans; webhook runs for any user’s invoice when Stripe metadata matches.
-- **QuickBooks / Xero:** Only **Starter** and **Pro**; `sync-accounting` skips users on Free plan.
-- **Gmail:** Only **Starter** and **Pro**; `check-gmail-replies` skips users on Free plan.
+- **QuickBooks / Xero:** Only **Starter** and **Pro**; `sync-accounting` skips users without an active paid plan.
+- **Gmail:** Only **Starter** and **Pro**; `check-gmail-replies` skips users without an active paid plan.
 
 ---
 

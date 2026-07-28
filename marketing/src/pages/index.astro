@@ -128,8 +128,8 @@ const faqs = [
     a: 'ChaseAI reads it and generates a full follow-up sequence in seconds. You review, approve, and it handles the rest.',
   },
   {
-    q: 'Is there a free plan?',
-    a: 'Yes. The Free plan lets you create 1 invoice and generate 1 sequence/month (AI or template). No credit card required. Upgrade when you need more capacity.',
+    q: 'Is there a free trial?',
+    a: 'Yes. Starter includes a 14-day free trial. You add a card at checkout and won’t be charged until the trial ends. Cancel anytime during the trial to avoid charges.',
   },
 ];
 
@@ -142,7 +142,6 @@ const softwareSchema = {
   url: 'https://chaseai.app',
   description: 'AI-powered invoice chasing software that automates payment follow-ups and helps freelancers get paid faster.',
   offers: [
-    { '@type': 'Offer', price: '0', priceCurrency: 'USD', name: 'Free' },
     { '@type': 'Offer', price: '9', priceCurrency: 'USD', name: 'Starter' },
     { '@type': 'Offer', price: '19', priceCurrency: 'USD', name: 'Pro' },
   ],
@@ -163,7 +162,7 @@ const structuredData = [softwareSchema, faqSchema];
 
 <BaseLayout
   title="ChaseAI - AI-Powered Invoice Chasing Software | Get Paid 2x Faster"
-  description="AI that reads your invoice PDFs and automatically sends professional chase sequences. Get paid faster without awkward follow-ups. Free plan available - no credit card required."
+  description="AI that reads your invoice PDFs and automatically sends professional chase sequences. Get paid faster without awkward follow-ups. Start a 14-day free trial on Starter."
   canonical="https://chaseai.app"
   structuredData={structuredData}
 >
@@ -190,7 +189,7 @@ const structuredData = [softwareSchema, faqSchema];
             href={appUrl}
             class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-600 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 w-full sm:w-auto"
           >
-            Start Free (no card required)
+            Start 14-day free trial
           </a>
           <a
             href="/tools/overdue-invoice-sequence-generator"
@@ -201,7 +200,7 @@ const structuredData = [softwareSchema, faqSchema];
         </div>
 
         <p class="mt-3 text-xs text-muted-foreground">
-          Try the Free AI Generator &middot; No credit card required
+          14-day free trial on Starter &middot; Cancel anytime
         </p>
       </div>
 
@@ -558,34 +557,11 @@ const structuredData = [softwareSchema, faqSchema];
           Pays for itself with one recovered invoice
         </h2>
         <p class="mt-3 text-lg text-muted-foreground">
-          Start free, upgrade when you need more. Cancel anytime.
+          Start with a 14-day free trial on Starter. Cancel anytime.
         </p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        <!-- Free -->
-        <div class="p-6 rounded-2xl border border-border bg-card relative">
-          <div class="text-sm font-medium text-muted-foreground mb-1">Free</div>
-          <div class="flex items-baseline gap-1 mb-2">
-            <span class="text-4xl font-extrabold">$0</span>
-          </div>
-          <p class="text-sm text-muted-foreground mb-6">No credit card required</p>
-          <ul class="space-y-3 mb-8">
-            {['1 invoice', '1 sequence generation/month', 'Automated email sending', 'Basic dashboard'].map(f => (
-              <li class="flex items-center gap-2 text-sm">
-                <svg class="h-4 w-4 text-success shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                {f}
-              </li>
-            ))}
-          </ul>
-          <a
-            href={appUrl}
-            class="inline-flex items-center justify-center w-full rounded-lg border border-border px-4 py-2.5 text-sm font-semibold hover:bg-muted/50 transition-colors"
-          >
-            Start Free (no card required)
-          </a>
-        </div>
-
+      <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
         <!-- Starter (highlighted) -->
         <div class="p-6 rounded-2xl border-2 border-primary bg-card shadow-lg shadow-primary/10 relative">
           <div class="absolute -top-3 left-1/2 -translate-x-1/2">
@@ -598,9 +574,9 @@ const structuredData = [softwareSchema, faqSchema];
             <span class="text-4xl font-extrabold">$9</span>
             <span class="text-muted-foreground">/mo</span>
           </div>
-          <p class="text-sm text-muted-foreground mb-6">For serious freelancers</p>
+          <p class="text-sm text-muted-foreground mb-6">14-day free trial · Card required</p>
           <ul class="space-y-3 mb-8">
-            {['Unlimited invoices', '50 sequence generations/month', 'Email open tracking', 'Multi-currency support'].map(f => (
+            {['14-day free trial', 'Unlimited invoices', '50 sequence generations/month', 'Email open tracking', 'Multi-currency support'].map(f => (
               <li class="flex items-center gap-2 text-sm">
                 <svg class="h-4 w-4 text-success shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                 {f}
@@ -611,7 +587,7 @@ const structuredData = [softwareSchema, faqSchema];
             href={appUrl}
             class="inline-flex items-center justify-center w-full rounded-lg bg-primary text-primary-foreground px-4 py-2.5 text-sm font-semibold shadow-sm hover:bg-primary-600 transition-colors"
           >
-            Choose Starter
+            Start 14-day free trial
           </a>
         </div>
 
@@ -646,7 +622,7 @@ const structuredData = [softwareSchema, faqSchema];
       </div>
 
       <p class="text-center mt-6 text-sm text-muted-foreground">
-        Start free, upgrade anytime. Prices in USD. Cancel anytime on paid plans.
+        14-day free trial on Starter. Prices in USD. Cancel anytime.
         <a href="/pricing" class="text-primary hover:underline ml-1">See full pricing details &rarr;</a>
       </p>
     </div>
@@ -685,14 +661,14 @@ const structuredData = [softwareSchema, faqSchema];
           Stop chasing. Start getting paid.
         </h2>
         <p class="mt-3 text-lg text-muted-foreground">
-          Set up in under 5 minutes. Free plan, no credit card needed.
+          Set up in under 5 minutes. Start a 14-day free trial on Starter.
         </p>
         <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
             href={appUrl}
             class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-600 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 w-full sm:w-auto"
           >
-            Start Free
+            Start free trial
           </a>
           <a
             href="/pricing"
@@ -702,7 +678,7 @@ const structuredData = [softwareSchema, faqSchema];
           </a>
         </div>
         <p class="mt-4 text-xs text-muted-foreground">
-          Free forever &middot; Upgrade from $9/mo &middot; Cancel anytime
+          14-day free trial &middot; From $9/mo &middot; Cancel anytime
         </p>
       </div>
     </div>

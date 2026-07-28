@@ -94,14 +94,16 @@ export function AppSidebar() {
               </Avatar>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium truncate">{displayName}</p>
-                <Badge variant="outline" className="text-[10px] h-4 px-1.5">{plan.charAt(0).toUpperCase() + plan.slice(1)}</Badge>
+                <Badge variant="outline" className="text-[10px] h-4 px-1.5">
+                  {plan === 'free' ? 'Inactive' : plan.charAt(0).toUpperCase() + plan.slice(1)}
+                </Badge>
               </div>
             </Link>
             {plan === 'free' && (
               <Button asChild variant="outline" size="sm" className="w-full gap-2">
                 <Link to="/pricing" onClick={closeMobileSidebar}>
                   <Crown className="h-3.5 w-3.5" />
-                  Upgrade
+                  Start free trial
                 </Link>
               </Button>
             )}
