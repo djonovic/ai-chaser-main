@@ -10,9 +10,14 @@ import { supabase } from '@/lib/supabaseClient';
 import { usePlan } from '@/hooks/usePlan';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
-import { Eye, EyeOff, CheckCircle, Key, ExternalLink, Shield, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, CheckCircle, Key, ExternalLink, Shield, Loader2, Download } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
+import {
+  InstallAppGuideContent,
+  detectInstallPlatform,
+  isStandaloneDisplay,
+} from '@/components/InstallAppBanner';
 
 export default function SettingsPage() {
   const { settings, updateSettings } = useSettings();
@@ -30,6 +35,8 @@ export default function SettingsPage() {
   const [testEmailLoading, setTestEmailLoading] = useState(false);
   const [syncingBilling, setSyncingBilling] = useState(false);
   const autoSyncedRef = useRef(false);
+  const alreadyInstalled = typeof window !== 'undefined' && isStandaloneDisplay();
+  const installPlatform = detectInstallPlatform();
 
   useEffect(() => {
     setGeminiKey(userGeminiKey);
@@ -153,14 +160,34 @@ export default function SettingsPage() {
         </TabsList>
 
         <TabsContent value="account">
-          <Card>
-            <CardHeader><CardTitle className="text-base">Account Settings</CardTitle></CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2"><Label>Full Name</Label><Input value={fullName} onChange={e => setFullName(e.target.value)} /></div>
-              <div className="space-y-2"><Label>Email</Label><Input value={email} type="email" disabled /></div>
-              <Button onClick={() => toast.success('Profile updated')}>Save Changes</Button>
-            </CardContent>
-          </Card>
+          <div className="space-y-4">
+            <Card>
+              <CardHeader><CardTitle className="text-base">Account Settings</CardTitle></CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2"><Label>Full Name</Label><Input value={fullName} onChange={e => setFullName(e.target.value)} /></div>
+                <div className="space-y-2"><Label>Email</Label><Input value={email} type="email" disabled /></div>
+                <Button onClick={() => toast.success('Profile updated')}>Save Changes</Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <Download className="h-5 w-5 text-primary" />
+                  <CardTitle className="text-base">Install as an app</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {alreadyInstalled ? (
+                  <p className="text-sm text-muted-foreground">
+                    You&apos;re using the installed ChaseAI app. Nice — open it anytime from your home screen.
+                  </p>
+                ) : (
+                  <InstallAppGuideContent platform={installPlatform} />
+                )}
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
 
         {/* AI Integration Tab */}

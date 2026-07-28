@@ -17,6 +17,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { usePlan } from '@/hooks/usePlan';
 import { useSettings } from '@/hooks/useSettings';
 import { OnboardingModal, wasOnboardingDismissed, dismissOnboarding } from '@/components/OnboardingModal';
+import { InstallAppBanner } from '@/components/InstallAppBanner';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -166,6 +167,7 @@ export function AppLayout() {
           await updateSettings(data);
         }}
       />
+      <InstallAppBanner />
     </SidebarProvider>
   );
 }
