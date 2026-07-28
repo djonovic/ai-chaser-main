@@ -38,6 +38,7 @@ interface PlanContextType {
   incrementAIUsage: () => Promise<void>;
   upgradePlan: (newPlan: PlanType) => Promise<void>;
   saveUserGeminiKey: (key: string) => Promise<void>;
+  refreshPlan: () => Promise<void>;
   loading: boolean;
 }
 
@@ -227,6 +228,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
     incrementAIUsage,
     upgradePlan,
     saveUserGeminiKey,
+    refreshPlan: fetchProfile,
     loading,
   };
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
@@ -16,7 +16,7 @@ import { ConfirmDialog } from '@/components/ConfirmDialog';
 
 export default function SettingsPage() {
   const { settings, updateSettings } = useSettings();
-  const { plan, hasUserKey, userGeminiKey, saveUserGeminiKey, aiUsageCount, maxAISequences, upgradePlan } = usePlan();
+  const { plan, hasUserKey, userGeminiKey, saveUserGeminiKey, aiUsageCount, maxAISequences, upgradePlan, refreshPlan } = usePlan();
   const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -28,6 +28,8 @@ export default function SettingsPage() {
   const [email] = useState(user?.email || '');
   const [cancelSubscriptionOpen, setCancelSubscriptionOpen] = useState(false);
   const [testEmailLoading, setTestEmailLoading] = useState(false);
+  const [syncingBilling, setSyncingBilling] = useState(false);
+  const autoSyncedRef = useRef(false);
 
   useEffect(() => {
     setGeminiKey(userGeminiKey);
@@ -50,23 +52,83 @@ export default function SettingsPage() {
 
   useEffect(() => {
     const sessionId = searchParams.get('session_id');
-    if (!sessionId) return;
+    const onBillingTab = (searchParams.get('tab') || 'account') === 'billing';
+    let cancelled = false;
 
-    const clearSessionIdFromUrl = () => {
-      const next = new URLSearchParams(searchParams);
-      next.delete('session_id');
-      setSearchParams(next, { replace: true });
+    const syncBilling = async (id?: string | null, { quiet }: { quiet?: boolean } = {}) => {
+      setSyncingBilling(true);
+      try {
+        const { data, error } = await supabase.functions.invoke('confirm-checkout', {
+          body: id ? { session_id: id } : {},
+        });
+        if (error) throw error;
+        if (data?.error) throw new Error(data.error);
+        await refreshPlan();
+        if (data?.synced && data?.plan && data.plan !== 'free') {
+          if (!sessionStorage.getItem('chaseai_welcome_post_checkout')) {
+            sessionStorage.setItem('chaseai_welcome_post_checkout', '1');
+            toast.success(
+              `You're on ${String(data.plan).charAt(0).toUpperCase()}${String(data.plan).slice(1)} — thank you. Next: set your sender and company name under Integrations, then add your first invoice.`,
+              { duration: 10000 },
+            );
+          }
+        } else if (!quiet && !id) {
+          // no-op for silent recoveries
+        }
+      } catch (e) {
+        console.error('confirm-checkout failed:', e);
+        if (!quiet) {
+          toast.error(
+            e instanceof Error ? e.message : 'Could not sync subscription. Try Refresh status below.',
+          );
+        }
+      } finally {
+        if (!cancelled) setSyncingBilling(false);
+      }
     };
 
-    if (!sessionStorage.getItem('chaseai_welcome_post_checkout')) {
-      sessionStorage.setItem('chaseai_welcome_post_checkout', '1');
-      toast.success(
-        "You're subscribed — thank you. Next: set your sender and company name under Integrations, then add your first invoice.",
-        { duration: 10000 },
-      );
+    if (sessionId) {
+      autoSyncedRef.current = true;
+      const clearSessionIdFromUrl = () => {
+        const next = new URLSearchParams(searchParams);
+        next.delete('session_id');
+        setSearchParams(next, { replace: true });
+      };
+      void syncBilling(sessionId).finally(clearSessionIdFromUrl);
+      return () => {
+        cancelled = true;
+      };
     }
-    clearSessionIdFromUrl();
-  }, [searchParams, setSearchParams]);
+
+    // Recover if webhook lagged: inactive users may already have a Stripe trial.
+    if (plan === 'free' && onBillingTab && !autoSyncedRef.current) {
+      autoSyncedRef.current = true;
+      void syncBilling(null, { quiet: true });
+    }
+
+    return () => {
+      cancelled = true;
+    };
+  }, [searchParams, setSearchParams, refreshPlan, plan]);
+
+  const handleRefreshBilling = async () => {
+    setSyncingBilling(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('confirm-checkout', { body: {} });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      await refreshPlan();
+      if (data?.synced) {
+        toast.success(`Plan synced: ${data.plan}`);
+      } else {
+        toast.message('No active Stripe subscription found for this account.');
+      }
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Failed to refresh billing status');
+    } finally {
+      setSyncingBilling(false);
+    }
+  };
 
   const handleSaveGeminiKey = async () => {
     await saveUserGeminiKey(geminiKey);
@@ -312,6 +374,21 @@ export default function SettingsPage() {
                 <Button asChild>
                   <Link to="/pricing">{plan === 'free' ? 'Start free trial' : 'Change Plan'}</Link>
                 </Button>
+                {plan === 'free' && (
+                  <Button
+                    variant="outline"
+                    disabled={syncingBilling}
+                    onClick={() => void handleRefreshBilling()}
+                  >
+                    {syncingBilling ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin mr-1.5" /> Syncing...
+                      </>
+                    ) : (
+                      'Refresh status'
+                    )}
+                  </Button>
+                )}
                 {plan !== 'free' && (
                   <>
                     <Button

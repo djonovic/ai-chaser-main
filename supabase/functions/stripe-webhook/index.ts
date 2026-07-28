@@ -77,17 +77,38 @@ Deno.serve(async (req) => {
             .eq("id", userId);
 
           console.log(`Plan updated: user=${userId} plan=${plan}`);
-
         }
         break;
       }
 
+      case "customer.subscription.created":
       case "customer.subscription.updated": {
         const subscription = event.data.object;
         const userId = subscription.metadata?.supabase_user_id;
+        const plan = subscription.metadata?.plan ?? null;
         if (!userId) break;
 
-        if (subscription.cancel_at_period_end) {
+        if (
+          plan &&
+          (subscription.status === "trialing" || subscription.status === "active")
+        ) {
+          const expiresAt = new Date();
+          expiresAt.setFullYear(expiresAt.getFullYear() + 1);
+
+          await supabase
+            .from("profiles")
+            .update({
+              plan,
+              stripe_customer_id: subscription.customer,
+              stripe_subscription_id: subscription.id,
+              plan_expires_at: expiresAt.toISOString(),
+            })
+            .eq("id", userId);
+
+          console.log(
+            `Subscription ${event.type}: user=${userId} plan=${plan} status=${subscription.status}`,
+          );
+        } else if (subscription.cancel_at_period_end) {
           console.log(`Subscription cancelling at period end: user=${userId}`);
         }
         break;
