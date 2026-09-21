@@ -22,6 +22,30 @@ const structuredData = {
     },
   },
 };
+
+const guides = [
+  { label: 'How to Chase Unpaid Invoices: Step-by-Step Guide', href: '/guides/how-to-chase-unpaid-invoices' },
+  { label: 'Net 30 Overdue: What to Send Clients', href: '/guides/net-30-overdue-what-to-send' },
+  { label: 'Unpaid Invoice Follow-Up Schedule: Day-by-Day Timeline', href: '/guides/unpaid-invoice-follow-up-schedule' },
+];
+
+const templateArticles = [
+  { label: '2nd Payment Reminder Email: 10 Templates', href: '/templates/second-invoice-reminder-email' },
+  { label: 'Friendly Payment Reminder Email: 7 Polite Templates', href: '/templates/friendly-payment-reminder-email' },
+  { label: 'Firm Payment Reminder Email Template', href: '/templates/firm-payment-reminder-email' },
+  { label: 'Final Notice Letter for Unpaid Invoice', href: '/templates/final-notice-unpaid-invoice-email' },
+  { label: 'Overdue Invoice Email Templates: Day 1, 7, 14 & 30', href: '/templates/overdue-invoice-email-template' },
+  { label: 'Automated Overdue Invoice Email Sequence', href: '/templates/overdue-invoice-email-sequence' },
+  { label: 'Past Due Notice Letter & Email Templates', href: '/templates/past-due-invoice-notice-template' },
+  { label: 'Invoice Late Fee Wording: 8 Examples', href: '/templates/late-payment-fee-email-template' },
+  { label: 'Accounts Payable Follow-Up Email Templates', href: '/templates/email-to-accounts-payable-overdue-invoice' },
+  { label: '50 Payment Reminder Email Subject Lines', href: '/templates/payment-reminder-email-subject-lines' },
+  { label: 'Freelancer Invoice Reminder Email Template', href: '/templates/freelancer-invoice-reminder-email-template' },
+  { label: 'Agency Invoice Reminder Email Template', href: '/templates/agency-invoice-reminder-email-template' },
+  { label: 'Trades & Tradie Invoice Payment Reminder Emails', href: '/templates/trades-invoice-payment-reminder-email' },
+  { label: 'Subcontractor Payment Reminder Email Template', href: '/templates/subcontractor-payment-reminder-email' },
+  { label: 'Invoice Reminder Email Templates: 7 Examples', href: '/templates/invoice-reminder-email-template' },
+];
 ---
 
 <BaseLayout
@@ -50,6 +74,32 @@ const structuredData = {
         <a href="https://www.linkedin.com/in/pakidjonovic/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-muted/50 transition-colors">LinkedIn</a>
         <a href="https://www.instagram.com/pakidjonovic/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-muted/50 transition-colors">Instagram</a>
       </div>
+    </div>
+  </section>
+
+  <section class="section-padding border-t border-border">
+    <div class="container max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-6">Guides</h2>
+      <ul class="grid gap-3 sm:grid-cols-2 mb-10">
+        {guides.map((item) => (
+          <li>
+            <a href={item.href} class="block rounded-xl border border-border bg-card p-4 text-sm font-medium hover:border-primary/40 hover:bg-muted/30 transition-colors">
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-6">Templates</h2>
+      <ul class="grid gap-3 sm:grid-cols-2">
+        {templateArticles.map((item) => (
+          <li>
+            <a href={item.href} class="block rounded-xl border border-border bg-card p-4 text-sm font-medium hover:border-primary/40 hover:bg-muted/30 transition-colors">
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 </BaseLayout>

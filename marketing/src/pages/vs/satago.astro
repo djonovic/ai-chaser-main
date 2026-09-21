@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import LastVerified from '../../components/seo/LastVerified.astro';
 
 const pageSlug = '/vs/satago';
 const canonicalUrl = `https://chaseai.app${pageSlug}`;
@@ -46,6 +47,9 @@ const structuredData = {
         accounting software or a credit control background. If you're a UK business that needs credit data and financing alongside chasing, Satago
         is worth knowing about. If you want to stop manually writing chase emails and start tomorrow, ChaseAI is the faster, cheaper path.
       </p>
+      <div class="mt-5">
+        <LastVerified subject="Pricing" />
+      </div>
     </div>
   </section>
 

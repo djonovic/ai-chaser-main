@@ -71,7 +71,7 @@ const articleSchema = {
     url: 'https://chaseai.app',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://chaseai.app/favicon.svg',
+      url: 'https://chaseai.app/apple-touch-icon.png',
     },
   },
   mainEntityOfPage: {
@@ -83,7 +83,38 @@ const howToSchema = {
   '@context': 'https://schema.org',
   '@type': 'HowTo',
   name: 'How to chase unpaid invoices',
-  step: [{ '@type': 'HowToStep', name: 'Verify invoice and payment terms' }, { '@type': 'HowToStep', name: 'Follow reminder schedule and escalate' }],
+  step: [
+    {
+      '@type': 'HowToStep',
+      name: 'Confirm basics',
+      text: 'Verify the invoice number, amount, due date, payment terms, and payment method before sending any follow-up.',
+      url: `${canonicalUrl}#step-1`,
+    },
+    {
+      '@type': 'HowToStep',
+      name: 'Follow a reminder timeline',
+      text: 'Send follow-ups on a consistent schedule (Day 1, 7, 14, 30, and 45) rather than reacting ad hoc.',
+      url: `${canonicalUrl}#step-2`,
+    },
+    {
+      '@type': 'HowToStep',
+      name: 'Use the right tone at each stage',
+      text: 'Escalate tone gradually from friendly (Day 1) to direct (Day 7) to firm (Day 14+).',
+      url: `${canonicalUrl}#step-3`,
+    },
+    {
+      '@type': 'HowToStep',
+      name: 'Loop in finance contacts',
+      text: 'When a client stalls, request accounts payable contact details and get a firm payment date in writing.',
+      url: `${canonicalUrl}#step-4`,
+    },
+    {
+      '@type': 'HowToStep',
+      name: 'Know when to pause work or escalate further',
+      text: 'By Day 30 with no confirmed payment date, pause further work and consider last-resort options.',
+      url: `${canonicalUrl}#step-5`,
+    },
+  ],
 };
 const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---

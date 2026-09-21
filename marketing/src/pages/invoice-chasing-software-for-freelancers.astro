@@ -61,13 +61,23 @@ const softwareSchema = {
     { '@type': 'Offer', price: '19', priceCurrency: 'USD', name: 'Pro' },
   ],
 };
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
 ---
 
 <BaseLayout
   title={metaTitle}
   description={metaDescription}
   canonical={canonicalUrl} breadcrumbs={breadcrumbs}
-  structuredData={[softwareSchema]}
+  structuredData={[softwareSchema, faqSchema]}
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://app.chaseai.app" />
